@@ -7,11 +7,13 @@
 pub mod bindings;
 pub mod decoder;
 pub mod glyph;
+pub mod image;
 pub mod vector;
 
 pub use bindings::{get_pdfium, pdfium_available};
 pub use decoder::{Decoder, DecoderError};
 pub use glyph::{extract_glyphs, Glyph};
+pub use image::{extract_images, Image};
 pub use vector::{extract_paths, Segment, VectorPath};
 
 /// Crate semver.
