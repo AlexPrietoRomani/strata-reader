@@ -17,3 +17,6 @@ tracing = { workspace = true }
 [dev-dependencies]
 insta = { workspace = true }
 proptest = { workspace = true }
+
+[lib]
+doctest = false

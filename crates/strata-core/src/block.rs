@@ -1,0 +1,227 @@
+//! Block-level AST: [`BlockType`], [`BlockId`], [`Block`].
+//!
+//! A [`Block`] is the unit of triage and serialization — a paragraph, a table,
+//! a figure, an equation, etc. Blocks form a tree (some can have children) and
+//! every block carries provenance metadata for PRISMA-style traceability.
+//! See Plan Maestro §6 (T1.2, T1.3, T1.4).
+
+use std::sync::Arc;
+
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use ulid::Ulid;
+
+use crate::bbox::BBox;
+use crate::provenance::Provenance;
+
+// ---------------------------------------------------------------------------
+// BlockId — newtype around Ulid
+// ---------------------------------------------------------------------------
+
+/// Stable, lexicographically-sortable identifier for a [`Block`].
+///
+/// Uses [ULID](https://github.com/ulid/spec) (128-bit, 26-char Crockford base32).
+/// Serialized as a string to keep JSON output portable.
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, JsonSchema)]
+#[schemars(transparent)]
+pub struct BlockId(#[schemars(with = "String")] pub Ulid);
+
+impl BlockId {
+    /// Generate a fresh id using the current system time + system RNG.
+    pub fn new() -> Self {
+        Self(Ulid::new())
+    }
+
+    /// Construct from raw 128 bits — exposed for deterministic test fixtures.
+    pub const fn from_u128(value: u128) -> Self {
+        Self(Ulid(value))
+    }
+}
+
+impl Default for BlockId {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl std::fmt::Display for BlockId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl Serialize for BlockId {
+    fn serialize<S: serde::Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
+        s.serialize_str(&self.0.to_string())
+    }
+}
+
+impl<'de> Deserialize<'de> for BlockId {
+    fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
+        let raw = String::deserialize(d)?;
+        Ulid::from_string(&raw)
+            .map(BlockId)
+            .map_err(serde::de::Error::custom)
+    }
+}
+
+// ---------------------------------------------------------------------------
+// BlockType — closed semantic vocabulary
+// ---------------------------------------------------------------------------
+
+/// Closed vocabulary of semantic block types. Add a variant here when (and
+/// only when) the Plan Maestro evolves; downstream code matches exhaustively.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "kebab-case", tag = "type")]
+pub enum BlockType {
+    /// Section / sub-section / sub-sub-section header. Level 1 == top.
+    Heading {
+        level: u8,
+    },
+    Paragraph,
+    List,
+    Table,
+    Figure,
+    Caption,
+    Equation,
+    CodeListing,
+    Footnote,
+    Reference,
+    Header,
+    Footer,
+    PageNumber,
+}
+
+impl BlockType {
+    /// `true` when the block's payload is primarily textual (no rasterized
+    /// content). Used by the triage to decide cheap Rust-only paths.
+    pub fn is_textual(&self) -> bool {
+        matches!(
+            self,
+            Self::Heading { .. }
+                | Self::Paragraph
+                | Self::List
+                | Self::Caption
+                | Self::Footnote
+                | Self::Reference
+                | Self::Header
+                | Self::Footer
+                | Self::PageNumber
+                | Self::CodeListing
+        )
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Block — node of the AST
+// ---------------------------------------------------------------------------
+
+/// One atomic region of a page.
+///
+/// Blocks are wrapped in [`Arc`] when stored in [`crate::Page`] so cloning a
+/// page is cheap and the AST stays effectively immutable: every transformation
+/// step rebuilds a *new* tree without mutating shared nodes.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "camelCase")]
+pub struct Block {
+    pub id: BlockId,
+    #[serde(flatten)]
+    pub kind: BlockType,
+    pub bbox: BBox,
+    /// Textual content (Markdown for headings/paragraphs, GFM table for
+    /// tables, LaTeX for equations, etc.). Empty for figures whose payload
+    /// lives in `metadata`.
+    #[serde(default)]
+    pub content: String,
+    /// Optional nested blocks — used e.g. for list items, table rows, or
+    /// caption attached to a figure.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub children: Vec<Arc<Block>>,
+    pub provenance: Provenance,
+}
+
+impl Block {
+    pub fn new(kind: BlockType, bbox: BBox, content: impl Into<String>, provenance: Provenance) -> Self {
+        Self {
+            id: BlockId::new(),
+            kind,
+            bbox,
+            content: content.into(),
+            children: Vec::new(),
+            provenance,
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::provenance::{Provenance, ProvenanceSource};
+
+    fn sample_provenance() -> Provenance {
+        Provenance::try_new(ProvenanceSource::Rust, None, 1.0, 0, 0).unwrap()
+    }
+
+    #[test]
+    fn block_type_serializes_as_kebab_case_string() {
+        let serialized = serde_json::to_string(&BlockType::Paragraph).unwrap();
+        assert_eq!(serialized, r#"{"type":"paragraph"}"#);
+
+        let h = BlockType::Heading { level: 2 };
+        let s = serde_json::to_string(&h).unwrap();
+        assert_eq!(s, r#"{"type":"heading","level":2}"#);
+    }
+
+    #[test]
+    fn block_type_round_trip() {
+        for kind in [
+            BlockType::Heading { level: 1 },
+            BlockType::Paragraph,
+            BlockType::Table,
+            BlockType::Equation,
+            BlockType::CodeListing,
+        ] {
+            let json = serde_json::to_string(&kind).unwrap();
+            let back: BlockType = serde_json::from_str(&json).unwrap();
+            assert_eq!(kind, back);
+        }
+    }
+
+    #[test]
+    fn block_id_serializes_as_ulid_string() {
+        let id = BlockId::from_u128(0x01_8e_0a_3c_00_00_00_00_00_00_00_00_00_00_00_00);
+        let s = serde_json::to_string(&id).unwrap();
+        assert_eq!(s.len(), 26 + 2); // 26-char ULID + surrounding quotes
+        let back: BlockId = serde_json::from_str(&s).unwrap();
+        assert_eq!(id, back);
+    }
+
+    #[test]
+    fn block_round_trips_through_json() {
+        let bbox = BBox::new(0.0, 0.0, 100.0, 50.0).unwrap();
+        let mut b = Block::new(
+            BlockType::Paragraph,
+            bbox,
+            "hello world",
+            sample_provenance(),
+        );
+        // Force a deterministic id for the snapshot-style comparison below.
+        b.id = BlockId::from_u128(0xdead_beef_dead_beef_dead_beef_dead_beef);
+        let json = serde_json::to_string(&b).unwrap();
+        let parsed: Block = serde_json::from_str(&json).unwrap();
+        assert_eq!(b, parsed);
+    }
+
+    #[test]
+    fn textual_predicate_matches_expected() {
+        assert!(BlockType::Paragraph.is_textual());
+        assert!(BlockType::Heading { level: 1 }.is_textual());
+        assert!(!BlockType::Table.is_textual());
+        assert!(!BlockType::Figure.is_textual());
+        assert!(!BlockType::Equation.is_textual());
+    }
+}

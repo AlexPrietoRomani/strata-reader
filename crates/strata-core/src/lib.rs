@@ -1,10 +1,24 @@
-//! Strata-Reader Core: AST primitives.
+//! Strata-Reader Core — AST primitives (BBox, Block, Page, Document) plus
+//! Provenance metadata for PRISMA traceability.
 //!
-//! This crate intentionally exposes only `version()` until Phase 1 is started.
-//! See `docs/plan/plan_maestro.md` §6.
+//! See `docs/plan/plan_maestro.md` §6 for the full specification.
 
 #![forbid(unsafe_code)]
 #![deny(rust_2018_idioms)]
+
+pub mod bbox;
+pub mod block;
+pub mod document;
+pub mod geometry;
+pub mod page;
+pub mod provenance;
+
+pub use bbox::{BBox, GeometryError, Point, Size};
+pub use block::{Block, BlockId, BlockType};
+pub use document::{DocMeta, Document};
+pub use geometry::Matrix;
+pub use page::{Page, PageOrientation};
+pub use provenance::{Provenance, ProvenanceError, ProvenanceSource};
 
 /// Returns the semver of this crate (from `CARGO_PKG_VERSION`).
 pub fn version() -> &'static str {
@@ -18,6 +32,14 @@ mod tests {
     #[test]
     fn version_matches_pkg() {
         assert_eq!(version(), env!("CARGO_PKG_VERSION"));
-        assert!(!version().is_empty());
+    }
+
+    #[test]
+    fn re_exports_are_reachable() {
+        let bbox = BBox::new(0.0, 0.0, 10.0, 10.0).unwrap();
+        let _: Point = bbox.center();
+        let _: Matrix = Matrix::IDENTITY;
+        let _: Provenance = Provenance::rust_native();
+        let _: BlockId = BlockId::from_u128(1);
     }
 }
