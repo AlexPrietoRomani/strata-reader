@@ -5,8 +5,10 @@
 #![deny(rust_2018_idioms)]
 
 pub mod decision;
+pub mod profiles;
 
 pub use decision::{Reason, TriageDecision, TriageRoute};
+pub use profiles::{ProfileName, TriageProfile};
 
 /// Crate semver.
 pub fn version() -> &'static str {
