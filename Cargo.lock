@@ -2153,6 +2153,7 @@ dependencies = [
  "insta",
  "proptest",
  "serde",
+ "serde_json",
  "strata-core",
  "thiserror 1.0.69",
  "tracing",
@@ -2203,10 +2204,15 @@ dependencies = [
 name = "strata-triage"
 version = "0.1.0"
 dependencies = [
+ "image",
  "insta",
+ "pdfium-render",
  "proptest",
  "serde",
+ "serde_json",
  "strata-core",
+ "strata-pdf",
+ "strata-quality",
  "thiserror 1.0.69",
  "tracing",
 ]
