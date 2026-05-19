@@ -13,10 +13,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let descriptor_path =
         std::path::PathBuf::from(std::env::var("OUT_DIR")?).join("strata_ia_descriptor.bin");
 
+    // Server stubs are generated too so the bench harness can spin up an
+    // in-process echo server. Production code only ever uses the client.
     tonic_build::configure()
         .file_descriptor_set_path(&descriptor_path)
         .build_client(true)
-        .build_server(false) // the Rust side only consumes the service.
+        .build_server(true)
         .compile_protos(&["proto/strata_ia.proto"], &["proto/"])?;
 
     Ok(())

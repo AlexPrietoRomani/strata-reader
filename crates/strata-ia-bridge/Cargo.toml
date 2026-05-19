@@ -24,3 +24,9 @@ tonic-build = { workspace = true }
 
 [dev-dependencies]
 insta = { workspace = true }
+criterion = { workspace = true }
+async-stream = "0.3"
+
+[[bench]]
+name = "stream_vs_unary"
+harness = false
