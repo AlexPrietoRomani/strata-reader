@@ -89,7 +89,26 @@ extend-exclude = ["python/strata_ia/proto"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
-ignore = ["E501"]
+ignore = [
+    "E501",   # line length is fine — wrapping prose harms readability.
+    "RUF001", # ambiguous Spanish punctuation (¿, ñ, …) in docstrings is intentional.
+    "RUF002", # ambiguous Unicode in docstrings (×, ≥, →, …) is intentional.
+    "RUF003", # ambiguous Unicode in comments — same rationale.
+]
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI idioms — these "calls in defaults" are the canonical way to
+# declare dependencies and validators.
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Path",
+    "fastapi.Body",
+    "fastapi.Header",
+    "fastapi.Form",
+    "fastapi.File",
+    "fastapi.Cookie",
+]
 
 [tool.mypy]
 python_version = "3.12"
