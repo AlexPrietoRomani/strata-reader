@@ -6,9 +6,11 @@
 
 pub mod rtree_index;
 pub mod word_line;
+pub mod xycut;
 
 pub use rtree_index::{Hit, SpatialIndex};
 pub use word_line::{cluster_lines, words_from_line, GlyphInput, Line, Word};
+pub use xycut::{xy_cut_plus_plus, Axis, ScriptDirection, XyCutConfig};
 
 /// Crate semver.
 pub fn version() -> &'static str {
