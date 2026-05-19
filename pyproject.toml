@@ -99,6 +99,7 @@ exclude = ["python/strata_ia/proto"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/unit_py", "tests/integration", "tests/e2e"]
+pythonpath = ["python"]
 markers = [
     "ollama: requires a running Ollama instance with the expected models",
     "gpu: requires a CUDA/ROCm/Metal GPU",
