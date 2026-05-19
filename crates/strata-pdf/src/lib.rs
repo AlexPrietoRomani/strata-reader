@@ -1,5 +1,17 @@
 //! Strata-PDF — PDFium-backed decoder layer.
 //!
+//! Public surface:
+//!
+//! - [`Decoder`] — opens a PDF and exposes pages.
+//! - [`Glyph`], [`extract_glyphs`] — per-character data with BBox + font info.
+//! - [`VectorPath`], [`Segment`], [`extract_paths`] — vector primitives for
+//!   the table-border heuristic.
+//! - [`Image`], [`extract_images`] — embedded raster images, normalized to PNG.
+//! - [`is_likely_scan`] — cheap page-level scan detector.
+//!
+//! All structs are `Serialize + Deserialize` so they can flow across the
+//! gRPC bridge without re-modelling.
+//!
 //! See `docs/plan/plan_maestro.md` §7.
 
 #![deny(rust_2018_idioms)]
