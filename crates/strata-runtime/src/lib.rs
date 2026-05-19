@@ -7,6 +7,7 @@
 
 pub mod backpressure;
 pub mod gpu_monitor;
+pub mod gpu_pool;
 pub mod scheduler;
 
 pub use backpressure::{BackoffReason, BackpressureConfig, BackpressureController};
@@ -14,6 +15,7 @@ pub use gpu_monitor::{
     detect as detect_gpu, GpuBackend, GpuDeviceSnapshot, GpuMonitor, GpuMonitorError, GpuSnapshot,
     MetalMonitor, NoopMonitor, NvmlMonitor, RocmMonitor,
 };
+pub use gpu_pool::{describe_pool, plan_from_monitor, plan_workers, PoolConfig, WorkerSpec};
 pub use scheduler::{Scheduler, SchedulerConfig};
 
 /// Crate semver.
