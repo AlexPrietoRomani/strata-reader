@@ -15,8 +15,8 @@ process speaks HTTP/REST only and the Rust side uses the HTTP fallback.
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 import structlog
 import uvicorn
@@ -24,7 +24,7 @@ from fastapi import FastAPI
 
 from strata_ia import __version__
 from strata_ia.adapters.ollama import OllamaClient
-from strata_ia.config import IaConfig, load_config
+from strata_ia.config import load_config
 from strata_ia.routers import ocr, vlm_formula, vlm_image, vlm_table
 
 logger = structlog.get_logger(__name__)
@@ -79,7 +79,7 @@ def create_app() -> FastAPI:
         try:
             await app.state.ollama.list_models()
             return {"status": "ready"}
-        except Exception:  # noqa: BLE001 — readiness must never raise
+        except Exception:
             return {"status": "starting"}
 
     app.include_router(ocr.router)

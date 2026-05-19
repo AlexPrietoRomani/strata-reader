@@ -22,11 +22,13 @@ class FormulaResponse(FormulaResult):
 
 
 async def get_ollama(request: Request) -> OllamaClient:
-    return request.app.state.ollama
+    client: OllamaClient = request.app.state.ollama
+    return client
 
 
 async def get_config(request: Request) -> IaConfig:
-    return request.app.state.config
+    config: IaConfig = request.app.state.config
+    return config
 
 
 @router.post("/formula", response_model=FormulaResponse, summary="OCR a math formula to LaTeX")

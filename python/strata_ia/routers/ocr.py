@@ -27,11 +27,13 @@ class OcrResponse(OcrResult):
 
 
 async def get_ollama(request: Request) -> OllamaClient:
-    return request.app.state.ollama
+    client: OllamaClient = request.app.state.ollama
+    return client
 
 
 async def get_config(request: Request) -> IaConfig:
-    return request.app.state.config
+    config: IaConfig = request.app.state.config
+    return config
 
 
 @router.post("/page", response_model=OcrResponse, summary="OCR a full page or large crop")
@@ -46,31 +48,31 @@ async def ocr_page(
     # 1) Try Surya (GPU).
     if surya.is_available():
         try:
-            res = surya.run_surya(png_bytes)
+            surya_res = surya.run_surya(png_bytes)
             latency_ms = int((time.perf_counter() - start) * 1000)
             return OcrResponse(
-                text=res.text,
+                text=surya_res.text,
                 words=[],
-                confidence=res.confidence,
-                language=res.language,
+                confidence=surya_res.confidence,
+                language=surya_res.language,
                 provenance=Provenance(model_id="surya", backend="surya", latency_ms=latency_ms),
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logger.warning("surya_failed_falling_back", error=str(exc))
 
     # 2) Try Tesseract (CPU).
     if tesseract.is_available():
         try:
-            res = tesseract.run_tesseract(png_bytes)
+            tess_res = tesseract.run_tesseract(png_bytes)
             latency_ms = int((time.perf_counter() - start) * 1000)
             return OcrResponse(
-                text=res.text,
+                text=tess_res.text,
                 words=[],
-                confidence=res.confidence,
+                confidence=tess_res.confidence,
                 language="eng",
                 provenance=Provenance(model_id="tesseract", backend="tesseract", latency_ms=latency_ms),
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logger.warning("tesseract_failed_falling_back", error=str(exc))
 
     # 3) Last resort: Ollama VLM transcribes the image.
@@ -88,7 +90,7 @@ async def ocr_page(
 
     try:
         parsed = OcrResult.model_validate_json(result.text)
-    except Exception as exc:  # noqa: BLE001 — Pydantic ValidationError + JSONDecodeError
+    except Exception as exc:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail="OCR fallback returned malformed JSON") from exc
 
     latency_ms = int((time.perf_counter() - start) * 1000)

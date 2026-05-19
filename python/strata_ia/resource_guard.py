@@ -15,8 +15,8 @@ from __future__ import annotations
 
 import functools
 import threading
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Awaitable, Callable
 
 import structlog
 
@@ -66,7 +66,7 @@ def _ensure_nvml() -> bool:
             pynvml.nvmlInit()
             _nvml_initialized = True
             return True
-        except Exception as exc:  # noqa: BLE001 — pynvml raises its own opaque type
+        except Exception as exc:
             logger.warning("nvml_init_failed", error=str(exc))
             return False
 
@@ -83,7 +83,7 @@ def read_vram(device_index: int = 0) -> VramSnapshot | None:
             free_mb=int(info.free) // (1024 * 1024),
             total_mb=int(info.total) // (1024 * 1024),
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.warning("nvml_query_failed", device=device_index, error=str(exc))
         return None
 

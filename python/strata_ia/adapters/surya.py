@@ -50,15 +50,15 @@ def _load_models() -> Any:
         try:
             # Imports are intentionally inside the function — package may be
             # absent on hosts without GPU.
-            from surya.recognition import RecognitionPredictor  # type: ignore[import-not-found]
+            from PIL import Image  # noqa: F401 — used implicitly to validate dep
             from surya.detection import DetectionPredictor  # type: ignore[import-not-found]
-            from PIL import Image  # type: ignore[import-untyped]  # noqa: F401 — used implicitly
+            from surya.recognition import RecognitionPredictor  # type: ignore[import-not-found]
 
             detection = DetectionPredictor()
             recognition = RecognitionPredictor()
             _loaded = (detection, recognition)
             return _loaded
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             _load_error = str(exc)
             logger.warning("surya_load_failed", error=_load_error)
             raise SuryaUnavailable(_load_error) from exc
@@ -76,7 +76,7 @@ def is_available() -> bool:
 def run_surya(png_bytes: bytes, languages: list[str] | None = None) -> SuryaResult:
     """Run Surya on ``png_bytes`` and return text + average confidence."""
     detection, recognition = _load_models()
-    from PIL import Image  # type: ignore[import-untyped]
+    from PIL import Image
 
     img = Image.open(io.BytesIO(png_bytes))
     langs = languages or ["en"]

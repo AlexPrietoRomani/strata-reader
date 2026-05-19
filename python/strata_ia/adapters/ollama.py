@@ -14,8 +14,9 @@ from __future__ import annotations
 import asyncio
 import base64
 import json
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from typing import Any, AsyncIterator
+from typing import Any
 
 import httpx
 import structlog
@@ -67,7 +68,7 @@ class OllamaClient:
             timeout=timeout_s, base_url=self._endpoint
         )
 
-    async def __aenter__(self) -> "OllamaClient":
+    async def __aenter__(self) -> OllamaClient:
         return self
 
     async def __aexit__(self, *_: object) -> None:

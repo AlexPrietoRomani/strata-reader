@@ -26,11 +26,13 @@ class TableResponse(TableResult):
 
 async def get_ollama(request: Request) -> OllamaClient:
     """Dependency: pull the singleton Ollama client out of app state."""
-    return request.app.state.ollama
+    client: OllamaClient = request.app.state.ollama
+    return client
 
 
 async def get_config(request: Request) -> IaConfig:
-    return request.app.state.config
+    config: IaConfig = request.app.state.config
+    return config
 
 
 @router.post("/table", response_model=TableResponse, summary="Extract a borderless table")

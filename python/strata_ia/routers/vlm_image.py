@@ -22,11 +22,13 @@ class ImageDescriptionResponse(ImageDescription):
 
 
 async def get_ollama(request: Request) -> OllamaClient:
-    return request.app.state.ollama
+    client: OllamaClient = request.app.state.ollama
+    return client
 
 
 async def get_config(request: Request) -> IaConfig:
-    return request.app.state.config
+    config: IaConfig = request.app.state.config
+    return config
 
 
 @router.post("/image", response_model=ImageDescriptionResponse, summary="Describe an embedded image")
