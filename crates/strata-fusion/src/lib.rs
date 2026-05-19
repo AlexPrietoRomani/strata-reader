@@ -5,9 +5,11 @@
 
 #![deny(rust_2018_idioms)]
 
+pub mod chunker;
 pub mod fuser;
 pub mod sections;
 
+pub use chunker::{chunk, Chunk, ChunkOptions};
 pub use fuser::{merge, validate, FusionError, IaPayload};
 pub use sections::{build_tree, Section, SectionChild};
 
