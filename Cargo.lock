@@ -2324,6 +2324,7 @@ dependencies = [
  "insta",
  "proptest",
  "serde",
+ "serde_json",
  "strata-core",
  "thiserror 1.0.69",
  "tracing",
@@ -2420,7 +2421,9 @@ dependencies = [
  "insta",
  "proptest",
  "serde",
+ "serde_json",
  "strata-core",
+ "strata-fusion",
  "thiserror 1.0.69",
  "tracing",
 ]
