@@ -1,7 +1,14 @@
-//! `strata-triage` — see docs/plan/plan_maestro.md.
+//! Strata-Triage — per-block routing decisions and IA crop rendering.
+//!
+//! See `docs/plan/plan_maestro.md` §9.
 
 #![deny(rust_2018_idioms)]
 
+pub mod decision;
+
+pub use decision::{Reason, TriageDecision, TriageRoute};
+
+/// Crate semver.
 pub fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
