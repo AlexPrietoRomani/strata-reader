@@ -1,0 +1,79 @@
+# ===== Strata-Reader Git Ignore Rules =====
+
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.*.local
+*.secret
+strata-reader.toml
+
+# --- Python & Backend ---
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.cache/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.uv-cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# --- Rust Build Artifacts ---
+/target/
+**/*.rs.bk
+!Cargo.lock
+
+# --- OS & IDE ---
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- AI Agents & Tools ---
+.claude/
+.agents/
+.opencode/
+graphify-out/
+CLAUDE.md
+AGENTS.md
+.antigravityignore
+.claudeignore
+.graphifyignore
+opencode.json
+
+# --- Strata Runtime/Output ---
+/out/
+~/.strata/
+tests/fixtures/pdfs/_build/
+
+# --- Data & SQLite ---
+*.db
+*.sqlite
+*.csv
+*.xlsx
+*.parquet
+*.json
+
+# --- Exceptions (Re-allow specific tracked files) ---
+!docs/schema/**/*.json
+!tests/fixtures/expected/**/*.json
+!tests/fixtures/pdfs/CHECKSUMS.sha256
+!uv.lock
+!package.json
+!tsconfig.json
