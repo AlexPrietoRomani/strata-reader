@@ -6,19 +6,28 @@ surface is fully typed and self-documenting, and the proto generation can
 be derived programmatically later.
 
 Conventions (Plan Maestro §1):
-- camelCase aliases on the wire (JSON-friendly for the Rust bridge).
+- camelCase aliases on the wire (JSON-friendly for the Rust bridge),
+  generated automatically via ``alias_generator=to_camel`` so we never
+  drift between field name and wire name.
 - ``confidence ∈ [0.0, 1.0]`` enforced via constrained float fields.
 - Bytes use Pydantic's ``Base64Bytes`` so HTTP/JSON payloads stay portable.
+
+Note: this module intentionally does NOT use ``from __future__ import
+annotations`` — Pydantic v2 needs runtime access to ``Annotated[…, Field()]``
+metadata, which PEP 563 erases.
 """
 
-from __future__ import annotations
-
 from pydantic import BaseModel, ConfigDict, Field
+from pydantic.alias_generators import to_camel
 from pydantic.types import Base64Bytes
 
 
 def _model_config() -> ConfigDict:
-    return ConfigDict(populate_by_name=True, str_strip_whitespace=True)
+    return ConfigDict(
+        populate_by_name=True,
+        str_strip_whitespace=True,
+        alias_generator=to_camel,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -52,9 +61,9 @@ class Crop(BaseModel):
 
     model_config = _model_config()
 
-    png_bytes: Base64Bytes = Field(alias="pngBytes")
+    png_bytes: Base64Bytes
     dpi: int = Field(default=200, ge=72, le=1200)
-    page_no: int = Field(alias="pageNo", ge=1)
+    page_no: int = Field(ge=1)
     bbox: BBox
     # Free-form hint that the Rust triage emits (e.g. ``"table-borderless"``,
     # ``"figure"``, ``"formula"``). The IA layer can use it to short-circuit
@@ -94,8 +103,8 @@ class TableCell(BaseModel):
     text: str
     row: int = Field(ge=0)
     col: int = Field(ge=0)
-    row_span: int = Field(default=1, ge=1, alias="rowSpan")
-    col_span: int = Field(default=1, ge=1, alias="colSpan")
+    row_span: int = Field(default=1, ge=1)
+    col_span: int = Field(default=1, ge=1)
 
 
 class TableRow(BaseModel):
@@ -112,7 +121,7 @@ class TableResult(BaseModel):
 
     rows: list[TableRow] = Field(default_factory=list)
     confidence: float = Field(ge=0.0, le=1.0)
-    cell_count: int = Field(default=0, ge=0, alias="cellCount")
+    cell_count: int = Field(default=0, ge=0)
 
 
 class ImageDescription(BaseModel):
@@ -123,7 +132,7 @@ class ImageDescription(BaseModel):
 
     caption: str
     description: str = ""
-    alt_text: str = Field(default="", alias="altText")
+    alt_text: str = ""
     confidence: float = Field(ge=0.0, le=1.0)
 
 
@@ -149,9 +158,9 @@ class Provenance(BaseModel):
 
     model_config = _model_config()
 
-    model_id: str = Field(alias="modelId")
+    model_id: str
     backend: str
     """Free-form backend tag: ``"ollama"``, ``"surya"``, ``"tesseract"``, …."""
-    latency_ms: int = Field(ge=0, alias="latencyMs")
+    latency_ms: int = Field(ge=0)
     retries: int = Field(default=0, ge=0)
-    cache_hit: bool = Field(default=False, alias="cacheHit")
+    cache_hit: bool = False

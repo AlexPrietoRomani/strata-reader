@@ -108,3 +108,11 @@ markers = [
     "fixtures: depends on the golden fixture corpus",
 ]
 asyncio_mode = "auto"
+filterwarnings = [
+    # Pydantic emits a spurious UnsupportedFieldAttributeWarning when
+    # combining `alias_generator` with fields that don't set a custom
+    # alias themselves. Functionally harmless.
+    "ignore::pydantic.PydanticDeprecatedSince20",
+    "ignore:.*alias.*was provided to the `Field\\(\\)`:UserWarning",
+    "ignore:.*UnsupportedFieldAttributeWarning",
+]
