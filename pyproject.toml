@@ -36,8 +36,20 @@ dependencies = [
     "pynvml>=11.5,<13",
     "psutil>=6.0,<7",
     "pydantic>=2.9,<3",
+    "pydantic-settings>=2.5,<3",
     "structlog>=24,<26",
     "tenacity>=9,<10",
+    "aiosqlite>=0.20,<0.22",
+    "Pillow>=10,<12",
+]
+
+[project.optional-dependencies]
+# Heavyweight OCR backends. Install with `pip install strata-reader[ocr]`.
+ocr = [
+    "pytesseract>=0.3.10,<0.4",
+    # Surya is large (~2 GB models); pin loosely so users on different
+    # CUDA versions can pick their own pin.
+    # "surya-ocr>=0.6,<0.10",   # uncomment when Surya is actually wired in F5+
 ]
 
 [project.urls]
