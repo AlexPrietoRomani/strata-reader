@@ -1,0 +1,15 @@
+//! Strata-IA-Bridge — gRPC client to the Python IA microservice. See plan §11.
+
+#![deny(rust_2018_idioms)]
+
+pub fn version() -> &'static str {
+    env!("CARGO_PKG_VERSION")
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn version_matches_pkg() {
+        assert_eq!(super::version(), env!("CARGO_PKG_VERSION"));
+    }
+}

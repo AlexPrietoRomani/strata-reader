@@ -1,0 +1,7 @@
+avoid-breaking-exported-api = false
+cognitive-complexity-threshold = 25
+type-complexity-threshold = 250
+too-many-arguments-threshold = 8
+disallowed-methods = [
+    { path = "std::env::var", reason = "Use config/env-loader instead at boundaries" },
+]

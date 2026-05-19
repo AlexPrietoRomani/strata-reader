@@ -1,0 +1,17 @@
+[package]
+name = "strata-py"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "PyO3 bindings — produces the `strata_reader._native` extension module."
+
+# Context7-verified: pyo3 0.28 requires `cdylib` crate type and the [lib] name
+# must match the identifier in `#[pymodule]` below (i.e. `_native`).
+[lib]
+name = "_native"
+crate-type = ["cdylib"]
+
+[dependencies]
+strata-core = { path = "../strata-core" }
+pyo3 = { workspace = true }

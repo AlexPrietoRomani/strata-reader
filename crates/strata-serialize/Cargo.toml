@@ -1,0 +1,17 @@
+[package]
+name = "strata-serialize"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Strata-Reader subsystem: strata-serialize (see docs/plan/plan_maestro.md)."
+
+[dependencies]
+strata-core = { path = "../strata-core" }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }
+proptest = { workspace = true }

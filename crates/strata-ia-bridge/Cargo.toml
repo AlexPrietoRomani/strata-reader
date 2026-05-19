@@ -1,0 +1,26 @@
+[package]
+name = "strata-ia-bridge"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Rust client + protobuf contract for the Python IA microservice."
+build = "build.rs"
+
+[dependencies]
+strata-core = { path = "../strata-core" }
+tonic = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[build-dependencies]
+tonic-build = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }

@@ -1,0 +1,98 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/strata-core",
+    "crates/strata-pdf",
+    "crates/strata-geometry",
+    "crates/strata-quality",
+    "crates/strata-triage",
+    "crates/strata-ia-bridge",
+    "crates/strata-fusion",
+    "crates/strata-serialize",
+    "crates/strata-runtime",
+    "crates/strata-cli",
+    "crates/strata-server",
+    "crates/strata-py",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+rust-version = "1.83"
+authors = ["Strata-Reader Contributors"]
+repository = "https://github.com/AlexPrietoRomani/strata-reader"
+homepage = "https://github.com/AlexPrietoRomani/strata-reader"
+
+[workspace.dependencies]
+# Async + runtime
+tokio = { version = "1.40", features = ["full"] }
+tokio-stream = "0.1"
+futures = "0.3"
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+schemars = { version = "0.8", features = ["preserve_order"] }
+
+# Errors / tracing / logging
+thiserror = "1"
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# IDs / utilities
+ulid = { version = "1", features = ["serde"] }
+once_cell = "1"
+parking_lot = "0.12"
+
+# PDF / geometry
+pdfium-render = { version = "0.9", default-features = false, features = ["sync", "image"] }
+rstar = "0.12"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+
+# gRPC stack (Context7-verified: tonic 0.14.6)
+tonic = "0.14"
+tonic-build = "0.14"
+prost = "0.13"
+prost-types = "0.13"
+
+# HTTP server (microservicio)
+axum = { version = "0.7", features = ["multipart", "macros"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "cors"] }
+hyper = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+# CLI
+clap = { version = "4.5", features = ["derive", "env"] }
+
+# GPU detection (NVIDIA NVML)
+nvml-wrapper = "0.10"
+
+# Observability
+prometheus = "0.13"
+opentelemetry = "0.27"
+opentelemetry-otlp = "0.27"
+
+# Python bindings (Context7-verified: pyo3 0.28.3 latest)
+pyo3 = { version = "0.28", features = ["extension-module"] }
+
+# Testing
+insta = { version = "1", features = ["yaml", "json"] }
+proptest = "1"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+
+[profile.dev]
+opt-level = 1
+
+[profile.bench]
+inherits = "release"
+debug = true
