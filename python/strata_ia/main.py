@@ -25,6 +25,7 @@ from fastapi import FastAPI
 from strata_ia import __version__
 from strata_ia.adapters.ollama import OllamaClient
 from strata_ia.config import load_config
+from strata_ia.grpc_server import serve as serve_grpc
 from strata_ia.routers import ocr, vlm_formula, vlm_image, vlm_table
 
 logger = structlog.get_logger(__name__)
@@ -32,7 +33,7 @@ logger = structlog.get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Set up the singleton Ollama client and config; tear down on shutdown."""
+    """Set up the singleton Ollama client + gRPC server; tear down on shutdown."""
     config = load_config()
     app.state.config = config
     app.state.ollama = OllamaClient(
@@ -42,15 +43,29 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         seed=config.seed,
         temperature=config.temperature,
     )
+    app.state.grpc_server = None
+    if config.grpc_enabled:
+        try:
+            app.state.grpc_server = await serve_grpc(
+                app.state.ollama, config, port=config.grpc_port
+            )
+            logger.info("grpc_alongside_http", grpc_port=config.grpc_port)
+        except OSError as exc:
+            # Port in use — common in dev when uvicorn auto-reloads.
+            logger.warning("grpc_bind_failed", error=str(exc), port=config.grpc_port)
+
     logger.info(
         "strata_ia_startup",
         version=__version__,
         ollama=config.ollama_endpoint,
-        port=config.http_port,
+        http_port=config.http_port,
+        grpc_port=config.grpc_port if config.grpc_enabled else None,
     )
     try:
         yield
     finally:
+        if app.state.grpc_server is not None:
+            await app.state.grpc_server.stop(grace=2)
         await app.state.ollama.aclose()
         logger.info("strata_ia_shutdown")
 

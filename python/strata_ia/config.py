@@ -40,6 +40,10 @@ class IaConfig(BaseSettings):
     http_host: str = Field(default="0.0.0.0")
     http_port: int = Field(default=8081, ge=1, le=65535)
 
+    # ----- gRPC server -----
+    grpc_port: int = Field(default=50051, ge=1, le=65535)
+    grpc_enabled: bool = Field(default=True)
+
     # ----- Cache -----
     cache_path: Path = Field(default=Path.home() / ".strata" / "cache.db")
     cache_enabled: bool = Field(default=True)
