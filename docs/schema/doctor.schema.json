@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://strata-reader.dev/schema/doctor.schema.json",
+  "title": "StrataDoctorReport",
+  "description": "Output of `strata doctor` — environment diagnostics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rust_version",
+    "strata_version",
+    "gpu_info",
+    "vram_mb",
+    "ollama_models",
+    "ollama_reachable",
+    "fixtures_present"
+  ],
+  "properties": {
+    "rust_version": {
+      "type": "string",
+      "description": "MSRV declared by the strata-cli crate (rust-version field)."
+    },
+    "strata_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[A-Za-z0-9.+-]+)?$"
+    },
+    "gpu_info": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "driver"],
+          "properties": {
+            "name": { "type": "string" },
+            "driver": { "type": "string" },
+            "cuda_capability": { "type": ["string", "null"] }
+          }
+        }
+      ]
+    },
+    "vram_mb": { "type": ["integer", "null"], "minimum": 0 },
+    "ollama_models": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "ollama_reachable": { "type": "boolean" },
+    "fixtures_present": { "type": "boolean" }
+  }
+}
