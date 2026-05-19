@@ -1,0 +1,97 @@
+[build-system]
+requires = ["maturin>=1.9.4,<2"]
+build-backend = "maturin"
+
+[project]
+name = "strata-reader"
+version = "0.1.0"
+description = "PDF → Markdown/JSON for Vector- and Graph-RAG. On-premise, parallel, fidelity-first."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.12"
+authors = [{ name = "Strata-Reader Contributors" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Text Processing :: Markup",
+]
+dependencies = [
+    "fastapi>=0.115,<0.116",
+    "uvicorn[standard]>=0.30,<0.32",
+    "grpcio>=1.66,<2",
+    "grpcio-tools>=1.66,<2",
+    "httpx>=0.27,<0.29",
+    "pynvml>=11.5,<13",
+    "psutil>=6.0,<7",
+    "pydantic>=2.9,<3",
+    "structlog>=24,<26",
+    "tenacity>=9,<10",
+]
+
+[project.urls]
+Homepage = "https://github.com/AlexPrietoRomani/strata-reader"
+Repository = "https://github.com/AlexPrietoRomani/strata-reader"
+
+[project.scripts]
+strata = "strata_reader.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+    "pytest-asyncio>=0.24,<2",
+    "pytest-cov>=5,<7",
+    "pytest-benchmark>=4,<6",
+    "respx>=0.21,<0.22",
+    "hypothesis>=6,<7",
+    "ruff>=0.7,<0.10",
+    "mypy>=1.13,<2",
+    "black>=24,<26",
+    "markdown-it-py>=3,<4",
+    "jsonschema>=4,<5",
+    "jiwer>=3,<4",
+    "img2pdf>=0.5,<0.6",
+]
+
+[tool.maturin]
+manifest-path = "crates/strata-py/Cargo.toml"
+python-source = "python"
+module-name = "strata_reader._native"
+features = ["pyo3/extension-module"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["python/strata_ia/proto"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["python"]
+exclude = ["python/strata_ia/proto"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit_py", "tests/integration", "tests/e2e"]
+markers = [
+    "ollama: requires a running Ollama instance with the expected models",
+    "gpu: requires a CUDA/ROCm/Metal GPU",
+    "multi_gpu: requires >1 GPU",
+    "cpu_heavy: long-running CPU bench",
+    "fixtures: depends on the golden fixture corpus",
+]
+asyncio_mode = "auto"

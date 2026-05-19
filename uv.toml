@@ -1,0 +1,4 @@
+# Required on Windows when the repo lives under OneDrive: hardlinks across the
+# OneDrive cloud-file boundary fail (Apéndice B del Plan Maestro). Copy is a
+# small price for repo portability.
+link-mode = "copy"
