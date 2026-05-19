@@ -5,10 +5,12 @@
 #![deny(rust_2018_idioms)]
 
 pub mod rtree_index;
+pub mod table_border;
 pub mod word_line;
 pub mod xycut;
 
 pub use rtree_index::{Hit, SpatialIndex};
+pub use table_border::{detect_table_borders, LineSegment, TableCandidate};
 pub use word_line::{cluster_lines, words_from_line, GlyphInput, Line, Word};
 pub use xycut::{xy_cut_plus_plus, Axis, ScriptDirection, XyCutConfig};
 
