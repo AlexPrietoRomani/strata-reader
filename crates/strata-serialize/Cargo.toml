@@ -4,14 +4,19 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
-description = "Strata-Reader subsystem: strata-serialize (see docs/plan/plan_maestro.md)."
+description = "Markdown (Vector-RAG) and JSON Graph-RAG serializers for Strata-Reader."
 
 [dependencies]
 strata-core = { path = "../strata-core" }
+strata-fusion = { path = "../strata-fusion" }
 serde = { workspace = true }
+serde_json = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
 
 [dev-dependencies]
 insta = { workspace = true }
 proptest = { workspace = true }
+
+[lib]
+doctest = false
