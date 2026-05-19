@@ -114,7 +114,13 @@ extend-immutable-calls = [
 python_version = "3.12"
 strict = true
 files = ["python"]
-exclude = ["python/strata_ia/proto"]
+exclude = ["python/strata_ia/proto/.*"]
+
+[[tool.mypy.overrides]]
+# Generated proto stubs + protobuf / grpc runtime — not authored by hand.
+module = ["strata_ia.proto.*", "google.protobuf.*", "grpc.*"]
+ignore_missing_imports = true
+ignore_errors = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests/unit_py", "tests/integration", "tests/e2e"]
