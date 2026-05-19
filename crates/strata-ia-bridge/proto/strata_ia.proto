@@ -1,0 +1,184 @@
+// Strata-Reader IA bridge — v1 contract.
+//
+// Mirrored 1-to-1 against the Pydantic models in `python/strata_ia/models.py`.
+// camelCase field names on the wire so JSON-ish tooling speaks the same dialect
+// as the FastAPI surface. Versioned inside the package so a future v2 can
+// coexist without breaking deployed clients.
+//
+// See `docs/plan/plan_maestro.md` §11.T6.1.
+
+syntax = "proto3";
+
+package strata.ia.v1;
+
+// ---------------------------------------------------------------------------
+// Shared geometry
+// ---------------------------------------------------------------------------
+
+message BBox {
+    float x0 = 1;
+    float y0 = 2;
+    float x1 = 3;
+    float y1 = 4;
+}
+
+// ---------------------------------------------------------------------------
+// Request payload
+// ---------------------------------------------------------------------------
+
+message Crop {
+    // Raw PNG bytes — Decoder rasterizes BBox crops to PNG before sending.
+    bytes png_bytes = 1;
+    // Rendering DPI used by `render_crop` (Plan Maestro §9.T4.4). Useful for
+    // the VLM when it wants to reason about original pixel density.
+    uint32 dpi = 2;
+    // 1-indexed page number (matches what the PDF reader shows).
+    uint32 page_no = 3;
+    BBox bbox = 4;
+    // Free-form hint from the Triage Engine: "table-borderless", "figure",
+    // "formula", … The IA layer can use it to short-circuit prompt selection.
+    string hint = 5;
+}
+
+// ---------------------------------------------------------------------------
+// Response payloads — one per Triage route
+// ---------------------------------------------------------------------------
+
+message WordBox {
+    string text = 1;
+    BBox bbox = 2;
+    float confidence = 3;
+}
+
+message OcrResult {
+    string text = 1;
+    repeated WordBox words = 2;
+    float confidence = 3;
+    // ISO 639-1 / -3 code if the backend can detect it. Empty when unknown.
+    string language = 4;
+}
+
+message TableCell {
+    string text = 1;
+    uint32 row = 2;
+    uint32 col = 3;
+    uint32 row_span = 4;
+    uint32 col_span = 5;
+}
+
+message TableRow {
+    repeated TableCell cells = 1;
+}
+
+message TableResult {
+    repeated TableRow rows = 1;
+    float confidence = 2;
+    uint32 cell_count = 3;
+}
+
+message ImageDescription {
+    string caption = 1;
+    string description = 2;
+    string alt_text = 3;
+    float confidence = 4;
+}
+
+message FormulaResult {
+    string latex = 1;
+    // MathML is optional; empty string means "not provided".
+    string mathml = 2;
+    float confidence = 3;
+}
+
+// ---------------------------------------------------------------------------
+// Provenance envelope (PRISMA traceability — Plan Maestro §1, §10.T5.6)
+// ---------------------------------------------------------------------------
+
+message Provenance {
+    string model_id = 1;
+    // Free-form: "ollama", "surya", "tesseract", "pix2tex", …
+    string backend = 2;
+    uint32 latency_ms = 3;
+    uint32 retries = 4;
+    bool cache_hit = 5;
+}
+
+// Each response carries the typed result + its provenance.
+message OcrResponse {
+    OcrResult result = 1;
+    Provenance provenance = 2;
+}
+
+message TableResponse {
+    TableResult result = 1;
+    Provenance provenance = 2;
+}
+
+message ImageResponse {
+    ImageDescription result = 1;
+    Provenance provenance = 2;
+}
+
+message FormulaResponse {
+    FormulaResult result = 1;
+    Provenance provenance = 2;
+}
+
+// ---------------------------------------------------------------------------
+// Streaming envelope — used by ProcessStream
+// ---------------------------------------------------------------------------
+
+// Routing tag chosen by the Rust Triage before crossing the bridge.
+enum TriageRoute {
+    TRIAGE_ROUTE_UNSPECIFIED = 0;
+    TRIAGE_ROUTE_OCR_PAGE = 1;
+    TRIAGE_ROUTE_TABLE = 2;
+    TRIAGE_ROUTE_IMAGE = 3;
+    TRIAGE_ROUTE_FORMULA = 4;
+}
+
+// Wrapped crop carrying the route and a caller-chosen correlation id so
+// out-of-order replies on the stream can be re-zipped.
+message StreamCrop {
+    string correlation_id = 1;
+    TriageRoute route = 2;
+    Crop crop = 3;
+}
+
+// Tagged union of the four per-route response payloads, plus the
+// correlation id and a typed error slot.
+message StreamResult {
+    string correlation_id = 1;
+    oneof payload {
+        OcrResponse ocr = 10;
+        TableResponse table = 11;
+        ImageResponse image = 12;
+        FormulaResponse formula = 13;
+        StreamError error = 99;
+    }
+}
+
+message StreamError {
+    // gRPC-friendly codes; mirrors `tonic::Code` numeric values for ease of
+    // mapping on the Rust side.
+    uint32 code = 1;
+    string message = 2;
+}
+
+// ---------------------------------------------------------------------------
+// Services
+// ---------------------------------------------------------------------------
+
+service IaService {
+    // Unary RPCs (one Crop in, one typed Result out).
+    rpc OcrPage(Crop) returns (OcrResponse);
+    rpc ExtractTable(Crop) returns (TableResponse);
+    rpc DescribeImage(Crop) returns (ImageResponse);
+    rpc OcrFormula(Crop) returns (FormulaResponse);
+
+    // Bi-directional streaming for batch jobs. The Rust scheduler can push
+    // many crops at once and the IA server replies as soon as each one
+    // finishes — replies may arrive out of order, the correlation_id
+    // re-zips them on the caller side.
+    rpc ProcessStream(stream StreamCrop) returns (stream StreamResult);
+}
