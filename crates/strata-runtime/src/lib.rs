@@ -5,8 +5,13 @@
 
 #![deny(rust_2018_idioms)]
 
+pub mod gpu_monitor;
 pub mod scheduler;
 
+pub use gpu_monitor::{
+    detect as detect_gpu, GpuBackend, GpuDeviceSnapshot, GpuMonitor, GpuMonitorError, GpuSnapshot,
+    MetalMonitor, NoopMonitor, NvmlMonitor, RocmMonitor,
+};
 pub use scheduler::{Scheduler, SchedulerConfig};
 
 /// Crate semver.
