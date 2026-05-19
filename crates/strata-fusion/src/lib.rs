@@ -6,8 +6,10 @@
 #![deny(rust_2018_idioms)]
 
 pub mod fuser;
+pub mod sections;
 
 pub use fuser::{merge, validate, FusionError, IaPayload};
+pub use sections::{build_tree, Section, SectionChild};
 
 /// Crate semver.
 pub fn version() -> &'static str {
