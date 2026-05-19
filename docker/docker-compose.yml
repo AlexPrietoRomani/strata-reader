@@ -1,0 +1,54 @@
+# docker compose up -d  →  strata-reader + ollama
+# Includes optional GPU passthrough (NVIDIA). Comment the `deploy` block on
+# CPU-only hosts. See Plan Maestro §13.T8.6.
+
+services:
+  strata:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: strata-reader:dev
+    container_name: strata-reader
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      STRATA_OLLAMA_URL: http://ollama:11434
+      STRATA_PROFILE: balanced
+      RUST_LOG: info,strata_=debug
+    ports:
+      - "8080:8080"
+    volumes:
+      - strata_cache:/root/.strata
+      - ../tests/fixtures:/app/fixtures:ro
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  ollama_models:
+  strata_cache:
