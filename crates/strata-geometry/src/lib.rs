@@ -4,11 +4,13 @@
 
 #![deny(rust_2018_idioms)]
 
+pub mod cluster_table;
 pub mod rtree_index;
 pub mod table_border;
 pub mod word_line;
 pub mod xycut;
 
+pub use cluster_table::{detect_table_candidates, BorderlessCandidate};
 pub use rtree_index::{Hit, SpatialIndex};
 pub use table_border::{detect_table_borders, LineSegment, TableCandidate};
 pub use word_line::{cluster_lines, words_from_line, GlyphInput, Line, Word};
