@@ -1,0 +1,8 @@
+# Pragmatic markdownlint config for the Strata-Reader docs.
+default: true
+MD013: false   # line-length: docs use long sentences in Spanish, ruff/prettier handle the code.
+MD033: false   # inline HTML is fine inside docs/usage tutorials.
+MD041: false   # first heading does not need to be H1 (plan/tareas use blockquotes first).
+MD024:
+  siblings_only: true
+MD025: false   # multiple H1s allowed for ADR collections.
