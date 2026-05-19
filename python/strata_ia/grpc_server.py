@@ -337,7 +337,10 @@ def main() -> None:
             seed=config.seed,
             temperature=config.temperature,
         ) as client:
-            server = await serve(client, config, port=50051)
+            # Use the configured port (env STRATA_IA_GRPC_PORT) so the
+            # embedded-worker spawner from the Rust side can pick a random
+            # free port and tell the child via env.
+            server = await serve(client, config, port=config.grpc_port)
             await server.wait_for_termination()
 
     asyncio.run(_main())

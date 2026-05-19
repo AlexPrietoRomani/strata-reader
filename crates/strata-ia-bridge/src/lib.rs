@@ -28,9 +28,11 @@ pub mod proto {
 }
 
 pub mod client;
+pub mod embedded;
 pub mod error;
 
 pub use client::{BridgeClient, BridgeClientConfig};
+pub use embedded::{EmbeddedWorker, SpawnOptions};
 pub use error::BridgeError;
 
 /// Crate semver.
