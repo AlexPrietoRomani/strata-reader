@@ -4,14 +4,28 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
-description = "Strata-Reader subsystem: strata-runtime (see docs/plan/plan_maestro.md)."
+description = "Tokio scheduler, GPU/VRAM monitor, AIMD backpressure, Prometheus metrics."
 
 [dependencies]
 strata-core = { path = "../strata-core" }
+tokio = { workspace = true }
+futures = { workspace = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+prometheus = { workspace = true }
+opentelemetry = { workspace = true }
+opentelemetry-otlp = { workspace = true }
+nvml-wrapper = { workspace = true }
+parking_lot = { workspace = true }
+once_cell = { workspace = true }
 
 [dev-dependencies]
 insta = { workspace = true }
 proptest = { workspace = true }
+tokio = { workspace = true, features = ["test-util", "macros"] }
+
+[lib]
+doctest = false
