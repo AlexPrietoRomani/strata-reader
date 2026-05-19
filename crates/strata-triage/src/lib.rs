@@ -6,9 +6,11 @@
 
 pub mod decision;
 pub mod profiles;
+pub mod triage;
 
 pub use decision::{Reason, TriageDecision, TriageRoute};
 pub use profiles::{ProfileName, TriageProfile};
+pub use triage::{triage_block, BlockContext, PageContext};
 
 /// Crate semver.
 pub fn version() -> &'static str {
