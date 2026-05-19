@@ -1,0 +1,19 @@
+# Cargo configuration committed to the repo.
+# Per-machine overrides go in `%USERPROFILE%\.cargo\config.toml` (Windows)
+# or `$HOME/.cargo/config.toml` (Unix), NOT here.
+
+[build]
+# Keep the target directory OUT of OneDrive on Windows: cloud-files sync breaks
+# cargo's hardlinks and rebuilds become flaky.
+# Tip: on Windows, override locally with:
+#     $env:CARGO_TARGET_DIR = "C:\Temp\strata-target"
+# or set it in `%USERPROFILE%\.cargo\config.toml`.
+
+[term]
+verbose = false
+color = "auto"
+
+# Net retries help on corporate proxies.
+[net]
+retry = 3
+git-fetch-with-cli = true

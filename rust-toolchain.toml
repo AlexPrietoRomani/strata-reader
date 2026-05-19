@@ -1,4 +1,10 @@
 [toolchain]
-channel = "1.83.0"
+# MSRV bumped from 1.83 → stable because tonic 0.14, image 0.25, clap 4.6 and
+# the ICU stack require edition 2024 (Rust ≥ 1.85) / latest Rust APIs (≥ 1.88).
+# Host = msvc on Windows: gnu host needs an external `dlltool.exe` which is
+# unavailable on minimal user-scope installs; msvc plays nicer with corporate
+# EDR allowlists. Linux/macOS users get their native default host.
+channel = "stable"
 components = ["rustfmt", "clippy", "llvm-tools-preview"]
 profile = "default"
+targets = ["x86_64-pc-windows-msvc"]

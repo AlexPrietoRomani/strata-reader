@@ -13,13 +13,14 @@ members = [
     "crates/strata-cli",
     "crates/strata-server",
     "crates/strata-py",
+    "xtask",
 ]
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-rust-version = "1.83"
+rust-version = "1.88"
 authors = ["Strata-Reader Contributors"]
 repository = "https://github.com/AlexPrietoRomani/strata-reader"
 homepage = "https://github.com/AlexPrietoRomani/strata-reader"
@@ -48,7 +49,9 @@ once_cell = "1"
 parking_lot = "0.12"
 
 # PDF / geometry
-pdfium-render = { version = "0.9", default-features = false, features = ["sync", "image"] }
+# Default features = pdfium_latest + image_latest + thread_safe (verified against
+# crates.io API for 0.9.1). We do NOT use `sync`/`image` — those don't exist in 0.9.
+pdfium-render = { version = "0.9", features = ["thread_safe", "image_latest", "pdfium_latest"] }
 rstar = "0.12"
 image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
 
