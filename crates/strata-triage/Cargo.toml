@@ -9,12 +9,15 @@ description = "Triage Engine: decide native vs OCR vs VLM per block, and render 
 [dependencies]
 strata-core = { path = "../strata-core" }
 strata-quality = { path = "../strata-quality" }
+pdfium-render = { workspace = true }
+image = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
 
 [dev-dependencies]
+strata-pdf = { path = "../strata-pdf" }
 insta = { workspace = true }
 proptest = { workspace = true }
 
