@@ -5,8 +5,10 @@
 #![deny(rust_2018_idioms)]
 
 pub mod rtree_index;
+pub mod word_line;
 
 pub use rtree_index::{Hit, SpatialIndex};
+pub use word_line::{cluster_lines, words_from_line, GlyphInput, Line, Word};
 
 /// Crate semver.
 pub fn version() -> &'static str {
