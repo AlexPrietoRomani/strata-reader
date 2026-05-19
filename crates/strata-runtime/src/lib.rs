@@ -6,12 +6,14 @@
 #![deny(rust_2018_idioms)]
 
 pub mod backpressure;
+pub mod capabilities;
 pub mod gpu_monitor;
 pub mod gpu_pool;
 pub mod metrics;
 pub mod scheduler;
 
 pub use backpressure::{BackoffReason, BackpressureConfig, BackpressureController};
+pub use capabilities::{Capabilities, OcrPreference, SuggestedProfile};
 pub use gpu_monitor::{
     detect as detect_gpu, GpuBackend, GpuDeviceSnapshot, GpuMonitor, GpuMonitorError, GpuSnapshot,
     MetalMonitor, NoopMonitor, NvmlMonitor, RocmMonitor,
