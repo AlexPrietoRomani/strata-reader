@@ -105,33 +105,97 @@ strata-reader/
 ### 1. Prerrequisitos de la máquina
 Asegúrate de contar con Rust 1.88+, Python 3.12+ (gestionado idealmente con `uv`) y Ollama corriendo localmente.
 
-### 2. Compilar el CLI
+### 2. Configurar libpdfium (Windows)
+Descarga el binario PDFium y configura la variable de entorno:
+```powershell
+$env:LOCALAPPDATA = [Environment]::GetFolderPath('LocalApplicationData')
+New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\pdfium" -Force
+curl.exe -L -o $env:TEMP\pdfium-win-x64.tgz "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/7843/pdfium-win-x64.tgz"
+tar -xzf $env:TEMP\pdfium-win-x64.tgz -C $env:LOCALAPPDATA\pdfium
+[Environment]::SetEnvironmentVariable("STRATA_PDFIUM_LIB_PATH", "$env:LOCALAPPDATA\pdfium\bin", "User")
+```
+
+### 3. Compilar el CLI
 ```bash
-# Compilar el binario nativo en modo optimizado
 cargo build -p strata-cli --release
 ```
 
-### 3. Iniciar el Microservicio de IA local
-Arranca el orquestador local. Este script PowerShell o Bash encenderá Ollama y descargará automáticamente los 3 modelos necesarios (`qwen2.5vl:7b`, `minicpm-v:8b`, `llama3.2-vision:11b`):
+### 4. Parsear un PDF (modo nativo sin IA)
+```bash
+.\target\release\strata.exe parse \
+    --input tests/fixtures/pdfs/native_simple.pdf \
+    --output out/ \
+    --format md+json \
+    --no-ia
+```
+**Salida:** `out/native_simple.md` + `out/native_simple.json`
+
+### 5. Parsear una carpeta completa de PDFs
+```bash
+.\target\release\strata.exe parse \
+    --input tests/fixtures/pdfs/ \
+    --output out/ \
+    --format md \
+    --profile scientific \
+    --no-ia
+```
+**Salida:** Un `.md` por cada PDF en `out/`
+
+### 6. Iniciar el Microservicio de IA local
+Arranca Ollama y descarga los modelos necesarios:
 
 ```powershell
-# En Windows (PowerShell)
 .\scripts\dev_up.ps1 -WithServer
 ```
-```bash
-# En Linux / macOS
-./scripts/dev_up.sh --with-server
-```
 
-### 4. Parsear un PDF científico
+### 7. Parsear con IA multimodal (requiere Ollama + modelos VLM)
 ```bash
-# Ejecutar el parseo completo
-./target/release/strata parse \
-    --input tests/fixtures/pdfs/two_column_paper.pdf \
+.\target\release\strata.exe parse \
+    --input paper_cientifico.pdf \
     --output out/ \
     --format md+json \
     --profile scientific
 ```
+
+---
+
+## 📂 Dónde se guardan las salidas
+
+| Flag | Formato | Archivo de salida | Uso |
+|------|---------|-------------------|-----|
+| `--format md` | Markdown semántico | `{output}/{stem}.md` | **Vector RAG** (Chroma, Pinecone, FAISS) |
+| `--format json` | JSON Graph-RAG | `{output}/{stem}.json` | **Graph-RAG** (Neo4j, Agrisearch) |
+| `--format md+json` | Ambos | Ambos archivos | Ambos tipos de RAG simultáneos |
+
+El `stem` es el nombre del PDF sin extensión (ej. `paper.pdf` → `paper.md`).
+
+---
+
+## 🧪 Parsear para Vector RAG (Markdown semántico)
+
+```bash
+.\target\release\strata.exe parse \
+    --input tests/fixtures/pdfs/two_column_paper.pdf \
+    --output salidas/ \
+    --format md \
+    --profile scientific \
+    --no-ia
+```
+
+El `.md` generado incluye headings `#`/`##` jerárquicos, párrafos cohesionados, y tablas GFM listas para chunking semántico e ingesta en bases vectoriales.
+
+## 🕸️ Parsear para Graph-RAG (JSON estructurado)
+
+```bash
+.\target\release\strata.exe parse \
+    --input tests/fixtures/pdfs/two_column_paper.pdf \
+    --output salidas/ \
+    --format json \
+    --profile scientific \
+    --no-ia
+```
+
+El `.json` generado contiene `{ meta, nodes, edges }` — cada nodo es un bloque semántico (`paragraph`, `heading-1`, `table`, `figure`, `equation`) con su `bbox`, `page`, `provenance` y `tags`. Las aristas codifican relaciones `contains`, `follows`, `caption-of` y `references`.
 
 ---
 
