@@ -79,7 +79,7 @@ fn cut_recursive(
         return;
     }
 
-    if let Some(cut) = find_largest_gap(indices, blocks, axis, min_gap) {
+    if let Some(cut) = find_largest_gap(indices, blocks, axis, min_gap, script) {
         let (a, b) = partition(indices, blocks, axis, cut);
         // Emit blocks in reading order: top-of-page-first for Y, script-order for X.
         let (first, second) = order_partitions(a, b, axis, blocks, script);
@@ -90,7 +90,7 @@ fn cut_recursive(
 
     // No gap on this axis above the threshold — try the other one.
     let other = axis.flip();
-    if let Some(cut) = find_largest_gap(indices, blocks, other, min_gap) {
+    if let Some(cut) = find_largest_gap(indices, blocks, other, min_gap, script) {
         let (a, b) = partition(indices, blocks, other, cut);
         let (first, second) = order_partitions(a, b, other, blocks, script);
         cut_recursive(&first, blocks, other.flip(), min_gap, script, out);
@@ -123,7 +123,16 @@ struct Gap {
     width: f32,
 }
 
-fn find_largest_gap(indices: &[usize], blocks: &[BBox], axis: Axis, min_gap: f32) -> Option<f32> {
+fn find_largest_gap(
+    indices: &[usize],
+    blocks: &[BBox],
+    axis: Axis,
+    min_gap: f32,
+    script: ScriptDirection,
+) -> Option<f32> {
+    if indices.is_empty() {
+        return None;
+    }
     // Build a sorted list of `(lo, hi)` extents along the axis.
     let mut extents: Vec<(f32, f32)> = indices
         .iter()
@@ -141,8 +150,36 @@ fn find_largest_gap(indices: &[usize], blocks: &[BBox], axis: Axis, min_gap: f32
     for &(lo, hi) in &extents[1..] {
         if lo > max_hi {
             let w = lo - max_hi;
-            if w >= min_gap && best.map_or(true, |g| w > g.width) {
-                best = Some(Gap { cut: (lo + max_hi) * 0.5, width: w });
+            if w >= min_gap {
+                let cut_val = (lo + max_hi) * 0.5;
+                let should_update = match best {
+                    None => true,
+                    Some(g) => {
+                        if (w - g.width).abs() < 1e-4 {
+                            match axis {
+                                Axis::Y => {
+                                    // Y-axis: prefer the higher cut (top of page first)
+                                    cut_val > g.cut
+                                }
+                                Axis::X => match script {
+                                    ScriptDirection::Ltr => {
+                                        // X-axis Ltr: prefer the smaller cut (leftmost first)
+                                        false
+                                    }
+                                    ScriptDirection::Rtl => {
+                                        // X-axis Rtl: prefer the larger cut (rightmost first)
+                                        cut_val > g.cut
+                                    }
+                                },
+                            }
+                        } else {
+                            w > g.width
+                        }
+                    }
+                };
+                if should_update {
+                    best = Some(Gap { cut: cut_val, width: w });
+                }
             }
         }
         if hi > max_hi {
