@@ -50,7 +50,9 @@ impl Serialize for JobId {
 impl<'de> Deserialize<'de> for JobId {
     fn deserialize<D: serde::Deserializer<'de>>(d: D) -> Result<Self, D::Error> {
         let raw = String::deserialize(d)?;
-        Ulid::from_string(&raw).map(JobId).map_err(serde::de::Error::custom)
+        Ulid::from_string(&raw)
+            .map(JobId)
+            .map_err(serde::de::Error::custom)
     }
 }
 
@@ -61,17 +63,13 @@ pub enum JobStatus {
     /// Accepted, waiting for a worker.
     Queued,
     /// A worker picked it up; progress is the percentage 0..=100.
-    Running {
-        progress: u8,
-    },
+    Running { progress: u8 },
     /// Finished. Result artifacts live in [`Job::result_md`] /
     /// [`Job::result_json`].
     Done,
     /// Aborted because of a typed error. The message is propagated to the
     /// client verbatim.
-    Failed {
-        error: String,
-    },
+    Failed { error: String },
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

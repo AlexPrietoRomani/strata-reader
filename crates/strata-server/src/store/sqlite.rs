@@ -53,16 +53,21 @@ impl SqliteJobStore {
     /// first use; subsequent opens are idempotent.
     pub fn open<P: AsRef<Path>>(path: P) -> Result<Self, JobStoreError> {
         let conn = Connection::open(path).map_err(map_err)?;
-        conn.execute_batch("PRAGMA journal_mode=WAL;").map_err(map_err)?;
+        conn.execute_batch("PRAGMA journal_mode=WAL;")
+            .map_err(map_err)?;
         conn.execute_batch(SCHEMA).map_err(map_err)?;
-        Ok(Self { conn: Arc::new(Mutex::new(conn)) })
+        Ok(Self {
+            conn: Arc::new(Mutex::new(conn)),
+        })
     }
 
     /// In-memory store, useful for tests.
     pub fn in_memory() -> Result<Self, JobStoreError> {
         let conn = Connection::open_in_memory().map_err(map_err)?;
         conn.execute_batch(SCHEMA).map_err(map_err)?;
-        Ok(Self { conn: Arc::new(Mutex::new(conn)) })
+        Ok(Self {
+            conn: Arc::new(Mutex::new(conn)),
+        })
     }
 
     /// Row count — useful for tests / metrics.
@@ -100,7 +105,8 @@ fn row_to_job(row: &rusqlite::Row<'_>) -> rusqlite::Result<Job> {
 }
 
 fn write_job(conn: &Connection, job: &Job, upsert: bool) -> Result<(), JobStoreError> {
-    let status_json = serde_json::to_string(&job.status).map_err(|e| JobStoreError::Backend(e.to_string()))?;
+    let status_json =
+        serde_json::to_string(&job.status).map_err(|e| JobStoreError::Backend(e.to_string()))?;
     let id = job.id.to_string();
     let sql = if upsert {
         "INSERT INTO jobs (id, filename, sha256, created_at, updated_at, status_json, result_md, result_json)
@@ -196,7 +202,9 @@ impl JobStore for SqliteJobStore {
             // Verify existence first to keep parity with MemoryJobStore.
             let id_str = job.id.to_string();
             let count: i64 = guard
-                .query_row("SELECT COUNT(*) FROM jobs WHERE id = ?1", [id_str], |r| r.get(0))
+                .query_row("SELECT COUNT(*) FROM jobs WHERE id = ?1", [id_str], |r| {
+                    r.get(0)
+                })
                 .map_err(map_err)?;
             if count == 0 {
                 return Err(JobStoreError::NotFound(job.id));
@@ -213,7 +221,9 @@ impl JobStore for SqliteJobStore {
         let id_str = id.to_string();
         tokio::task::spawn_blocking(move || -> Result<(), JobStoreError> {
             let guard = conn.lock();
-            guard.execute("DELETE FROM jobs WHERE id = ?1", [id_str]).map_err(map_err)?;
+            guard
+                .execute("DELETE FROM jobs WHERE id = ?1", [id_str])
+                .map_err(map_err)?;
             Ok(())
         })
         .await

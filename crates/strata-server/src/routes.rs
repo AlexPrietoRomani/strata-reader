@@ -63,8 +63,14 @@ struct ReadyBody {
 
 async fn readyz(State(state): State<AppState>) -> impl IntoResponse {
     match state.store.list().await {
-        Ok(jobs) => Json(ReadyBody { status: "ready", jobs_in_store: jobs.len() as i64 }),
-        Err(_) => Json(ReadyBody { status: "starting", jobs_in_store: -1 }),
+        Ok(jobs) => Json(ReadyBody {
+            status: "ready",
+            jobs_in_store: jobs.len() as i64,
+        }),
+        Err(_) => Json(ReadyBody {
+            status: "starting",
+            jobs_in_store: -1,
+        }),
     }
 }
 
@@ -93,7 +99,7 @@ async fn post_parse(
     State(state): State<AppState>,
     mut multipart: Multipart,
 ) -> Result<(StatusCode, Json<EnqueuedBody>), ApiError> {
-    while let Some(field) = multipart
+    if let Some(field) = multipart
         .next_field()
         .await
         .map_err(|e| ApiError::BadRequest(format!("multipart parse error: {e}")))?
@@ -109,11 +115,20 @@ async fn post_parse(
         let sha = sha256_hex(&bytes);
         let job = Job::new_queued(filename.clone(), sha);
         let id = state.store.create(job).await.map_err(ApiError::from)?;
-        state.metrics.set_queue_depth(state.store.list().await.map(|j| j.len() as u64).unwrap_or(0));
+        state.metrics.set_queue_depth(
+            state
+                .store
+                .list()
+                .await
+                .map(|j| j.len() as u64)
+                .unwrap_or(0),
+        );
         info!(job = %id, filename = %filename, "enqueued parse job");
         return Ok((StatusCode::ACCEPTED, Json(EnqueuedBody { job_id: id })));
     }
-    Err(ApiError::BadRequest("multipart did not carry any file field".into()))
+    Err(ApiError::BadRequest(
+        "multipart did not carry any file field".into(),
+    ))
 }
 
 #[derive(Serialize)]
@@ -148,8 +163,18 @@ async fn post_parse_batch(
     if ids.is_empty() {
         return Err(ApiError::BadRequest("no files in batch".into()));
     }
-    state.metrics.set_queue_depth(state.store.list().await.map(|j| j.len() as u64).unwrap_or(0));
-    Ok((StatusCode::ACCEPTED, Json(BatchEnqueuedBody { job_ids: ids })))
+    state.metrics.set_queue_depth(
+        state
+            .store
+            .list()
+            .await
+            .map(|j| j.len() as u64)
+            .unwrap_or(0),
+    );
+    Ok((
+        StatusCode::ACCEPTED,
+        Json(BatchEnqueuedBody { job_ids: ids }),
+    ))
 }
 
 // ---------------------------------------------------------------------------
@@ -165,7 +190,9 @@ async fn get_job(
     State(state): State<AppState>,
     Path(id): Path<String>,
 ) -> Result<Json<Job>, ApiError> {
-    let id: JobId = id.parse().map_err(|_| ApiError::BadRequest("invalid job id".into()))?;
+    let id: JobId = id
+        .parse()
+        .map_err(|_| ApiError::BadRequest("invalid job id".into()))?;
     match state.store.get(id).await.map_err(ApiError::from)? {
         Some(job) => {
             // Touch the queue_depth metric on every poll so dashboards
@@ -203,7 +230,8 @@ async fn openapi() -> Json<OpenApiDoc> {
         info: OpenApiInfo {
             title: "strata-server",
             version: env!("CARGO_PKG_VERSION"),
-            description: "Strata-Reader PDF parsing microservice. See docs/plan/plan_maestro.md §14.",
+            description:
+                "Strata-Reader PDF parsing microservice. See docs/plan/plan_maestro.md §14.",
         },
         paths: serde_json::json!({
             "/healthz": {"get": {"summary": "Liveness probe", "responses": {"200": {"description": "ok"}}}},
@@ -294,7 +322,12 @@ mod tests {
     #[tokio::test]
     async fn healthz_returns_ok() {
         let resp = app()
-            .oneshot(Request::builder().uri("/healthz").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/healthz")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
@@ -303,7 +336,12 @@ mod tests {
     #[tokio::test]
     async fn readyz_returns_ok_even_with_empty_store() {
         let resp = app()
-            .oneshot(Request::builder().uri("/readyz").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/readyz")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
@@ -312,11 +350,18 @@ mod tests {
     #[tokio::test]
     async fn metrics_serves_prometheus_text_format() {
         let resp = app()
-            .oneshot(Request::builder().uri("/metrics").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/metrics")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
-        let body = axum::body::to_bytes(resp.into_body(), 1_000_000).await.unwrap();
+        let body = axum::body::to_bytes(resp.into_body(), 1_000_000)
+            .await
+            .unwrap();
         let text = String::from_utf8(body.to_vec()).unwrap();
         assert!(text.contains("strata_pages_processed_total"));
     }
@@ -338,7 +383,12 @@ mod tests {
     #[tokio::test]
     async fn get_invalid_job_id_returns_400() {
         let resp = app()
-            .oneshot(Request::builder().uri("/v1/jobs/not-an-ulid").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/v1/jobs/not-an-ulid")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
@@ -347,11 +397,18 @@ mod tests {
     #[tokio::test]
     async fn openapi_lists_every_published_route() {
         let resp = app()
-            .oneshot(Request::builder().uri("/openapi.json").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/openapi.json")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
-        let body = axum::body::to_bytes(resp.into_body(), 1_000_000).await.unwrap();
+        let body = axum::body::to_bytes(resp.into_body(), 1_000_000)
+            .await
+            .unwrap();
         let json: serde_json::Value = serde_json::from_slice(&body).unwrap();
         let paths = json["paths"].as_object().unwrap();
         for needed in [
@@ -363,18 +420,28 @@ mod tests {
             "/v1/jobs",
             "/v1/jobs/{id}",
         ] {
-            assert!(paths.contains_key(needed), "missing {needed} in OpenAPI paths");
+            assert!(
+                paths.contains_key(needed),
+                "missing {needed} in OpenAPI paths"
+            );
         }
     }
 
     #[tokio::test]
     async fn list_jobs_starts_empty() {
         let resp = app()
-            .oneshot(Request::builder().uri("/v1/jobs").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/v1/jobs")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
-        let body = axum::body::to_bytes(resp.into_body(), 1_000_000).await.unwrap();
+        let body = axum::body::to_bytes(resp.into_body(), 1_000_000)
+            .await
+            .unwrap();
         let jobs: Vec<Job> = serde_json::from_slice(&body).unwrap();
         assert!(jobs.is_empty());
     }

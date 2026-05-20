@@ -15,6 +15,9 @@ pub struct AppState {
 
 impl AppState {
     pub fn new<S: JobStore + 'static>(store: S, metrics: Metrics) -> Self {
-        Self { store: Arc::new(store), metrics }
+        Self {
+            store: Arc::new(store),
+            metrics,
+        }
     }
 }

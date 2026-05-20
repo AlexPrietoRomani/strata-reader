@@ -52,7 +52,11 @@ enum Cmd {
         #[arg(long)]
         no_ia: bool,
         /// Override the Ollama endpoint (ignored when `--no-ia`).
-        #[arg(long, env = "STRATA_OLLAMA_URL", default_value = "http://localhost:11434")]
+        #[arg(
+            long,
+            env = "STRATA_OLLAMA_URL",
+            default_value = "http://localhost:11434"
+        )]
         ollama_endpoint: String,
         /// Optional VRAM budget the Triage will respect (MB).
         #[arg(long, env = "STRATA_GPU_LIMIT_VRAM_MB")]
@@ -86,7 +90,11 @@ enum Cmd {
         #[arg(long)]
         watch: bool,
         /// Override Ollama endpoint.
-        #[arg(long, env = "STRATA_OLLAMA_URL", default_value = "http://localhost:11434")]
+        #[arg(
+            long,
+            env = "STRATA_OLLAMA_URL",
+            default_value = "http://localhost:11434"
+        )]
         ollama_endpoint: String,
     },
 
@@ -118,7 +126,11 @@ enum CacheOp {
 enum ModelsOp {
     /// List models available on the configured Ollama endpoint.
     List {
-        #[arg(long, env = "STRATA_OLLAMA_URL", default_value = "http://localhost:11434")]
+        #[arg(
+            long,
+            env = "STRATA_OLLAMA_URL",
+            default_value = "http://localhost:11434"
+        )]
         endpoint: String,
     },
 }
@@ -143,31 +155,50 @@ struct GpuInfo {
 }
 
 fn detect_gpu_info() -> (Option<GpuInfo>, Option<u64>) {
-    let Ok(nvml) = nvml_wrapper::Nvml::init() else { return (None, None) };
-    let Ok(device) = nvml.device_by_index(0) else { return (None, None) };
+    let Ok(nvml) = nvml_wrapper::Nvml::init() else {
+        return (None, None);
+    };
+    let Ok(device) = nvml.device_by_index(0) else {
+        return (None, None);
+    };
     let info = GpuInfo {
         name: device.name().unwrap_or_else(|_| "unknown".into()),
-        driver: nvml.sys_driver_version().unwrap_or_else(|_| "unknown".into()),
-        cuda_capability: device.cuda_compute_capability().ok().map(|c| format!("{}.{}", c.major, c.minor)),
+        driver: nvml
+            .sys_driver_version()
+            .unwrap_or_else(|_| "unknown".into()),
+        cuda_capability: device
+            .cuda_compute_capability()
+            .ok()
+            .map(|c| format!("{}.{}", c.major, c.minor)),
     };
     let vram_mb = device.memory_info().ok().map(|m| m.total / (1024 * 1024));
     (Some(info), vram_mb)
 }
 
 async fn list_ollama_models(endpoint: &str) -> (Vec<String>, bool) {
-    let Ok(client) = reqwest::Client::builder().timeout(std::time::Duration::from_secs(3)).build()
+    let Ok(client) = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(3))
+        .build()
     else {
         return (Vec::new(), false);
     };
     let url = format!("{}/api/tags", endpoint.trim_end_matches('/'));
-    let Ok(resp) = client.get(&url).send().await else { return (Vec::new(), false) };
-    let Ok(json) = resp.json::<serde_json::Value>().await else { return (Vec::new(), true) };
+    let Ok(resp) = client.get(&url).send().await else {
+        return (Vec::new(), false);
+    };
+    let Ok(json) = resp.json::<serde_json::Value>().await else {
+        return (Vec::new(), true);
+    };
     let models = json
         .get("models")
         .and_then(|m| m.as_array())
         .map(|arr| {
             arr.iter()
-                .filter_map(|m| m.get("name").and_then(|n| n.as_str()).map(|s| s.to_string()))
+                .filter_map(|m| {
+                    m.get("name")
+                        .and_then(|n| n.as_str())
+                        .map(|s| s.to_string())
+                })
                 .collect()
         })
         .unwrap_or_default();
@@ -209,7 +240,10 @@ async fn cmd_serve(bind: &str, store_spec: &str) -> anyhow::Result<()> {
         other => anyhow::bail!("unknown store backend: {other}"),
     };
 
-    let state = AppState { store, metrics: Metrics::new() };
+    let state = AppState {
+        store,
+        metrics: Metrics::new(),
+    };
     let app = strata_server::router(state);
     let listener = tokio::net::TcpListener::bind(bind).await?;
     tracing::info!(bind = %bind, store = %store_spec, "strata serve");
@@ -301,7 +335,9 @@ async fn cmd_models_list(endpoint: &str) -> anyhow::Result<()> {
 #[tokio::main]
 async fn main() -> ExitCode {
     let _ = tracing_subscriber::fmt()
-        .with_env_filter(EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")))
+        .with_env_filter(
+            EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")),
+        )
         .json()
         .try_init();
 
@@ -333,11 +369,19 @@ async fn main() -> ExitCode {
         }
         Cmd::Serve { bind, store } => cmd_serve(&bind, &store).await,
         Cmd::Bench { suite } => cmd_bench(suite.as_deref()).await,
-        Cmd::Doctor { ollama_endpoint, .. } => cmd_doctor(&ollama_endpoint).await,
-        Cmd::Cache { op: CacheOp::Prune { older_than_days, path } } => {
-            cmd_cache_prune(&path, older_than_days).await
-        }
-        Cmd::Models { op: ModelsOp::List { endpoint } } => cmd_models_list(&endpoint).await,
+        Cmd::Doctor {
+            ollama_endpoint, ..
+        } => cmd_doctor(&ollama_endpoint).await,
+        Cmd::Cache {
+            op:
+                CacheOp::Prune {
+                    older_than_days,
+                    path,
+                },
+        } => cmd_cache_prune(&path, older_than_days).await,
+        Cmd::Models {
+            op: ModelsOp::List { endpoint },
+        } => cmd_models_list(&endpoint).await,
     };
     match result {
         Ok(()) => ExitCode::SUCCESS,

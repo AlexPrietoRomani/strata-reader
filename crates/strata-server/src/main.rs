@@ -16,8 +16,12 @@ use tracing_subscriber::EnvFilter;
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     init_tracing();
-    let bind: String = std::env::var("STRATA_SERVER_BIND").unwrap_or_else(|_| "0.0.0.0:8080".into());
-    let store_spec: String = std::env::var("STRATA_SERVER_STORE").unwrap_or_else(|_| "memory".into());
+    #[allow(clippy::disallowed_methods)]
+    let bind: String =
+        std::env::var("STRATA_SERVER_BIND").unwrap_or_else(|_| "0.0.0.0:8080".into());
+    #[allow(clippy::disallowed_methods)]
+    let store_spec: String =
+        std::env::var("STRATA_SERVER_STORE").unwrap_or_else(|_| "memory".into());
 
     let store: Arc<dyn JobStore> = match store_spec.as_str() {
         "memory" => Arc::new(MemoryJobStore::new()),
@@ -40,5 +44,8 @@ async fn main() -> anyhow::Result<()> {
 
 fn init_tracing() {
     let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
-    let _ = tracing_subscriber::fmt().with_env_filter(filter).json().try_init();
+    let _ = tracing_subscriber::fmt()
+        .with_env_filter(filter)
+        .json()
+        .try_init();
 }
