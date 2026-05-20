@@ -4,21 +4,34 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
-description = "axum HTTP/REST microservice for strata-reader."
+description = "axum HTTP/REST microservice for strata-reader: job queue, parse endpoints, OpenAPI, /metrics."
 
 [[bin]]
 name = "strata-server"
 path = "src/main.rs"
 
+[lib]
+doctest = false
+
 [dependencies]
 strata-core = { path = "../strata-core" }
+strata-runtime = { path = "../strata-runtime" }
 axum = { workspace = true }
 tower = { workspace = true }
 tower-http = { workspace = true }
 hyper = { workspace = true }
 tokio = { workspace = true }
+async-trait = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+thiserror = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 anyhow = { workspace = true }
+parking_lot = { workspace = true }
+rusqlite = { workspace = true }
+ulid = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }
+tokio = { workspace = true, features = ["test-util", "macros"] }

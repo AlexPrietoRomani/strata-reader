@@ -74,6 +74,10 @@ clap = { version = "4.5", features = ["derive", "env"] }
 # GPU detection (NVIDIA NVML)
 nvml-wrapper = "0.10"
 
+# Embedded SQLite for JobStore + Triage cache. `bundled` ships the
+# amalgamation so end-users don't need libsqlite3 on the host.
+rusqlite = { version = "0.32", features = ["bundled"] }
+
 # Observability
 prometheus = "0.13"
 opentelemetry = "0.27"
