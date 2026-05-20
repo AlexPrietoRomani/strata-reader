@@ -31,7 +31,7 @@ class TesseractUnavailable(RuntimeError):
 def _try_import() -> tuple[object, object]:
     """Return (pytesseract module, PIL.Image module) or raise."""
     try:
-        import pytesseract  # type: ignore[import-not-found]
+        import pytesseract
         from PIL import Image
     except ImportError as exc:  # pragma: no cover - depends on host
         raise TesseractUnavailable(

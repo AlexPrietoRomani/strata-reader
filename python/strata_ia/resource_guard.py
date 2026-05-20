@@ -21,7 +21,7 @@ from dataclasses import dataclass
 import structlog
 
 try:
-    import pynvml  # type: ignore[import-untyped]
+    import pynvml
 
     _HAS_NVML = True
 except ImportError:  # pragma: no cover - depends on host

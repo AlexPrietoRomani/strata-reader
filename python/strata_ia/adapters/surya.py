@@ -51,8 +51,8 @@ def _load_models() -> Any:
             # Imports are intentionally inside the function — package may be
             # absent on hosts without GPU.
             from PIL import Image  # noqa: F401 — used implicitly to validate dep
-            from surya.detection import DetectionPredictor  # type: ignore[import-not-found]
-            from surya.recognition import RecognitionPredictor  # type: ignore[import-not-found]
+            from surya.detection import DetectionPredictor
+            from surya.recognition import RecognitionPredictor
 
             detection = DetectionPredictor()
             recognition = RecognitionPredictor()
