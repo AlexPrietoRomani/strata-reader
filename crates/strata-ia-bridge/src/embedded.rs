@@ -120,6 +120,7 @@ impl SpawnOptions {
         if let Some(p) = &self.python_bin {
             return p.clone();
         }
+        #[allow(clippy::disallowed_methods)]
         if let Ok(p) = std::env::var("STRATA_PYTHON_BIN") {
             return PathBuf::from(p);
         }
@@ -156,7 +157,9 @@ async fn probe_tcp(endpoint: &str) -> bool {
 }
 
 fn url_to_host_port(endpoint: &str) -> Option<(String, u16)> {
-    let stripped = endpoint.trim_start_matches("http://").trim_start_matches("https://");
+    let stripped = endpoint
+        .trim_start_matches("http://")
+        .trim_start_matches("https://");
     let (host, port) = stripped.split_once(':')?;
     let port = port.split('/').next()?.parse::<u16>().ok()?;
     Some((host.to_string(), port))
@@ -174,8 +177,14 @@ mod tests {
 
     #[test]
     fn parses_endpoint_into_host_port() {
-        assert_eq!(url_to_host_port("http://127.0.0.1:50051"), Some(("127.0.0.1".into(), 50051)));
-        assert_eq!(url_to_host_port("https://ia.local:443/healthz"), Some(("ia.local".into(), 443)));
+        assert_eq!(
+            url_to_host_port("http://127.0.0.1:50051"),
+            Some(("127.0.0.1".into(), 50051))
+        );
+        assert_eq!(
+            url_to_host_port("https://ia.local:443/healthz"),
+            Some(("ia.local".into(), 443))
+        );
         assert_eq!(url_to_host_port("invalid"), None);
     }
 

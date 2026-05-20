@@ -77,7 +77,10 @@ impl IaService for EchoIa {
 }
 
 fn canned_ocr() -> OcrResponse {
-    OcrResponse { result: Some(OcrResult::default()), provenance: Some(canned_provenance()) }
+    OcrResponse {
+        result: Some(OcrResult::default()),
+        provenance: Some(canned_provenance()),
+    }
 }
 
 fn canned_provenance() -> Provenance {
@@ -95,7 +98,12 @@ fn canned_crop() -> Crop {
         png_bytes: vec![0; 64].into(),
         dpi: 72,
         page_no: 1,
-        bbox: Some(BBox { x0: 0.0, y0: 0.0, x1: 1.0, y1: 1.0 }),
+        bbox: Some(BBox {
+            x0: 0.0,
+            y0: 0.0,
+            x1: 1.0,
+            y1: 1.0,
+        }),
         hint: "".into(),
     }
 }
@@ -130,9 +138,12 @@ fn bench(c: &mut Criterion) {
     let client = rt.block_on(async {
         // Give the server a beat to bind.
         tokio::time::sleep(Duration::from_millis(50)).await;
-        BridgeClient::connect(BridgeClientConfig { endpoint: endpoint.clone(), ..Default::default() })
-            .await
-            .unwrap()
+        BridgeClient::connect(BridgeClientConfig {
+            endpoint: endpoint.clone(),
+            ..Default::default()
+        })
+        .await
+        .unwrap()
     });
 
     for batch in [16usize, 64, 256] {

@@ -10,6 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=proto/strata_ia.proto");
 
+    #[allow(clippy::disallowed_methods)]
     let descriptor_path =
         std::path::PathBuf::from(std::env::var("OUT_DIR")?).join("strata_ia_descriptor.bin");
 
