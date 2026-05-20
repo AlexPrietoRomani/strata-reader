@@ -33,7 +33,7 @@ futures = "0.3"
 async-trait = "0.1"
 
 # Serialization
-serde = { version = "1", features = ["derive"] }
+serde = { version = "1", features = ["derive", "rc"] }
 serde_json = { version = "1", features = ["preserve_order"] }
 schemars = { version = "0.8", features = ["preserve_order"] }
 
@@ -58,6 +58,8 @@ image = { version = "0.25", default-features = false, features = ["png", "jpeg"]
 # gRPC stack (Context7-verified: tonic 0.14.6)
 tonic = "0.14"
 tonic-build = "0.14"
+tonic-prost-build = "0.14"
+tonic-prost = "0.14"
 prost = "0.13"
 prost-types = "0.13"
 
