@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{booktabs}
+\title{Borderless Table Fixture}
+\author{Strata Reader Project}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This document contains a borderless table using the \texttt{booktabs} package and another table based purely on spacing/alignment, which are typical in scientific publications.
+
+\section{Booktabs Borderless Table}
+Here is a table showing model evaluation metrics:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Model & Precision & Recall & F1-Score & Accuracy \\
+\midrule
+Strata-Native & 0.9452 & 0.9312 & 0.9381 & 0.9540 \\
+Opendata-PDF & 0.8120 & 0.7945 & 0.8032 & 0.8211 \\
+Baseline-OCR & 0.8891 & 0.8540 & 0.8712 & 0.8902 \\
+\bottomrule
+\end{tabular}
+\caption{Model performance comparison on scientific benchmarks.}
+\end{table}
+
+\newpage
+\section{Aligned Spacing Table}
+This table does not use any horizontal or vertical line commands, relying only on alignment:
+
+\begin{center}
+\begin{tabular}{lll}
+Item Name & Quantity & Unit Price \\
+Standard Widget & 150 & \$2.50 \\
+Super Widget & 45 & \$12.00 \\
+Mega Widget & 10 & \$99.99 \\
+\end{tabular}
+\end{center}
+
+\end{document}

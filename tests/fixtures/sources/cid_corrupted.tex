@@ -1,0 +1,13 @@
+\documentclass{article}
+\ifx\pdfgentounicode\undefined
+\else
+  \pdfgentounicode=0
+\fi
+\usepackage[T1]{fontenc}
+\title{CID Corrupted PDF Fixture}
+\author{Strata Reader Project}
+\begin{document}
+\maketitle
+This is a test of a PDF with disabled or corrupted ToUnicode mappings.
+If ToUnicode is not present, standard PDF readers will have difficulty extracting text or copying it, resulting in raw character codes or garbled output (often U+FFFD or wrong characters).
+\end{document}

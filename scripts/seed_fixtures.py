@@ -132,38 +132,188 @@ def cmd_download() -> int:
 
 
 def _run_latex(name: str) -> Path:
+    """
+    Compila un archivo LaTeX en formato PDF usando el motor más apropiado.
+
+    Intenta usar latexmk si está disponible y funciona (con Perl). Como fallback,
+    utiliza directamente pdflatex o xelatex dependiendo del contenido del archivo
+    (se requiere xelatex para fuentes unicode complejas y multi-lenguaje).
+
+    Args:
+        name (str): Nombre base del fixture LaTeX (sin la extensión .tex).
+
+    Returns:
+        Path: Ruta absoluta al archivo PDF generado.
+
+    Raises:
+        RuntimeError: Si la compilación falla o no se encuentra ningún compilador compatible.
+    """
     tex = SOURCE_DIR / f"{name}.tex"
     if not tex.exists():
         logger.warning("%s.tex not present yet — skipping", name)
         return PDF_DIR / f"{name}.pdf"
+    
     build_dir = PDF_DIR / "_build"
     build_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Decidir si compilar con xelatex o pdflatex
+    # xeLaTeX es requerido para fuentes unicode complejas y multi-lenguaje (como árabe)
+    engine = "pdflatex"
+    try:
+        content = tex.read_text(encoding="utf-8")
+        if "xelatex" in content.lower() or "polyglossia" in content:
+            engine = "xelatex"
+    except Exception:
+        pass
+
+    # Si latexmk está disponible y funciona (con Perl), lo usamos como primera opción
+    # de lo contrario, caemos en pdflatex/xelatex directo.
+    use_latexmk = shutil.which("latexmk") is not None
+    if use_latexmk:
+        cmd = [
+            "latexmk",
+            "-pdfxe" if engine == "xelatex" else "-pdf",
+            "-interaction=nonstopmode",
+            "-halt-on-error",
+            f"-output-directory={build_dir}",
+            str(tex),
+        ]
+        logger.info("Intentando compilar con latexmk: %s", tex.name)
+        try:
+            # Capturamos la salida para verificar si falló MiKTeX/Perl
+            subprocess.run(cmd, check=True, capture_output=True)
+            out_pdf = build_dir / f"{name}.pdf"
+            final = PDF_DIR / f"{name}.pdf"
+            shutil.copyfile(out_pdf, final)
+            return final
+        except Exception as e:
+            logger.warning("latexmk falló o no tiene Perl instalado. Usando motor directo %s. Error: %s", engine, e)
+
+    # Compilación directa con pdflatex o xelatex
+    if shutil.which(engine) is None:
+        # Fallback alternativo al otro si el seleccionado no está
+        alternative = "pdflatex" if engine == "xelatex" else "xelatex"
+        if shutil.which(alternative) is not None:
+            logger.warning("Motor %s no encontrado, usando fallback %s", engine, alternative)
+            engine = alternative
+        else:
+            raise RuntimeError(f"No se encontró ningún compilador LaTeX compatible ({engine}/{alternative})")
+
+    # Ejecutar compilación directa. A veces se necesitan 2 pasadas para referencias cruzadas,
+    # pero para estos fixtures simples con 1 pasada suele ser suficiente. Hacemos 2 por robustez.
     cmd = [
-        "latexmk",
-        "-pdf",
+        engine,
         "-interaction=nonstopmode",
         "-halt-on-error",
         f"-output-directory={build_dir}",
         str(tex),
     ]
-    logger.info("latexmk %s", tex.name)
+    logger.info("Compilando directamente con %s (pasada 1): %s", engine, tex.name)
     subprocess.run(cmd, check=True)
+    
+    logger.info("Compilando directamente con %s (pasada 2): %s", engine, tex.name)
+    subprocess.run(cmd, check=True)
+    
     out_pdf = build_dir / f"{name}.pdf"
     final = PDF_DIR / f"{name}.pdf"
     shutil.copyfile(out_pdf, final)
     return final
 
 
+def _build_scanned_paper() -> Path:
+    """
+    Genera un documento PDF escaneado sintético a partir del paper real de arXiv.
+
+    Utiliza pdftoppm para rasterizar las primeras 6 páginas de two_column_paper.pdf
+    a 300 dpi (generando imágenes PNG) y luego las recombina en un único PDF
+    usando la librería img2pdf para simular un documento escaneado.
+
+    Returns:
+        Path: Ruta absoluta al archivo scanned_paper.pdf generado.
+
+    Raises:
+        FileNotFoundError: Si no se encuentra el archivo de entrada two_column_paper.pdf.
+        RuntimeError: Si la rasterización o recombinación fallan.
+    """
+    src = PDF_DIR / "two_column_paper.pdf"
+    if not src.exists():
+        raise FileNotFoundError(f"Se requiere {src} para generar scanned_paper.pdf")
+    
+    build_dir = PDF_DIR / "_build"
+    build_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Rasterizar las primeras 6 páginas a 300 dpi
+    # pdftoppm -png -r 300 -f 1 -l 6 <src> <build_dir>/page
+    logger.info("Rasterizando %s con pdftoppm...", src.name)
+    prefix = build_dir / "page"
+    cmd = [
+        "pdftoppm",
+        "-png",
+        "-r",
+        "300",
+        "-f",
+        "1",
+        "-l",
+        "6",
+        str(src),
+        str(prefix),
+    ]
+    subprocess.run(cmd, check=True)
+    
+    # Buscar las imágenes generadas
+    images = sorted(build_dir.glob("page-*.png"))
+    if not images:
+        raise RuntimeError("No se generaron imágenes con pdftoppm")
+        
+    # Recombinar con img2pdf
+    final = PDF_DIR / "scanned_paper.pdf"
+    logger.info("Recombinando imágenes rasterizadas con img2pdf -> %s", final.name)
+    
+    import img2pdf
+    pdf_bytes = img2pdf.convert([str(img) for img in images])
+    final.write_bytes(pdf_bytes)
+    
+    # Limpiar imágenes temporales
+    for img in images:
+        try:
+            img.unlink()
+        except Exception:
+            pass
+            
+    return final
+
+
 def cmd_build() -> int:
     """Compile LaTeX-based fixtures and refresh CHECKSUMS."""
-    if shutil.which("latexmk") is None:
-        logger.error("latexmk not found on PATH (install TeX Live).")
+    has_latexmk = shutil.which("latexmk") is not None
+    has_pdflatex = shutil.which("pdflatex") is not None
+    has_xelatex = shutil.which("xelatex") is not None
+    
+    if not (has_latexmk or has_pdflatex or has_xelatex):
+        logger.error("No LaTeX compiler found (install TeX Live or MiKTeX with pdflatex/xelatex).")
         return 4
+        
     table = _read_checksums()
+    
+    # 1. Compilar los fixtures de LaTeX
     for name in LATEX_FIXTURES:
-        pdf = _run_latex(name)
+        try:
+            pdf = _run_latex(name)
+            if pdf.exists():
+                table[pdf.name] = _sha256(pdf)
+        except Exception as e:
+            logger.error("Failed to build fixture %s: %s", name, e)
+            return 8
+            
+    # 2. Generar scanned_paper.pdf rasterizando el paper real
+    try:
+        pdf = _build_scanned_paper()
         if pdf.exists():
             table[pdf.name] = _sha256(pdf)
+    except Exception as e:
+        logger.error("Failed to build scanned_paper: %s", e)
+        return 9
+        
     _write_checksums(table)
     return 0
 

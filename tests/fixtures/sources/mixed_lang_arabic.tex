@@ -1,0 +1,28 @@
+%!TEX program = xelatex
+\documentclass{article}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setotherlanguage{arabic}
+
+% En Windows, Times New Roman tiene soporte completo de caracteres árabes y está garantizado en el sistema.
+\newfontfamily\arabicfont[Script=Arabic]{Times New Roman}
+
+\title{Mixed Language Arabic and English Fixture}
+\author{Strata Reader Project}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This document contains both English (left-to-right) and Arabic (right-to-left) text to evaluate multi-language and multi-directional text extraction capability.
+
+\section{Bilingual Content}
+Here is a paragraph in Arabic:
+
+\begin{Arabic}
+هذا نص باللغة العربية لاختبار قدرة محرك الاستخراج على التعامل مع النصوص ثنائية الاتجاه واللغات المختلطة.
+\end{Arabic}
+
+And here is a translation in English:
+"This is an Arabic text to test the extraction engine's ability to handle bidirectional texts and mixed languages."
+
+\end{document}
