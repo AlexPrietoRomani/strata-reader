@@ -192,9 +192,9 @@ impl BBox {
         }
     }
 
-    /// `true` iff `area() == 0` (zero-width or zero-height).
+    /// `true` iff `area() == 0` (zero-width, zero-height, or float underflow).
     pub fn is_degenerate(self) -> bool {
-        self.width() == 0.0 || self.height() == 0.0
+        self.width() == 0.0 || self.height() == 0.0 || self.area() == 0.0
     }
 }
 
