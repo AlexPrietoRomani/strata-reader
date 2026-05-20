@@ -18,7 +18,11 @@ pub enum Segment {
     MoveTo(Point),
     LineTo(Point),
     /// Cubic Bézier — control1, control2, end.
-    CurveTo([Point; 3]),
+    CurveTo {
+        c1: Point,
+        c2: Point,
+        to: Point,
+    },
     Close,
 }
 
@@ -35,8 +39,12 @@ pub struct VectorPath {
 pub fn extract_paths(page: &PdfPage<'_>) -> Result<Vec<VectorPath>, PdfiumError> {
     let mut out = Vec::new();
     for obj in page.objects().iter() {
-        let PdfPageObject::Path(path_obj) = obj else { continue };
-        let Some(vp) = path_object_to_vector(&path_obj)? else { continue };
+        let PdfPageObject::Path(ref path_obj) = obj else {
+            continue;
+        };
+        let Some(vp) = path_object_to_vector(path_obj)? else {
+            continue;
+        };
         out.push(vp);
     }
     Ok(out)
@@ -44,22 +52,31 @@ pub fn extract_paths(page: &PdfPage<'_>) -> Result<Vec<VectorPath>, PdfiumError>
 
 fn path_object_to_vector(path: &PdfPagePathObject<'_>) -> Result<Option<VectorPath>, PdfiumError> {
     let bounds = path.bounds()?;
-    let Some(bbox) = bbox_from_quad(&bounds) else { return Ok(None) };
+    let Some(bbox) = bbox_from_quad(&bounds) else {
+        return Ok(None);
+    };
 
     let mut segments = Vec::new();
     for seg in path.segments().iter() {
-        let p = Point { x: seg.x() as f32, y: seg.y() as f32 };
+        let p = Point {
+            x: seg.x().value,
+            y: seg.y().value,
+        };
         if !p.x.is_finite() || !p.y.is_finite() {
             continue;
         }
         let s = match seg.segment_type() {
             PdfPathSegmentType::MoveTo => Segment::MoveTo(p),
             PdfPathSegmentType::LineTo => Segment::LineTo(p),
-            PdfPathSegmentType::BezierTo => Segment::CurveTo([p, p, p]),
+            PdfPathSegmentType::BezierTo => Segment::CurveTo {
+                c1: p,
+                c2: p,
+                to: p,
+            },
             PdfPathSegmentType::Unknown => continue,
         };
         segments.push(s);
-        if seg.is_close().unwrap_or(false) {
+        if seg.is_close() {
             segments.push(Segment::Close);
         }
     }
@@ -78,10 +95,16 @@ fn path_object_to_vector(path: &PdfPagePathObject<'_>) -> Result<Option<VectorPa
 
 fn bbox_from_quad(quad: &PdfQuadPoints) -> Option<BBox> {
     let xs = [
-        quad.x1.value, quad.x2.value, quad.x3.value, quad.x4.value,
+        quad.x1().value,
+        quad.x2().value,
+        quad.x3().value,
+        quad.x4().value,
     ];
     let ys = [
-        quad.y1.value, quad.y2.value, quad.y3.value, quad.y4.value,
+        quad.y1().value,
+        quad.y2().value,
+        quad.y3().value,
+        quad.y4().value,
     ];
     if xs.iter().chain(ys.iter()).any(|v| !v.is_finite()) {
         return None;
@@ -109,11 +132,11 @@ mod tests {
         for s in [
             Segment::MoveTo(Point { x: 0.0, y: 0.0 }),
             Segment::LineTo(Point { x: 5.0, y: 5.0 }),
-            Segment::CurveTo([
-                Point { x: 1.0, y: 1.0 },
-                Point { x: 2.0, y: 2.0 },
-                Point { x: 3.0, y: 3.0 },
-            ]),
+            Segment::CurveTo {
+                c1: Point { x: 1.0, y: 1.0 },
+                c2: Point { x: 2.0, y: 2.0 },
+                to: Point { x: 3.0, y: 3.0 },
+            },
             Segment::Close,
         ] {
             let j = serde_json::to_string(&s).unwrap();

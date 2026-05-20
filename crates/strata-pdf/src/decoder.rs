@@ -52,6 +52,14 @@ pub struct Decoder {
     _bytes: Box<[u8]>,
 }
 
+impl std::fmt::Debug for Decoder {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Decoder")
+            .field("pages_count", &self.page_count())
+            .finish()
+    }
+}
+
 impl Decoder {
     /// Open a PDF from disk. The full file is read into memory once and passed
     /// to PDFium as a borrowed slice — small enough for scientific papers,
@@ -80,7 +88,10 @@ impl Decoder {
             .load_pdf_from_byte_slice(slice, None)
             .map_err(|e| DecoderError::Parse(e.to_string()))?;
 
-        Ok(Self { document, _bytes: bytes })
+        Ok(Self {
+            document,
+            _bytes: bytes,
+        })
     }
 
     /// Total number of pages in the document (1-based count, 0-indexed access).
@@ -95,7 +106,7 @@ impl Decoder {
 
     /// Iterate over all pages in document order. Each [`PdfPage`] is borrowed
     /// from the document and therefore tied to `&self`'s lifetime.
-    pub fn pages(&self) -> PdfPages<'_> {
+    pub fn pages(&self) -> &PdfPages<'_> {
         self.document.pages()
     }
 }
@@ -115,6 +126,9 @@ mod tests {
         // Pdfium availability is checked first; if not available we get
         // a PdfiumLoad error instead — both are acceptable for this test.
         let err = Decoder::open("does-not-exist.pdf").unwrap_err();
-        assert!(matches!(err, DecoderError::Io { .. } | DecoderError::PdfiumLoad(_)));
+        assert!(matches!(
+            err,
+            DecoderError::Io { .. } | DecoderError::PdfiumLoad(_)
+        ));
     }
 }

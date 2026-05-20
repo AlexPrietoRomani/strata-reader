@@ -38,8 +38,10 @@ pub struct Image {
 pub fn extract_images(page: &PdfPage<'_>) -> Result<Vec<Image>, PdfiumError> {
     let mut out = Vec::new();
     for obj in page.objects().iter() {
-        let PdfPageObject::Image(img_obj) = obj else { continue };
-        match image_object_to_png(&img_obj) {
+        let PdfPageObject::Image(ref img_obj) = obj else {
+            continue;
+        };
+        match image_object_to_png(img_obj) {
             Ok(Some(img)) => out.push(img),
             Ok(None) => {} // empty / degenerate image
             Err(e) => {
@@ -59,7 +61,9 @@ fn image_object_to_png(obj: &PdfPageImageObject<'_>) -> Result<Option<Image>, Pd
     }
 
     let bounds = obj.bounds()?;
-    let Some(bbox) = bbox_from_quad(&bounds) else { return Ok(None) };
+    let Some(bbox) = bbox_from_quad(&bounds) else {
+        return Ok(None);
+    };
 
     let mut png = Vec::with_capacity((w * h) as usize);
     if let Err(e) = rgba.write_to(&mut Cursor::new(&mut png), ImageFormat::Png) {
@@ -79,8 +83,18 @@ fn image_object_to_png(obj: &PdfPageImageObject<'_>) -> Result<Option<Image>, Pd
 }
 
 fn bbox_from_quad(quad: &PdfQuadPoints) -> Option<BBox> {
-    let xs = [quad.x1.value, quad.x2.value, quad.x3.value, quad.x4.value];
-    let ys = [quad.y1.value, quad.y2.value, quad.y3.value, quad.y4.value];
+    let xs = [
+        quad.x1().value,
+        quad.x2().value,
+        quad.x3().value,
+        quad.x4().value,
+    ];
+    let ys = [
+        quad.y1().value,
+        quad.y2().value,
+        quad.y3().value,
+        quad.y4().value,
+    ];
     if xs.iter().chain(ys.iter()).any(|v| !v.is_finite()) {
         return None;
     }
@@ -95,8 +109,16 @@ fn estimate_dpi(bbox: BBox, width_px: u32, height_px: u32) -> u32 {
     // PDF uses 1/72 inch per point. inches = points / 72.
     let inches_w = bbox.width() / 72.0;
     let inches_h = bbox.height() / 72.0;
-    let dpi_w = if inches_w > 0.0 { (width_px as f32) / inches_w } else { 0.0 };
-    let dpi_h = if inches_h > 0.0 { (height_px as f32) / inches_h } else { 0.0 };
+    let dpi_w = if inches_w > 0.0 {
+        (width_px as f32) / inches_w
+    } else {
+        0.0
+    };
+    let dpi_h = if inches_h > 0.0 {
+        (height_px as f32) / inches_h
+    } else {
+        0.0
+    };
     // Take the smaller axis: a near-square render at 300dpi might say 600x600
     // on one axis if cropped, so the min is the more conservative estimate.
     dpi_w.min(dpi_h).max(0.0).round() as u32

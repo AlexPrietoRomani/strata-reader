@@ -9,7 +9,9 @@
 
 use std::path::PathBuf;
 
-use strata_pdf::{extract_glyphs, extract_images, extract_paths, is_likely_scan, pdfium_available, Decoder};
+use strata_pdf::{
+    extract_glyphs, extract_images, extract_paths, is_likely_scan, pdfium_available, Decoder,
+};
 
 fn fixture_path() -> Option<PathBuf> {
     let mut p = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -17,12 +19,18 @@ fn fixture_path() -> Option<PathBuf> {
     p.pop();
     p.pop();
     p.push("tests/fixtures/pdfs/two_column_paper.pdf");
-    if p.exists() { Some(p) } else { None }
+    if p.exists() {
+        Some(p)
+    } else {
+        None
+    }
 }
 
 fn skip_if_unavailable() -> Option<Decoder> {
     if !pdfium_available() {
-        eprintln!("SKIP — libpdfium not available (set STRATA_PDFIUM_LIB_PATH or install system-wide)");
+        eprintln!(
+            "SKIP — libpdfium not available (set STRATA_PDFIUM_LIB_PATH or install system-wide)"
+        );
         return None;
     }
     let path = fixture_path()?;
@@ -31,17 +39,25 @@ fn skip_if_unavailable() -> Option<Decoder> {
 
 #[test]
 fn opens_arxiv_paper_and_reports_pages() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let n = dec.page_count();
     assert!(n >= 8, "arxiv 1706.03762 has at least 8 pages, got {n}");
 }
 
 #[test]
 fn first_page_has_glyphs() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 should exist");
     let glyphs = extract_glyphs(&page).expect("glyph extraction must not error");
-    assert!(glyphs.len() > 100, "page 1 of a paper should have hundreds of glyphs, got {}", glyphs.len());
+    assert!(
+        glyphs.len() > 100,
+        "page 1 of a paper should have hundreds of glyphs, got {}",
+        glyphs.len()
+    );
     // All glyph BBoxes should fit within the page.
     let media_w = page.width().value;
     let media_h = page.height().value;
@@ -53,7 +69,9 @@ fn first_page_has_glyphs() {
 
 #[test]
 fn extracts_vector_paths_without_panic() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 should exist");
     let paths = extract_paths(&page).expect("path extraction must not error");
     // We don't assert a count — the paper may or may not have vector primitives
@@ -65,15 +83,22 @@ fn extracts_vector_paths_without_panic() {
 
 #[test]
 fn extracts_images_without_panic() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 should exist");
     let _ = extract_images(&page).expect("image extraction must not error");
 }
 
 #[test]
 fn arxiv_paper_is_not_a_scan() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 should exist");
     let is_scan = is_likely_scan(&page).expect("scan detector must not error");
-    assert!(!is_scan, "the arXiv PDF has native text; is_likely_scan must return false");
+    assert!(
+        !is_scan,
+        "the arXiv PDF has native text; is_likely_scan must return false"
+    );
 }

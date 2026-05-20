@@ -35,13 +35,14 @@ pub struct Glyph {
 pub fn extract_glyphs(page: &PdfPage<'_>) -> Result<Vec<Glyph>, PdfiumError> {
     let text = match page.text() {
         Ok(t) => t,
-        Err(PdfiumError::PageMissingText) => return Ok(Vec::new()),
-        Err(other) => return Err(other),
+        Err(_) => return Ok(Vec::new()),
     };
     let chars = text.chars();
-    let mut out = Vec::with_capacity(chars.len() as usize);
+    let mut out = Vec::with_capacity(chars.len());
     for ch in chars.iter() {
-        let Some(glyph) = char_to_glyph(&ch) else { continue };
+        let Some(glyph) = char_to_glyph(&ch) else {
+            continue;
+        };
         out.push(glyph);
     }
     Ok(out)
@@ -55,17 +56,31 @@ fn char_to_glyph(ch: &PdfPageTextChar<'_>) -> Option<Glyph> {
         unicode,
         bbox,
         font_size: ch.unscaled_font_size().value,
-        font_weight: ch.font_weight().ok().map(|w| w.0 as u32).unwrap_or(400),
+        font_weight: ch
+            .font_weight()
+            .map(|w| match w {
+                PdfFontWeight::Weight100 => 100,
+                PdfFontWeight::Weight200 => 200,
+                PdfFontWeight::Weight300 => 300,
+                PdfFontWeight::Weight400Normal => 400,
+                PdfFontWeight::Weight500 => 500,
+                PdfFontWeight::Weight600 => 600,
+                PdfFontWeight::Weight700Bold => 700,
+                PdfFontWeight::Weight800 => 800,
+                PdfFontWeight::Weight900 => 900,
+                PdfFontWeight::Custom(val) => val,
+            })
+            .unwrap_or(400),
         color_rgba: pack_rgba(ch.fill_color().ok()),
-        rotation: ch.get_rotation_clockwise_degrees().0,
+        rotation: ch.get_rotation_clockwise_degrees(),
     })
 }
 
 fn bbox_from_rect(rect: &PdfRect) -> Option<BBox> {
-    let x0 = rect.left.value;
-    let y0 = rect.bottom.value;
-    let x1 = rect.right.value;
-    let y1 = rect.top.value;
+    let x0 = rect.left().value;
+    let y0 = rect.bottom().value;
+    let x1 = rect.right().value;
+    let y1 = rect.top().value;
     if [x0, y0, x1, y1].iter().any(|v| !v.is_finite()) {
         return None;
     }

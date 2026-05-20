@@ -47,6 +47,7 @@ pub fn get_pdfium() -> Result<&'static Pdfium, DecoderError> {
 
 fn load_pdfium() -> Result<Pdfium, String> {
     // 1) Explicit override via env var (preferred for wheel bundling).
+    #[allow(clippy::disallowed_methods)]
     if let Ok(dir) = std::env::var("STRATA_PDFIUM_LIB_PATH") {
         let bindings = Pdfium::bind_to_library(Pdfium::pdfium_platform_library_name_at_path(&dir))
             .map_err(|e| format!("STRATA_PDFIUM_LIB_PATH={dir}: {e}"))?;
@@ -54,8 +55,9 @@ fn load_pdfium() -> Result<Pdfium, String> {
     }
 
     // 2) System library (set up by IT / package manager).
-    let bindings = Pdfium::bind_to_system_library()
-        .map_err(|e| format!("system pdfium not found: {e}"))?;
+    #[allow(clippy::disallowed_methods)]
+    let bindings =
+        Pdfium::bind_to_system_library().map_err(|e| format!("system pdfium not found: {e}"))?;
     Ok(Pdfium::new(bindings))
 }
 
