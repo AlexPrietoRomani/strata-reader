@@ -12,6 +12,12 @@ path = "src/main.rs"
 
 [dependencies]
 strata-core = { path = "../strata-core" }
+strata-pdf = { path = "../strata-pdf" }
+strata-geometry = { path = "../strata-geometry" }
+strata-fusion = { path = "../strata-fusion" }
+strata-serialize = { path = "../strata-serialize" }
+strata-quality = { path = "../strata-quality" }
+strata-triage = { path = "../strata-triage" }
 strata-runtime = { path = "../strata-runtime" }
 strata-server = { path = "../strata-server" }
 axum = { workspace = true }
@@ -25,3 +31,4 @@ anyhow = { workspace = true }
 reqwest = { workspace = true }
 nvml-wrapper = { workspace = true }
 rusqlite = { workspace = true }
+sha2 = { workspace = true }

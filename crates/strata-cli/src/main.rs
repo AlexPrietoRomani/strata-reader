@@ -252,46 +252,184 @@ async fn cmd_serve(bind: &str, store_spec: &str) -> anyhow::Result<()> {
 }
 
 async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
-    // T9.5 — `--no-ia` short-circuits before any bridge / OCR is touched.
     if args.no_ia {
         tracing::warn!(
             "running with --no-ia: tables-without-borders and images will not be \
              populated. See Plan Maestro §14.T9.5."
         );
     }
-    tracing::info!(
-        input = %args.input.display(),
-        output = %args.output.display(),
-        format = %args.format,
-        profile = %args.profile,
-        no_ia = args.no_ia,
-        "strata parse — wiring complete; PDF decode step is gated behind libpdfium"
-    );
-    // The actual extraction depends on strata-pdf (F2) which needs libpdfium
-    // on PATH. Once IT unblocks the build we wire:
-    //   1. strata_pdf::Decoder::open(...)
-    //   2. strata_geometry::xy_cut_plus_plus(...)
-    //   3. strata_triage::triage_block(...)
-    //   4. if !no_ia: strata_ia_bridge::BridgeClient::ocr_page / extract_table / ...
-    //   5. strata_fusion::merge + sections::build_tree + chunker::chunk
-    //   6. strata_serialize::render_markdown + render_graph
+
+    // ── 1. Open PDF ────────────────────────────────────────────────────
+    let decoder = strata_pdf::Decoder::open(&args.input)
+        .map_err(|e| anyhow::anyhow!("failed to open PDF: {e}"))?;
+    let page_count = decoder.page_count();
+    tracing::info!(pages = page_count, "PDF decoded");
+
+    // ── 2. Per-page extraction ─────────────────────────────────────────
+    let mut doc_pages: Vec<std::sync::Arc<strata_core::Page>> = Vec::with_capacity(page_count);
+    let sha = sha256_file(&args.input)?;
+
+    for page_idx in 0..page_count {
+        let page = decoder
+            .pages()
+            .get(page_idx as i32)
+            .map_err(|e| anyhow::anyhow!("page {page_idx}: {e}"))?;
+        let page_w = page.width().value;
+        let page_h = page.height().value;
+
+        // Raw extraction
+        let glyphs = strata_pdf::extract_glyphs(&page).unwrap_or_default();
+        let _paths = strata_pdf::extract_paths(&page).unwrap_or_default();
+        let _images = strata_pdf::extract_images(&page).unwrap_or_default();
+        let is_scan = strata_pdf::is_likely_scan(&page).unwrap_or(false);
+
+        tracing::debug!(
+            page = page_idx,
+            glyphs = glyphs.len(),
+            is_scan,
+            "page extracted"
+        );
+
+        // ── 3. Geometry: lines → words ─────────────────────────────────
+        let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs
+            .iter()
+            .map(|g| strata_geometry::GlyphInput {
+                bbox: g.bbox,
+                font_size: g.font_size,
+                unicode: g.unicode,
+            })
+            .collect();
+        let lines = strata_geometry::cluster_lines(&glyph_inputs);
+
+        // ── 4. Build blocks from lines ─────────────────────────────────
+        let mut blocks: Vec<strata_core::Block> = Vec::new();
+        let font_sizes: Vec<f32> = lines
+            .iter()
+            .map(|l| {
+                l.glyph_indices
+                    .iter()
+                    .map(|&i| glyph_inputs[i].font_size)
+                    .sum::<f32>()
+                    / l.glyph_indices.len().max(1) as f32
+            })
+            .collect();
+        let headings = strata_geometry::classify_headings(&font_sizes);
+
+        for (line_idx, line) in lines.iter().enumerate() {
+            let words = strata_geometry::words_from_line(line, &glyph_inputs);
+            let content: String = words
+                .iter()
+                .map(|w| w.text.as_str())
+                .collect::<Vec<_>>()
+                .join(" ");
+            if content.trim().is_empty() {
+                continue;
+            }
+            let kind = match &headings.get(line_idx) {
+                Some(strata_geometry::HeadingClass::Heading { level }) => {
+                    strata_core::BlockType::Heading { level: *level }
+                }
+                _ => strata_core::BlockType::Paragraph,
+            };
+            blocks.push(strata_core::Block {
+                id: strata_core::BlockId::new(),
+                kind,
+                bbox: line.bbox,
+                content,
+                children: vec![],
+                provenance: strata_core::Provenance::try_new(
+                    strata_core::ProvenanceSource::Rust,
+                    None,
+                    1.0,
+                    0,
+                    0,
+                )
+                .unwrap(),
+            });
+        }
+
+        // ── 5. Reading order via XY-Cut++ ──────────────────────────────
+        let bboxes: Vec<strata_core::BBox> = blocks.iter().map(|b| b.bbox).collect();
+        let order =
+            strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
+        let reading_order: Vec<strata_core::BlockId> =
+            order.iter().map(|&i| blocks[i].id).collect();
+
+        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> =
+            blocks.into_iter().map(std::sync::Arc::new).collect();
+
+        let media_box = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
+            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
+
+        doc_pages.push(std::sync::Arc::new(strata_core::Page {
+            number: (page_idx + 1) as u32,
+            size: strata_core::Size::new(page_w, page_h)
+                .unwrap_or(strata_core::Size::new(595.0, 842.0).unwrap()),
+            orientation: if page_w > page_h {
+                strata_core::PageOrientation::Landscape
+            } else {
+                strata_core::PageOrientation::Portrait
+            },
+            blocks: block_arcs,
+            reading_order,
+            media_box,
+        }));
+    }
+
+    // ── 6. Build Document ──────────────────────────────────────────────
+    let mut doc = strata_core::Document::new(strata_core::DocMeta {
+        source_sha256: sha,
+        source_filename: args
+            .input
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default(),
+        schema_version: strata_core::version().to_string(),
+        profile: args.profile.clone(),
+        extra: std::collections::BTreeMap::new(),
+    });
+    doc.pages = doc_pages;
+
+    // ── 7. Serialize ───────────────────────────────────────────────────
+    std::fs::create_dir_all(&args.output)?;
+
+    let stem = args
+        .input
+        .file_stem()
+        .map(|s| s.to_string_lossy().to_string())
+        .unwrap_or_else(|| "output".into());
+
+    if args.format.contains("md") || args.format == "md+json" {
+        let md =
+            strata_serialize::render_markdown(&doc, &strata_serialize::MarkdownOptions::default());
+        let md_path = args.output.join(format!("{stem}.md"));
+        std::fs::write(&md_path, &md)?;
+        tracing::info!(path = %md_path.display(), "markdown written");
+    }
+
+    if args.format.contains("json") || args.format == "md+json" {
+        let graph = strata_serialize::render_graph(&doc);
+        let json = serde_json::to_string_pretty(&graph)?;
+        let json_path = args.output.join(format!("{stem}.json"));
+        std::fs::write(&json_path, &json)?;
+        tracing::info!(path = %json_path.display(), "json written");
+    }
+
+    tracing::info!(pages = page_count, "parse complete");
     Ok(())
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct ParseArgs {
     input: std::path::PathBuf,
     output: std::path::PathBuf,
     format: String,
     profile: String,
     no_ia: bool,
-    #[allow(dead_code)]
     ollama_endpoint: String,
-    #[allow(dead_code)]
     gpu_budget_vram_mb: Option<u64>,
-    #[allow(dead_code)]
     max_concurrent_pages: Option<usize>,
-    #[allow(dead_code)]
     media_dir: Option<std::path::PathBuf>,
 }
 
@@ -390,4 +528,11 @@ async fn main() -> ExitCode {
             ExitCode::from(1)
         }
     }
+}
+
+fn sha256_file(path: &std::path::Path) -> anyhow::Result<String> {
+    use sha2::Digest;
+    let bytes = std::fs::read(path)?;
+    let hash = sha2::Sha256::digest(&bytes);
+    Ok(format!("{hash:x}"))
 }
