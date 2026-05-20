@@ -105,9 +105,18 @@ mod tests {
 
     #[test]
     fn by_name_returns_the_named_profile() {
-        assert_eq!(TriageProfile::by_name(ProfileName::Fast), TriageProfile::fast());
-        assert_eq!(TriageProfile::by_name(ProfileName::Balanced), TriageProfile::balanced());
-        assert_eq!(TriageProfile::by_name(ProfileName::Scientific), TriageProfile::scientific());
+        assert_eq!(
+            TriageProfile::by_name(ProfileName::Fast),
+            TriageProfile::fast()
+        );
+        assert_eq!(
+            TriageProfile::by_name(ProfileName::Balanced),
+            TriageProfile::balanced()
+        );
+        assert_eq!(
+            TriageProfile::by_name(ProfileName::Scientific),
+            TriageProfile::scientific()
+        );
     }
 
     #[test]
@@ -125,7 +134,13 @@ mod tests {
 
     #[test]
     fn profile_name_kebab_case() {
-        assert_eq!(serde_json::to_string(&ProfileName::Fast).unwrap(), "\"fast\"");
-        assert_eq!(serde_json::to_string(&ProfileName::Scientific).unwrap(), "\"scientific\"");
+        assert_eq!(
+            serde_json::to_string(&ProfileName::Fast).unwrap(),
+            "\"fast\""
+        );
+        assert_eq!(
+            serde_json::to_string(&ProfileName::Scientific).unwrap(),
+            "\"scientific\""
+        );
     }
 }

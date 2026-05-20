@@ -13,7 +13,11 @@ fn fixture_path() -> Option<PathBuf> {
     p.pop(); // crates/
     p.pop(); // repo root
     p.push("tests/fixtures/pdfs/two_column_paper.pdf");
-    if p.exists() { Some(p) } else { None }
+    if p.exists() {
+        Some(p)
+    } else {
+        None
+    }
 }
 
 fn skip_if_unavailable() -> Option<Decoder> {
@@ -27,7 +31,9 @@ fn skip_if_unavailable() -> Option<Decoder> {
 
 #[test]
 fn renders_first_page_top_region_under_500kb() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 exists");
 
     let page_w = page.width().value;
@@ -37,7 +43,11 @@ fn renders_first_page_top_region_under_500kb() {
 
     let png = render_crop(&page, bbox, DEFAULT_CROP_DPI).expect("render must succeed");
     assert!(png.len() > 0, "empty PNG output");
-    assert!(png.len() < 500_000, "crop should be < 500KB, got {} bytes", png.len());
+    assert!(
+        png.len() < 500_000,
+        "crop should be < 500KB, got {} bytes",
+        png.len()
+    );
 
     // Determinism: render twice and verify byte equality (Plan Maestro §1).
     let png2 = render_crop(&page, bbox, DEFAULT_CROP_DPI).expect("render must succeed");
@@ -46,12 +56,20 @@ fn renders_first_page_top_region_under_500kb() {
 
 #[test]
 fn rejects_bbox_outside_page() {
-    let Some(dec) = skip_if_unavailable() else { return };
+    let Some(dec) = skip_if_unavailable() else {
+        return;
+    };
     let page = dec.pages().get(0).expect("page 0 exists");
 
     let page_w = page.width().value;
     let page_h = page.height().value;
-    let bbox = BBox::new(page_w + 100.0, page_h + 100.0, page_w + 200.0, page_h + 200.0).unwrap();
+    let bbox = BBox::new(
+        page_w + 100.0,
+        page_h + 100.0,
+        page_w + 200.0,
+        page_h + 200.0,
+    )
+    .unwrap();
     let res = render_crop(&page, bbox, DEFAULT_CROP_DPI);
     assert!(res.is_err(), "out-of-page bbox must error");
 }

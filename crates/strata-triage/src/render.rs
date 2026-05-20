@@ -64,11 +64,10 @@ pub fn render_crop(page: &PdfPage<'_>, bbox: BBox, dpi: u32) -> Result<Vec<u8>, 
         return Err(RenderError::OutOfPage);
     }
 
-    let target_w = ((page_w * scale).round() as u32).min(MAX_EDGE_PX).max(1);
-    let target_h = ((page_h * scale).round() as u32).min(MAX_EDGE_PX).max(1);
+    let target_w = ((page_w * scale).round() as u32).clamp(1, MAX_EDGE_PX);
+    let target_h = ((page_h * scale).round() as u32).clamp(1, MAX_EDGE_PX);
 
-    let config = PdfRenderConfig::new()
-        .set_target_size(target_w as i32, target_h as i32);
+    let config = PdfRenderConfig::new().set_target_size(target_w as i32, target_h as i32);
     let bitmap = page.render_with_config(&config)?;
     let img = bitmap.as_image()?;
     let rgba: RgbaImage = img.to_rgba8();
@@ -87,8 +86,7 @@ pub fn render_crop(page: &PdfPage<'_>, bbox: BBox, dpi: u32) -> Result<Vec<u8>, 
     let crop_w = crop_w.min(img_w - crop_x).max(1);
     let crop_h = crop_h.min(img_h - crop_y).max(1);
 
-    let cropped = image::DynamicImage::ImageRgba8(rgba)
-        .crop_imm(crop_x, crop_y, crop_w, crop_h);
+    let cropped = image::DynamicImage::ImageRgba8(rgba).crop_imm(crop_x, crop_y, crop_w, crop_h);
 
     let mut png = Vec::with_capacity((crop_w * crop_h) as usize);
     cropped

@@ -81,14 +81,23 @@ mod tests {
 
     #[test]
     fn route_strings_are_kebab_case() {
-        assert_eq!(serde_json::to_string(&TriageRoute::OcrFullPage).unwrap(), "\"ocr-full-page\"");
-        assert_eq!(serde_json::to_string(&TriageRoute::VlmTable).unwrap(), "\"vlm-table\"");
+        assert_eq!(
+            serde_json::to_string(&TriageRoute::OcrFullPage).unwrap(),
+            "\"ocr-full-page\""
+        );
+        assert_eq!(
+            serde_json::to_string(&TriageRoute::VlmTable).unwrap(),
+            "\"vlm-table\""
+        );
     }
 
     #[test]
     fn classification_helpers_match() {
         assert!(TriageDecision::new(TriageRoute::Native, Reason::DefaultNative).is_native());
         assert!(!TriageDecision::new(TriageRoute::Native, Reason::DefaultNative).requires_ia());
-        assert!(TriageDecision::new(TriageRoute::VlmImage, Reason::ImageAreaOverThreshold).requires_ia());
+        assert!(
+            TriageDecision::new(TriageRoute::VlmImage, Reason::ImageAreaOverThreshold)
+                .requires_ia()
+        );
     }
 }

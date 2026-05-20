@@ -75,7 +75,11 @@ impl BlockContext {
 /// Implementation note: the order of the `if` chain is fixed and matches
 /// Plan Maestro §9.T4.2 exactly — do **not** reorder without updating the
 /// snapshot tests across the 8 golden PDFs.
-pub fn triage_block(block: &BlockContext, page: &PageContext, profile: &TriageProfile) -> TriageDecision {
+pub fn triage_block(
+    block: &BlockContext,
+    page: &PageContext,
+    profile: &TriageProfile,
+) -> TriageDecision {
     // Page-level signals dominate per-block ones.
     if page.is_scanned {
         return TriageDecision::new(TriageRoute::OcrFullPage, Reason::PageIsScanned);
@@ -109,7 +113,11 @@ mod tests {
     use super::*;
 
     fn page() -> PageContext {
-        PageContext { is_scanned: false, cid_severity: Severity::None, page_area: 1000.0 * 1000.0 }
+        PageContext {
+            is_scanned: false,
+            cid_severity: Severity::None,
+            page_area: 1000.0 * 1000.0,
+        }
     }
 
     fn block() -> BlockContext {

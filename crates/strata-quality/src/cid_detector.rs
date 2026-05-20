@@ -88,7 +88,14 @@ pub fn evaluate_cid_health(unicodes: &[char]) -> CidEvaluation {
     let severity = severity_from_signals(glyph_count, unmapped_ratio, entropy);
     let reason = describe(severity, unmapped_ratio, entropy, glyph_count);
 
-    CidEvaluation { severity, glyph_count, unmapped_count, unmapped_ratio, shannon_entropy: entropy, reason }
+    CidEvaluation {
+        severity,
+        glyph_count,
+        unmapped_count,
+        unmapped_ratio,
+        shannon_entropy: entropy,
+        reason,
+    }
 }
 
 fn is_unmapped(c: char) -> bool {
@@ -153,7 +160,10 @@ fn describe(sev: Severity, ratio: f32, entropy: f32, glyphs: usize) -> String {
                     CRITICAL_UNMAPPED_RATIO * 100.0
                 )
             } else {
-                format!("critical: entropy {:.2} bits < {:.2}", entropy, MIN_ACCEPTABLE_ENTROPY)
+                format!(
+                    "critical: entropy {:.2} bits < {:.2}",
+                    entropy, MIN_ACCEPTABLE_ENTROPY
+                )
             }
         }
     }
