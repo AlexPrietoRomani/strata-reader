@@ -12,6 +12,8 @@ path = "src/main.rs"
 
 [dependencies]
 strata-core = { path = "../strata-core" }
+strata-runtime = { path = "../strata-runtime" }
+strata-server = { path = "../strata-server" }
 clap = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
@@ -21,3 +23,4 @@ tracing-subscriber = { workspace = true }
 anyhow = { workspace = true }
 reqwest = { workspace = true }
 nvml-wrapper = { workspace = true }
+rusqlite = { workspace = true }
