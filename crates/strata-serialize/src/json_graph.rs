@@ -70,7 +70,11 @@ pub fn render(doc: &Document) -> GraphDocument {
     walk(&tree, None, &mut nodes, &mut edges, &block_page);
     attach_caption_edges(doc, &mut edges);
 
-    GraphDocument { meta: doc.meta.clone(), nodes, edges }
+    GraphDocument {
+        meta: doc.meta.clone(),
+        nodes,
+        edges,
+    }
 }
 
 fn index_block_page(doc: &Document) -> std::collections::HashMap<BlockId, u32> {
@@ -96,7 +100,11 @@ fn walk(
     if let Some(heading) = &section.heading {
         nodes.push(make_node(heading, block_page, &["section".to_string()]));
         if let Some(pid) = parent_id {
-            edges.push(GraphEdge { from: pid, to: heading.id, relation: EdgeRelation::Contains });
+            edges.push(GraphEdge {
+                from: pid,
+                to: heading.id,
+                relation: EdgeRelation::Contains,
+            });
         }
     }
 
@@ -114,15 +122,29 @@ fn walk(
                         relation: EdgeRelation::Contains,
                     });
                 } else if let Some(pid) = parent_id {
-                    edges.push(GraphEdge { from: pid, to: b.id, relation: EdgeRelation::Contains });
+                    edges.push(GraphEdge {
+                        from: pid,
+                        to: b.id,
+                        relation: EdgeRelation::Contains,
+                    });
                 }
                 if let Some(prev) = prev_block_id {
-                    edges.push(GraphEdge { from: prev, to: b.id, relation: EdgeRelation::Follows });
+                    edges.push(GraphEdge {
+                        from: prev,
+                        to: b.id,
+                        relation: EdgeRelation::Follows,
+                    });
                 }
                 prev_block_id = Some(b.id);
             }
             SectionChild::Section(sub) => {
-                walk(sub, section_anchor_id.or(parent_id), nodes, edges, block_page);
+                walk(
+                    sub,
+                    section_anchor_id.or(parent_id),
+                    nodes,
+                    edges,
+                    block_page,
+                );
                 if let Some(sub_heading) = &sub.heading {
                     if let Some(prev) = prev_block_id {
                         edges.push(GraphEdge {
@@ -196,12 +218,14 @@ fn attach_caption_edges(doc: &Document, edges: &mut Vec<GraphEdge>) {
     for page in &doc.pages {
         let mut prev: Option<(BlockId, &BlockType)> = None;
         for id in &page.reading_order {
-            let Some(block) = page.blocks.iter().find(|b| b.id == *id) else { continue };
+            let Some(block) = page.blocks.iter().find(|b| b.id == *id) else {
+                continue;
+            };
             if let Some((prev_id, prev_kind)) = prev {
-                let pair_figure_then_caption =
-                    matches!(prev_kind, BlockType::Figure) && matches!(block.kind, BlockType::Caption);
-                let pair_caption_then_figure =
-                    matches!(prev_kind, BlockType::Caption) && matches!(block.kind, BlockType::Figure);
+                let pair_figure_then_caption = matches!(prev_kind, BlockType::Figure)
+                    && matches!(block.kind, BlockType::Caption);
+                let pair_caption_then_figure = matches!(prev_kind, BlockType::Caption)
+                    && matches!(block.kind, BlockType::Figure);
                 if pair_figure_then_caption || pair_caption_then_figure {
                     // Edge from figure to caption (caption-of points to the figure).
                     let (from, to) = if matches!(block.kind, BlockType::Caption) {
@@ -209,7 +233,11 @@ fn attach_caption_edges(doc: &Document, edges: &mut Vec<GraphEdge>) {
                     } else {
                         (block.id, prev_id) // figure → caption (figure is now)
                     };
-                    edges.push(GraphEdge { from, to, relation: EdgeRelation::CaptionOf });
+                    edges.push(GraphEdge {
+                        from,
+                        to,
+                        relation: EdgeRelation::CaptionOf,
+                    });
                 }
             }
             prev = Some((block.id, &block.kind));
@@ -348,7 +376,13 @@ mod tests {
 
     #[test]
     fn edge_relation_kebab_case_serialization() {
-        assert_eq!(serde_json::to_string(&EdgeRelation::CaptionOf).unwrap(), "\"caption-of\"");
-        assert_eq!(serde_json::to_string(&EdgeRelation::Contains).unwrap(), "\"contains\"");
+        assert_eq!(
+            serde_json::to_string(&EdgeRelation::CaptionOf).unwrap(),
+            "\"caption-of\""
+        );
+        assert_eq!(
+            serde_json::to_string(&EdgeRelation::Contains).unwrap(),
+            "\"contains\""
+        );
     }
 }

@@ -7,9 +7,7 @@
 pub mod json_graph;
 pub mod markdown;
 
-pub use json_graph::{
-    render as render_graph, EdgeRelation, GraphDocument, GraphEdge, GraphNode,
-};
+pub use json_graph::{render as render_graph, EdgeRelation, GraphDocument, GraphEdge, GraphNode};
 pub use markdown::{render as render_markdown, ImageStrategy, MarkdownOptions};
 
 /// Crate semver.

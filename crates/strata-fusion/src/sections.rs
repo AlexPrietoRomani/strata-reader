@@ -38,7 +38,10 @@ impl Section {
     /// Convenience: textual title of the section. Empty string for the
     /// root and headings without text.
     pub fn title(&self) -> &str {
-        self.heading.as_deref().map(|b| b.content.as_str()).unwrap_or("")
+        self.heading
+            .as_deref()
+            .map(|b| b.content.as_str())
+            .unwrap_or("")
     }
 
     /// Depth-first iterator over every leaf block in the subtree, in
@@ -81,7 +84,11 @@ impl Section {
 /// Build a tree from `doc`'s reading order. Walks every page in order
 /// and threads block ids through the reading_order lookup.
 pub fn build_tree(doc: &Document) -> Section {
-    let mut root = Section { heading: None, level: 0, children: Vec::new() };
+    let mut root = Section {
+        heading: None,
+        level: 0,
+        children: Vec::new(),
+    };
     let mut stack: Vec<Section> = Vec::new();
 
     for page in &doc.pages {
@@ -90,7 +97,9 @@ pub fn build_tree(doc: &Document) -> Section {
             page.blocks.iter().map(|b| (b.id, Arc::clone(b))).collect();
 
         for id in &page.reading_order {
-            let Some(block) = id_to_arc.get(id) else { continue };
+            let Some(block) = id_to_arc.get(id) else {
+                continue;
+            };
             match block.kind {
                 BlockType::Heading { level } => {
                     push_heading(&mut root, &mut stack, Arc::clone(block), level);
@@ -107,12 +116,7 @@ pub fn build_tree(doc: &Document) -> Section {
     root
 }
 
-fn push_heading(
-    root: &mut Section,
-    stack: &mut Vec<Section>,
-    block: Arc<Block>,
-    level: u8,
-) {
+fn push_heading(root: &mut Section, stack: &mut Vec<Section>, block: Arc<Block>, level: u8) {
     // Close every open section whose depth is >= the new heading level.
     while stack.last().is_some_and(|s| s.level >= level) {
         if let Some(closed) = stack.pop() {
@@ -120,7 +124,11 @@ fn push_heading(
         }
     }
     // Open a new section anchored on this heading.
-    stack.push(Section { heading: Some(block), level, children: Vec::new() });
+    stack.push(Section {
+        heading: Some(block),
+        level,
+        children: Vec::new(),
+    });
 }
 
 fn push_block(root: &mut Section, stack: &mut [Section], block: Arc<Block>) {
@@ -131,7 +139,7 @@ fn push_block(root: &mut Section, stack: &mut [Section], block: Arc<Block>) {
     }
 }
 
-fn attach_section(root: &mut Section, stack: &mut Vec<Section>, closed: Section) {
+fn attach_section(root: &mut Section, stack: &mut [Section], closed: Section) {
     if let Some(parent) = stack.last_mut() {
         parent.children.push(SectionChild::Section(closed));
     } else {

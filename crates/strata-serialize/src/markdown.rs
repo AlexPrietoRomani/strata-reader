@@ -71,7 +71,11 @@ pub fn render(doc: &Document, opts: &MarkdownOptions) -> String {
 }
 
 fn estimate_size(doc: &Document) -> usize {
-    doc.pages.iter().flat_map(|p| p.blocks.iter()).map(|b| b.content.len() + 16).sum()
+    doc.pages
+        .iter()
+        .flat_map(|p| p.blocks.iter())
+        .map(|b| b.content.len() + 16)
+        .sum()
 }
 
 fn write_section(out: &mut String, section: &Section, opts: &MarkdownOptions) {
@@ -294,7 +298,10 @@ mod tests {
 
     #[test]
     fn list_block_emits_dash_items() {
-        let blocks = vec![block("first item\nsecond item\nthird item", BlockType::List)];
+        let blocks = vec![block(
+            "first item\nsecond item\nthird item",
+            BlockType::List,
+        )];
         let md = render(&doc(blocks), &MarkdownOptions::default());
         assert!(md.contains("- first item"));
         assert!(md.contains("- second item"));
@@ -314,7 +321,10 @@ mod tests {
         let blocks = vec![block("E = mc^2", BlockType::Equation)];
         let md = render(
             &doc(blocks),
-            &MarkdownOptions { inline_math_threshold: 5, ..Default::default() },
+            &MarkdownOptions {
+                inline_math_threshold: 5,
+                ..Default::default()
+            },
         );
         assert!(md.contains("$E = mc^2$"), "got: {md}");
     }

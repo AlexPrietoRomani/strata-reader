@@ -91,7 +91,10 @@ pub fn merge(native: &Document, ia_results: &HashMap<BlockId, IaPayload>) -> Doc
         .map(|page| Arc::new(merge_page(page, ia_results)))
         .collect();
 
-    Document { meta: native.meta.clone(), pages: new_pages }
+    Document {
+        meta: native.meta.clone(),
+        pages: new_pages,
+    }
 }
 
 fn merge_page(page: &Page, ia_results: &HashMap<BlockId, IaPayload>) -> Page {

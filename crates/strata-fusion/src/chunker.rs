@@ -55,7 +55,11 @@ pub struct ChunkOptions {
 
 impl Default for ChunkOptions {
     fn default() -> Self {
-        Self { max_tokens: 512, overlap: 64, token_counter: None }
+        Self {
+            max_tokens: 512,
+            overlap: 64,
+            token_counter: None,
+        }
     }
 }
 
@@ -133,7 +137,9 @@ fn add_block_to_chunk(
 ) {
     // Skip strictly-empty blocks (page numbers / headers that the Triage
     // didn't drop but contributed no text).
-    if block.content.trim().is_empty() && !matches!(block.kind, BlockType::Figure | BlockType::Table) {
+    if block.content.trim().is_empty()
+        && !matches!(block.kind, BlockType::Figure | BlockType::Table)
+    {
         return;
     }
     let block_tokens = count_tokens(opts, &block.content);
@@ -290,11 +296,22 @@ mod tests {
         let p2 = block(&words, BlockType::Paragraph);
         let doc = doc_from(vec![p1, p2], 1);
 
-        let chunks = chunk(&doc, &ChunkOptions { max_tokens: 50, overlap: 0, token_counter: None });
+        let chunks = chunk(
+            &doc,
+            &ChunkOptions {
+                max_tokens: 50,
+                overlap: 0,
+                token_counter: None,
+            },
+        );
         assert_eq!(chunks.len(), 2);
         // No chunk exceeds the budget by more than ONE block's worth.
         for c in &chunks {
-            assert!(c.token_count <= 50, "chunk token_count {} > 50", c.token_count);
+            assert!(
+                c.token_count <= 50,
+                "chunk token_count {} > 50",
+                c.token_count
+            );
         }
         // Each chunk carries exactly one block.
         for c in &chunks {
@@ -310,24 +327,43 @@ mod tests {
         let p2 = block("rw body", BlockType::Paragraph);
         let doc = doc_from(vec![h1, p, h2, p2], 1);
 
-        let chunks = chunk(&doc, &ChunkOptions { max_tokens: 100, overlap: 0, token_counter: None });
+        let chunks = chunk(
+            &doc,
+            &ChunkOptions {
+                max_tokens: 100,
+                overlap: 0,
+                token_counter: None,
+            },
+        );
         assert!(chunks.len() >= 2);
         let last = chunks.last().unwrap();
         // Last chunk should be inside Introduction > Related Work.
-        assert_eq!(last.section_path, vec!["Introduction".to_string(), "Related Work".to_string()]);
+        assert_eq!(
+            last.section_path,
+            vec!["Introduction".to_string(), "Related Work".to_string()]
+        );
     }
 
     #[test]
     fn overlap_repeats_tail_words_in_next_chunk() {
-        let p1 = block("one two three four five six seven eight nine ten", BlockType::Paragraph);
+        let p1 = block(
+            "one two three four five six seven eight nine ten",
+            BlockType::Paragraph,
+        );
         let p2 = block("eleven twelve thirteen", BlockType::Paragraph);
         let p3 = block("fourteen fifteen sixteen", BlockType::Paragraph);
         // Budget = 10 tokens; first chunk = paragraph 1 (10 tokens).
         // Then paragraph 2 (3 tokens) starts a new chunk with the last
         // `overlap = 4` words of paragraph 1 prepended.
         let doc = doc_from(vec![p1, p2, p3], 1);
-        let chunks =
-            chunk(&doc, &ChunkOptions { max_tokens: 10, overlap: 4, token_counter: None });
+        let chunks = chunk(
+            &doc,
+            &ChunkOptions {
+                max_tokens: 10,
+                overlap: 4,
+                token_counter: None,
+            },
+        );
         assert!(chunks.len() >= 2);
         let second = &chunks[1];
         // The overlap tail of "one two three four five six seven eight nine ten"
@@ -345,16 +381,32 @@ mod tests {
         // 4 blocks ≈ 100 tokens. Just check none overshoots and none is
         // egregiously empty.
         let words = "word ".repeat(25);
-        let blocks: Vec<_> = (0..50).map(|_| block(&words, BlockType::Paragraph)).collect();
+        let blocks: Vec<_> = (0..50)
+            .map(|_| block(&words, BlockType::Paragraph))
+            .collect();
         let doc = doc_from(blocks, 1);
-        let chunks =
-            chunk(&doc, &ChunkOptions { max_tokens: 100, overlap: 0, token_counter: None });
+        let chunks = chunk(
+            &doc,
+            &ChunkOptions {
+                max_tokens: 100,
+                overlap: 0,
+                token_counter: None,
+            },
+        );
 
         for c in &chunks {
             assert!(c.token_count > 0);
-            assert!(c.token_count <= 100, "chunk overflow {} > 100", c.token_count);
+            assert!(
+                c.token_count <= 100,
+                "chunk overflow {} > 100",
+                c.token_count
+            );
         }
         // 50 * 25 = 1250 tokens. At 100 each that's 12-13 chunks ± 1.
-        assert!(chunks.len() >= 12 && chunks.len() <= 14, "got {} chunks", chunks.len());
+        assert!(
+            chunks.len() >= 12 && chunks.len() <= 14,
+            "got {} chunks",
+            chunks.len()
+        );
     }
 }
