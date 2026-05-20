@@ -22,7 +22,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use serde::{Deserialize, Serialize};
-use strata_core::{Block, BlockId, BlockType, Document, Page, Provenance, ProvenanceSource};
+use strata_core::{Block, BlockId, BlockType, Document, Page, Provenance};
 
 /// Tagged union of the payloads the IA side can hand back. Mirrors the
 /// 4 RPCs in `strata.ia.v1.IaService` but is purely Rust — keeps this

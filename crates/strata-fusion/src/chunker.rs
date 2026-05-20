@@ -142,8 +142,8 @@ fn add_block_to_chunk(
     // have content, finalize the current chunk first.
     if current.has_content() && current.token_count + block_tokens > opts.max_tokens {
         let overlap_text = current.overlap_tail(opts);
-        chunks.push(current.finalize(opts));
-        *current = ChunkBuilder::new(&current.section_path);
+        let old_builder = std::mem::replace(current, ChunkBuilder::new(&current.section_path));
+        chunks.push(old_builder.finalize(opts));
         if !overlap_text.is_empty() && opts.overlap > 0 {
             current.push_overlap(&overlap_text, count_tokens(opts, &overlap_text));
         }

@@ -66,15 +66,15 @@ impl Section {
         let mut max_child = 0;
         for c in &self.children {
             if let SectionChild::Section(s) = c {
-                let d = s.depth().saturating_add(1);
+                let d = s.depth();
                 if d > max_child {
                     max_child = d;
                 }
             }
         }
         // If the section itself has a heading, count it as depth 1.
-        let self_depth = if self.heading.is_some() { 1 } else { 0 };
-        self_depth.max(max_child)
+        let self_depth: u8 = if self.heading.is_some() { 1 } else { 0 };
+        self_depth.saturating_add(max_child)
     }
 }
 
