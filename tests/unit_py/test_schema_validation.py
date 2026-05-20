@@ -38,7 +38,6 @@ def schema() -> dict:
 
 def test_schema_is_valid_json_schema(schema: dict) -> None:
     """The generated file is itself a valid Draft 2020-12 JSON Schema."""
-    import jsonschema
     from jsonschema.validators import validator_for
 
     validator_cls = validator_for(schema)
