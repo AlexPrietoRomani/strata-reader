@@ -14,4 +14,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 strata-core = { path = "../strata-core" }
+strata-fusion = { path = "../strata-fusion" }
+strata-serialize = { path = "../strata-serialize" }
 pyo3 = { workspace = true }
+serde_json = { workspace = true }
