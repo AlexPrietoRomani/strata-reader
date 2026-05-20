@@ -14,6 +14,7 @@ path = "src/main.rs"
 strata-core = { path = "../strata-core" }
 strata-runtime = { path = "../strata-runtime" }
 strata-server = { path = "../strata-server" }
+axum = { workspace = true }
 clap = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

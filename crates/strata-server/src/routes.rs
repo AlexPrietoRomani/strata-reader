@@ -32,7 +32,7 @@ pub fn router(state: AppState) -> Router {
         .route("/v1/parse", post(post_parse))
         .route("/v1/parse-batch", post(post_parse_batch))
         .route("/v1/jobs", get(list_jobs))
-        .route("/v1/jobs/{id}", get(get_job))
+        .route("/v1/jobs/:id", get(get_job))
         .with_state(state)
 }
 

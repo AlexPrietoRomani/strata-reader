@@ -184,7 +184,11 @@ mod tests {
     #[test]
     fn small_amount_of_unmapped_is_warning() {
         // 10% unmapped (above WARNING_UNMAPPED_RATIO = 5%, below CRITICAL = 30%).
-        let mut glyphs = vec!['a'; 90];
+        // We use a diverse alphabet repeated to ensure high entropy.
+        let mut glyphs = Vec::new();
+        for i in 0..90 {
+            glyphs.push(((i % 26) as u8 + b'a') as char);
+        }
         glyphs.extend(vec!['\u{FFFD}'; 10]);
         let r = evaluate_cid_health(&glyphs);
         assert_eq!(r.severity, Severity::Warning);

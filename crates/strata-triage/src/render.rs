@@ -68,9 +68,9 @@ pub fn render_crop(page: &PdfPage<'_>, bbox: BBox, dpi: u32) -> Result<Vec<u8>, 
     let target_h = ((page_h * scale).round() as u32).min(MAX_EDGE_PX).max(1);
 
     let config = PdfRenderConfig::new()
-        .set_target_size(target_w as u16, target_h as u16);
+        .set_target_size(target_w as i32, target_h as i32);
     let bitmap = page.render_with_config(&config)?;
-    let img = bitmap.as_image();
+    let img = bitmap.as_image()?;
     let rgba: RgbaImage = img.to_rgba8();
 
     // PDF coords have origin at the bottom-left; image coords at the

@@ -190,7 +190,7 @@ fn empty_document(pdf_path: &std::path::Path, sha256: &str, profile: &str) -> Do
         source_filename: pdf_path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default(),
         schema_version: strata_core::version().to_string(),
         profile: profile.to_string(),
-        extra: HashMap::default().into_iter().collect(),
+        extra: std::collections::BTreeMap::new(),
     };
     let mut doc = Document::new(meta);
     // One empty page so downstream serializers don't crash on zero-page docs.

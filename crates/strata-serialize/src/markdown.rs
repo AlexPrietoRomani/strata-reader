@@ -222,6 +222,9 @@ fn normalize_blank_lines(text: &str) -> String {
     while out.ends_with("\n\n") {
         out.pop();
     }
+    if out.is_empty() {
+        return out;
+    }
     if !out.ends_with('\n') {
         out.push('\n');
     }
