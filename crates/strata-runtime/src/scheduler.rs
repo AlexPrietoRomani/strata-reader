@@ -33,12 +33,17 @@ pub struct SchedulerConfig {
 
 impl Default for SchedulerConfig {
     fn default() -> Self {
-        Self { max_concurrent_pages: num_cpus_estimate(), abort_on_first_error: false }
+        Self {
+            max_concurrent_pages: num_cpus_estimate(),
+            abort_on_first_error: false,
+        }
     }
 }
 
 fn num_cpus_estimate() -> usize {
-    std::thread::available_parallelism().map(|n| n.get()).unwrap_or(4)
+    std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(4)
 }
 
 /// Bounded-concurrency executor over a `tokio` runtime.
@@ -51,7 +56,10 @@ pub struct Scheduler {
 impl Scheduler {
     pub fn new(config: SchedulerConfig) -> Self {
         let n = config.max_concurrent_pages.max(1);
-        Self { semaphore: Arc::new(Semaphore::new(n)), config }
+        Self {
+            semaphore: Arc::new(Semaphore::new(n)),
+            config,
+        }
     }
 
     /// Snapshot of the configured limit.
@@ -97,7 +105,10 @@ impl Scheduler {
             let (idx, r) = joined.expect("worker task panicked");
             indexed[idx] = Some(r);
         }
-        indexed.into_iter().map(|o| o.expect("missing result for an index")).collect()
+        indexed
+            .into_iter()
+            .map(|o| o.expect("missing result for an index"))
+            .collect()
     }
 
     /// Fire-and-forget variant — spawn one task, return its handle so the
@@ -163,9 +174,15 @@ mod tests {
             })
             .await;
         let observed = max_observed.load(Ordering::SeqCst);
-        assert!(observed <= limit, "max in-flight {observed} exceeded limit {limit}");
+        assert!(
+            observed <= limit,
+            "max in-flight {observed} exceeded limit {limit}"
+        );
         // Sanity: we did saturate the pool.
-        assert!(observed >= limit - 1, "max in-flight {observed} should approach {limit}");
+        assert!(
+            observed >= limit - 1,
+            "max in-flight {observed} should approach {limit}"
+        );
     }
 
     #[tokio::test]

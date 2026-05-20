@@ -29,3 +29,7 @@ tokio = { workspace = true, features = ["test-util", "macros"] }
 
 [lib]
 doctest = false
+
+[features]
+# Compile without NVML bindings (useful for CI or machines without NVIDIA GPU).
+_nvml_disabled = []

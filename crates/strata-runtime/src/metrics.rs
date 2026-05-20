@@ -16,7 +16,7 @@ use std::sync::Arc;
 
 use prometheus::{
     register_counter_with_registry, register_gauge_vec_with_registry, register_gauge_with_registry,
-    register_histogram_vec_with_registry, Counter, Encoder, GaugeVec, Gauge, HistogramVec,
+    register_histogram_vec_with_registry, Counter, Encoder, Gauge, GaugeVec, HistogramVec,
     Registry, TextEncoder,
 };
 
@@ -101,11 +101,17 @@ impl Metrics {
     }
 
     pub fn observe_ia_request_seconds(&self, task: &str, model: &str, seconds: f64) {
-        self.0.ia_request_duration.with_label_values(&[task, model]).observe(seconds);
+        self.0
+            .ia_request_duration
+            .with_label_values(&[task, model])
+            .observe(seconds);
     }
 
     pub fn set_vram_used_mb(&self, device: &str, used_mb: u64) {
-        self.0.vram_used_mb.with_label_values(&[device]).set(used_mb as f64);
+        self.0
+            .vram_used_mb
+            .with_label_values(&[device])
+            .set(used_mb as f64);
     }
 
     pub fn set_queue_depth(&self, depth: u64) {
@@ -124,7 +130,9 @@ impl Metrics {
         let mut buf = Vec::new();
         let encoder = TextEncoder::new();
         let families = self.0.registry.gather();
-        encoder.encode(&families, &mut buf).expect("Prometheus encode never fails on Vec<u8>");
+        encoder
+            .encode(&families, &mut buf)
+            .expect("Prometheus encode never fails on Vec<u8>");
         String::from_utf8(buf).expect("Prometheus text format is UTF-8")
     }
 }
@@ -174,7 +182,10 @@ mod tests {
         m.inc_pages_processed();
         let out = m.render();
         // Prometheus format prints "strata_pages_processed_total 3"
-        let line = out.lines().find(|l| l.starts_with("strata_pages_processed_total ")).expect("counter line");
+        let line = out
+            .lines()
+            .find(|l| l.starts_with("strata_pages_processed_total "))
+            .expect("counter line");
         assert!(line.ends_with(" 3"), "expected ' 3' suffix, got {line}");
     }
 
@@ -203,7 +214,10 @@ mod tests {
         m.set_queue_depth(10);
         m.set_queue_depth(3);
         let out = m.render();
-        let line = out.lines().find(|l| l.starts_with("strata_queue_depth ")).unwrap();
+        let line = out
+            .lines()
+            .find(|l| l.starts_with("strata_queue_depth "))
+            .unwrap();
         assert!(line.ends_with(" 3"));
     }
 
@@ -214,7 +228,10 @@ mod tests {
         m.inc_cache_hit();
         m2.inc_cache_hit();
         let out = m2.render();
-        let line = out.lines().find(|l| l.starts_with("strata_cache_hit_total ")).unwrap();
+        let line = out
+            .lines()
+            .find(|l| l.starts_with("strata_cache_hit_total "))
+            .unwrap();
         assert!(line.ends_with(" 2"));
     }
 }

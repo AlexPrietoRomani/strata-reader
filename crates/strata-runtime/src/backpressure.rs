@@ -72,7 +72,9 @@ pub struct BackpressureController {
 
 impl BackpressureController {
     pub fn new(cfg: BackpressureConfig) -> Arc<Self> {
-        let initial = cfg.initial_concurrency.clamp(cfg.min_concurrency, cfg.max_concurrency);
+        let initial = cfg
+            .initial_concurrency
+            .clamp(cfg.min_concurrency, cfg.max_concurrency);
         let window = LatencyWindow::new(cfg.window_size);
         Arc::new(Self {
             current: AtomicUsize::new(initial),
@@ -121,7 +123,11 @@ impl BackpressureController {
                 .compare_exchange(cur, next, Ordering::Relaxed, Ordering::Relaxed)
                 .is_ok()
             {
-                tracing::debug!(target = "strata.backpressure", new = next, "additive_increase");
+                tracing::debug!(
+                    target = "strata.backpressure",
+                    new = next,
+                    "additive_increase"
+                );
                 return;
             }
         }
@@ -171,7 +177,12 @@ struct LatencyWindow {
 
 impl LatencyWindow {
     fn new(cap: usize) -> Self {
-        Self { buf: vec![0u32; cap], cap, next: 0, len: 0 }
+        Self {
+            buf: vec![0u32; cap],
+            cap,
+            next: 0,
+            len: 0,
+        }
     }
 
     fn push(&mut self, value: u32) {
@@ -305,7 +316,10 @@ mod tests {
             ctrl.on_success(Duration::from_millis(500));
         }
         let after_slow = ctrl.current();
-        assert!(after_slow < after_fast, "expected MD on p95 breach, {after_slow} < {after_fast}");
+        assert!(
+            after_slow < after_fast,
+            "expected MD on p95 breach, {after_slow} < {after_fast}"
+        );
     }
 
     #[test]
@@ -326,7 +340,7 @@ mod tests {
         w.push(2);
         w.push(3);
         w.push(4); // overwrites position 0 (value 1).
-        // Buffer should hold {4, 2, 3}; median = 3.
+                   // Buffer should hold {4, 2, 3}; median = 3.
         assert_eq!(w.percentile(50), 3);
         assert_eq!(w.percentile(100), 4);
     }

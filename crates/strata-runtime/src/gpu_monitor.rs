@@ -61,7 +61,10 @@ pub struct GpuSnapshot {
 
 impl GpuSnapshot {
     pub fn empty(backend: GpuBackend) -> Self {
-        Self { backend, devices: Vec::new() }
+        Self {
+            backend,
+            devices: Vec::new(),
+        }
     }
 
     pub fn has_gpu(&self) -> bool {
@@ -117,9 +120,11 @@ impl NvmlMonitor {
     /// Initialize NVML. Returns `Err` when the NVIDIA driver isn't
     /// present — callers should fall through to [`NoopMonitor`].
     pub fn try_new() -> Result<Self, GpuMonitorError> {
-        let nvml = nvml_wrapper::Nvml::init()
-            .map_err(|e| GpuMonitorError::NvmlInit(e.to_string()))?;
-        Ok(Self { handle: parking_lot::Mutex::new(nvml) })
+        let nvml =
+            nvml_wrapper::Nvml::init().map_err(|e| GpuMonitorError::NvmlInit(e.to_string()))?;
+        Ok(Self {
+            handle: parking_lot::Mutex::new(nvml),
+        })
     }
 }
 
@@ -161,7 +166,10 @@ impl GpuMonitor for NvmlMonitor {
                 Err(e) => warn!("nvml_device_by_index failed i={i}: {e}"),
             }
         }
-        GpuSnapshot { backend: GpuBackend::Nvml, devices }
+        GpuSnapshot {
+            backend: GpuBackend::Nvml,
+            devices,
+        }
     }
 }
 
@@ -208,7 +216,7 @@ pub fn detect() -> Arc<dyn GpuMonitor> {
         }
     }
     // TODO(rocm,metal): wire ROCm-smi and IOKit when those backends land.
-    Arc::new(NoopMonitor::default())
+    Arc::new(NoopMonitor)
 }
 
 // ---------------------------------------------------------------------------
@@ -272,9 +280,21 @@ mod tests {
 
     #[test]
     fn backend_serializes_as_kebab_case() {
-        assert_eq!(serde_json::to_string(&GpuBackend::Nvml).unwrap(), "\"nvml\"");
-        assert_eq!(serde_json::to_string(&GpuBackend::Noop).unwrap(), "\"noop\"");
-        assert_eq!(serde_json::to_string(&GpuBackend::Rocm).unwrap(), "\"rocm\"");
-        assert_eq!(serde_json::to_string(&GpuBackend::Metal).unwrap(), "\"metal\"");
+        assert_eq!(
+            serde_json::to_string(&GpuBackend::Nvml).unwrap(),
+            "\"nvml\""
+        );
+        assert_eq!(
+            serde_json::to_string(&GpuBackend::Noop).unwrap(),
+            "\"noop\""
+        );
+        assert_eq!(
+            serde_json::to_string(&GpuBackend::Rocm).unwrap(),
+            "\"rocm\""
+        );
+        assert_eq!(
+            serde_json::to_string(&GpuBackend::Metal).unwrap(),
+            "\"metal\""
+        );
     }
 }
