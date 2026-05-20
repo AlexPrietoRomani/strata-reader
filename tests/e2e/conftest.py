@@ -11,6 +11,7 @@ from __future__ import annotations
 import os
 import shutil
 import socket
+import subprocess
 from pathlib import Path
 
 import httpx
@@ -19,6 +20,9 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES_PDFS = REPO_ROOT / "tests" / "fixtures" / "pdfs"
 EXPECTED_DIR = REPO_ROOT / "tests" / "fixtures" / "expected"
+
+# Tiempo máximo (segundos) para el escaneo EDR corporativo en primer arranque.
+_EDR_WARMUP_TIMEOUT_S: int = 120
 
 
 @pytest.fixture(scope="session")
@@ -54,16 +58,50 @@ def require_ollama(ollama_endpoint: str) -> None:
 
 @pytest.fixture(scope="session")
 def strata_bin() -> str:
-    """Resolve the `strata` CLI binary. Skips when not on PATH."""
+    """
+    Resuelve el binario CLI `strata` y lo precalienta para el EDR corporativo.
+
+    En entornos con AppLocker/antivirus (e.g. EMPRESA), el EDR escanea cada
+    binario nuevo durante ~50s en su primera ejecución. Al ejecutar
+    `strata --version` aquí (scope=session), el escaneo ocurre UNA SOLA VEZ
+    al inicio de la sesión pytest, antes de que los tests individuales
+    invoquen `strata parse` con timeouts más ajustados.
+
+    Returns:
+        str: Ruta absoluta al binario `strata` listo para ser invocado.
+
+    Raises:
+        pytest.skip.Exception: Si el binario no se encuentra en ninguna
+            ubicación conocida o si el EDR no lo aprueba en tiempo.
+    """
     bin_path = shutil.which("strata")
     if bin_path is None:
-        # Try the dev target directory.
+        # Fallback al directorio target/ de Cargo cuando strata no está en PATH.
         target = os.environ.get("CARGO_TARGET_DIR")
         if target:
             candidate = Path(target) / "release" / ("strata.exe" if os.name == "nt" else "strata")
             if candidate.exists():
-                return str(candidate)
+                bin_path = str(candidate)
+    if bin_path is None:
         pytest.skip("`strata` binary not on PATH; build with `cargo build -p strata-cli --release`")
+
+    # Warmup EDR: ejecutar strata --version con timeout largo para que el
+    # antivirus corporativo escanee el binario ANTES de los tests con timeouts
+    # cortos. La segunda ejecución es instantánea (cache del EDR).
+    # Ver AGENTS.md §2 y docs/usage/IT_request.md.
+    try:
+        subprocess.run(
+            [bin_path, "--version"],
+            capture_output=True,
+            text=True,
+            timeout=_EDR_WARMUP_TIMEOUT_S,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        pytest.skip(
+            f"strata binary timed out during EDR warmup (>{_EDR_WARMUP_TIMEOUT_S}s): {bin_path}"
+        )
+
     return bin_path
 
 
