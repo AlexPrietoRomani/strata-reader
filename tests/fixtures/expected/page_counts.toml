@@ -1,0 +1,27 @@
+# Expected page counts for the golden fixture corpus.
+# Generated 2026-05-20 via PyMuPDF (fitz).
+# Used by T2.1 AC: "Conteos coinciden con expected tabulado".
+
+[native_simple]
+pages = 1
+
+[two_column_paper]
+pages = 15
+
+[scanned_paper]
+pages = 6
+
+[cid_corrupted]
+pages = 1
+
+[borderless_table]
+pages = 2
+
+[equation_heavy]
+pages = 4
+
+[figure_with_caption]
+pages = 1
+
+[mixed_lang_arabic]
+pages = 1
