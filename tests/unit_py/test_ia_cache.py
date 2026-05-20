@@ -6,7 +6,6 @@ import time
 from pathlib import Path
 
 import pytest
-
 from strata_ia.cache import CacheKey, open_cache, sha256_hex
 
 
@@ -38,11 +37,11 @@ async def test_prune_older_than(tmp_path: Path) -> None:
     async with open_cache(tmp_path / "c.db") as cache:
         await cache.put(CacheKey("a", "m", "v"), "{}")
         # Manually backdate the row to two days ago.
-        await cache._conn.execute(  # noqa: SLF001 — test reaches into impl
+        await cache._conn.execute(
             "UPDATE cache SET created_at = ? WHERE crop_sha256 = ?",
             (time.time() - 2 * 86_400, "a"),
         )
-        await cache._conn.commit()  # noqa: SLF001
+        await cache._conn.commit()
         removed = await cache.prune_older_than(days=1)
         assert removed == 1
         assert await cache.count() == 0

@@ -13,13 +13,12 @@ import json
 
 import httpx
 import pytest
-
 from strata_ia.adapters.ollama import GenerateResult, OllamaClient, OllamaError, OllamaUnreachable
 
 OLLAMA_URL = "http://test-ollama:11434"
 
 
-def _client(handler: httpx.MockTransport.__init__.__annotations__["handler"], retry_attempts: int = 1) -> OllamaClient:  # type: ignore[name-defined]
+def _client(handler, retry_attempts: int = 1) -> OllamaClient:  # type: ignore[no-untyped-def]
     transport = httpx.MockTransport(handler)
     http = httpx.AsyncClient(transport=transport, base_url=OLLAMA_URL)
     return OllamaClient(endpoint=OLLAMA_URL, retry_attempts=retry_attempts, http_client=http)

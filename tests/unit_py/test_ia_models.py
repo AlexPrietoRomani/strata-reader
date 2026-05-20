@@ -6,7 +6,6 @@ import base64
 
 import pytest
 from pydantic import ValidationError
-
 from strata_ia.models import (
     BBox,
     Crop,

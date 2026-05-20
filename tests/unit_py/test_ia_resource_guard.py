@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pytest
-
 from strata_ia import resource_guard
 from strata_ia.resource_guard import ResourceExhausted, VramSnapshot, guarded
 

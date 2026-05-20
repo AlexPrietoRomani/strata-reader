@@ -9,7 +9,6 @@ These tests guarantee the stubs:
 from __future__ import annotations
 
 import pytest
-
 from strata_ia.proto import strata_ia_pb2 as pb
 from strata_ia.proto import strata_ia_pb2_grpc as pb_grpc
 

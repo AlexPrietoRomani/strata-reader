@@ -7,7 +7,6 @@ must fail gracefully with typed errors, never crash the process at import.
 from __future__ import annotations
 
 import pytest
-
 from strata_ia.adapters import surya, tesseract
 from strata_ia.adapters.tesseract import TesseractUnavailable
 
@@ -42,5 +41,5 @@ def test_tesseract_result_dataclass_immutable() -> None:
     from strata_ia.adapters.tesseract import TesseractResult
 
     r = TesseractResult(text="hi", confidence=0.9, words=[])
-    with pytest.raises(Exception):
+    with pytest.raises((AttributeError, TypeError)):
         r.text = "changed"  # type: ignore[misc] — frozen dataclass

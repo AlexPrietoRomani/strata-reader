@@ -8,7 +8,6 @@ import json
 import httpx
 import pytest
 from fastapi import FastAPI
-
 from strata_ia.adapters.ollama import OllamaClient
 from strata_ia.config import IaConfig
 from strata_ia.routers import ocr, vlm_formula, vlm_image, vlm_table

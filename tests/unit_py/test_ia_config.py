@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from strata_ia.config import IaConfig, load_config
 
 

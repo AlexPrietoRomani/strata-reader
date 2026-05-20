@@ -7,22 +7,19 @@ end-to-end with a mocked Ollama backend.
 
 from __future__ import annotations
 
-import asyncio
 import json
 import socket
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+import grpc
 import httpx
 import pytest
-
 from strata_ia.adapters.ollama import OllamaClient
 from strata_ia.config import IaConfig
 from strata_ia.grpc_server import serve
 from strata_ia.proto import strata_ia_pb2 as pb
 from strata_ia.proto import strata_ia_pb2_grpc as pb_grpc
-
-import grpc
 
 
 def _free_port() -> int:

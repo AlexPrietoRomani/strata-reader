@@ -94,6 +94,8 @@ ignore = [
     "RUF001", # ambiguous Spanish punctuation (¿, ñ, …) in docstrings is intentional.
     "RUF002", # ambiguous Unicode in docstrings (×, ≥, →, …) is intentional.
     "RUF003", # ambiguous Unicode in comments — same rationale.
+    "SIM117", # nested `with` is often clearer in tests when each ctx is purposeful.
+    "B017",   # pytest.raises(Exception) is acceptable in frozen-dataclass mutation tests.
 ]
 
 [tool.ruff.lint.flake8-bugbear]
