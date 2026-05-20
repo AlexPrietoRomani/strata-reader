@@ -15,7 +15,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Server stubs are generated too so the bench harness can spin up an
     // in-process echo server. Production code only ever uses the client.
-    tonic_build::configure()
+    tonic_prost_build::configure()
         .file_descriptor_set_path(&descriptor_path)
         .build_client(true)
         .build_server(true)
