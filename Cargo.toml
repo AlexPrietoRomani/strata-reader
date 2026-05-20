@@ -78,6 +78,9 @@ nvml-wrapper = "0.10"
 # amalgamation so end-users don't need libsqlite3 on the host.
 rusqlite = { version = "0.32", features = ["bundled"] }
 
+# SHA-256 — used by strata-server for the source-file content key (= cache key).
+sha2 = "0.10"
+
 # Observability
 prometheus = "0.13"
 opentelemetry = "0.27"
