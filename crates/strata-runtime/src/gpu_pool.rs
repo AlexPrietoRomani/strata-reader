@@ -39,7 +39,10 @@ pub struct PoolConfig {
 
 impl Default for PoolConfig {
     fn default() -> Self {
-        Self { workers_per_gpu: 1, gpu_allowlist: Vec::new() }
+        Self {
+            workers_per_gpu: 1,
+            gpu_allowlist: Vec::new(),
+        }
     }
 }
 
@@ -77,7 +80,14 @@ pub fn plan_workers(snap: &GpuSnapshot, config: &PoolConfig) -> Vec<WorkerSpec> 
 pub fn describe_pool(specs: &[WorkerSpec]) -> String {
     let mut lines: Vec<String> = specs
         .iter()
-        .map(|s| format!("{} -> gpu {} ({} env vars)", s.label, s.gpu_index, s.env.len()))
+        .map(|s| {
+            format!(
+                "{} -> gpu {} ({} env vars)",
+                s.label,
+                s.gpu_index,
+                s.env.len()
+            )
+        })
         .collect();
     lines.sort();
     lines.join("\n")
@@ -85,7 +95,13 @@ pub fn describe_pool(specs: &[WorkerSpec]) -> String {
 
 fn sanitize(name: &str) -> String {
     name.chars()
-        .map(|c| if c.is_alphanumeric() { c.to_ascii_lowercase() } else { '-' })
+        .map(|c| {
+            if c.is_alphanumeric() {
+                c.to_ascii_lowercase()
+            } else {
+                '-'
+            }
+        })
         .collect::<String>()
         .trim_matches('-')
         .to_string()
@@ -143,8 +159,13 @@ mod tests {
     #[test]
     fn multiple_replicas_per_gpu() {
         let s = snap(vec![0]);
-        let workers =
-            plan_workers(&s, &PoolConfig { workers_per_gpu: 4, gpu_allowlist: Vec::new() });
+        let workers = plan_workers(
+            &s,
+            &PoolConfig {
+                workers_per_gpu: 4,
+                gpu_allowlist: Vec::new(),
+            },
+        );
         assert_eq!(workers.len(), 4);
         for (replica, w) in workers.iter().enumerate() {
             assert_eq!(w.gpu_index, 0);
@@ -158,7 +179,10 @@ mod tests {
         let s = snap(vec![0, 1, 2, 3]);
         let workers = plan_workers(
             &s,
-            &PoolConfig { workers_per_gpu: 1, gpu_allowlist: vec![1, 3] },
+            &PoolConfig {
+                workers_per_gpu: 1,
+                gpu_allowlist: vec![1, 3],
+            },
         );
         assert_eq!(workers.len(), 2);
         let used_gpus: Vec<u32> = workers.iter().map(|w| w.gpu_index).collect();

@@ -60,7 +60,9 @@ pub struct BridgeClient {
 
 impl std::fmt::Debug for BridgeClient {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("BridgeClient").field("config", &self.config).finish_non_exhaustive()
+        f.debug_struct("BridgeClient")
+            .field("config", &self.config)
+            .finish_non_exhaustive()
     }
 }
 
@@ -74,16 +76,24 @@ impl BridgeClient {
             .timeout(config.request_timeout)
             .concurrency_limit(config.concurrency_limit);
         if let Some(keepalive) = config.keepalive {
-            endpoint = endpoint.keep_alive_while_idle(true).http2_keep_alive_interval(keepalive);
+            endpoint = endpoint
+                .keep_alive_while_idle(true)
+                .http2_keep_alive_interval(keepalive);
         }
         let channel = endpoint.connect().await?;
-        Ok(Self { inner: IaServiceClient::new(channel), config })
+        Ok(Self {
+            inner: IaServiceClient::new(channel),
+            config,
+        })
     }
 
     /// Construct from an existing channel — useful in tests where a
     /// `tokio::io::DuplexStream` or in-process server is wired manually.
     pub fn from_channel(channel: Channel, config: BridgeClientConfig) -> Self {
-        Self { inner: IaServiceClient::new(channel), config }
+        Self {
+            inner: IaServiceClient::new(channel),
+            config,
+        }
     }
 
     // ------------------------------------------------------------------
