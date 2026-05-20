@@ -45,7 +45,10 @@ pub struct XyCutConfig {
 
 impl Default for XyCutConfig {
     fn default() -> Self {
-        Self { min_gap_factor: 0.3, script: ScriptDirection::Ltr }
+        Self {
+            min_gap_factor: 0.3,
+            script: ScriptDirection::Ltr,
+        }
     }
 }
 
@@ -62,7 +65,11 @@ pub fn xy_cut_plus_plus(blocks: &[BBox], config: XyCutConfig) -> Vec<usize> {
     let initial: Vec<usize> = (0..blocks.len()).collect();
     let mut out = Vec::with_capacity(blocks.len());
     cut_recursive(&initial, blocks, Axis::Y, min_gap, config.script, &mut out);
-    debug_assert_eq!(out.len(), blocks.len(), "every block must be emitted exactly once");
+    debug_assert_eq!(
+        out.len(),
+        blocks.len(),
+        "every block must be emitted exactly once"
+    );
     out
 }
 
@@ -178,7 +185,10 @@ fn find_largest_gap(
                     }
                 };
                 if should_update {
-                    best = Some(Gap { cut: cut_val, width: w });
+                    best = Some(Gap {
+                        cut: cut_val,
+                        width: w,
+                    });
                 }
             }
         }
@@ -216,26 +226,60 @@ fn order_partitions(
     match (axis, script) {
         // Y cut: higher-Y first (top of page).
         (Axis::Y, _) => {
-            let a_y = a.iter().map(|&i| blocks[i].center().y).fold(f32::NEG_INFINITY, f32::max);
-            let b_y = b.iter().map(|&i| blocks[i].center().y).fold(f32::NEG_INFINITY, f32::max);
-            if a_y >= b_y { (a, b) } else { (b, a) }
+            let a_y = a
+                .iter()
+                .map(|&i| blocks[i].center().y)
+                .fold(f32::NEG_INFINITY, f32::max);
+            let b_y = b
+                .iter()
+                .map(|&i| blocks[i].center().y)
+                .fold(f32::NEG_INFINITY, f32::max);
+            if a_y >= b_y {
+                (a, b)
+            } else {
+                (b, a)
+            }
         }
         // X cut: depends on script direction.
         (Axis::X, ScriptDirection::Ltr) => {
-            let a_x = a.iter().map(|&i| blocks[i].center().x).fold(f32::INFINITY, f32::min);
-            let b_x = b.iter().map(|&i| blocks[i].center().x).fold(f32::INFINITY, f32::min);
-            if a_x <= b_x { (a, b) } else { (b, a) }
+            let a_x = a
+                .iter()
+                .map(|&i| blocks[i].center().x)
+                .fold(f32::INFINITY, f32::min);
+            let b_x = b
+                .iter()
+                .map(|&i| blocks[i].center().x)
+                .fold(f32::INFINITY, f32::min);
+            if a_x <= b_x {
+                (a, b)
+            } else {
+                (b, a)
+            }
         }
         (Axis::X, ScriptDirection::Rtl) => {
-            let a_x = a.iter().map(|&i| blocks[i].center().x).fold(f32::NEG_INFINITY, f32::max);
-            let b_x = b.iter().map(|&i| blocks[i].center().x).fold(f32::NEG_INFINITY, f32::max);
-            if a_x >= b_x { (a, b) } else { (b, a) }
+            let a_x = a
+                .iter()
+                .map(|&i| blocks[i].center().x)
+                .fold(f32::NEG_INFINITY, f32::max);
+            let b_x = b
+                .iter()
+                .map(|&i| blocks[i].center().x)
+                .fold(f32::NEG_INFINITY, f32::max);
+            if a_x >= b_x {
+                (a, b)
+            } else {
+                (b, a)
+            }
         }
     }
 }
 
 fn median_height(blocks: &[BBox]) -> f32 {
-    let mut heights: Vec<f32> = blocks.iter().map(|b| b.height()).filter(|h| h.is_finite() && *h > 0.0).collect();
+    let mut heights: Vec<f32> = blocks
+        .iter()
+        .map(|b| b.height())
+        .filter(|h| h.is_finite() && *h > 0.0)
+        .collect();
     if heights.is_empty() {
         return 1.0;
     }
@@ -271,7 +315,7 @@ mod tests {
     fn two_blocks_stacked_top_first() {
         // Two blocks at y=100 (top) and y=50 (bottom). Expect top → bottom.
         let blocks = vec![
-            bb(0.0, 50.0, 100.0, 60.0), // bottom
+            bb(0.0, 50.0, 100.0, 60.0),   // bottom
             bb(0.0, 100.0, 100.0, 110.0), // top
         ];
         let order = xy_cut_plus_plus(&blocks, XyCutConfig::default());
@@ -284,9 +328,9 @@ mod tests {
         // Two columns below: left at x=0, right at x=150. Each column has
         // two stacked blocks.
         let blocks = vec![
-            bb(0.0, 200.0, 300.0, 210.0), // 0: header
-            bb(0.0, 150.0, 100.0, 180.0), // 1: left-col top
-            bb(0.0, 100.0, 100.0, 130.0), // 2: left-col bottom
+            bb(0.0, 200.0, 300.0, 210.0),   // 0: header
+            bb(0.0, 150.0, 100.0, 180.0),   // 1: left-col top
+            bb(0.0, 100.0, 100.0, 130.0),   // 2: left-col bottom
             bb(150.0, 150.0, 250.0, 180.0), // 3: right-col top
             bb(150.0, 100.0, 250.0, 130.0), // 4: right-col bottom
         ];
@@ -298,12 +342,15 @@ mod tests {
     #[test]
     fn rtl_two_column_right_first() {
         let blocks = vec![
-            bb(0.0, 150.0, 100.0, 180.0), // 0: left-col
+            bb(0.0, 150.0, 100.0, 180.0),   // 0: left-col
             bb(150.0, 150.0, 250.0, 180.0), // 1: right-col
         ];
         let order = xy_cut_plus_plus(
             &blocks,
-            XyCutConfig { min_gap_factor: 0.3, script: ScriptDirection::Rtl },
+            XyCutConfig {
+                min_gap_factor: 0.3,
+                script: ScriptDirection::Rtl,
+            },
         );
         assert_eq!(order, vec![1, 0]);
     }

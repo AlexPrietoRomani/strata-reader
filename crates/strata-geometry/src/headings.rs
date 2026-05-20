@@ -40,8 +40,10 @@ pub fn classify_headings(line_font_sizes: &[f32]) -> Vec<HeadingClass> {
         return Vec::new();
     }
     // Discard non-finite sizes by mapping them to 0 (Body).
-    let cleaned: Vec<f32> =
-        line_font_sizes.iter().map(|s| if s.is_finite() && *s > 0.0 { *s } else { 0.0 }).collect();
+    let cleaned: Vec<f32> = line_font_sizes
+        .iter()
+        .map(|s| if s.is_finite() && *s > 0.0 { *s } else { 0.0 })
+        .collect();
 
     let body_size = body_text_size(&cleaned);
     if body_size <= 0.0 {
@@ -79,8 +81,10 @@ fn body_text_size(sizes: &[f32]) -> f32 {
 /// **descending** (biggest first → H1, smaller → H2, …).
 fn build_heading_levels(sizes: &[f32], body_size: f32) -> Vec<f32> {
     let bins = histogram(sizes);
-    let mut larger: Vec<(f32, u32)> =
-        bins.into_iter().filter(|(s, _)| *s >= body_size * MIN_RELATIVE_SIZE).collect();
+    let mut larger: Vec<(f32, u32)> = bins
+        .into_iter()
+        .filter(|(s, _)| *s >= body_size * MIN_RELATIVE_SIZE)
+        .collect();
     if larger.is_empty() {
         return Vec::new();
     }
@@ -157,9 +161,18 @@ mod tests {
         sizes.extend(vec![12.0; 5]);
         sizes.push(24.0);
         let r = classify_headings(&sizes);
-        let h1 = r.iter().filter(|c| matches!(c, HeadingClass::Heading { level: 1 })).count();
-        let h2 = r.iter().filter(|c| matches!(c, HeadingClass::Heading { level: 2 })).count();
-        let h3 = r.iter().filter(|c| matches!(c, HeadingClass::Heading { level: 3 })).count();
+        let h1 = r
+            .iter()
+            .filter(|c| matches!(c, HeadingClass::Heading { level: 1 }))
+            .count();
+        let h2 = r
+            .iter()
+            .filter(|c| matches!(c, HeadingClass::Heading { level: 2 }))
+            .count();
+        let h3 = r
+            .iter()
+            .filter(|c| matches!(c, HeadingClass::Heading { level: 3 }))
+            .count();
         let body = r.iter().filter(|c| matches!(c, HeadingClass::Body)).count();
         assert_eq!(h1, 1);
         assert_eq!(h2, 5);

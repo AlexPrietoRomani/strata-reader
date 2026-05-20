@@ -54,13 +54,17 @@ pub fn detect_table_candidates(words: &[Word]) -> Vec<BorderlessCandidate> {
     if rows.len() < MIN_ROWS {
         return Vec::new();
     }
-    let participating: Vec<&LineGroup> =
-        rows.iter().filter(|r| count_hits(&anchors, r) >= MIN_COLUMNS).collect();
+    let participating: Vec<&LineGroup> = rows
+        .iter()
+        .filter(|r| count_hits(&anchors, r) >= MIN_COLUMNS)
+        .collect();
     if participating.len() < MIN_ROWS {
         return Vec::new();
     }
     let region = bounding_region(&participating, &anchors);
-    let Some(bbox) = region else { return Vec::new() };
+    let Some(bbox) = region else {
+        return Vec::new();
+    };
 
     let score = score_candidate(&anchors, &participating);
     vec![BorderlessCandidate {
@@ -85,7 +89,11 @@ struct LineGroup {
 }
 
 fn compute_column_anchors(words: &[Word]) -> Vec<ColumnAnchor> {
-    let mut by_x: Vec<(f32, usize)> = words.iter().enumerate().map(|(i, w)| (w.bbox.x0, i)).collect();
+    let mut by_x: Vec<(f32, usize)> = words
+        .iter()
+        .enumerate()
+        .map(|(i, w)| (w.bbox.x0, i))
+        .collect();
     by_x.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal));
 
     let mut anchors: Vec<ColumnAnchor> = Vec::new();
@@ -96,7 +104,10 @@ fn compute_column_anchors(words: &[Word]) -> Vec<ColumnAnchor> {
                 a.x_center = a.x_center + (x - a.x_center) / (n + 1.0);
                 a.members.push(idx);
             }
-            _ => anchors.push(ColumnAnchor { x_center: x, members: vec![idx] }),
+            _ => anchors.push(ColumnAnchor {
+                x_center: x,
+                members: vec![idx],
+            }),
         }
     }
     anchors.retain(|a| a.members.len() >= MIN_WORDS_PER_COLUMN);
@@ -129,14 +140,22 @@ fn group_words_by_line(words: &[Word]) -> Vec<LineGroup> {
                 let n = g.members.len() as f32;
                 g.y = g.y + (y - g.y) / n;
             }
-            _ => groups.push(LineGroup { y, bbox: w.bbox, members: vec![idx] }),
+            _ => groups.push(LineGroup {
+                y,
+                bbox: w.bbox,
+                members: vec![idx],
+            }),
         }
     }
     groups
 }
 
 fn median_line_height(words: &[Word]) -> f32 {
-    let mut hs: Vec<f32> = words.iter().map(|w| w.bbox.height()).filter(|h| h.is_finite() && *h > 0.0).collect();
+    let mut hs: Vec<f32> = words
+        .iter()
+        .map(|w| w.bbox.height())
+        .filter(|h| h.is_finite() && *h > 0.0)
+        .collect();
     if hs.is_empty() {
         return 1.0;
     }
@@ -145,7 +164,10 @@ fn median_line_height(words: &[Word]) -> f32 {
 }
 
 fn count_hits(anchors: &[ColumnAnchor], row: &LineGroup) -> usize {
-    anchors.iter().filter(|a| row.members.iter().any(|_| true) && row_has_anchor(a, row)).count()
+    anchors
+        .iter()
+        .filter(|a| row.members.iter().any(|_| true) && row_has_anchor(a, row))
+        .count()
 }
 
 fn row_has_anchor(anchor: &ColumnAnchor, row: &LineGroup) -> bool {
@@ -156,10 +178,19 @@ fn bounding_region(rows: &[&LineGroup], anchors: &[ColumnAnchor]) -> Option<BBox
     if rows.is_empty() || anchors.is_empty() {
         return None;
     }
-    let min_x = anchors.iter().map(|a| a.x_center).fold(f32::INFINITY, f32::min);
-    let max_x = anchors.iter().map(|a| a.x_center).fold(f32::NEG_INFINITY, f32::max);
+    let min_x = anchors
+        .iter()
+        .map(|a| a.x_center)
+        .fold(f32::INFINITY, f32::min);
+    let max_x = anchors
+        .iter()
+        .map(|a| a.x_center)
+        .fold(f32::NEG_INFINITY, f32::max);
     let min_y = rows.iter().map(|r| r.bbox.y0).fold(f32::INFINITY, f32::min);
-    let max_y = rows.iter().map(|r| r.bbox.y1).fold(f32::NEG_INFINITY, f32::max);
+    let max_y = rows
+        .iter()
+        .map(|r| r.bbox.y1)
+        .fold(f32::NEG_INFINITY, f32::max);
     BBox::new(min_x, min_y, max_x, max_y).ok()
 }
 

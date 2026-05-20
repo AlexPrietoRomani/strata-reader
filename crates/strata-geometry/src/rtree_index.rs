@@ -74,16 +74,26 @@ impl<T: Clone> SpatialIndex<T> {
             .into_iter()
             .map(|(bbox, payload)| {
                 let c = bbox.center();
-                Envelope { bbox, payload, center: [c.x, c.y] }
+                Envelope {
+                    bbox,
+                    payload,
+                    center: [c.x, c.y],
+                }
             })
             .collect();
-        Self { tree: RTree::bulk_load(envs) }
+        Self {
+            tree: RTree::bulk_load(envs),
+        }
     }
 
     /// Insert one item. O(log n) amortized.
     pub fn insert(&mut self, bbox: BBox, payload: T) {
         let c = bbox.center();
-        self.tree.insert(Envelope { bbox, payload, center: [c.x, c.y] });
+        self.tree.insert(Envelope {
+            bbox,
+            payload,
+            center: [c.x, c.y],
+        });
     }
 
     /// Number of items in the index.
@@ -101,7 +111,10 @@ impl<T: Clone> SpatialIndex<T> {
         let env = AABB::from_corners([query.x0, query.y0], [query.x1, query.y1]);
         self.tree
             .locate_in_envelope_intersecting(&env)
-            .map(|e| Hit { bbox: e.bbox, payload: &e.payload })
+            .map(|e| Hit {
+                bbox: e.bbox,
+                payload: &e.payload,
+            })
             .collect()
     }
 
@@ -111,7 +124,10 @@ impl<T: Clone> SpatialIndex<T> {
         self.tree
             .nearest_neighbor_iter(&[point.x, point.y])
             .take(k)
-            .map(|e| Hit { bbox: e.bbox, payload: &e.payload })
+            .map(|e| Hit {
+                bbox: e.bbox,
+                payload: &e.payload,
+            })
             .collect()
     }
 
@@ -174,7 +190,7 @@ mod tests {
     #[test]
     fn nearest_k_returns_closest_first() {
         let items = vec![
-            (bb(0.0, 0.0, 1.0, 1.0), 0u32),    // center 0.5, 0.5
+            (bb(0.0, 0.0, 1.0, 1.0), 0u32), // center 0.5, 0.5
             (bb(100.0, 100.0, 101.0, 101.0), 1u32),
             (bb(10.0, 10.0, 11.0, 11.0), 2u32), // center 10.5, 10.5
         ];

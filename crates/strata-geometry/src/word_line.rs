@@ -92,7 +92,8 @@ pub fn cluster_lines(glyphs: &[GlyphInput]) -> Vec<Line> {
             .map(|line| {
                 line.glyph_indices.push(idx);
                 line.bbox = line.bbox.union(g.bbox);
-                line.baseline_y = running_mean(line.baseline_y, g.baseline_y(), line.glyph_indices.len());
+                line.baseline_y =
+                    running_mean(line.baseline_y, g.baseline_y(), line.glyph_indices.len());
             });
         if pushed.is_none() {
             lines.push(Line {
@@ -138,7 +139,11 @@ pub fn words_from_line(line: &Line, glyphs: &[GlyphInput]) -> Vec<Word> {
             None => 0.0,
         };
         if gap > gap_threshold && !current.is_empty() {
-            words.push(close_word(&current, current_bbox.expect("non-empty"), glyphs));
+            words.push(close_word(
+                &current,
+                current_bbox.expect("non-empty"),
+                glyphs,
+            ));
             current.clear();
             current_bbox = None;
         }
@@ -157,11 +162,19 @@ pub fn words_from_line(line: &Line, glyphs: &[GlyphInput]) -> Vec<Word> {
 
 fn close_word(indices: &[usize], bbox: BBox, glyphs: &[GlyphInput]) -> Word {
     let text: String = indices.iter().map(|&i| glyphs[i].unicode).collect();
-    Word { bbox, glyph_indices: indices.to_vec(), text }
+    Word {
+        bbox,
+        glyph_indices: indices.to_vec(),
+        text,
+    }
 }
 
 fn median_font_size(glyphs: &[GlyphInput]) -> f32 {
-    let mut sizes: Vec<f32> = glyphs.iter().map(|g| g.font_size).filter(|s| s.is_finite() && *s > 0.0).collect();
+    let mut sizes: Vec<f32> = glyphs
+        .iter()
+        .map(|g| g.font_size)
+        .filter(|s| s.is_finite() && *s > 0.0)
+        .collect();
     if sizes.is_empty() {
         return 1.0; // arbitrary non-zero default
     }
@@ -173,7 +186,11 @@ fn average_glyph_width(line: &Line, glyphs: &[GlyphInput]) -> f32 {
     if line.glyph_indices.is_empty() {
         return 1.0;
     }
-    let total: f32 = line.glyph_indices.iter().map(|&i| glyphs[i].bbox.width()).sum();
+    let total: f32 = line
+        .glyph_indices
+        .iter()
+        .map(|&i| glyphs[i].bbox.width())
+        .sum();
     (total / line.glyph_indices.len() as f32).max(0.001)
 }
 

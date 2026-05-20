@@ -78,8 +78,16 @@ pub fn detect_table_borders(segments: &[LineSegment]) -> Vec<TableCandidate> {
     if horizontals.len() < 2 || verticals.len() < 2 {
         return Vec::new();
     }
-    horizontals.sort_by(|a, b| a.h_y().partial_cmp(&b.h_y()).unwrap_or(std::cmp::Ordering::Equal));
-    verticals.sort_by(|a, b| a.v_x().partial_cmp(&b.v_x()).unwrap_or(std::cmp::Ordering::Equal));
+    horizontals.sort_by(|a, b| {
+        a.h_y()
+            .partial_cmp(&b.h_y())
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    verticals.sort_by(|a, b| {
+        a.v_x()
+            .partial_cmp(&b.v_x())
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
 
     let row_ys = cluster_axis_values(horizontals.iter().map(|s| s.h_y()).collect());
     let col_xs = cluster_axis_values(verticals.iter().map(|s| s.v_x()).collect());
@@ -116,7 +124,11 @@ pub fn detect_table_borders(segments: &[LineSegment]) -> Vec<TableCandidate> {
     )
     .ok();
     let Some(bbox) = bbox else { return Vec::new() };
-    vec![TableCandidate { bbox, rows: row_ys.len() - 1, cols: col_xs.len() - 1 }]
+    vec![TableCandidate {
+        bbox,
+        rows: row_ys.len() - 1,
+        cols: col_xs.len() - 1,
+    }]
 }
 
 fn cluster_axis_values(mut values: Vec<f32>) -> Vec<f32> {
@@ -151,19 +163,27 @@ fn count_cell_borders(
 ) -> u8 {
     let mut count = 0u8;
     // Top edge (y = y_hi)
-    if h.iter().any(|s| within(s.h_y(), y_hi) && covers(s.h_extent(), (x_lo, x_hi))) {
+    if h.iter()
+        .any(|s| within(s.h_y(), y_hi) && covers(s.h_extent(), (x_lo, x_hi)))
+    {
         count += 1;
     }
     // Bottom edge (y = y_lo)
-    if h.iter().any(|s| within(s.h_y(), y_lo) && covers(s.h_extent(), (x_lo, x_hi))) {
+    if h.iter()
+        .any(|s| within(s.h_y(), y_lo) && covers(s.h_extent(), (x_lo, x_hi)))
+    {
         count += 1;
     }
     // Left edge (x = x_lo)
-    if v.iter().any(|s| within(s.v_x(), x_lo) && covers(s.v_extent(), (y_lo, y_hi))) {
+    if v.iter()
+        .any(|s| within(s.v_x(), x_lo) && covers(s.v_extent(), (y_lo, y_hi)))
+    {
         count += 1;
     }
     // Right edge (x = x_hi)
-    if v.iter().any(|s| within(s.v_x(), x_hi) && covers(s.v_extent(), (y_lo, y_hi))) {
+    if v.iter()
+        .any(|s| within(s.v_x(), x_hi) && covers(s.v_extent(), (y_lo, y_hi)))
+    {
         count += 1;
     }
     count
@@ -199,10 +219,16 @@ mod tests {
     use super::*;
 
     fn h(x0: f32, x1: f32, y: f32) -> LineSegment {
-        LineSegment { start: Point { x: x0, y }, end: Point { x: x1, y } }
+        LineSegment {
+            start: Point { x: x0, y },
+            end: Point { x: x1, y },
+        }
     }
     fn v(x: f32, y0: f32, y1: f32) -> LineSegment {
-        LineSegment { start: Point { x, y: y0 }, end: Point { x, y: y1 } }
+        LineSegment {
+            start: Point { x, y: y0 },
+            end: Point { x, y: y1 },
+        }
     }
 
     fn grid_3x3() -> Vec<LineSegment> {
