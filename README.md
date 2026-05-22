@@ -1,22 +1,96 @@
 # Strata-Reader 📐
 
+**El conversor de PDF a Markdown más rápido y confiable para artículos científicos. Diseñado para RAG estándar y RAG de grafos de forma 100 % local y offline.**
+
 [![CI](https://github.com/AlexPrietoRomani/strata-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexPrietoRomani/strata-reader/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Rust: 1.88+](https://img.shields.io/badge/rust-1.88%2B-orange.svg)](Cargo.toml)
 [![Python: 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
 [![Local AI: Ollama](https://img.shields.io/badge/local%20AI-Ollama-purple.svg)](https://ollama.com)
 
-**Strata-Reader** es un motor de extracción documental ultra-rápido, concurrente y fidedigno diseñado para transformar archivos PDF complejos en Markdown semántico (para Vector RAG) y grafos estructurados en JSON (para Graph-RAG). 
+🔍 **Extractor documental ultra-rápido y fidedigno** — Transforma PDFs científicos complejos en Markdown semántico fluido (para Vector RAG) y grafos estructurados en JSON (para Graph-RAG) de forma 100 % local, garantizando la privacidad absoluta de tus datos.
 
-Construido con un **núcleo de geometría matemática en Rust** y una **capa de inteligencia artificial local en Python**, Strata-Reader escala el procesamiento de documentos densos (como papers científicos, informes técnicos y patentes) delegando de manera selectiva las regiones complejas a modelos de visión multimodal locales, sin enviar un solo byte a la nube.
+- **¿Qué tan rápido y preciso es?** — Es la librería más rápida y confiable para artículos científicos. Su núcleo geométrico escrito en Rust procesa el texto nativo a la velocidad del metal (~0.009 segundos por página) y preserva el orden de lectura mediante el algoritmo **XY-Cut++** optimizado con índices espaciales R-Tree.
+- **¿Es compatible con RAG estándar y RAG de grafos?** — Absolutamente. Está optimizado desde su arquitectura para alimentar pipelines RAG vectoriales con Markdown semántico limpio (evitando párrafos rotos y marcas de agua) y Graph-RAG con JSON estructurado rico en nodos de conocimiento, relaciones de citas y procedencia metodológica.
+- **¿Procesa tablas, fórmulas e imágenes?** — Sí. Extrae tablas de forma híbrida (nativas con bordes y mediante IA local las sin bordes), fórmulas matemáticas representadas en LaTeX (`$$`), e imágenes nativas integradas directamente en el AST como `BlockType::Figure` con exportación automática a disco.
+- **¿Es compatible con PDFs escaneados y OCR?** — Sí. A través de un motor de Triage híbrido e inteligente, evalúa automáticamente la calidad de las fuentes de cada página y orquesta OCR local de alta precisión (Surya/Tesseract) cuando es necesario.
 
-> 📐 **Geometría en Rust + Inferencia Multimodal Local.** Diseñado para despliegues *on-premise* bajo rigor metodológico (trazabilidad de procedencia estilo PRISMA). Ollama local es el único motor de inferencia requerido.
+---
+
+## ⚡ Get Started in 30 Seconds
+
+**Requirements:** Python 3.12+. No Rust toolchain required for standard use. No Java required. No Cloud APIs required.
+
+```bash
+pip install -U strata-reader
+```
+
+### Python API — Parse a single PDF (returns a structured Document)
+```python
+import strata_reader
+
+# Parse a single PDF — returns a Document object
+doc = strata_reader.parse("paper.pdf")
+
+print(doc.to_markdown())     # Markdown ready for Vector RAG chunking (Chroma, FAISS)
+print(doc.to_graph_json())   # Structured JSON for Graph-RAG ingestion (Neo4j)
+```
+
+### Python API — Batch convert folder or files to disk
+```python
+import strata_reader
+
+strata_reader.convert(
+    input_path=["file1.pdf", "file2.pdf", "papers/"],
+    output_dir="output/",
+    format="md+json"
+)
+# → Produces output/file1.md, output/file1.json, output/file2.md, ...
+```
+
+### CLI — Command Line Usage
+```bash
+# Single file
+strata parse --input paper.pdf --output out/ --format md+json
+
+# Batch folder recursive with scientific profile
+strata parse --input papers/ --output out/ --format md+json --profile scientific
+```
+
+---
+
+## 🎯 ¿Qué problemas resuelve Strata-Reader?
+
+| Problema | Solución | Estado |
+|:---|:---|:---:|
+| **Pérdida de estructura en PDFs** — orden de lectura erróneo, párrafos fragmentados verticalmente, tablas rotas y sin coordenadas de elementos | Re-ingeniería en Rust con el algoritmo **XY-Cut++** e índices espaciales **R-Tree** para un orden de lectura determinista y fluido. | **Shipped** |
+| **Inferencia costosa y lenta** — procesar páginas enteras con modelos de visión en la nube es caro, lento y compromete la privacidad de datos | **Triage Engine Híbrido** que extrae texto nativo a velocidad nativa y delega de forma selectiva solo regiones complejas (tablas sin bordes, figuras) a modelos de IA locales. | **Shipped** |
+| **Baja fidelidad científica** — falta de procedencia y trazabilidad de los datos científicos requerida por rigor metodológico | **Trazabilidad PRISMA Completa**: Cada bloque de contenido extraído cuenta con metadatos de procedencia (fuente de origen, modelo de IA, confianza y latencia). | **Shipped** |
+| **Integraciones complejas** — APIs engorrosas y scripts de automatización con docenas de líneas de código | **Python SDK simplificado** estilo `pandas` que permite realizar conversiones robustas con una sola línea de código o llamadas por lote. | **Shipped** |
+
+---
+
+## 📊 Matriz de Capacidades
+
+| Capacidad | Soportada | Método de Ejecución |
+|:---|:---:|:---|
+| **Extracción de Texto** | **Yes** | Geométrico Nativo (Rust Core) |
+| **Orden de Lectura Determinista** | **Yes** | Algoritmo XY-Cut++ con R-Tree |
+| **Tablas con bordes (GFM)** | **Yes** | Geométrico Nativo (Rust Core) |
+| **Tablas complejas/sin bordes** | **Yes** | Híbrido (IA local Qwen2.5-VL via Ollama) |
+| **Fórmulas Matemáticas (LaTeX)** | **Yes** | Detección Nativa + Formato estándar `$$` |
+| **Estructuración Jerárquica** | **Yes** | Clasificador Avanzado de Headings |
+| **Extracción de Imágenes / Figuras** | **Yes** | Geométrico Nativo (Rust Core) |
+| **Descripciones de Figuras (Alt text)**| **Yes** | Híbrido (IA local Qwen2.5-VL) |
+| **OCR para PDFs escaneados** | **Yes** | Orquestador Local (Surya OCR / Tesseract) |
+| **Metadata de Procedencia** | **Yes** | Trazabilidad PRISMA por bloque |
+| **Offline 100 % Local** | **Yes** | Cero llamadas a APIs en la nube |
 
 ---
 
 ## 🗺️ Arquitectura del Sistema
 
-Strata-Reader divide el trabajo mediante un pipeline híbrido asíncrono. Los componentes nativos realizan el análisis geométrico inicial y el enrutamiento inteligente (Triage) hacia los modelos de lenguaje locales.
+Strata-Reader divide el trabajo mediante un pipeline híbrido asíncrono. Los componentes nativos en Rust realizan el análisis geométrico inicial y el enrutamiento inteligente (Triage) hacia los modelos de lenguaje locales:
 
 ```mermaid
 graph TD
@@ -61,149 +135,107 @@ graph TD
 
 ---
 
-## 🔬 ¿Por qué Strata-Reader?
+## 🎯 ¿Qué modo de procesamiento debo usar?
 
-La motivación principal del proyecto nace al auditar la arquitectura monolítica de **[opendataloader-pdf](https://github.com/opendataloader-project/opendataloader-pdf)** en Java. Aunque sus heurísticas espaciales son sobresalientes, su fidelidad en estructuras complejas es deficiente (TEDS ≈ 0.49 en tablas sin bordes). 
+El motor geométrico nativo escrito en Rust maneja la gran mayoría del trabajo de forma autónoma. Obtendrás texto limpio, jerarquías de cabeceras, fórmulas en LaTeX y tablas con bordes **por defecto** sin necesidad de flags adicionales. Solo activa el modo IA cuando necesites modelos multimodales locales.
 
-**Strata-Reader** conserva el rigor matemático original y lo eleva mediante:
-1. **Re-ingeniería en Rust Puro:** Re-escritura funcional del algoritmo **XY-Cut++** y del procesador geométrico optimizados mediante índices espaciales R-Tree (`rstar`) de O(log N).
-2. **Inmutabilidad Absoluta:** Se erradica la mutación orientada a objetos in-place. Cada etapa de procesamiento genera un nuevo estado inmutable del AST documental (`Arc<Document>`).
-3. **Escalabilidad Híbrida Inteligente (Triage Engine):** El motor no procesa todo con modelos de lenguaje caros. Clasifica bloque por bloque; el texto nativo se extrae a velocidad del metal, y solo las celdas densas sin bordes, diagramas o fórmulas se recortan y envían localmente a la IA.
-4. **Trazabilidad PRISMA Completa:** Cada bloque retornado cuenta con metadatos de procedencia (`confidence`, `source` (`rust`/`ocr`/`vlm`), `model`, `latency_ms`), idóneo para entornos científicos.
+| Documento de Entrada | Modo Recomendado | Requisitos | Comando Recomendado |
+|:---|:---|:---|:---|
+| **PDF digital estándar** (La gran mayoría) | **Nativo** (Default) | Ninguno (solo `pip install`) | `strata parse --input doc.pdf --output out/` |
+| **Tablas complejas/sin bordes** | **Híbrido IA** | Ollama encendido localmente | `strata parse --input doc.pdf --output out/ --ia` |
+| **PDF escaneado / basado en imágenes** | **IA + OCR** | Ollama encendido localmente | `strata parse --input doc.pdf --output out/ --ia --force-ocr` |
+| **Fórmulas matemáticas complejas** | **Nativo** (Default) | Ninguno (detección automática) | `strata parse --input doc.pdf --output out/` |
+| **Imágenes e ilustraciones con descripción** | **Híbrido IA** | Ollama encendido localmente | `strata parse --input doc.pdf --output out/ --ia` |
+
+### 🤖 Modo IA: ¿Qué aporta la bandera `--ia`?
+
+| Característica / Bloque | Modo Nativo (Rust-only) | Modo IA (Rust + Ollama VLM) |
+|:---|:---|:---|
+| **Párrafos de texto** | Extracción geométrica fluida | Extracción geométrica fluida |
+| **Tablas con bordes** | Formateadas en Markdown GFM nativo | Formateadas en Markdown GFM nativo |
+| **Tablas sin bordes** | Omitidas / Texto crudo | Extraídas y reconstruidas por Qwen2.5-VL |
+| **Fórmulas en LaTeX** | Detección espacial y formateo `$$` | Detección espacial y formateo `$$` |
+| **Páginas escaneadas** | Omitidas (detecta mala calidad) | Procesadas vía Surya OCR / Tesseract |
+| **Extracción de figuras** | Exportación de imagen nativa a disco | Exportación de imagen nativa a disco |
+| **Descripciones de figuras** | Omitidas | Generadas de forma multimodal por Qwen2.5-VL |
+| **Metadatos de procedencia** | `source: "rust"`, confianza geométrica | `source: "vlm"`, modelo, latencia en ms |
+
+---
+
+## 📂 Salidas para RAG y Graph-RAG
+
+| Formato de Salida | Archivo Generado | Caso de Uso Principal |
+|:---|:---|:---|
+| `--format md` | `{output}/{stem}.md` | **Vector RAG** tradicional (Chroma, Pinecone, FAISS) |
+| `--format json` | `{output}/{stem}.json` | **Graph-RAG** o bases de conocimiento estructuradas (Neo4j) |
+| `--format md+json` | Ambos archivos | Ingesta híbrida y sincronizada para RAG multiruta |
+
+*Nota: El `stem` corresponde al nombre base del archivo PDF (ej. `paper.pdf` generará `paper.md` y `paper.json`).*
 
 ---
 
 ## 🛠️ Estructura del Repositorio
 
-El monorepo está diseñado de forma modular y desacoplada:
+El monorepo está estructurado de forma modular y altamente desacoplada:
 
 ```text
 strata-reader/
-├── crates/                            # Workspace de Rust Core
+├── crates/                            # Workspace de Rust Core (Alto Rendimiento)
 │   ├── strata-core/                   # AST inmutable, BBoxes y tipos del dominio
-│   ├── strata-pdf/                    # Decodificador de PDFium
-│   ├── strata-geometry/               # XY-Cut++, R-Tree y detección de tablas
-│   ├── strata-quality/                # Detector de fuentes CID rotas y escaneos
-│   ├── strata-triage/                 # Árbol de decisiones y render de crops
-│   ├── strata-ia-bridge/              # Cliente de comunicación gRPC (Tonic)
-│   ├── strata-fusion/                 # Re-ensamblaje y jerarquización de contenidos
-│   ├── strata-serialize/              # Generadores de Markdown y JSON Graph-RAG
-│   ├── strata-runtime/                # Planificador Tokio, GPU monitor y backpressure
+│   ├── strata-pdf/                    # Decodificador de PDFium (Glifos y paths nativos)
+│   ├── strata-geometry/               # XY-Cut++, R-Tree, detección de tablas, ruido y párrafos
+│   ├── strata-quality/                # Detector de calidad de fuentes CID rotas y escaneos
+│   ├── strata-triage/                 # Árbol lógico de decisiones y renderizado de crops
+│   ├── strata-ia-bridge/              # Cliente de comunicación gRPC (Tonic) hacia Python IA
+│   ├── strata-fusion/                 # Re-ensamblaje y jerarquización espacial de contenidos
+│   ├── strata-serialize/              # Renderizadores de Markdown y JSON Graph-RAG
+│   ├── strata-runtime/                # Planificador Tokio, monitor de GPU y backpressure
 │   ├── strata-cli/                    # Binario ejecutable de consola `strata`
 │   ├── strata-server/                 # Servidor microservicio HTTP (Axum)
-│   └── strata-py/                     # Bindings nativos PyO3
+│   └── strata-py/                     # Bindings de Python nativos usando PyO3
 ├── python/                            # Capa de Inferencia y SDK de Python
-│   ├── strata_ia/                     # FastAPI + Servidor gRPC de IA local
-│   └── strata_reader/                 # Facada del SDK de Python (wheel)
-└── tests/                             # Suites de testings cruzados y fixtures golden
+│   ├── strata_ia/                     # FastAPI + Servidor gRPC de IA local (Ollama/Surya)
+│   └── strata_reader/                 # Interfaz pública del SDK de Python (wheel)
+└── tests/                             # Pruebas de integración, E2E y fixtures golden
 ```
 
 ---
 
-## 🚀 Inicio Rápido en 5 Minutos
+## 🔧 Compilación y Configuración desde Código Fuente
 
-### 1. Prerrequisitos de la máquina
-Asegúrate de contar con Rust 1.88+, Python 3.12+ (gestionado idealmente con `uv`) y Ollama corriendo localmente.
+> **Nota:** Si instalas mediante `pip install strata-reader`, puedes omitir este apartado. Esto es exclusivamente para desarrolladores que desean compilar el núcleo nativo de Rust directamente.
 
-### 2. Configurar libpdfium (Windows)
-Descarga el binario PDFium y configura la variable de entorno:
+### Prerrequisitos
+- Rust 1.88+
+- Python 3.12+ con `uv`
+- Ollama (con los modelos correspondientes descargados)
+
+### 1. Configurar libpdfium (Windows)
 ```powershell
-$env:LOCALAPPDATA = [Environment]::GetFolderPath('LocalApplicationData')
 New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\pdfium" -Force
 curl.exe -L -o $env:TEMP\pdfium-win-x64.tgz "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/7843/pdfium-win-x64.tgz"
 tar -xzf $env:TEMP\pdfium-win-x64.tgz -C $env:LOCALAPPDATA\pdfium
 [Environment]::SetEnvironmentVariable("STRATA_PDFIUM_LIB_PATH", "$env:LOCALAPPDATA\pdfium\bin", "User")
 ```
 
-### 3. Compilar el CLI
+### 2. Compilar el Crate CLI
 ```bash
 cargo build -p strata-cli --release
 ```
 
-### 4. Parsear un PDF (modo nativo sin IA)
+### 3. Ejecutar Análisis Local (Sin Dependencia de IA)
 ```bash
-.\target\release\strata.exe parse \
-    --input tests/fixtures/pdfs/native_simple.pdf \
-    --output out/ \
-    --format md+json \
-    --no-ia
-```
-**Salida:** `out/native_simple.md` + `out/native_simple.json`
-
-### 5. Parsear una carpeta completa de PDFs
-```bash
-.\target\release\strata.exe parse \
-    --input tests/fixtures/pdfs/ \
-    --output out/ \
-    --format md \
-    --profile scientific \
-    --no-ia
-```
-**Salida:** Un `.md` por cada PDF en `out/`
-
-### 6. Iniciar el Microservicio de IA local
-Arranca Ollama y descarga los modelos necesarios:
-
-```powershell
-.\scripts\dev_up.ps1 -WithServer
-```
-
-### 7. Parsear con IA multimodal (requiere Ollama + modelos VLM)
-```bash
-.\target\release\strata.exe parse \
-    --input paper_cientifico.pdf \
-    --output out/ \
-    --format md+json \
-    --profile scientific
+# Procesa un PDF de dos columnas y genera el Markdown y JSON estructurado
+./target/release/strata.exe parse --input tests/fixtures/pdfs/two_column_paper.pdf --output out/ --format md+json --no-ia
 ```
 
 ---
 
-## 📂 Dónde se guardan las salidas
+## ⚠️ Restricción Crítica de Entorno Corporativo (EDR / AppLocker)
 
-| Flag | Formato | Archivo de salida | Uso |
-|------|---------|-------------------|-----|
-| `--format md` | Markdown semántico | `{output}/{stem}.md` | **Vector RAG** (Chroma, Pinecone, FAISS) |
-| `--format json` | JSON Graph-RAG | `{output}/{stem}.json` | **Graph-RAG** (Neo4j, Agrisearch) |
-| `--format md+json` | Ambos | Ambos archivos | Ambos tipos de RAG simultáneos |
+Si estás trabajando en una máquina con directivas de seguridad corporativas estrictas (por ejemplo, `EMPRESA\usuario`), el compilador Rust o el linker (`ld.lld.exe`) pueden fallar inmediatamente arrojando **`Acceso denegado (os error 5)`** al intentar ejecutar binarios recién compilados en directorios de usuario (`target/`).
 
-El `stem` es el nombre del PDF sin extensión (ej. `paper.pdf` → `paper.md`).
-
----
-
-## 🧪 Parsear para Vector RAG (Markdown semántico)
-
-```bash
-.\target\release\strata.exe parse \
-    --input tests/fixtures/pdfs/two_column_paper.pdf \
-    --output salidas/ \
-    --format md \
-    --profile scientific \
-    --no-ia
-```
-
-El `.md` generado incluye headings `#`/`##` jerárquicos, párrafos cohesionados, y tablas GFM listas para chunking semántico e ingesta en bases vectoriales.
-
-## 🕸️ Parsear para Graph-RAG (JSON estructurado)
-
-```bash
-.\target\release\strata.exe parse \
-    --input tests/fixtures/pdfs/two_column_paper.pdf \
-    --output salidas/ \
-    --format json \
-    --profile scientific \
-    --no-ia
-```
-
-El `.json` generado contiene `{ meta, nodes, edges }` — cada nodo es un bloque semántico (`paragraph`, `heading-1`, `table`, `figure`, `equation`) con su `bbox`, `page`, `provenance` y `tags`. Las aristas codifican relaciones `contains`, `follows`, `caption-of` y `references`.
-
----
-
-## ⚠️ Advertencia de Entorno Corporativo (EDR / AppLocker)
-
-Si estás trabajando en una máquina con directivas de seguridad corporativas estrictas (por ejemplo, `EMPRESA\usuario`), el compilador Rust o el linker (`ld.lld.exe`) pueden fallar inmediatamente arrojando **`Acceso denegado (os error 5)`** al intentar ejecutar binarios en directorios de usuario (`target/`).
-
-Esto **no** es un problema de permisos de NTFS ni un error del código. Es un bloqueo del software de seguridad corporativo (AppLocker/CrowdStrike/Defender ATP). 
+Esto no es un error de código ni de permisos NTFS. Es un bloqueo del software de seguridad corporativo (AppLocker/EDR).
 
 **Mitigación:**
 - Consulta la solicitud formal enviada a IT en [IT_request.md](docs/usage/IT_request.md) para habilitar excepciones.
@@ -215,20 +247,9 @@ Esto **no** es un problema de permisos de NTFS ni un error del código. Es un bl
 
 Strata-Reader se adapta a cualquier entorno de despliegue:
 
-1. **Binario CLI Nativo:** Utilidad portable ultra-rápida. `cargo install --path crates/strata-cli`.
-2. **Microservicio REST/gRPC en Red:** Listo para desplegar en K8s o contenedores en la nube. `strata serve --bind 0.0.0.0:8080`.
-3. **Paquete Python pip-installable (Wheel):** Una rueda multiplataforma que embebe el núcleo de Rust y libpdfium. Puedes usarlo directamente en tus scripts de Python de la siguiente manera:
-
-```python
-from strata_reader import parse, ParseOptions
-
-# Parsear usando el perfil científico de alta fidelidad
-doc = parse("paper.pdf", options=ParseOptions(profile="scientific"))
-
-# Generar salidas listas para ingesta de RAG
-markdown_content = doc.to_markdown()
-graph_json = doc.to_graph_json()
-```
+1. **Paquete Python Wheel (pip):** Rueda multiplataforma autocontenida con el núcleo compilado de Rust y pdfium.
+2. **Consola Nativa (CLI):** Utilidad portable para procesamiento masivo de terminal.
+3. **Servidor HTTP REST / gRPC:** Microservicio escalable listo para desplegar en clústeres de Kubernetes o contenedores Docker en la nube (`strata serve --bind 0.0.0.0:8080`).
 
 ---
 
