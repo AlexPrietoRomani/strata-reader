@@ -4,74 +4,163 @@ Fecha de modificación: 22/05/2026
 Autor: Strata-Reader Contributors
 
 Descripción:
-Script ejecutable de prueba simplificado para validar el SDK de Python de Strata-Reader
-utilizando la nueva API declarativa de alto nivel `convert()`.
-Mide de forma empírica el rendimiento y la velocidad por página.
+Mide y compara de forma empírica la velocidad y el rendimiento del procesamiento de PDFs
+entre Strata-Reader y OpenDataLoader-PDF sobre el corpus de artículos científicos de prueba.
 
 Sustentación Científica:
-Proporciona una prueba sintética representativa de la integración de la API para medir
-tiempos de conversión sin overhead de procesos del sistema de forma limpia.
+Permite obtener una evaluación empírica de velocidad de conversión por página (s/page)
+para validar el rendimiento del motor nativo en Rust de Strata-Reader frente al baseline
+de OpenDataLoader.
 
 Acciones Principales:
     - Ejecuta `strata_reader.convert()` sobre la carpeta de artículos de prueba.
-    - Calcula la métrica empírica de velocidad de conversión por página.
+    - Ejecuta `opendataloader_pdf.convert()` sobre la misma carpeta de artículos.
+    - Calcula la velocidad empírica de procesamiento por página para ambos motores.
+    - Almacena las métricas resultantes en un archivo JSON unificado.
 
 Estructura Interna:
     - `main()`: Orquesta la conversión y calcula el benchmark empírico.
 
 Entradas / Dependencias:
     - PDFs de artículos científicos en `tests/fixtures/pdfs/articles`.
-    - SDK `strata_reader`.
+    - Módulo `strata_reader` y `opendataloader_pdf`.
 
 Salidas / Efectos:
-    - Salidas de Markdown y JSON en `tests/fixtures/salidas/strata-reader-output`.
-    - Archivo de métricas `tests/fixtures/salidas/strata_real_metrics.json`.
+    - Salidas de Markdown y JSON de Strata-Reader en `tests/fixtures/salidas/strata-reader-output`.
+    - Salidas de Markdown y JSON de OpenDataLoader en `tests/fixtures/salidas/opendataloader-pdf`.
+    - Archivo de métricas consolidadas en `tests/fixtures/salidas/strata_real_metrics.json`.
 
 Ejecución:
-    python run_strata_reader.py
+    python tests/test_pruebas/run_strata_reader.py
 
 Ejemplo de Uso:
-    python run_strata_reader.py
+    python tests/test_pruebas/run_strata_reader.py
 """
 
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import time
 
+# Configurar ruta a la biblioteca pdfium en Windows de forma dinamica
+if "STRATA_PDFIUM_LIB_PATH" not in os.environ:
+    local_pdfium = Path.home() / "AppData" / "Local" / "pdfium" / "bin"
+    if local_pdfium.is_dir():
+        os.environ["STRATA_PDFIUM_LIB_PATH"] = str(local_pdfium.absolute())
+
 import strata_reader
+import opendataloader_pdf
+
+
+def run_strata_benchmark(pdf_files: list[Path], out_dir: Path) -> float:
+    """
+    Ejecuta el benchmark para el SDK de Strata-Reader y calcula la velocidad por página.
+
+    Args:
+        pdf_files (list[Path]): Lista de objetos Path correspondientes a los archivos PDF.
+        out_dir (Path): Directorio de salida para guardar los resultados del procesamiento.
+
+    Returns:
+        float: Velocidad promedio de procesamiento expresada en segundos por página.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 1. Medir tiempo de ejecución del SDK de Strata-Reader
+    start_time = time.time()
+    results = strata_reader.convert(
+        input_path=pdf_files,
+        output_dir=out_dir,
+        format="md+json",
+        use_ia=False,
+        show_progress=False,
+    )
+    elapsed_time = time.time() - start_time
+    
+    # 2. Calcular total de páginas procesadas exitosamente
+    success_docs = [path for path, status in results.items() if status == "success"]
+    total_pages = 0
+    for doc_path in success_docs:
+        try:
+            # parse() retorna el Document nativo, del cual podemos extraer la cantidad de páginas
+            parsed_doc = strata_reader.parse(doc_path)
+            total_pages += len(parsed_doc)
+        except Exception:
+            total_pages += 1  # Fallback si falla la lectura de páginas
+            
+    speed = elapsed_time / total_pages if total_pages > 0 else 0.0
+    print(f"[Strata-Reader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.3f} s/pagina).")
+    return speed
+
+
+def run_opendataloader_benchmark(pdf_files: list[Path], out_dir: Path) -> float:
+    """
+    Ejecuta el benchmark para OpenDataLoader y calcula la velocidad por página.
+
+    Args:
+        pdf_files (list[Path]): Lista de objetos Path correspondientes a los archivos PDF.
+        out_dir (Path): Directorio de salida para guardar los resultados del procesamiento.
+
+    Returns:
+        float: Velocidad promedio de procesamiento expresada en segundos por página.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    pdf_strs = [str(p.absolute()) for p in pdf_files]
+    
+    # 1. Medir tiempo de ejecución del SDK de OpenDataLoader
+    start_time = time.time()
+    opendataloader_pdf.convert(
+        input_path=pdf_strs,
+        output_dir=str(out_dir.absolute()),
+        format="markdown,json"
+    )
+    elapsed_time = time.time() - start_time
+    
+    # 2. Calcular total de páginas (usando la lectura nativa de Strata-Reader como referencia estable)
+    total_pages = 0
+    for doc_path in pdf_files:
+        try:
+            parsed_doc = strata_reader.parse(str(doc_path.absolute()))
+            total_pages += len(parsed_doc)
+        except Exception:
+            total_pages += 1
+            
+    speed = elapsed_time / total_pages if total_pages > 0 else 0.0
+    print(f"[OpenDataLoader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.3f} s/pagina).")
+    return speed
 
 
 def main() -> None:
     """
-    Orquesta el benchmark simplificado del SDK de Python de Strata-Reader.
+    Orquesta el benchmark comparativo entre ambos motores de extracción de PDFs.
     """
     pdf_dir = Path("tests/fixtures/pdfs/articles")
-    out_dir = Path("tests/fixtures/salidas/strata-reader-output")
+    pdf_files = sorted(list(pdf_dir.glob("*.pdf")))
     
-    # Iniciar conversión batch nativa
-    start_t = time.time()
-    results = strata_reader.convert(
-        input_path=pdf_dir,
-        output_dir=out_dir,
-        format="md+json",
-        use_ia=False,
-    )
-    elapsed = time.time() - start_t
+    if not pdf_files:
+        print(f"[ERROR] No se encontraron archivos PDF en {pdf_dir}")
+        return
+        
+    strata_out_dir = Path("tests/fixtures/salidas/strata-reader-output")
+    odl_out_dir = Path("tests/fixtures/salidas/opendataloader-pdf")
     
-    # Calcular y reportar métricas
-    success_docs = [p for p, status in results.items() if status == "success"]
-    total_pages = sum(len(strata_reader.parse(p)) for p in success_docs)
-    speed = elapsed / total_pages if total_pages > 0 else 0.0
+    print(f"Iniciando benchmark de velocidad con {len(pdf_files)} articulos...")
     
-    print(f"Procesadas {total_pages} páginas de {len(success_docs)} PDFs en {elapsed:.3f} s.")
-    print(f"Velocidad empírica del SDK: {speed:.3f} s/página.")
+    # Ejecutar benchmarks y obtener velocidades
+    strata_speed = run_strata_benchmark(pdf_files, strata_out_dir)
+    odl_speed = run_opendataloader_benchmark(pdf_files, odl_out_dir)
     
-    # Guardar métricas reales para el reporte y gráficos
+    # Almacenar métricas en formato JSON consolidado
+    metrics = {
+        "strata_speed": strata_speed,
+        "opendataloader_speed": odl_speed
+    }
+    
     metrics_path = Path("tests/fixtures/salidas/strata_real_metrics.json")
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
-    metrics_path.write_text(json.dumps({"Speed": speed}))
+    metrics_path.write_text(json.dumps(metrics, indent=2))
+    print(f"Metricas de velocidad consolidadas y guardadas en: {metrics_path.absolute()}")
 
 
 if __name__ == "__main__":
