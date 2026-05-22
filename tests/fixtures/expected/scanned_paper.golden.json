@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "sourceSha256": "eab9ed0553f1d32fff4c4ca1e8034ad4037c0d7ef1d913c6d5c47c6249c36045",
+    "sourceFilename": "scanned_paper.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQTVT5G1TMT7G7GK5C7M",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDR8VZCZFS4RFJT2KZ37D",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDRNXGW3NTQM3QRTMJKFS",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDS232E16K0YZBBANS27H",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDSE552K5BP16N5D4MBWC",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDSS56996V0SSBXGNVAEK",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 612.0,
+        "y1": 792.0
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQTVT5G1TMT7G7GK5C7M",
+      "to": "01KS6WDR8VZCZFS4RFJT2KZ37D",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDR8VZCZFS4RFJT2KZ37D",
+      "to": "01KS6WDRNXGW3NTQM3QRTMJKFS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDRNXGW3NTQM3QRTMJKFS",
+      "to": "01KS6WDS232E16K0YZBBANS27H",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDS232E16K0YZBBANS27H",
+      "to": "01KS6WDSE552K5BP16N5D4MBWC",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSE552K5BP16N5D4MBWC",
+      "to": "01KS6WDSS56996V0SSBXGNVAEK",
+      "relation": "follows"
+    }
+  ]
+}

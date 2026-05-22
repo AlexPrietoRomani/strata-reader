@@ -1,0 +1,6583 @@
+{
+  "meta": {
+    "sourceSha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+    "sourceFilename": "two_column_paper.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDST6GTG11QCBJSNRMDE9",
+      "nodeType": "heading-3",
+      "content": "Provided proper attribution is provided, Google hereby grants permission to",
+      "bbox": {
+        "x0": 124.857285,
+        "y0": 707.4427,
+        "x1": 487.33893,
+        "y1": 718.2024
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6VS71X9FS4PMAH64D",
+      "nodeType": "heading-3",
+      "content": "reproduce the tables and figures in this paper solely for use in j ournalistic or",
+      "bbox": {
+        "x0": 124.37278,
+        "y0": 693.49567,
+        "x1": 487.91846,
+        "y1": 704.2554
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6PZV258DV9C1XZG9D",
+      "nodeType": "heading-3",
+      "content": "scholarly works.",
+      "bbox": {
+        "x0": 268.2037,
+        "y0": 679.54767,
+        "x1": 346.49832,
+        "y1": 690.3074
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "nodeType": "heading-2",
+      "content": "Attention Is All You Need",
+      "bbox": {
+        "x0": 211.64294,
+        "y0": 629.6643,
+        "x1": 399.89334,
+        "y1": 641.8528
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6ARXSR2RWZJ3EDZXP",
+      "nodeType": "paragraph",
+      "content": "0Ashish Vaswani∗ Noam Shazeer∗ Niki Parmar∗ Jakob Uszkoreit∗ 2Google Brain Google Brain Google Research Google Research gavaswani@google.com noam@google.com nikip@google.com usz@google.com uALlion Jones∗ Aidan N. Gomez∗ † Łukasz Kaiser∗ Google Research University of Toronto Google Brain 2 llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+      "bbox": {
+        "x0": 18.46,
+        "y0": 473.64,
+        "x1": 497.2107,
+        "y1": 557.36
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6C0TE0KZNW8TG9DA8",
+      "nodeType": "paragraph",
+      "content": "LIllia Polosukhin∗ ‡",
+      "bbox": {
+        "x0": 18.76,
+        "y0": 449.18048,
+        "x1": 346.83984,
+        "y1": 466.54
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6N0MRDC9JW7YJD3DZ",
+      "nodeType": "heading-4",
+      "content": "C.illia.polosukhin@gmail.com",
+      "bbox": {
+        "x0": 18.46,
+        "y0": 436.1395,
+        "x1": 373.79236,
+        "y1": 454.06
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6GQEGM1B3BT19CFMT",
+      "nodeType": "paragraph",
+      "content": "sc",
+      "bbox": {
+        "x0": 22.8,
+        "y0": 420.44,
+        "x1": 32.26,
+        "y1": 435.72003
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST680XWWV5F828WPYBK",
+      "nodeType": "heading-3",
+      "content": "7Abstract",
+      "bbox": {
+        "x0": 18.76,
+        "y0": 393.84003,
+        "x1": 328.2433,
+        "y1": 405.46808
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6EV6F71JDQYP5T26R",
+      "nodeType": "paragraph",
+      "content": "v",
+      "bbox": {
+        "x0": 23.060001,
+        "y0": 383.26,
+        "x1": 32.26,
+        "y1": 392.92
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6RNVGEQDCFJ3S74QH",
+      "nodeType": "heading-4",
+      "content": "2 The dominant sequence transduction models are based on complex recurrent or",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 368.8831,
+        "x1": 468.31955,
+        "y1": 382.26
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST60SBD1YV93F5PH791",
+      "nodeType": "heading-4",
+      "content": "6 convolutional neural networks that include an encoder and a decoder. The best",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 359.9965,
+        "x1": 468.14087,
+        "y1": 372.32
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6J8F8HNFKA2HRDX4J",
+      "nodeType": "paragraph",
+      "content": "7 performing models also connect the encoder and decoder through an attention 3 mechanism. We propose a new simple network architecture, the Transformer, 0",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 333.82,
+        "x1": 469.33087,
+        "y1": 362.22
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6MWSP216JPWTJF8VX",
+      "nodeType": "heading-4",
+      "content": ". based solely on attention mechanisms, dispensing with recurrence and convolutions",
+      "bbox": {
+        "x0": 30.1,
+        "y0": 325.2371,
+        "x1": 468.2135,
+        "y1": 334.20343
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6DQFPM6K8ZEGR1B4X",
+      "nodeType": "heading-4",
+      "content": "6 entirely. Experiments on two machine translation tasks show these models to",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 314.3281,
+        "x1": 468.0311,
+        "y1": 327.32
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6CRTG74TXHEEMHVF7",
+      "nodeType": "heading-4",
+      "content": "0 be superior in quality while being more parallelizable and requiring significantly",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 303.4191,
+        "x1": 468.42117,
+        "y1": 317.38
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6NKM4ZYSH5GYFFW4V",
+      "nodeType": "heading-4",
+      "content": "7 less time to train. Our model achieves 28 .4 BLEU on the WMT 20 1 4 English\u0002",
+      "bbox": {
+        "x0": 18.76,
+        "y0": 292.5101,
+        "x1": 469.29922,
+        "y1": 307.22
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6EHDWYVE9BBMD2VK4",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 18.48,
+        "y0": 290.44,
+        "x1": 32.0,
+        "y1": 295.66
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6FC0FH9P6KAQBR292",
+      "nodeType": "heading-4",
+      "content": ": to-German translation task, improving over the existing best results, including",
+      "bbox": {
+        "x0": 22.779999,
+        "y0": 281.6001,
+        "x1": 468.0309,
+        "y1": 290.56644
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6Y24QC6G0KQZYS1QB",
+      "nodeType": "heading-4",
+      "content": "v ensembles, by over 2 BLEU. On the WMT 20 1 4 English-to-French translation task,",
+      "bbox": {
+        "x0": 23.060001,
+        "y0": 270.6911,
+        "x1": 469.42578,
+        "y1": 282.36
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6TYW6H3PBWG61PA79",
+      "nodeType": "heading-4",
+      "content": "iour model establishes a new single-model state-of-the-art BLEU score of 41.8 after",
+      "bbox": {
+        "x0": 18.119999,
+        "y0": 259.7821,
+        "x1": 468.3684,
+        "y1": 272.04
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6AW5KS7SJ7MFQ7GRT",
+      "nodeType": "heading-4",
+      "content": "X training for 3 . 5 days on eight GPUs , a small fraction of the training costs of the",
+      "bbox": {
+        "x0": 18.76,
+        "y0": 248.87312,
+        "x1": 468.0422,
+        "y1": 266.74
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6V3HQBN1HBVDJXYCS",
+      "nodeType": "paragraph",
+      "content": "r",
+      "bbox": {
+        "x0": 22.8,
+        "y0": 246.0,
+        "x1": 32.0,
+        "y1": 252.66
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "nodeType": "heading-4",
+      "content": "a best models from the literature. We show that the Transformer generalizes well to",
+      "bbox": {
+        "x0": 22.8,
+        "y0": 237.72,
+        "x1": 468.15137,
+        "y1": 246.93047
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDST6TETDKHT458JJ0CV1",
+      "nodeType": "paragraph",
+      "content": "other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+      "bbox": {
+        "x0": 144.05528,
+        "y0": 216.14612,
+        "x1": 468.06403,
+        "y1": 236.02145
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6K5S74HGPXKFED4TY",
+      "nodeType": "paragraph",
+      "content": "∗ Equal contribution. Listing order is random. Jakob proposed replacing RNNs with self-attention and started the effort to evaluate this idea. Ashish, with Illia, designed and implemented the first Transformer models and has been crucially involved in every aspect of this work. Noam proposed scaled dot-product attention, multi-head attention and the parameter-free position representation and became the other person involved in nearly every detail. Niki designed, implemented, tuned and evaluated countless model variants in our original codebase and tensor2tensor. Llion also experimented with novel model variants, was responsible for our initial codebase, and efficient inference and visualizations . Lukasz and Aidan spent countless long days designing various parts of and implementing tensor2tensor, replacing our earlier codebase, greatly improving results and massively accelerating our research. † Work performed while at Google Brain. ‡ Work performed while at Google Research.",
+      "bbox": {
+        "x0": 108.07909,
+        "y0": 82.600296,
+        "x1": 504.2646,
+        "y1": 192.73358
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDST6S530ST1MFMY51B1F",
+      "nodeType": "paragraph",
+      "content": "3 1 st Conference on Neural Information Processing Systems (NIPS 20 1 7), Long Beach, CA, USA.",
+      "bbox": {
+        "x0": 108.38555,
+        "y0": 50.17729,
+        "x1": 460.13757,
+        "y1": 58.24705
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBY1QTMG48F1VQ8APK",
+      "nodeType": "paragraph",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 108.777084,
+        "y0": 709.8816,
+        "x1": 190.81367,
+        "y1": 718.29803
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTB1JMQSR8D77BVJQW7",
+      "nodeType": "paragraph",
+      "content": "Recurrent neural networks, long short-term memory [ 1 3] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [35 , 2, 5] . Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [3 8 , 24 , 1 5 ] .",
+      "bbox": {
+        "x0": 108.1321,
+        "y0": 640.1738,
+        "x1": 504.23367,
+        "y1": 692.15845
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBJ3302724BKAKXF7G",
+      "nodeType": "paragraph",
+      "content": "Recurrent models typically factor computation along the symbol positions of the input and output sequences . Aligning the positions to steps in computation time, they generate a sequence of hidden states ht , as a function of the previous hidden state ht − 1 and the input for position t . This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples . Recent work has achieved significant improvements in computational efficiency through factorization tricks [2 1 ] and conditional computation [32] , while also improving model performance in case of the latter. The fundamental constraint of sequential computation, however, remains .",
+      "bbox": {
+        "x0": 108.17275,
+        "y0": 546.8141,
+        "x1": 504.40073,
+        "y1": 632.1334
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTB4K4274MEE0VXAQWY",
+      "nodeType": "paragraph",
+      "content": "Attention mechanisms have become an integral part of compelling sequence modeling and transduc\u0002 tion models in various tasks, allowing modeling of dependencies without regard to their distance in the input or output sequences [2, 1 9] . In all but a few cases [27] , however, such attention mechanisms are used in conjunction with a recurrent network.",
+      "bbox": {
+        "x0": 107.78954,
+        "y0": 497.6881,
+        "x1": 505.18,
+        "y1": 539.3815
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBQWT7K3Q61B38M7Q7",
+      "nodeType": "paragraph",
+      "content": "In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P 1 00 GPUs .",
+      "bbox": {
+        "x0": 107.86037,
+        "y0": 448.5721,
+        "x1": 505.704,
+        "y1": 490.26544
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBG27T8BK2YSFBNVKY",
+      "nodeType": "paragraph",
+      "content": "2 Background",
+      "bbox": {
+        "x0": 108.20324,
+        "y0": 417.2732,
+        "x1": 188.82912,
+        "y1": 427.9492
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBRSWQT2M8BBS3NFBK",
+      "nodeType": "paragraph",
+      "content": "The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU [ 1 6] , ByteNet [ 1 8] and ConvS2S [9] , all of which use convolutional neural networks as basic building block, computing hidden representations in parallel for all input and output positions . In these models , the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, linearly for ConvS2S and logarithmically for ByteNet. This makes it more difficult to learn dependencies between distant positions [ 1 2] . In the Transformer this is reduced to a constant number of operations , albeit at the cost of reduced effective resolution due to averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as described in section 3 . 2 .",
+      "bbox": {
+        "x0": 107.85834,
+        "y0": 307.6385,
+        "x1": 505.2911,
+        "y1": 401.84543
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBNE3W6NAF97C1K8M4",
+      "nodeType": "paragraph",
+      "content": "Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence. Self-attention has been used successfully in a variety of tasks including reading comprehension, abstractive summarization, textual entailment and learning task-independent sentence representations [4, 27 , 28 , 22] .",
+      "bbox": {
+        "x0": 108.08958,
+        "y0": 256.4901,
+        "x1": 505.25208,
+        "y1": 298.18344
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBWGP2BWN8MZT3WFB4",
+      "nodeType": "paragraph",
+      "content": "End-to-end memory networks are based on a recurrent attention mechanism instead of sequence\u0002 aligned recurrence and have been shown to perform well on simple-language question answering and language modeling tasks [34] .",
+      "bbox": {
+        "x0": 108.12194,
+        "y0": 218.28313,
+        "x1": 505.1659,
+        "y1": 249.06847
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBMXG81Y30CCB4G7GV",
+      "nodeType": "paragraph",
+      "content": "To the best of our knowledge, however, the Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence\u0002 aligned RNNs or convolution. In the following sections, we will describe the Transformer, motivate self-attention and discus s its advantages over models such as [ 1 7 , 1 8] and [9] .",
+      "bbox": {
+        "x0": 107.863754,
+        "y0": 169.16812,
+        "x1": 505.1789,
+        "y1": 210.86147
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "nodeType": "heading-1",
+      "content": "3 Model Architecture",
+      "bbox": {
+        "x0": 108.191284,
+        "y0": 140.1646,
+        "x1": 226.09344,
+        "y1": 148.58105
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSTBXVJCPX3EJEB9WAWK",
+      "nodeType": "paragraph",
+      "content": "Most competitive neural sequence transduction models have an encoder-decoder structure [5, 2, 35]. Here, the encoder maps an input sequence of symbol representations (x1, ..., xn) to a sequence of continuous representations z = (z1, ..., zn). Given z, the decoder then generates an output sequence (y1, ..., ym) of symbols one element at a time. At each step the model is auto-regressive [10], consuming the previously generated symbols as additional input when generating the next.",
+      "bbox": {
+        "x0": 108.11895,
+        "y0": 69.83812,
+        "x1": 505.7556,
+        "y1": 122.49027
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSTBR7CJH2FKSDAGQ08Q",
+      "nodeType": "paragraph",
+      "content": "2",
+      "bbox": {
+        "x0": 303.8079,
+        "y0": 42.112,
+        "x1": 308.24124,
+        "y1": 48.846718
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGVVXM900BBM71S90M",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 196.559,
+        "y0": 397.582,
+        "x1": 415.43903,
+        "y1": 719.99805
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDSWGF4437RVP3JGM2XT7",
+      "nodeType": "paragraph",
+      "content": "Figure 1: The Transformer - model architecture.",
+      "bbox": {
+        "x0": 210.13055,
+        "y0": 377.5371,
+        "x1": 401.99036,
+        "y1": 386.50345
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGW1WXM83CD97V3KA6",
+      "nodeType": "paragraph",
+      "content": "The Transformer follows this overall architecture using stacked self-attention and point-wise, fully connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1 , respectively.",
+      "bbox": {
+        "x0": 107.8624,
+        "y0": 323.6671,
+        "x1": 505.19705,
+        "y1": 354.45145
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGRF88DX8SJZ8T1HHZ",
+      "nodeType": "paragraph",
+      "content": "3.1 Encoder and Decoder Stacks",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 301.18268,
+        "x1": 253.00563,
+        "y1": 308.2561
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWG1ZT063ZKEF8Y5T34",
+      "nodeType": "paragraph",
+      "content": "Encoder: The encoder is composed of a stack of N = 6 identical layers . Each layer has two sub-layers . The first is a multi-head self-attention mechanism, and the second is a simple, position\u0002 wise fully connected feed-forward network. We employ a residual connection [ 1 1 ] around each of the two sub-layers , followed by layer normalization [ 1 ] . That is , the output of each sub-layer is LayerNorm (x + Sublayer (x) ) , where Sublayer (x) is the function implemented by the sub-layer itself. To facilitate these residual connections , all sub-layers in the model, as well as the embedding layers , produce outputs of dimension dmodel = 5 1 2 .",
+      "bbox": {
+        "x0": 107.85356,
+        "y0": 213.76712,
+        "x1": 505.17496,
+        "y1": 288.18845
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGD6TKD82J1FAGZCAW",
+      "nodeType": "paragraph",
+      "content": "Decoder: The decoder is also composed of a stack of N = 6 identical layers . In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack. Similar to the encoder, we employ residual connections around each of the sub-layers, followed by layer normalization. We also modify the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions . This masking, combined with fact that the output embeddings are offset by one position, ensures that the predictions for position i can depend only on the known outputs at positions less than i .",
+      "bbox": {
+        "x0": 108.04981,
+        "y0": 125.192116,
+        "x1": 504.09586,
+        "y1": 199.61246
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGQ1VJ6K15CKHPJTBG",
+      "nodeType": "paragraph",
+      "content": "3.2 Attention",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 102.75748,
+        "x1": 170.8142,
+        "y1": 109.77115
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGT58674D71WENNQ3R",
+      "nodeType": "paragraph",
+      "content": "An attention function can be described as mapping a query and a set of key-value pairs to an output, where the query, keys , values , and output are all vectors . The output is computed as a weighted sum",
+      "bbox": {
+        "x0": 107.79014,
+        "y0": 69.83812,
+        "x1": 505.25342,
+        "y1": 89.713455
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSWGKPX74S8SM26DKB1T",
+      "nodeType": "paragraph",
+      "content": "3",
+      "bbox": {
+        "x0": 303.9374,
+        "y0": 41.982487,
+        "x1": 307.81284,
+        "y1": 48.846718
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNN1FF53V5A8TMVNKR",
+      "nodeType": "paragraph",
+      "content": "Scaled Dot-Product Attention Multi-Head Attention",
+      "bbox": {
+        "x0": 148.20143,
+        "y0": 713.1155,
+        "x1": 450.20084,
+        "y1": 720.04944
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNMHM6F5DC14GYRA3E",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 174.96,
+        "y0": 570.679,
+        "x1": 239.04001,
+        "y1": 697.97504
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDSXN02FBX5RRECSYXKPB",
+      "nodeType": "figure",
+      "content": "figure",
+      "bbox": {
+        "x0": 346.772,
+        "y0": 524.705,
+        "x1": 467.012,
+        "y1": 709.313
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "figure"
+      ]
+    },
+    {
+      "id": "01KS6WDSXNE4N9EQG0J339E4ZS",
+      "nodeType": "paragraph",
+      "content": "Figure 2 : (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several attention layers running in parallel .",
+      "bbox": {
+        "x0": 108.12194,
+        "y0": 496.9101,
+        "x1": 503.94174,
+        "y1": 516.78546
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNA025ETN0X19FVRQF",
+      "nodeType": "paragraph",
+      "content": "of the values , where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key.",
+      "bbox": {
+        "x0": 108.239105,
+        "y0": 454.1951,
+        "x1": 504.0789,
+        "y1": 474.07043
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNXQ54V7FKX0CFFB3E",
+      "nodeType": "paragraph",
+      "content": "3.2.1 Scaled Dot-Product Attention",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 433.11768,
+        "x1": 263.8848,
+        "y1": 440.1911
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXN9Y8ZHVJF2D3923QC",
+      "nodeType": "paragraph",
+      "content": "We call our particular attention \" Scaled Dot-Product Attention\" (Figure 2) . The input consists of queries and keys of dimension dk , and values of dimension dv . We compute the dot products of the query with all keys , divide each by √dk , and apply a softmax function to obtain the weights on the values .",
+      "bbox": {
+        "x0": 107.58281,
+        "y0": 381.8105,
+        "x1": 504.5047,
+        "y1": 421.47144
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNZE74S7SASYK1RD3G",
+      "nodeType": "paragraph",
+      "content": "In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q . The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as :",
+      "bbox": {
+        "x0": 108.12952,
+        "y0": 341.5811,
+        "x1": 504.1902,
+        "y1": 372.35544
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNZBR363AQS1XEGH18",
+      "nodeType": "paragraph",
+      "content": "KT Attention(Q, K, V ) = softmax(Q )V (1) √dk",
+      "bbox": {
+        "x0": 220.2888,
+        "y0": 301.97287,
+        "x1": 504.6674,
+        "y1": 326.2973
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXN4N70DHB4G2858JRW",
+      "nodeType": "paragraph",
+      "content": "The two most commonly used attention functions are additive attention [2] , and dot-product (multi\u0002 plicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of 1 . Additive attention computes the compatibility function using a feed-forward network with √d k a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code.",
+      "bbox": {
+        "x0": 107.86121,
+        "y0": 225.96808,
+        "x1": 505.17218,
+        "y1": 291.73044
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNS1KQRS4NWAK373PS",
+      "nodeType": "paragraph",
+      "content": "While for small values of dk the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of dk [3 ] . We suspect that for large values of dk , the dot products grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients 4 . To counteract this effect, we scale the dot products by 1 . √d k",
+      "bbox": {
+        "x0": 107.58211,
+        "y0": 173.59389,
+        "x1": 504.5005,
+        "y1": 218.64505
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNSC26CX3SB0GFG18Q",
+      "nodeType": "paragraph",
+      "content": "3.2.2 Multi-Head Attention",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 153.44348,
+        "x1": 230.58977,
+        "y1": 160.45715
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXN4TSNAJK7TXJKQN6N",
+      "nodeType": "paragraph",
+      "content": "Instead of performing a single attention function with dmodel -dimensional keys, values and queries, we found it beneficial to linearly proj ect the queries , keys and values h times with different, learned linear proj ections to dk , dk and dv dimensions , respectively. On each of these proj ected versions of queries, keys and values we then perform the attention function in parallel, yielding dv -dimensional",
+      "bbox": {
+        "x0": 107.850006,
+        "y0": 100.05412,
+        "x1": 505.20404,
+        "y1": 141.85704
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXNAXTMX5FKNG638Q7J",
+      "nodeType": "paragraph",
+      "content": "4To illustrate why the dot products get large, assume that the components of q and k are independent random variables with mean 0 and variance 1 . Then their dot product, q · k = P id=k 1 qi ki , has mean 0 and variance dk .",
+      "bbox": {
+        "x0": 107.945854,
+        "y0": 69.20621,
+        "x1": 504.14145,
+        "y1": 91.19985
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXN4F3F1APA5KT8F3V0",
+      "nodeType": "paragraph",
+      "content": "4",
+      "bbox": {
+        "x0": 303.62854,
+        "y0": 42.112,
+        "x1": 308.21136,
+        "y1": 48.846718
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRBB0AXVFAQVMX3SZT",
+      "nodeType": "paragraph",
+      "content": "output values . These are concatenated and once again proj ected, resulting in the final values , as depicted in Figure 2 .",
+      "bbox": {
+        "x0": 108.26899,
+        "y0": 696.9661,
+        "x1": 503.91965,
+        "y1": 716.84143
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRHSR9KMRSEVH80VDB",
+      "nodeType": "paragraph",
+      "content": "Multi-head attention allows the model to j ointly attend to information from different representation subspaces at different positions . With a single attention head, averaging inhibits this .",
+      "bbox": {
+        "x0": 108.120026,
+        "y0": 669.6691,
+        "x1": 503.97693,
+        "y1": 689.54443
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRFMC2TJ6ZSGSTSYPT",
+      "nodeType": "paragraph",
+      "content": "MultiHead(Q, K, V ) = Concat(head1, ..., headh)WO where headi = Attention(QWiQ , KWiK , VWiV )",
+      "bbox": {
+        "x0": 187.30862,
+        "y0": 616.9672,
+        "x1": 425.0515,
+        "y1": 645.6336
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRQN0FKGKBJ2T6T72W",
+      "nodeType": "paragraph",
+      "content": "Where the projections are parameter matrices W iQ ∈ R dmodel×dk , WiK ∈ R dmodel×dk , WiV ∈ R dmodel×dv and WO ∈ R hdv×dmodel .",
+      "bbox": {
+        "x0": 107.58082,
+        "y0": 566.0715,
+        "x1": 502.8235,
+        "y1": 588.3816
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXR3V8851GVP02H5Y9Q",
+      "nodeType": "paragraph",
+      "content": "In this work we employ h = 8 parallel attention layers , or heads . For each of these we use dk = dv = dmodel / h = 64 . Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality.",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 526.0911,
+        "x1": 504.0083,
+        "y1": 556.9861
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRYPENGJDEEXXCJ48W",
+      "nodeType": "paragraph",
+      "content": "3.2.3 Applications of Attention in our Model",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 502.0486,
+        "x1": 302.8584,
+        "y1": 510.96515
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRXB9Q1YPTRX3J28XN",
+      "nodeType": "paragraph",
+      "content": "The Transformer uses multi-head attention in three different ways :",
+      "bbox": {
+        "x0": 107.86037,
+        "y0": 482.86508,
+        "x1": 372.6065,
+        "y1": 491.83142
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRD1T5186CCWQ76YW2",
+      "nodeType": "paragraph",
+      "content": "• In \" encoder-decoder attention\" layers, the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder. This allows every position in the decoder to attend over all positions in the input sequence. This mimics the typical encoder-decoder attention mechanisms in sequence-to-sequence models such as [ 3 8 , 2 , 9 ] .",
+      "bbox": {
+        "x0": 135.7955,
+        "y0": 419.0018,
+        "x1": 505.19193,
+        "y1": 470.98746
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXR59CH4KZSXQ2PAZZW",
+      "nodeType": "paragraph",
+      "content": "• The encoder contains self-attention layers . In a self-attention layer all of the keys , values and queries come from the same place, in this case, the output of the previous layer in the encoder. Each position in the encoder can attend to all positions in the previous layer of the encoder.",
+      "bbox": {
+        "x0": 135.7955,
+        "y0": 371.88336,
+        "x1": 504.052,
+        "y1": 411.51443
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRW9WVWCHMC010CE4A",
+      "nodeType": "paragraph",
+      "content": "• Similarly, self-attention layers in the decoder allow each position in the decoder to attend to all positions in the decoder up to and including that position. We need to prevent leftward information flow in the decoder to preserve the auto-regressive property. We implement this inside of scaled dot-product attention by masking out (setting to − ∞) all values in the input of the softmax which correspond to illegal connections . See Figure 2.",
+      "bbox": {
+        "x0": 135.7955,
+        "y0": 310.3491,
+        "x1": 504.0738,
+        "y1": 362.95145
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRC196GHJGDBZQF1D5",
+      "nodeType": "paragraph",
+      "content": "3.3 Position-wise Feed-Forward Networks",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 286.8236,
+        "x1": 292.866,
+        "y1": 293.87714
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRAY4YPRJJQZPS1WGT",
+      "nodeType": "paragraph",
+      "content": "In addition to attention sub-layers , each of the layers in our encoder and decoder contains a fully connected feed-forward network, which is applied to each position separately and identically. This consists of two linear transformations with a ReLU activation in between.",
+      "bbox": {
+        "x0": 108.182915,
+        "y0": 244.64648,
+        "x1": 504.24298,
+        "y1": 273.39844
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRM7VGRAR00TP6PS5H",
+      "nodeType": "paragraph",
+      "content": "FFN(x) = max(0, xW1 + b1)W2 + b2 (2)",
+      "bbox": {
+        "x0": 227.22977,
+        "y0": 213.58533,
+        "x1": 504.66736,
+        "y1": 223.53796
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRB2F3ATY4AKQ35JEC",
+      "nodeType": "paragraph",
+      "content": "While the linear transformations are the same across different positions, they use different parameters from layer to layer. Another way of describing this is as two convolutions with kernel size 1 . The dimensionality of input and output is dmodel = 5 1 2 , and the inner-layer has dimensionality df f = 2 048 .",
+      "bbox": {
+        "x0": 107.58082,
+        "y0": 158.64232,
+        "x1": 505.69522,
+        "y1": 201.08446
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXR2ZQ0VCHKV9PZ024X",
+      "nodeType": "paragraph",
+      "content": "3.4 Embeddings and Softmax",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 133.99266,
+        "x1": 240.02435,
+        "y1": 142.92911
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRZ10XSEK31C7X06N4",
+      "nodeType": "paragraph",
+      "content": "Similarly to other sequence transduction models, we use learned embeddings to convert the input tokens and output tokens to vectors of dimension dmodel . We also use the usual learned linear transfor\u0002 mation and softmax function to convert the decoder output to predicted next-token probabilities . In our model, we share the same weight matrix between the two embedding layers and the pre-so ftmax linear transformation, similar to [30] . In the embedding layers , we multiply those weights by √dmodel .",
+      "bbox": {
+        "x0": 108.12692,
+        "y0": 69.83812,
+        "x1": 505.79367,
+        "y1": 122.44046
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXRABJEZJW3Z16AHFQJ",
+      "nodeType": "paragraph",
+      "content": "5",
+      "bbox": {
+        "x0": 303.82782,
+        "y0": 41.982487,
+        "x1": 307.87262,
+        "y1": 48.966267
+      },
+      "page": 5,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWMZXZHG0NVPS1BFPV",
+      "nodeType": "paragraph",
+      "content": "Table 1 : Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types . n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.",
+      "bbox": {
+        "x0": 107.85698,
+        "y0": 689.26514,
+        "x1": 504.07254,
+        "y1": 720.04944
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWCH38STFJKQ02WKGV",
+      "nodeType": "paragraph",
+      "content": "Layer Type Complexity per Layer Sequential Maximum Path Length Operations Self-Attention O(n 2 · d) O(1) O(1) Recurrent O(n · d 2 ) O(n) O(n) Convolutional O(k · n · d 2 ) O(1) O(logk(n)) Self-Attention (restricted) O(r · n · d) O(1) O(n/r)",
+      "bbox": {
+        "x0": 124.66655,
+        "y0": 608.1053,
+        "x1": 487.45462,
+        "y1": 674.6105
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWZGJMNG37924EZN89",
+      "nodeType": "paragraph",
+      "content": "3.5 Positional Encoding",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 568.5206,
+        "x1": 215.19757,
+        "y1": 577.44714
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWY1315ZYHFPCNYBJ1",
+      "nodeType": "paragraph",
+      "content": "Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inj ect some information about the relative or absolute position of the \" \" tokens in the sequence. To this end, we add positional encodings to the input embeddings at the bottoms of the encoder and decoder stacks . The positional encodings have the same dimension dmodel as the embeddings, so that the two can be summed. There are many choices of positional encodings, learned and fixed [9] .",
+      "bbox": {
+        "x0": 108.02929,
+        "y0": 494.4988,
+        "x1": 505.26517,
+        "y1": 557.39246
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWZDW8XAR9E63ZK363",
+      "nodeType": "paragraph",
+      "content": "In this work, we use sine and cosine functions of different frequencies :",
+      "bbox": {
+        "x0": 108.17933,
+        "y0": 477.50208,
+        "x1": 389.86185,
+        "y1": 486.45844
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWK1ZCG3PMNK2BC4N7",
+      "nodeType": "paragraph",
+      "content": "PE(pos,2i) = sin(pos/100002i/dmodel) PE(pos,2i+1) = cos(pos/100002i/dmodel)",
+      "bbox": {
+        "x0": 226.0925,
+        "y0": 425.8705,
+        "x1": 386.2975,
+        "y1": 455.61334
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWMXJPQATYP4KME7AM",
+      "nodeType": "paragraph",
+      "content": "where pos is the position and i is the dimension. That is , each dimension of the positional encoding corresponds to a sinusoid. The wavelengths form a geometric progression from 2π to 1 0000 · 2π . We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions , since for any fixed offset k , P Epos + k can be represented as a linear function of P Epos .",
+      "bbox": {
+        "x0": 107.850006,
+        "y0": 360.44705,
+        "x1": 504.50906,
+        "y1": 413.72745
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXW5NAYJJXJ5XMTGD08",
+      "nodeType": "paragraph",
+      "content": "We also experimented with using learned positional embeddings [9] instead, and found that the two versions produced nearly identical results (see Table 3 row (E)) . We chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training .",
+      "bbox": {
+        "x0": 107.58186,
+        "y0": 312.0091,
+        "x1": 504.01227,
+        "y1": 353.70245
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "nodeType": "heading-1",
+      "content": "4 Why Self-Attention",
+      "bbox": {
+        "x0": 108.22715,
+        "y0": 283.4981,
+        "x1": 225.04141,
+        "y1": 294.21
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSXWQ6JQC8PWASS6ZS4T",
+      "nodeType": "paragraph",
+      "content": "In this section we compare various aspects of self-attention layers to the recurrent and convolu\u0002tional layers commonly used for mapping one variable-length sequence of symbol representations (x1, ..., xn) to another sequence of equal length (z1, ..., zn), with xi , zi ∈ R d , such as a hidden layer in a typical sequence transduction encoder or decoder. Motivating our use of self-attention we consider three desiderata.",
+      "bbox": {
+        "x0": 107.8203,
+        "y0": 219.24738,
+        "x1": 505.16577,
+        "y1": 269.78845
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWVG5BR26C3MXNXJE7",
+      "nodeType": "paragraph",
+      "content": "One is the total computational complexity per layer. Another is the amount of computation that can be parallelized, as measured by the minimum number of sequential operations required.",
+      "bbox": {
+        "x0": 108.029884,
+        "y0": 189.88812,
+        "x1": 503.99548,
+        "y1": 209.76346
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXW1VE13G58BXB7SVYS",
+      "nodeType": "paragraph",
+      "content": "The third is the path length between long-range dependencies in the network. Learning long-range dependencies is a key challenge in many sequence transduction tasks . One key factor affecting the ability to learn such dependencies is the length of the paths forward and backward signals have to traverse in the network. The shorter these paths between any combination of positions in the input and output sequences , the easier it is to learn long-range dependencies [ 1 2] . Hence we also compare the maximum path length between any two input and output positions in networks composed of the different layer types .",
+      "bbox": {
+        "x0": 107.86223,
+        "y0": 108.04512,
+        "x1": 504.0393,
+        "y1": 182.46545
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXWV55WXQCE5F84YGAF",
+      "nodeType": "paragraph",
+      "content": "As noted in Table 1 , a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O (n) sequential operations . In terms of computational complexity, self-attention layers are faster than recurrent layers when the sequence",
+      "bbox": {
+        "x0": 107.78745,
+        "y0": 69.83812,
+        "x1": 504.50836,
+        "y1": 100.62246
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXW0P47YCS9ST4BYZY1",
+      "nodeType": "paragraph",
+      "content": "6",
+      "bbox": {
+        "x0": 303.84772,
+        "y0": 41.982487,
+        "x1": 308.1715,
+        "y1": 48.92642
+      },
+      "page": 6,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZH719TX2ENXGD1B57",
+      "nodeType": "paragraph",
+      "content": "length n is smaller than the representation dimensionality d, which is most often the case with sentence representations used by state-of-the-art models in machine translations, such as word-piece [3 8] and byte-pair [3 1 ] representations . To improve computational performance for tasks involving very long sequences , self-attention could be restricted to considering only a neighborhood of size r in the input sequence centered around the respective output position. This would increase the maximum path length to O (n/r ) . We plan to investigate this approach further in future work.",
+      "bbox": {
+        "x0": 107.9365,
+        "y0": 653.0113,
+        "x1": 504.15634,
+        "y1": 716.95105
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZH95W1XYKJJHXJK9A",
+      "nodeType": "paragraph",
+      "content": "A single convolutional layer with kernel width k < n does not connect all pairs of input and output positions . Doing so requires a stack of O (n/ k ) convolutional layers in the case of contiguous kernels , or O ( l ogk (n) ) in the case of dilated convolutions [ 1 8] , increasing the length of the longest paths between any two positions in the network. Convolutional layers are generally more expensive than recurrent layers , by a factor of k . Separable convolutions [6] , however, decrease the complexity considerably, to O ( k · n · d + n · d 2 ) . Even with k = n, however, the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer, the approach we take in our model.",
+      "bbox": {
+        "x0": 107.79118,
+        "y0": 560.5881,
+        "x1": 505.29224,
+        "y1": 646.0171
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZNT2D8PK9DCHD701Z",
+      "nodeType": "paragraph",
+      "content": "As side benefit, self-attention could yield more interpretable models . We inspect attention distributions from our models and present and discuss examples in the appendix. Not only do individual attention heads clearly learn to perform different tasks , many appear to exhibit behavior related to the syntactic and semantic structure of the sentences .",
+      "bbox": {
+        "x0": 107.78745,
+        "y0": 513.5244,
+        "x1": 504.08972,
+        "y1": 553.15546
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZ06GQSGB50TRMAERJ",
+      "nodeType": "paragraph",
+      "content": "5 Training",
+      "bbox": {
+        "x0": 108.263016,
+        "y0": 480.45923,
+        "x1": 170.22682,
+        "y1": 491.17108
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZEAVDA2Z11CK40H45",
+      "nodeType": "paragraph",
+      "content": "This section describes the training regime for our models .",
+      "bbox": {
+        "x0": 107.86037,
+        "y0": 456.24313,
+        "x1": 337.47833,
+        "y1": 465.20947
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZEKNMSM8D87C1GN15",
+      "nodeType": "paragraph",
+      "content": "5.1 Training Data and Batching",
+      "bbox": {
+        "x0": 108.21918,
+        "y0": 429.5837,
+        "x1": 249.52867,
+        "y1": 438.5102
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZXPCZW2FV9GEX5Y6G",
+      "nodeType": "paragraph",
+      "content": "We trained on the standard WMT 20 1 4 English-German dataset consisting of about 4.5 million sentence pairs . Sentences were encoded using byte-pair encoding [3 ] , which has a shared source\u0002 target vocabulary of about 37000 tokens . For English-French, we used the significantly larger WMT 20 1 4 English-French dataset consisting of 3 6M sentences and split tokens into a 32000 word-piece vocabulary [3 8] . Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens .",
+      "bbox": {
+        "x0": 107.58281,
+        "y0": 343.1061,
+        "x1": 505.16653,
+        "y1": 417.57727
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZ9PW51XW8VP3CXRPJ",
+      "nodeType": "paragraph",
+      "content": "5.2 Hardware and Schedule",
+      "bbox": {
+        "x0": 108.21918,
+        "y0": 318.31067,
+        "x1": 233.04059,
+        "y1": 325.3841
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZYTVPXNQE30CHQ48H",
+      "nodeType": "paragraph",
+      "content": "We trained our models on one machine with 8 NVIDIA P 1 00 GPUs . For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds . We trained the base models for a total of 1 00,000 steps or 1 2 hours . For our big models , (described on the bottom line of table 3 ) , step time was 1 .0 seconds . The big models were trained for 300,000 steps (3 . 5 day s) .",
+      "bbox": {
+        "x0": 107.58281,
+        "y0": 251.78812,
+        "x1": 504.08972,
+        "y1": 304.39044
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZRMVP41RN6DZQR5E3",
+      "nodeType": "paragraph",
+      "content": "5.3 Optimizer",
+      "bbox": {
+        "x0": 108.21918,
+        "y0": 225.13863,
+        "x1": 174.13174,
+        "y1": 234.05515
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZS45JCN8MX5PVM9Q3",
+      "nodeType": "paragraph",
+      "content": "We used the Adam optimizer [20] with β1 = 0.9, β2 = 0.98 and ϵ = 10−9 . We varied the learning rate over the course of training, according to the formula:",
+      "bbox": {
+        "x0": 107.58261,
+        "y0": 193.19711,
+        "x1": 503.92322,
+        "y1": 214.51361
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZKB3BV1CH1KMMZNNT",
+      "nodeType": "paragraph",
+      "content": "=−0.5 ·−0.5 ·−1.5 lrate d model min(step_num, step_num warmup_steps) (3)",
+      "bbox": {
+        "x0": 163.33035,
+        "y0": 162.01424,
+        "x1": 504.66736,
+        "y1": 173.85959
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZ16HTN60MW7KK9A2C",
+      "nodeType": "paragraph",
+      "content": "This corresponds to increasing the learning rate linearly for the first warmup_steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup_steps = 4000.",
+      "bbox": {
+        "x0": 107.86223,
+        "y0": 117.75922,
+        "x1": 505.21646,
+        "y1": 148.30446
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZXWMJES03DNR9XXYB",
+      "nodeType": "paragraph",
+      "content": "5.4 Regularization",
+      "bbox": {
+        "x0": 108.21918,
+        "y0": 90.860664,
+        "x1": 193.50899,
+        "y1": 99.787155
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZH3AQK0G4HAB1WH6B",
+      "nodeType": "paragraph",
+      "content": "We employ three types of regularization during training :",
+      "bbox": {
+        "x0": 107.58181,
+        "y0": 69.83812,
+        "x1": 331.98935,
+        "y1": 78.80446
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSXZNXRDDJESEV15AKY3",
+      "nodeType": "paragraph",
+      "content": "7",
+      "bbox": {
+        "x0": 303.70825,
+        "y0": 42.042263,
+        "x1": 307.9822,
+        "y1": 48.70724
+      },
+      "page": 7,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4FSB4XK1B5QBRR782",
+      "nodeType": "paragraph",
+      "content": "Table 2 : The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest20 1 4 tests at a fraction of the training cost.",
+      "bbox": {
+        "x0": 107.86037,
+        "y0": 700.17413,
+        "x1": 504.0031,
+        "y1": 720.04944
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4JAR61YSNJEKKHAT6",
+      "nodeType": "paragraph",
+      "content": "BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 1020 GNMT + RL [38] 24.6 39.92 2.3 · 1019 1.4 · 1020 ConvS2S [9] 25.16 40.46 9.6 · 1018 1.5 · 1020 MoE [32] 26.03 40.56 2.0 · 1019 1.2 · 1020 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 1020 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 1020 1.1 · 1021 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 1019 1.2 · 1021 Transformer (base model) 27.3 38.1 3.3 · 1018 Transformer (big) 28.4 41.8 2.3 · 1019",
+      "bbox": {
+        "x0": 136.79056,
+        "y0": 551.69714,
+        "x1": 475.32416,
+        "y1": 693.33545
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4GZ996Q3K58VFS03Z",
+      "nodeType": "paragraph",
+      "content": "Residual Dropout We apply dropout [3 3 ] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks . For the base model, we use a rate of Pdrop = 0 . 1 .",
+      "bbox": {
+        "x0": 108.05081,
+        "y0": 475.57605,
+        "x1": 504.5053,
+        "y1": 518.02716
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4E5K9AB34MB3KT4H0",
+      "nodeType": "paragraph",
+      "content": "Label Smoothing During training, we employed label smoothing of value ϵl s = 0 . 1 [3 6] . This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.",
+      "bbox": {
+        "x0": 108.08966,
+        "y0": 440.0011,
+        "x1": 503.91827,
+        "y1": 459.9661
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4GNRFMS391AZKQQFQ",
+      "nodeType": "paragraph",
+      "content": "6 Results",
+      "bbox": {
+        "x0": 108.33475,
+        "y0": 411.38257,
+        "x1": 163.12543,
+        "y1": 419.76318
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4E8X3BW8SV3RFBQBH",
+      "nodeType": "paragraph",
+      "content": "6.1 Machine Translation",
+      "bbox": {
+        "x0": 108.27895,
+        "y0": 386.95648,
+        "x1": 219.07301,
+        "y1": 393.97015
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4HTTWDKSWGQYENP1R",
+      "nodeType": "paragraph",
+      "content": "On the WMT 20 1 4 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2 . 0 BLEU, establishing a new state-of-the-art BLEU score of 28 . 4. The configuration of this model is listed in the bottom line of Table 3 . Training took 3 . 5 days on 8 P 1 00 GPUs . Even our base model surpasses all previously published models and ensembles , at a fraction of the training cost of any of the competitive models .",
+      "bbox": {
+        "x0": 108.12952,
+        "y0": 309.5211,
+        "x1": 504.73163,
+        "y1": 373.02344
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4FKSBPQ91TMEPAMDB",
+      "nodeType": "paragraph",
+      "content": "On the WMT 20 1 4 English-to-French translation task, our big model achieves a BLEU score of 4 1 . 0, outperforming all of the previously published single models , at less than 1 /4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate Pdrop = 0 . 1 , instead of 0 . 3 .",
+      "bbox": {
+        "x0": 108.05081,
+        "y0": 259.71707,
+        "x1": 505.29266,
+        "y1": 302.08945
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4112BH86KRHBSY8ZC",
+      "nodeType": "paragraph",
+      "content": "For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 1 0-minute intervals . For the big models , we averaged the last 20 checkpoints . We used beam search with a beam size of 4 and length penalty α = 0 . 6 [3 8] . These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50 , but terminate early when possible [3 8] .",
+      "bbox": {
+        "x0": 107.84603,
+        "y0": 200.37112,
+        "x1": 504.10306,
+        "y1": 253.02327
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4YMNQ5E50QGYZR71T",
+      "nodeType": "paragraph",
+      "content": "Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU 5 .",
+      "bbox": {
+        "x0": 107.85698,
+        "y0": 151.25513,
+        "x1": 504.0503,
+        "y1": 192.94846
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY48B44FGDTA3Q27BC5",
+      "nodeType": "paragraph",
+      "content": "6.2 Model Variations",
+      "bbox": {
+        "x0": 108.27897,
+        "y0": 126.55865,
+        "x1": 203.93985,
+        "y1": 133.61217
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY47G67MZ07RVCAYK15",
+      "nodeType": "paragraph",
+      "content": "To evaluate the importance of different components of the Transformer, we varied our base model in different ways, measuring the change in performance on English-to-German translation on the",
+      "bbox": {
+        "x0": 107.86359,
+        "y0": 92.789116,
+        "x1": 503.94785,
+        "y1": 112.66446
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY46KCQH0KGQDHWJJXB",
+      "nodeType": "paragraph",
+      "content": "5We used values of 2.8, 3.7, 6.0 and 9.5 TFLOPS for K80, K40, M40 and P100, respectively.",
+      "bbox": {
+        "x0": 120.844284,
+        "y0": 70.05429,
+        "x1": 453.556,
+        "y1": 79.921585
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY4TNGKB5XAB3EFCYPQ",
+      "nodeType": "paragraph",
+      "content": "8",
+      "bbox": {
+        "x0": 304.0669,
+        "y0": 41.982487,
+        "x1": 307.94235,
+        "y1": 48.846718
+      },
+      "page": 8,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8EZGF1GEKNDSMPEFX",
+      "nodeType": "paragraph",
+      "content": "Table 3 : Variations on the Transformer architecture. Unlisted values are identical to those of the base model. All metrics are on the English-to-German translation development set, newstest20 1 3 . Listed perplexities are per-wordpiece, according to our byte-pair encoding, and should not be compared to per-word perplexities .",
+      "bbox": {
+        "x0": 107.85766,
+        "y0": 678.3661,
+        "x1": 504.06586,
+        "y1": 720.04944
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8TQW1YQJYF742ZF12",
+      "nodeType": "paragraph",
+      "content": "train PPL BLEU params N dmodel dff h dk dv Pdrop ϵls 6 steps (dev) (dev) ×10base 6 512 2048 8 64 64 0.1 0.1 100K 4.92 25.8 65 1 512 512 5.29 24.9 4 128 128 5.00 25.5 (A) 16 32 32 4.91 25.8 32 16 16 5.01 25.4 16 5.16 25.1 58 (B) 32 5.01 25.4 60 2 6.11 23.7 36 4 5.19 25.3 50 8 4.88 25.5 80 (C) 256 32 32 5.75 24.5 28 1024 128 128 4.66 26.0 168 1024 5.12 25.4 53 4096 4.75 26.2 90 0.0 5.77 24.6 0.2 4.95 25.5 (D) 0.0 4.67 25.3 0.2 5.47 25.7 (E) positional embedding instead of sinusoids 4.92 25.7 big 6 1024 4096 16 0.3 300K 4.33 26.4 213",
+      "bbox": {
+        "x0": 116.49789,
+        "y0": 409.13712,
+        "x1": 502.75937,
+        "y1": 659.7664
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8RP1WNC4WB1DWA6Z4",
+      "nodeType": "paragraph",
+      "content": "development set, newstest20 1 3 . We used beam search as described in the previous section, but no checkpoint averaging . We present these results in Table 3 .",
+      "bbox": {
+        "x0": 108.24906,
+        "y0": 357.6231,
+        "x1": 503.89752,
+        "y1": 377.49844
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8KKPTNGHS8J4FZV8M",
+      "nodeType": "paragraph",
+      "content": "In Table 3 rows (A) , we vary the number of attention heads and the attention key and value dimensions, keeping the amount of computation constant, as described in Section 3 . 2. 2. While single-head attention is 0. 9 BLEU worse than the best setting, quality also drops off with too many heads .",
+      "bbox": {
+        "x0": 108.07114,
+        "y0": 319.4161,
+        "x1": 505.29105,
+        "y1": 350.20044
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8R9H4S32KF46YM5Z1",
+      "nodeType": "paragraph",
+      "content": "In Table 3 rows (B ) , we observe that reducing the attention key size dk hurts model quality. This suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial. We further observe in rows (C) and (D) that, as expected, bigger models are better, and dropout is very helpful in avoiding over-fitting . In row (E) we replace our sinusoidal positional encoding with learned positional embeddings [9] , and observe nearly identical results to the base model .",
+      "bbox": {
+        "x0": 108.02929,
+        "y0": 250.54437,
+        "x1": 505.29114,
+        "y1": 312.10303
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8W64MGRFNMEWM97XV",
+      "nodeType": "paragraph",
+      "content": "6.3 English Constituency Parsing",
+      "bbox": {
+        "x0": 108.27895,
+        "y0": 221.82066,
+        "x1": 255.97449,
+        "y1": 230.74715
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8MS38QH6AFSNKXWVK",
+      "nodeType": "paragraph",
+      "content": "To evaluate if the Transformer can generalize to other tasks we performed experiments on English constituency parsing . This task presents specific challenges : the output is subj ect to strong structural constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes [37] .",
+      "bbox": {
+        "x0": 107.863075,
+        "y0": 168.07011,
+        "x1": 504.03278,
+        "y1": 209.76346
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY85DSRF7WQ8HC5DZFK",
+      "nodeType": "paragraph",
+      "content": "We trained a 4-layer transformer with dmodel = 1 024 on the Wall Street Journal (WSJ) portion of the Penn Treebank [25] , about 40K training sentences . We also trained it in a semi- supervised setting, using the larger high-confidence and BerkleyParser corpora from with approximately 1 7M sentences [37] . We used a vocabulary of 1 6K tokens for the WSJ only setting and a vocabulary of 3 2K tokens for the semi- supervised setting .",
+      "bbox": {
+        "x0": 107.58082,
+        "y0": 108.04512,
+        "x1": 505.19894,
+        "y1": 160.75705
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY8DHCSEQSXWTBDZASD",
+      "nodeType": "paragraph",
+      "content": "We performed only a small number of experiments to select the dropout, both attention and residual (section 5 .4) , learning rates and beam size on the Section 22 development set, all other parameters remained unchanged from the English-to-German base translation model. During inference, we",
+      "bbox": {
+        "x0": 107.581665,
+        "y0": 69.83812,
+        "x1": 504.0044,
+        "y1": 100.62246
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSY84YG9R4FA9HS1KR3Z",
+      "nodeType": "paragraph",
+      "content": "9",
+      "bbox": {
+        "x0": 303.8079,
+        "y0": 41.902786,
+        "x1": 308.08185,
+        "y1": 48.846718
+      },
+      "page": 9,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYB563YS9KPHP613G8N",
+      "nodeType": "paragraph",
+      "content": "Table 4: The Transformer generalizes well to English constituency parsing (Results are on Section 23 of WSJ) Parser Training WSJ 23 F1 Vinyals & Kaiser el al. (2014) [37] WSJ only, discriminative 88.3 Petrov et al. (2006) [29] WSJ only, discriminative 90.4 Zhu et al. (2013) [40] WSJ only, discriminative 90.4 Dyer et al. (2016) [8] WSJ only, discriminative 91.7 Transformer (4 layers) WSJ only, discriminative 91.3 Zhu et al. (2013) [40] semi-supervised 91.3 Huang & Harper (2009) [14] semi-supervised 91.3 McClosky et al. (2006) [26] semi-supervised 92.1 Vinyals & Kaiser el al. (2014) [37] semi-supervised 92.1 Transformer (4 layers) semi-supervised 92.7 Luong et al. (2015) [23] multi-task 93.0 Dyer et al. (2016) [8] generative 93.3",
+      "bbox": {
+        "x0": 107.85698,
+        "y0": 556.7481,
+        "x1": 504.0947,
+        "y1": 720.04944
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBR2PVFF1GHJKYRP3Z",
+      "nodeType": "paragraph",
+      "content": "increased the maximum output length to input length + 300. We used a beam size of 21 and α = 0.3 for both WSJ only and the semi-supervised setting.",
+      "bbox": {
+        "x0": 108.157326,
+        "y0": 509.2911,
+        "x1": 504.2493,
+        "y1": 529.16644
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBMBZKDJCX4D1PK6M8",
+      "nodeType": "paragraph",
+      "content": "Our results in Table 4 show that despite the lack of task- specific tuning our model performs sur\u0002 prisingly well, yielding better results than all previously reported models with the exception of the Recurrent Neural Network Grammar [8] .",
+      "bbox": {
+        "x0": 108.05051,
+        "y0": 471.7018,
+        "x1": 505.16583,
+        "y1": 501.86844
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYB8YMMSS5H12TPJERG",
+      "nodeType": "paragraph",
+      "content": "In contrast to RNN sequence-to-sequence models [37] , the Transformer outperforms the Berkeley\u0002 Parser [29] even when training only on the WSJ training set of 40K sentences .",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 443.7861,
+        "x1": 505.1718,
+        "y1": 463.66144
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBR37HQQGBKSZ7TJ1E",
+      "nodeType": "paragraph",
+      "content": "7 Conclusion",
+      "bbox": {
+        "x0": 108.20324,
+        "y0": 417.7878,
+        "x1": 183.06671,
+        "y1": 426.26404
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBJRZR1BWP638A1AZQ",
+      "nodeType": "paragraph",
+      "content": "In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention.",
+      "bbox": {
+        "x0": 108.1594,
+        "y0": 373.42035,
+        "x1": 504.00037,
+        "y1": 402.14246
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBRG5D9N7WQGQJ8BBE",
+      "nodeType": "paragraph",
+      "content": "For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers . On both WMT 20 1 4 English-to-German and WMT 20 1 4 English-to-French translation tasks , we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles .",
+      "bbox": {
+        "x0": 108.12194,
+        "y0": 322.2421,
+        "x1": 504.00732,
+        "y1": 363.93546
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBXPKMCKGRCGANP7WG",
+      "nodeType": "paragraph",
+      "content": "We are excited about the future of attention-based models and plan to apply them to other tasks . We plan to extend the Transformer to problems involving input and output modalities other than text and to investigate local, restricted attention mechanisms to efficiently handle large inputs and outputs such as images , audio and video . Making generation less sequential is another research goals of ours .",
+      "bbox": {
+        "x0": 107.58161,
+        "y0": 273.1261,
+        "x1": 505.64764,
+        "y1": 314.82043
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBFZMBJMKHMTJ78G4A",
+      "nodeType": "paragraph",
+      "content": "The code we used to train and evaluate our models is available at http s : / /github . c om/ t ens orf low/t ens or2t ens or .",
+      "bbox": {
+        "x0": 107.863754,
+        "y0": 247.18402,
+        "x1": 504.88065,
+        "y1": 265.824
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBPDK42DGVR7TJHSZ2",
+      "nodeType": "paragraph",
+      "content": "Acknowledgements We are grateful to Nal Kalchbrenner and Stephan Gouws for their fruitful comments, corrections and inspiration.",
+      "bbox": {
+        "x0": 108.09145,
+        "y0": 212.26509,
+        "x1": 503.94702,
+        "y1": 232.2002
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBHHC3D5H0XCKQHA0R",
+      "nodeType": "paragraph",
+      "content": "References",
+      "bbox": {
+        "x0": 108.31084,
+        "y0": 186.3156,
+        "x1": 163.54385,
+        "y1": 194.73206
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYB9FQQDRPGWCX3M1Y4",
+      "nodeType": "paragraph",
+      "content": "[1] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXivp reprint arXiv:1607.06450, 2016.",
+      "bbox": {
+        "x0": 113.85771,
+        "y0": 156.98224,
+        "x1": 504.1796,
+        "y1": 176.09045
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBFPVR446GRKGFV3DR",
+      "nodeType": "paragraph",
+      "content": "[2] Dzmitry B ahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine translation by j ointly learning to align and translate. CoRR, abs/ 1 409 .0473 , 20 1 4 .",
+      "bbox": {
+        "x0": 113.857704,
+        "y0": 127.42212,
+        "x1": 504.44455,
+        "y1": 147.29745
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYB5S3JN9544AHPGSTD",
+      "nodeType": "paragraph",
+      "content": "[3 ] Denny Britz, Anna Goldie, Minh-Thang Luong, and Quoc V. Le. Massive exploration of neural machine translation architectures . CoRR, abs/ 1 703 .03906, 20 1 7 .",
+      "bbox": {
+        "x0": 113.85771,
+        "y0": 99.39723,
+        "x1": 504.0567,
+        "y1": 118.505455
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYB1C47H3CHYNK1A2KE",
+      "nodeType": "paragraph",
+      "content": "[4] Jianpeng Cheng, Li Dong, and Mirella Lapata. Long short-term memory-networks for machine reading. arXiv p reprint arXiv: 1 601 . 06733, 20 1 6 .",
+      "bbox": {
+        "x0": 113.8577,
+        "y0": 69.83812,
+        "x1": 504.07306,
+        "y1": 89.713455
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYBX8793SZZ34VADMH1",
+      "nodeType": "paragraph",
+      "content": "10",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 41.982487,
+        "x1": 310.7425,
+        "y1": 48.846718
+      },
+      "page": 10,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYERRHDXQYYWMHDN324",
+      "nodeType": "paragraph",
+      "content": "[5] Kyunghyun Cho, B art van Merrienboer, Caglar Gulcehre, Fethi Bougares, Holger Schwenk, and Yoshua Bengio. Learning phrase representations using rnn encoder-decoder for statistical machine translation. CoRR, abs/ 1 406 . 1 07 8 , 20 1 4.",
+      "bbox": {
+        "x0": 113.85771,
+        "y0": 686.8242,
+        "x1": 505.1925,
+        "y1": 716.89124
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE6J3DXB943B3HTWHQ",
+      "nodeType": "paragraph",
+      "content": "[6] Francois Chollet. Xception: Deep learning with depthwise separable convolutions . arXiv preprint arXiv: 1 61 0. 02357, 20 1 6 .",
+      "bbox": {
+        "x0": 113.85771,
+        "y0": 655.4766,
+        "x1": 503.91217,
+        "y1": 675.23236
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE3WRG4VZ08KAFTRS7",
+      "nodeType": "paragraph",
+      "content": "[7] Junyoung Chung, Çaglar Gülçehre, Kyunghyun Cho, and Yoshua Bengio. Empirical evaluation of gated recurrent neural networks on sequence modeling. CoRR, abs/ 1 4 1 2. 3555 , 20 1 4.",
+      "bbox": {
+        "x0": 113.857704,
+        "y0": 624.63715,
+        "x1": 504.0883,
+        "y1": 644.51245
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEB7N5YDYH54FYYVMP",
+      "nodeType": "paragraph",
+      "content": "[8] Chris Dyer, Adhiguna Kuncoro, Miguel B allesteros, and Noah A. Smith. Recurrent neural network grammars . In Proc. ofN AACL, 20 1 6.",
+      "bbox": {
+        "x0": 113.85768,
+        "y0": 593.9271,
+        "x1": 503.9472,
+        "y1": 613.8024
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYES4HTPH6XRXTHSEET",
+      "nodeType": "paragraph",
+      "content": "[9] Jonas Gehring, Michael Auli, David Grangier, Denis Yarats, and Yann N. Dauphin. Convolu\u0002 tional sequence to sequence learning. arXiv p reprint arXiv: 1 705. 031 22v2 , 20 1 7 .",
+      "bbox": {
+        "x0": 113.8577,
+        "y0": 563.21716,
+        "x1": 505.1693,
+        "y1": 583.09247
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE5TK6594GZ2WP6NYA",
+      "nodeType": "paragraph",
+      "content": "[10] Alex Graves. Generating sequences with recurrent neural networks. arXivp reprint arXiv:1308.0850, 2013.",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 533.27423,
+        "x1": 504.17844,
+        "y1": 552.38245
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE1XR1ASAR85529X52",
+      "nodeType": "paragraph",
+      "content": "[ 1 1 ] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for im\u0002 age recognition. In Proceedings of the I EEE Conference on Computer Vision and Pattern Recognition, pages 770–77 8 , 20 1 6 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 490.88712,
+        "x1": 505.1609,
+        "y1": 521.6724
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE35WJY94P7QKVMMK5",
+      "nodeType": "paragraph",
+      "content": "[ 1 2] Sepp Hochreiter, Yoshua Bengio, Paolo Frasconi, and Jürgen Schmidhuber. Gradient flow in recurrent nets : the difficulty of learning long-term dependencies, 200 1 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 460.1771,
+        "x1": 503.9222,
+        "y1": 480.05243
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEFH12KKGH3PFW2NYR",
+      "nodeType": "paragraph",
+      "content": "[13] Sepp Hochreiter and Jürgen Schmidhuber. Long short-term memory. Neural computation, 9(8):1735–1780, 1997.",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 429.87558,
+        "x1": 505.19565,
+        "y1": 449.34244
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE6F0MR60PXPD3WE53",
+      "nodeType": "paragraph",
+      "content": "[ 1 4] Zhongqiang Huang and Mary Harper. Self-training PCFG grammars with latent annotations across languages . In Proceedings of the 2009 Conference on Empirical M ethods in N atural Language Processing, pages 832–84 1 . ACL, August 2009 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 387.8481,
+        "x1": 504.0114,
+        "y1": 418.63245
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEP75APTTG81HPXQXB",
+      "nodeType": "paragraph",
+      "content": "[ 1 5] Rafal Jozefowicz, Oriol Vinyals, Mike Schuster, Noam Shazeer, and Yonghui Wu. Exploring the limits of language modeling. arXiv p reprint arXiv: 1 602. 0241 0, 20 1 6 .",
+      "bbox": {
+        "x0": 108.87672,
+        "y0": 357.1381,
+        "x1": 503.9399,
+        "y1": 377.0633
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEV3K834RNWZBTPHS4",
+      "nodeType": "paragraph",
+      "content": "[ 1 6] Łukasz Kaiser and Samy Bengio. Can active memory replace attention? In Advances in N eural Information Processing Systems, (NIPS), 20 1 6.",
+      "bbox": {
+        "x0": 108.876724,
+        "y0": 326.5377,
+        "x1": 504.04504,
+        "y1": 346.31342
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEFW4E2K9AE6JNYH92",
+      "nodeType": "paragraph",
+      "content": "[ 1 7] Łukasz Kaiser and Ilya Sutskever. Neural GPUs learn algorithms . In International Conference on L earning R epresentations (ICLR), 20 1 6.",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 295.83768,
+        "x1": 504.03943,
+        "y1": 315.59344
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEDH5FQ8XVM57JPX18",
+      "nodeType": "paragraph",
+      "content": "[ 1 8] Nal Kalchbrenner, Lasse Espeholt, Karen Simonyan, Aaron van den Oord, Alex Graves, and Ko\u0002 ray Kavukcuoglu. Neural machine translation in linear time. arXiv p reprint arXiv: 1 61 0. 1 0099v2 , 20 1 7 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 256.13147,
+        "x1": 505.29465,
+        "y1": 284.88345
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYESEMQFTKJNR0JK3CN",
+      "nodeType": "paragraph",
+      "content": "[ 1 9] Yoon Kim, Carl Denton, Luong Hoang, and Alexander M. Rush. Structured attention networks . In International Conference on L earning R epresentations, 20 1 7 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 223.4987,
+        "x1": 505.78705,
+        "y1": 243.26447
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYE1H11QKM4DWJJJA8Q",
+      "nodeType": "paragraph",
+      "content": "[20] Diederik Kingma and Jimmy B a. Adam: A method for stochastic optimization. In ICLR, 20 1 5 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 203.58711,
+        "x1": 505.77274,
+        "y1": 212.60326
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEV3ZR7FB3VFQVERZX",
+      "nodeType": "paragraph",
+      "content": "[21] Oleksii Kuchaiev and Boris Ginsburg. Factorization tricks for LSTM networks. arXivp reprint arXiv:1703.10722, 2017.",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 173.64424,
+        "x1": 504.1784,
+        "y1": 192.75246
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYENG14FRBPD03Z16F4",
+      "nodeType": "paragraph",
+      "content": "[22] Zhouhan Lin, Minwei Feng, Cicero Nogueira dos Santos, Mo Yu, Bing Xiang, Bowen Zhou, and Yoshua Bengio. A structured self-attentive sentence embedding. arXiv p reprint arXiv: 1 703. 031 30, 20 1 7 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 132.02524,
+        "x1": 504.1795,
+        "y1": 162.04247
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEE3TCCANTPTJ7BCX9",
+      "nodeType": "paragraph",
+      "content": "[23 ] Minh-Thang Luong, Quoc V. Le, Ilya Sutskever, Oriol Vinyals, and Lukasz Kaiser. Multi-task sequence to sequence learning . arXiv p reprint arXiv: 1 51 1 . 061 14, 20 1 5 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 100.54812,
+        "x1": 504.3004,
+        "y1": 120.42346
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEYCRXMFHZCA1Q8R56",
+      "nodeType": "paragraph",
+      "content": "[24] Minh-Thang Luong, Hieu Pham, and Christopher D Manning. Effective approaches to attention\u0002 based neural machine translation. arXiv p reprint arXiv: 1 508. 04025, 20 1 5 .",
+      "bbox": {
+        "x0": 108.876724,
+        "y0": 69.96763,
+        "x1": 505.18463,
+        "y1": 89.713455
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYEZW0B9CKQZMD2YMM0",
+      "nodeType": "paragraph",
+      "content": "11",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 42.112,
+        "x1": 309.92554,
+        "y1": 48.846718
+      },
+      "page": 11,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHJX7HA8TDW9P0HPDM",
+      "nodeType": "paragraph",
+      "content": "[25] Mitchell P Marcus, Mary Ann Marcinkiewicz, and Beatrice S antorini. Building a large annotated corpus of english: The penn treebank. Computational linguistics, 1 9(2) : 3 1 3–3 30, 1 993 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 696.9661,
+        "x1": 504.10294,
+        "y1": 716.89124
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHQ2HBWSAPPWYYA1WK",
+      "nodeType": "paragraph",
+      "content": "[26] David McClosky, Eugene Charniak, and Mark Johnson. Effective self-training for parsing. In Proceedings of the H uman L anguage Technology Conference of the N AACL, M ain Conference, pages 1 52– 1 59 . ACL, June 2006 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 651.66516,
+        "x1": 505.26266,
+        "y1": 682.4594
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHN10YARXN6CGGS7FA",
+      "nodeType": "paragraph",
+      "content": "[27] Ankur Parikh, Oscar Täckström, Dipanj an Das, and Jakob Uszkoreit. A decomposable attention model. In Empirical M ethods in N atural L anguage Processing, 20 1 6.",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 617.39264,
+        "x1": 504.10294,
+        "y1": 637.14844
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHK9CRFVT6P96ZX97S",
+      "nodeType": "paragraph",
+      "content": "[28] Romain Paulus, Caiming Xiong, and Richard Socher. A deep reinforced model for abstractive summarization. arXiv p reprint arXiv: 1 705. 04304, 20 1 7 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 583.0107,
+        "x1": 504.00153,
+        "y1": 602.7565
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHQZX38E95KZ2997Z1",
+      "nodeType": "paragraph",
+      "content": "[29] Slav Petrov, Leon B arrett, Romain Thibaux, and Dan Klein. Learning accurate, compact, and interpretable tree annotation. In Proceedings of the 21 st I nternational Conference on Computational L inguistics and 44th A nnual M eeting of the A CL, pages 43 3–440. ACL, July 2006 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 528.7035,
+        "x1": 505.1925,
+        "y1": 568.36444
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYH41PKJS0ANFVBVVDJ",
+      "nodeType": "paragraph",
+      "content": "[30] Ofir Press and Lior Wolf. Using the output embedding to improve language models . arXiv preprint arXiv: 1 608. 05859, 20 1 6.",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 492.40863,
+        "x1": 503.91217,
+        "y1": 512.1545
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYH6RAZRZ09XN8WPPFR",
+      "nodeType": "paragraph",
+      "content": "[3 1 ] Rico Sennrich, B arry Haddow, and Alexandra Birch. Neural machine translation of rare words with subword units . arXiv p reprint arXiv: 1 508. 07909, 20 1 5 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 458.01663,
+        "x1": 504.03336,
+        "y1": 477.76245
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHV9NX4NYQSYJ7RYP5",
+      "nodeType": "paragraph",
+      "content": "[32] Noam Shazeer, Azalia Mirhoseini, Krzysztof Maziarz, Andy Davis, Quoc Le, Geoffrey Hinton, and Jeff Dean. Outrageously large neural networks : The sparsely-gated mixture-of-experts layer. arXiv p reprint arXiv: 1 701 . 06538, 20 1 7 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 412.5861,
+        "x1": 505.2787,
+        "y1": 443.37045
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHMKVVP1NZRAGG40GJ",
+      "nodeType": "paragraph",
+      "content": "[33] Nitish Srivastava, Geoffrey E Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan Salakhutdi\u0002nov. Dropout: a simple way to prevent neural networks from overfitting. Journal ofM achine LearningR esearch, 15(1):1929–1958, 2014.",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 367.40466,
+        "x1": 505.1748,
+        "y1": 398.06946
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHTP4S6WN5J2EFN93H",
+      "nodeType": "paragraph",
+      "content": "[34] Sainbayar Sukhbaatar, Arthur Szlam, Jason Weston, and Rob Fergus. End-to-end memory networks. In C. Cortes, N. D. Lawrence, D. D. Lee, M. Sugiyama, and R. Garnett, editors, Advances inN euralI nformation Processing Systems 28, pages 2440–2448. Curran Associates, Inc., 2015.",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 311.84122,
+        "x1": 505.24838,
+        "y1": 352.76843
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYH8RGY0VA93MTBAAR2",
+      "nodeType": "paragraph",
+      "content": "[35] Ilya Sutskever, Oriol Vinyals, and Quoc VV Le. Sequence to sequence learning with neural networks . In Advances in N eural I nformation Processing Systems, pages 3 1 04–3 1 1 2, 20 1 4.",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 276.6821,
+        "x1": 503.94702,
+        "y1": 296.60727
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHQDEHJFM0E4HFVA5Y",
+      "nodeType": "paragraph",
+      "content": "[36] Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jonathon Shlens, and Zbigniew Wojna. Rethinking the inception architecture for computer vision. CoRR, abs/ 1 5 1 2.00567 , 20 1 5 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 242.29012,
+        "x1": 505.69037,
+        "y1": 262.1754
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHK5F1VPZG7V1MM3G6",
+      "nodeType": "paragraph",
+      "content": "[37] Vinyals & Kaiser, Koo, Petrov, Sutskever, and Hinton. Grammar as a foreign language. In Advances in N eural I nformation Processing Systems, 20 1 5 .",
+      "bbox": {
+        "x0": 108.87669,
+        "y0": 208.0077,
+        "x1": 503.9028,
+        "y1": 227.77345
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYH2B5TVQZF809VWSTK",
+      "nodeType": "paragraph",
+      "content": "[3 8] Yonghui Wu, Mike Schuster, Zhifeng Chen, Quoc V Le, Mohammad Norouzi, Wolfgang Macherey, Maxim Krikun, Yuan Cao, Qin Gao, Klaus Macherey, et al. Google s neural machine translation system: Bridging the gap between human and machine translation. arXiv p reprint arXiv: 1 609. 08144, 20 1 6 .",
+      "bbox": {
+        "x0": 108.87671,
+        "y0": 152.45525,
+        "x1": 504.18048,
+        "y1": 193.38145
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHTV4E6HA71YTR0K45",
+      "nodeType": "paragraph",
+      "content": "[39] Jie Zhou, Ying Cao, Xuguang Wang, Peng Li, and Wei Xu. Deep recurrent models with fast-forward connections for neural machine translation. CoRR, abs/ 1 606 .04 1 99, 20 1 6 .",
+      "bbox": {
+        "x0": 108.8767,
+        "y0": 118.06323,
+        "x1": 503.90286,
+        "y1": 137.17146
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYHYQ93PMZT363XCA8J",
+      "nodeType": "paragraph",
+      "content": "[40] Muhua Zhu, Yue Zhang, Wenliang Chen, Min Zhang, and Jingbo Zhu. Fast and accurate shift-reduce constituent parsing. In Proceedings of the 51 st A nnual M eeting of the A CL (Volume 1 : L ong Papers), pages 434–443 . ACL, August 20 1 3 .",
+      "bbox": {
+        "x0": 108.87668,
+        "y0": 71.99512,
+        "x1": 504.08533,
+        "y1": 102.77946
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYH5PDP8HEV0JA7P52G",
+      "nodeType": "paragraph",
+      "content": "12",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 42.112,
+        "x1": 310.7325,
+        "y1": 48.846718
+      },
+      "page": 12,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYX16SEAHVAPKCQGWK4",
+      "nodeType": "paragraph",
+      "content": "InutInutLaer5ppy",
+      "bbox": {
+        "x0": 109.11082,
+        "y0": 711.3352,
+        "x1": 250.00534,
+        "y1": 726.4456
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "nodeType": "heading-1",
+      "content": "Attention Visualizations",
+      "bbox": {
+        "x0": 108.1076,
+        "y0": 709.83374,
+        "x1": 230.76796,
+        "y1": 718.29803
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXXE2604YBM7KG001P",
+      "nodeType": "paragraph",
+      "content": "s tnneon itamy s at tcd g l> inrsi>>>>>>rr rentg uSiet e 9se ddddddioee s nes icct kirirjcOivvsw 0aaaaaas tfiaaaegoown fmoaae0rriEpppppppf i ohhhetsnaIiitsta moAghpnls2mtrovpmd. <<<<<<<",
+      "bbox": {
+        "x0": 121.877556,
+        "y0": 631.51514,
+        "x1": 502.3734,
+        "y1": 676.1738
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYXXY5JHA1JKVVPGM82",
+      "nodeType": "paragraph",
+      "content": "t t t f rt Is ns iay ns eds e9gengs el>>>>>>>iiirttw aooriicsuave0nhonddddddhrnewiiiShtotpcasnttect0aaaaaainaikioelOsrhscfj2aomppppppsafriamavoEet<<<<<<rdpmns<mipmrgeAevrog",
+      "bbox": {
+        "x0": 121.877556,
+        "y0": 505.89655,
+        "x1": 502.3734,
+        "y1": 550.8875
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYX3BE2K0F56NN3GAD4",
+      "nodeType": "heading-2",
+      "content": "Fi ure 3 : An exam le of the attention mechanism followin lon distance de endencies in the",
+      "bbox": {
+        "x0": 108.12194,
+        "y0": 471.9285,
+        "x1": 503.9087,
+        "y1": 478.86246
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXQWVEP4BCYMZXJ8TJ",
+      "nodeType": "heading-2",
+      "content": "gpggp",
+      "bbox": {
+        "x0": 116.759514,
+        "y0": 469.89612,
+        "x1": 436.39038,
+        "y1": 476.6408
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXMWX5ZS2AAXQP8QC6",
+      "nodeType": "heading-2",
+      "content": "encoder self attention in la er 5 of 6 . Man of the attention heads attend to a distant de endenc of",
+      "bbox": {
+        "x0": 108.249565,
+        "y0": 461.0185,
+        "x1": 504.49576,
+        "y1": 468.0023
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYX4ZWNDC29ZDAJTW62",
+      "nodeType": "heading-2",
+      "content": "yypy",
+      "bbox": {
+        "x0": 214.83298,
+        "y0": 458.9861,
+        "x1": 492.94598,
+        "y1": 465.7308
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXSBNCSF2Y31G2NG53",
+      "nodeType": "paragraph",
+      "content": "‘’‘’",
+      "bbox": {
+        "x0": 144.02466,
+        "y0": 454.55283,
+        "x1": 373.0886,
+        "y1": 456.97372
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYXDBHZFSRYFA6R6SHM",
+      "nodeType": "heading-2",
+      "content": "the verb makin com letin the hrase makin . . .more difficult . Attentions here shown onl for",
+      "bbox": {
+        "x0": 108.130165,
+        "y0": 450.1095,
+        "x1": 504.191,
+        "y1": 457.04346
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXCFGK3J137QC440B3",
+      "nodeType": "heading-2",
+      "content": "gpgpgy",
+      "bbox": {
+        "x0": 171.51875,
+        "y0": 448.07712,
+        "x1": 489.74313,
+        "y1": 454.8218
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXNP39S5Q2DBYFV5XH",
+      "nodeType": "paragraph",
+      "content": "‘’",
+      "bbox": {
+        "x0": 146.6748,
+        "y0": 443.6438,
+        "x1": 180.90631,
+        "y1": 446.0647
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "nodeType": "heading-2",
+      "content": "the word makin . Different colors re resent different heads . B est viewed in color.",
+      "bbox": {
+        "x0": 108.12952,
+        "y0": 439.20047,
+        "x1": 440.91025,
+        "y1": 446.13443
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSYXYVARFRPD2G3Y13AS",
+      "nodeType": "paragraph",
+      "content": "gp",
+      "bbox": {
+        "x0": 174.0321,
+        "y0": 437.1681,
+        "x1": 265.64816,
+        "y1": 443.91278
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSYX8NMPA3R57J1CPY3C",
+      "nodeType": "paragraph",
+      "content": "13",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 41.982487,
+        "x1": 310.30414,
+        "y1": 48.846718
+      },
+      "page": 13,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZK1SXYM58DSRKJHEPZ",
+      "nodeType": "paragraph",
+      "content": "InutInutLaer5ppy",
+      "bbox": {
+        "x0": 109.33057,
+        "y0": 672.3953,
+        "x1": 278.0971,
+        "y1": 690.49493
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKBS2C3VFE57PPTVCW",
+      "nodeType": "paragraph",
+      "content": "noitg t n>a d cn>rl cioSiit eldeusfnt aOe l rpiaw vt osslie isy ihehuprpEpaeeehe s htusnTLnbp,biasb-tiam,imo.<<w ww j",
+      "bbox": {
+        "x0": 124.62284,
+        "y0": 576.3665,
+        "x1": 496.52933,
+        "y1": 620.6806
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKKC6SY982XBH0Y49N",
+      "nodeType": "paragraph",
+      "content": "l ,,.rt t t -t lees ndes s eegny n>> i iiw cutlsiearihbobnodahSeiuuwimibhwvatftjT-aLsneroOiInutInutLaear5wpshneippycpEisplo<mppa",
+      "bbox": {
+        "x0": 109.34551,
+        "y0": 435.6674,
+        "x1": 496.52933,
+        "y1": 480.0076
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKSWEHZ0YSJCNX1RZN",
+      "nodeType": "paragraph",
+      "content": "noitg t >n ad cn>rl cioSiit eldeusfnt aOe l rpiaw vt osslie isy ihehuprpEpaeeehe s htusnTLnbp,biasb-tiam,imo.<<w ww j",
+      "bbox": {
+        "x0": 124.809616,
+        "y0": 359.10983,
+        "x1": 500.89478,
+        "y1": 403.92175
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKH2F58722J1H8TYN9",
+      "nodeType": "paragraph",
+      "content": "l ,,.rt t t -t lees ndes s eegny n>> i iiw cutlsiearihbobnodahSeiuuwimibhwvatftjTaLsroneOiawpshneicpEisplo<mppa",
+      "bbox": {
+        "x0": 124.809616,
+        "y0": 216.8298,
+        "x1": 500.89478,
+        "y1": 261.6682
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKE3G5BW7S2DJ27YTD",
+      "nodeType": "heading-1",
+      "content": "Fi ure 4 : Two attention heads also in la er 5 of 6 a arentl involved in ana hora resolution. To :",
+      "bbox": {
+        "x0": 108.11955,
+        "y0": 170.03346,
+        "x1": 505.38803,
+        "y1": 177.01724
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSZK1K8EZREN4XAA4YHJ",
+      "nodeType": "heading-1",
+      "content": "gyppypp",
+      "bbox": {
+        "x0": 116.58776,
+        "y0": 168.0011,
+        "x1": 502.31958,
+        "y1": 174.74577
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSZK4Y5785WK4ENBANTM",
+      "nodeType": "paragraph",
+      "content": ",,",
+      "bbox": {
+        "x0": 227.77037,
+        "y0": 168.76822,
+        "x1": 308.52716,
+        "y1": 171.17917
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKEVDDJQFZJ6KD3X8Y",
+      "nodeType": "paragraph",
+      "content": "‘’",
+      "bbox": {
+        "x0": 404.27798,
+        "y0": 163.5678,
+        "x1": 418.1464,
+        "y1": 165.9887
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZK0FV9GB8920S511ZY",
+      "nodeType": "heading-1",
+      "content": "Full attentions for head 5 . B ottom: Isolated attentions from ust the word its for attention heads 5",
+      "bbox": {
+        "x0": 108.12051,
+        "y0": 159.12447,
+        "x1": 503.95813,
+        "y1": 166.10825
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSZKJ50RNCCZDT3YRD5A",
+      "nodeType": "paragraph",
+      "content": "j",
+      "bbox": {
+        "x0": 347.63947,
+        "y0": 157.0921,
+        "x1": 350.28058,
+        "y1": 166.05844
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "nodeType": "heading-1",
+      "content": "and 6 . Note that the attentions are ver shar for this word.",
+      "bbox": {
+        "x0": 108.368614,
+        "y0": 148.21547,
+        "x1": 343.2568,
+        "y1": 155.15941
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDSZKE2KTR9VW9MP3SEH7",
+      "nodeType": "paragraph",
+      "content": "yp",
+      "bbox": {
+        "x0": 257.9969,
+        "y0": 146.1831,
+        "x1": 286.60947,
+        "y1": 152.92778
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDSZKB5QG8R047C7R3H51",
+      "nodeType": "paragraph",
+      "content": "14",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 42.111984,
+        "x1": 310.70264,
+        "y1": 48.846703
+      },
+      "page": 14,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT086WQ4573EDXFTW7QX",
+      "nodeType": "paragraph",
+      "content": "InutInutLaer5ppy",
+      "bbox": {
+        "x0": 108.30757,
+        "y0": 658.09674,
+        "x1": 277.5203,
+        "y1": 676.2442
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08X6T5Y2MGAY5BVPB0",
+      "nodeType": "paragraph",
+      "content": "noitg t n>a d cn>rl cioSiit eldeusfnt aOe l rpiaw vt osslie isy ihehuprpEpaeeehe s htusnTLnbp,biasb-tiam,imo.<<w ww j",
+      "bbox": {
+        "x0": 123.64027,
+        "y0": 561.814,
+        "x1": 496.53,
+        "y1": 606.24524
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08RREQGHJEKV4Z5TY3",
+      "nodeType": "paragraph",
+      "content": "l ,,.rt t t -t lees ndes s eegny n>> i iiw cutlsiearihbobnodahSeiuuwimibhwvatftjTaLsn-eroOiawpInutInutLaer5shneicpEppyisplo<mppa",
+      "bbox": {
+        "x0": 108.1005,
+        "y0": 420.74292,
+        "x1": 496.53,
+        "y1": 465.20035
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08R4X8AGP5KFC9AHQD",
+      "nodeType": "paragraph",
+      "content": "noitg t n>a d cn>rl cioSiit eldeusfnt aOe l rpiaw vt osslie isy ihehuprpEpaeeehe s htusnTLnbp,biasb-tiam,imo.<<w ww j",
+      "bbox": {
+        "x0": 123.44072,
+        "y0": 343.50665,
+        "x1": 496.5133,
+        "y1": 387.9596
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08Z2QNJ5HYKZCQRQRH",
+      "nodeType": "paragraph",
+      "content": "l ,,.rt t t -t lees ndes s eegny n>> i iiw cutlsiearihbobnodahSeiuuwimibhwvatftjTaLsneroOiawpshneicpEisplo<mppa",
+      "bbox": {
+        "x0": 123.44072,
+        "y0": 202.3663,
+        "x1": 496.5133,
+        "y1": 246.84554
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08G7FP6BBGKNW2QT7P",
+      "nodeType": "heading-1",
+      "content": "Fi ure 5 : Man of the attention heads exhibit behaviour that seems related to the structure of the",
+      "bbox": {
+        "x0": 108.12194,
+        "y0": 181.91647,
+        "x1": 503.9087,
+        "y1": 188.90025
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDT08WNXMG02HQ7M10NEG",
+      "nodeType": "paragraph",
+      "content": "gy",
+      "bbox": {
+        "x0": 116.759514,
+        "y0": 179.88411,
+        "x1": 172.19241,
+        "y1": 186.62878
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT0893TX57628SF35P17",
+      "nodeType": "heading-1",
+      "content": "sentence. We ive two such exam les above from two different heads from the encoder self attention",
+      "bbox": {
+        "x0": 108.49793,
+        "y0": 171.00746,
+        "x1": 504.10098,
+        "y1": 177.94144
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDT085X1KRNBXMQ3WJ9Q3",
+      "nodeType": "paragraph",
+      "content": "gp",
+      "bbox": {
+        "x0": 162.47948,
+        "y0": 168.9751,
+        "x1": 243.72029,
+        "y1": 175.71977
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDT08601MRXHA9PN86JDJ",
+      "nodeType": "heading-1",
+      "content": "at la er 5 of 6 . The heads clearl learned to erform different tasks .",
+      "bbox": {
+        "x0": 108.368614,
+        "y0": 160.09747,
+        "x1": 377.25922,
+        "y1": 167.08125
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDT08C9RFNMF1NTCHM643",
+      "nodeType": "heading-1",
+      "content": "yyp",
+      "bbox": {
+        "x0": 125.01612,
+        "y0": 158.06511,
+        "x1": 288.40274,
+        "y1": 164.80978
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDT08W8YEERF1MM10JNQM",
+      "nodeType": "paragraph",
+      "content": "15",
+      "bbox": {
+        "x0": 302.12482,
+        "y0": 41.98248,
+        "x1": 310.3639,
+        "y1": 48.96626
+      },
+      "page": 15,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDST6GTG11QCBJSNRMDE9",
+      "to": "01KS6WDST6VS71X9FS4PMAH64D",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6VS71X9FS4PMAH64D",
+      "to": "01KS6WDST6PZV258DV9C1XZG9D",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "to": "01KS6WDST6ARXSR2RWZJ3EDZXP",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "to": "01KS6WDST6C0TE0KZNW8TG9DA8",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6ARXSR2RWZJ3EDZXP",
+      "to": "01KS6WDST6C0TE0KZNW8TG9DA8",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "to": "01KS6WDST6N0MRDC9JW7YJD3DZ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6N0MRDC9JW7YJD3DZ",
+      "to": "01KS6WDST6GQEGM1B3BT19CFMT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6C0TE0KZNW8TG9DA8",
+      "to": "01KS6WDST6N0MRDC9JW7YJD3DZ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "to": "01KS6WDST680XWWV5F828WPYBK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6EV6F71JDQYP5T26R",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6RNVGEQDCFJ3S74QH",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6EV6F71JDQYP5T26R",
+      "to": "01KS6WDST6RNVGEQDCFJ3S74QH",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST60SBD1YV93F5PH791",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST60SBD1YV93F5PH791",
+      "to": "01KS6WDST6J8F8HNFKA2HRDX4J",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6RNVGEQDCFJ3S74QH",
+      "to": "01KS6WDST60SBD1YV93F5PH791",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6MWSP216JPWTJF8VX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST60SBD1YV93F5PH791",
+      "to": "01KS6WDST6MWSP216JPWTJF8VX",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6DQFPM6K8ZEGR1B4X",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6MWSP216JPWTJF8VX",
+      "to": "01KS6WDST6DQFPM6K8ZEGR1B4X",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6CRTG74TXHEEMHVF7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6DQFPM6K8ZEGR1B4X",
+      "to": "01KS6WDST6CRTG74TXHEEMHVF7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6NKM4ZYSH5GYFFW4V",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6NKM4ZYSH5GYFFW4V",
+      "to": "01KS6WDST6EHDWYVE9BBMD2VK4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6CRTG74TXHEEMHVF7",
+      "to": "01KS6WDST6NKM4ZYSH5GYFFW4V",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6FC0FH9P6KAQBR292",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6NKM4ZYSH5GYFFW4V",
+      "to": "01KS6WDST6FC0FH9P6KAQBR292",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6Y24QC6G0KQZYS1QB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6FC0FH9P6KAQBR292",
+      "to": "01KS6WDST6Y24QC6G0KQZYS1QB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6TYW6H3PBWG61PA79",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6Y24QC6G0KQZYS1QB",
+      "to": "01KS6WDST6TYW6H3PBWG61PA79",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6AW5KS7SJ7MFQ7GRT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6AW5KS7SJ7MFQ7GRT",
+      "to": "01KS6WDST6V3HQBN1HBVDJXYCS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6TYW6H3PBWG61PA79",
+      "to": "01KS6WDST6AW5KS7SJ7MFQ7GRT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST680XWWV5F828WPYBK",
+      "to": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDST6TETDKHT458JJ0CV1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDST6K5S74HGPXKFED4TY",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6TETDKHT458JJ0CV1",
+      "to": "01KS6WDST6K5S74HGPXKFED4TY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDST6S530ST1MFMY51B1F",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6K5S74HGPXKFED4TY",
+      "to": "01KS6WDST6S530ST1MFMY51B1F",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBY1QTMG48F1VQ8APK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDST6S530ST1MFMY51B1F",
+      "to": "01KS6WDSTBY1QTMG48F1VQ8APK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTB1JMQSR8D77BVJQW7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBY1QTMG48F1VQ8APK",
+      "to": "01KS6WDSTB1JMQSR8D77BVJQW7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBJ3302724BKAKXF7G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTB1JMQSR8D77BVJQW7",
+      "to": "01KS6WDSTBJ3302724BKAKXF7G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTB4K4274MEE0VXAQWY",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBJ3302724BKAKXF7G",
+      "to": "01KS6WDSTB4K4274MEE0VXAQWY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBQWT7K3Q61B38M7Q7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTB4K4274MEE0VXAQWY",
+      "to": "01KS6WDSTBQWT7K3Q61B38M7Q7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBG27T8BK2YSFBNVKY",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBQWT7K3Q61B38M7Q7",
+      "to": "01KS6WDSTBG27T8BK2YSFBNVKY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBRSWQT2M8BBS3NFBK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBG27T8BK2YSFBNVKY",
+      "to": "01KS6WDSTBRSWQT2M8BBS3NFBK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBNE3W6NAF97C1K8M4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBRSWQT2M8BBS3NFBK",
+      "to": "01KS6WDSTBNE3W6NAF97C1K8M4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBWGP2BWN8MZT3WFB4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBNE3W6NAF97C1K8M4",
+      "to": "01KS6WDSTBWGP2BWN8MZT3WFB4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "to": "01KS6WDSTBMXG81Y30CCB4G7GV",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBWGP2BWN8MZT3WFB4",
+      "to": "01KS6WDSTBMXG81Y30CCB4G7GV",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6AW5KS7SJ7MFQ7GRT",
+      "to": "01KS6WDST6GP1Z7YPRY8YJKGMZ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6N0MRDC9JW7YJD3DZ",
+      "to": "01KS6WDST680XWWV5F828WPYBK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6PZV258DV9C1XZG9D",
+      "to": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSTBXVJCPX3EJEB9WAWK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSTBR7CJH2FKSDAGQ08Q",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBXVJCPX3EJEB9WAWK",
+      "to": "01KS6WDSTBR7CJH2FKSDAGQ08Q",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGVVXM900BBM71S90M",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSTBR7CJH2FKSDAGQ08Q",
+      "to": "01KS6WDSWGVVXM900BBM71S90M",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGF4437RVP3JGM2XT7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGVVXM900BBM71S90M",
+      "to": "01KS6WDSWGF4437RVP3JGM2XT7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGW1WXM83CD97V3KA6",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGF4437RVP3JGM2XT7",
+      "to": "01KS6WDSWGW1WXM83CD97V3KA6",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGRF88DX8SJZ8T1HHZ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGW1WXM83CD97V3KA6",
+      "to": "01KS6WDSWGRF88DX8SJZ8T1HHZ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWG1ZT063ZKEF8Y5T34",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGRF88DX8SJZ8T1HHZ",
+      "to": "01KS6WDSWG1ZT063ZKEF8Y5T34",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGD6TKD82J1FAGZCAW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWG1ZT063ZKEF8Y5T34",
+      "to": "01KS6WDSWGD6TKD82J1FAGZCAW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGQ1VJ6K15CKHPJTBG",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGD6TKD82J1FAGZCAW",
+      "to": "01KS6WDSWGQ1VJ6K15CKHPJTBG",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGT58674D71WENNQ3R",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGQ1VJ6K15CKHPJTBG",
+      "to": "01KS6WDSWGT58674D71WENNQ3R",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSWGKPX74S8SM26DKB1T",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGT58674D71WENNQ3R",
+      "to": "01KS6WDSWGKPX74S8SM26DKB1T",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNN1FF53V5A8TMVNKR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSWGKPX74S8SM26DKB1T",
+      "to": "01KS6WDSXNN1FF53V5A8TMVNKR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNMHM6F5DC14GYRA3E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNN1FF53V5A8TMVNKR",
+      "to": "01KS6WDSXNMHM6F5DC14GYRA3E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXN02FBX5RRECSYXKPB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNMHM6F5DC14GYRA3E",
+      "to": "01KS6WDSXN02FBX5RRECSYXKPB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNE4N9EQG0J339E4ZS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXN02FBX5RRECSYXKPB",
+      "to": "01KS6WDSXNE4N9EQG0J339E4ZS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNA025ETN0X19FVRQF",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNE4N9EQG0J339E4ZS",
+      "to": "01KS6WDSXNA025ETN0X19FVRQF",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNXQ54V7FKX0CFFB3E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNA025ETN0X19FVRQF",
+      "to": "01KS6WDSXNXQ54V7FKX0CFFB3E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXN9Y8ZHVJF2D3923QC",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNXQ54V7FKX0CFFB3E",
+      "to": "01KS6WDSXN9Y8ZHVJF2D3923QC",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNZE74S7SASYK1RD3G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXN9Y8ZHVJF2D3923QC",
+      "to": "01KS6WDSXNZE74S7SASYK1RD3G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNZBR363AQS1XEGH18",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNZE74S7SASYK1RD3G",
+      "to": "01KS6WDSXNZBR363AQS1XEGH18",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXN4N70DHB4G2858JRW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNZBR363AQS1XEGH18",
+      "to": "01KS6WDSXN4N70DHB4G2858JRW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNS1KQRS4NWAK373PS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXN4N70DHB4G2858JRW",
+      "to": "01KS6WDSXNS1KQRS4NWAK373PS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNSC26CX3SB0GFG18Q",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNS1KQRS4NWAK373PS",
+      "to": "01KS6WDSXNSC26CX3SB0GFG18Q",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXN4TSNAJK7TXJKQN6N",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNSC26CX3SB0GFG18Q",
+      "to": "01KS6WDSXN4TSNAJK7TXJKQN6N",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXNAXTMX5FKNG638Q7J",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXN4TSNAJK7TXJKQN6N",
+      "to": "01KS6WDSXNAXTMX5FKNG638Q7J",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXN4F3F1APA5KT8F3V0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXNAXTMX5FKNG638Q7J",
+      "to": "01KS6WDSXN4F3F1APA5KT8F3V0",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRBB0AXVFAQVMX3SZT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXN4F3F1APA5KT8F3V0",
+      "to": "01KS6WDSXRBB0AXVFAQVMX3SZT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRHSR9KMRSEVH80VDB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRBB0AXVFAQVMX3SZT",
+      "to": "01KS6WDSXRHSR9KMRSEVH80VDB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRFMC2TJ6ZSGSTSYPT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRHSR9KMRSEVH80VDB",
+      "to": "01KS6WDSXRFMC2TJ6ZSGSTSYPT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRQN0FKGKBJ2T6T72W",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRFMC2TJ6ZSGSTSYPT",
+      "to": "01KS6WDSXRQN0FKGKBJ2T6T72W",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXR3V8851GVP02H5Y9Q",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRQN0FKGKBJ2T6T72W",
+      "to": "01KS6WDSXR3V8851GVP02H5Y9Q",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRYPENGJDEEXXCJ48W",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXR3V8851GVP02H5Y9Q",
+      "to": "01KS6WDSXRYPENGJDEEXXCJ48W",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRXB9Q1YPTRX3J28XN",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRYPENGJDEEXXCJ48W",
+      "to": "01KS6WDSXRXB9Q1YPTRX3J28XN",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRD1T5186CCWQ76YW2",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRXB9Q1YPTRX3J28XN",
+      "to": "01KS6WDSXRD1T5186CCWQ76YW2",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXR59CH4KZSXQ2PAZZW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRD1T5186CCWQ76YW2",
+      "to": "01KS6WDSXR59CH4KZSXQ2PAZZW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRW9WVWCHMC010CE4A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXR59CH4KZSXQ2PAZZW",
+      "to": "01KS6WDSXRW9WVWCHMC010CE4A",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRC196GHJGDBZQF1D5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRW9WVWCHMC010CE4A",
+      "to": "01KS6WDSXRC196GHJGDBZQF1D5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRAY4YPRJJQZPS1WGT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRC196GHJGDBZQF1D5",
+      "to": "01KS6WDSXRAY4YPRJJQZPS1WGT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRM7VGRAR00TP6PS5H",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRAY4YPRJJQZPS1WGT",
+      "to": "01KS6WDSXRM7VGRAR00TP6PS5H",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRB2F3ATY4AKQ35JEC",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRM7VGRAR00TP6PS5H",
+      "to": "01KS6WDSXRB2F3ATY4AKQ35JEC",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXR2ZQ0VCHKV9PZ024X",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRB2F3ATY4AKQ35JEC",
+      "to": "01KS6WDSXR2ZQ0VCHKV9PZ024X",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRZ10XSEK31C7X06N4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXR2ZQ0VCHKV9PZ024X",
+      "to": "01KS6WDSXRZ10XSEK31C7X06N4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXRABJEZJW3Z16AHFQJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRZ10XSEK31C7X06N4",
+      "to": "01KS6WDSXRABJEZJW3Z16AHFQJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWMZXZHG0NVPS1BFPV",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXRABJEZJW3Z16AHFQJ",
+      "to": "01KS6WDSXWMZXZHG0NVPS1BFPV",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWCH38STFJKQ02WKGV",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWMZXZHG0NVPS1BFPV",
+      "to": "01KS6WDSXWCH38STFJKQ02WKGV",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWZGJMNG37924EZN89",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWCH38STFJKQ02WKGV",
+      "to": "01KS6WDSXWZGJMNG37924EZN89",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWY1315ZYHFPCNYBJ1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWZGJMNG37924EZN89",
+      "to": "01KS6WDSXWY1315ZYHFPCNYBJ1",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWZDW8XAR9E63ZK363",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWY1315ZYHFPCNYBJ1",
+      "to": "01KS6WDSXWZDW8XAR9E63ZK363",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWK1ZCG3PMNK2BC4N7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWZDW8XAR9E63ZK363",
+      "to": "01KS6WDSXWK1ZCG3PMNK2BC4N7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXWMXJPQATYP4KME7AM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWK1ZCG3PMNK2BC4N7",
+      "to": "01KS6WDSXWMXJPQATYP4KME7AM",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXW5NAYJJXJ5XMTGD08",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWMXJPQATYP4KME7AM",
+      "to": "01KS6WDSXW5NAYJJXJ5XMTGD08",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDST6P1G7Y5X6WVJPG2EW",
+      "to": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXWQ6JQC8PWASS6ZS4T",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXWVG5BR26C3MXNXJE7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWQ6JQC8PWASS6ZS4T",
+      "to": "01KS6WDSXWVG5BR26C3MXNXJE7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXW1VE13G58BXB7SVYS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWVG5BR26C3MXNXJE7",
+      "to": "01KS6WDSXW1VE13G58BXB7SVYS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXWV55WXQCE5F84YGAF",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXW1VE13G58BXB7SVYS",
+      "to": "01KS6WDSXWV55WXQCE5F84YGAF",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXW0P47YCS9ST4BYZY1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXWV55WXQCE5F84YGAF",
+      "to": "01KS6WDSXW0P47YCS9ST4BYZY1",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZH719TX2ENXGD1B57",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXW0P47YCS9ST4BYZY1",
+      "to": "01KS6WDSXZH719TX2ENXGD1B57",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZH95W1XYKJJHXJK9A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZH719TX2ENXGD1B57",
+      "to": "01KS6WDSXZH95W1XYKJJHXJK9A",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZNT2D8PK9DCHD701Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZH95W1XYKJJHXJK9A",
+      "to": "01KS6WDSXZNT2D8PK9DCHD701Z",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZ06GQSGB50TRMAERJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZNT2D8PK9DCHD701Z",
+      "to": "01KS6WDSXZ06GQSGB50TRMAERJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZEAVDA2Z11CK40H45",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZ06GQSGB50TRMAERJ",
+      "to": "01KS6WDSXZEAVDA2Z11CK40H45",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZEKNMSM8D87C1GN15",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZEAVDA2Z11CK40H45",
+      "to": "01KS6WDSXZEKNMSM8D87C1GN15",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZXPCZW2FV9GEX5Y6G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZEKNMSM8D87C1GN15",
+      "to": "01KS6WDSXZXPCZW2FV9GEX5Y6G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZ9PW51XW8VP3CXRPJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZXPCZW2FV9GEX5Y6G",
+      "to": "01KS6WDSXZ9PW51XW8VP3CXRPJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZYTVPXNQE30CHQ48H",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZ9PW51XW8VP3CXRPJ",
+      "to": "01KS6WDSXZYTVPXNQE30CHQ48H",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZRMVP41RN6DZQR5E3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZYTVPXNQE30CHQ48H",
+      "to": "01KS6WDSXZRMVP41RN6DZQR5E3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZS45JCN8MX5PVM9Q3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZRMVP41RN6DZQR5E3",
+      "to": "01KS6WDSXZS45JCN8MX5PVM9Q3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZKB3BV1CH1KMMZNNT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZS45JCN8MX5PVM9Q3",
+      "to": "01KS6WDSXZKB3BV1CH1KMMZNNT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZ16HTN60MW7KK9A2C",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZKB3BV1CH1KMMZNNT",
+      "to": "01KS6WDSXZ16HTN60MW7KK9A2C",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZXWMJES03DNR9XXYB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZ16HTN60MW7KK9A2C",
+      "to": "01KS6WDSXZXWMJES03DNR9XXYB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZH3AQK0G4HAB1WH6B",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZXWMJES03DNR9XXYB",
+      "to": "01KS6WDSXZH3AQK0G4HAB1WH6B",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSXZNXRDDJESEV15AKY3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZH3AQK0G4HAB1WH6B",
+      "to": "01KS6WDSXZNXRDDJESEV15AKY3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4FSB4XK1B5QBRR782",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSXZNXRDDJESEV15AKY3",
+      "to": "01KS6WDSY4FSB4XK1B5QBRR782",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4JAR61YSNJEKKHAT6",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4FSB4XK1B5QBRR782",
+      "to": "01KS6WDSY4JAR61YSNJEKKHAT6",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4GZ996Q3K58VFS03Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4JAR61YSNJEKKHAT6",
+      "to": "01KS6WDSY4GZ996Q3K58VFS03Z",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4E5K9AB34MB3KT4H0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4GZ996Q3K58VFS03Z",
+      "to": "01KS6WDSY4E5K9AB34MB3KT4H0",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4GNRFMS391AZKQQFQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4E5K9AB34MB3KT4H0",
+      "to": "01KS6WDSY4GNRFMS391AZKQQFQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4E8X3BW8SV3RFBQBH",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4GNRFMS391AZKQQFQ",
+      "to": "01KS6WDSY4E8X3BW8SV3RFBQBH",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4HTTWDKSWGQYENP1R",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4E8X3BW8SV3RFBQBH",
+      "to": "01KS6WDSY4HTTWDKSWGQYENP1R",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4FKSBPQ91TMEPAMDB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4HTTWDKSWGQYENP1R",
+      "to": "01KS6WDSY4FKSBPQ91TMEPAMDB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4112BH86KRHBSY8ZC",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4FKSBPQ91TMEPAMDB",
+      "to": "01KS6WDSY4112BH86KRHBSY8ZC",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4YMNQ5E50QGYZR71T",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4112BH86KRHBSY8ZC",
+      "to": "01KS6WDSY4YMNQ5E50QGYZR71T",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY48B44FGDTA3Q27BC5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4YMNQ5E50QGYZR71T",
+      "to": "01KS6WDSY48B44FGDTA3Q27BC5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY47G67MZ07RVCAYK15",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY48B44FGDTA3Q27BC5",
+      "to": "01KS6WDSY47G67MZ07RVCAYK15",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY46KCQH0KGQDHWJJXB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY47G67MZ07RVCAYK15",
+      "to": "01KS6WDSY46KCQH0KGQDHWJJXB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY4TNGKB5XAB3EFCYPQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY46KCQH0KGQDHWJJXB",
+      "to": "01KS6WDSY4TNGKB5XAB3EFCYPQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8EZGF1GEKNDSMPEFX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY4TNGKB5XAB3EFCYPQ",
+      "to": "01KS6WDSY8EZGF1GEKNDSMPEFX",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8TQW1YQJYF742ZF12",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8EZGF1GEKNDSMPEFX",
+      "to": "01KS6WDSY8TQW1YQJYF742ZF12",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8RP1WNC4WB1DWA6Z4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8TQW1YQJYF742ZF12",
+      "to": "01KS6WDSY8RP1WNC4WB1DWA6Z4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8KKPTNGHS8J4FZV8M",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8RP1WNC4WB1DWA6Z4",
+      "to": "01KS6WDSY8KKPTNGHS8J4FZV8M",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8R9H4S32KF46YM5Z1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8KKPTNGHS8J4FZV8M",
+      "to": "01KS6WDSY8R9H4S32KF46YM5Z1",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8W64MGRFNMEWM97XV",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8R9H4S32KF46YM5Z1",
+      "to": "01KS6WDSY8W64MGRFNMEWM97XV",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8MS38QH6AFSNKXWVK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8W64MGRFNMEWM97XV",
+      "to": "01KS6WDSY8MS38QH6AFSNKXWVK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY85DSRF7WQ8HC5DZFK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8MS38QH6AFSNKXWVK",
+      "to": "01KS6WDSY85DSRF7WQ8HC5DZFK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY8DHCSEQSXWTBDZASD",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY85DSRF7WQ8HC5DZFK",
+      "to": "01KS6WDSY8DHCSEQSXWTBDZASD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSY84YG9R4FA9HS1KR3Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY8DHCSEQSXWTBDZASD",
+      "to": "01KS6WDSY84YG9R4FA9HS1KR3Z",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYB563YS9KPHP613G8N",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSY84YG9R4FA9HS1KR3Z",
+      "to": "01KS6WDSYB563YS9KPHP613G8N",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBR2PVFF1GHJKYRP3Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYB563YS9KPHP613G8N",
+      "to": "01KS6WDSYBR2PVFF1GHJKYRP3Z",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBMBZKDJCX4D1PK6M8",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBR2PVFF1GHJKYRP3Z",
+      "to": "01KS6WDSYBMBZKDJCX4D1PK6M8",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYB8YMMSS5H12TPJERG",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBMBZKDJCX4D1PK6M8",
+      "to": "01KS6WDSYB8YMMSS5H12TPJERG",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBR37HQQGBKSZ7TJ1E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYB8YMMSS5H12TPJERG",
+      "to": "01KS6WDSYBR37HQQGBKSZ7TJ1E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBJRZR1BWP638A1AZQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBR37HQQGBKSZ7TJ1E",
+      "to": "01KS6WDSYBJRZR1BWP638A1AZQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBRG5D9N7WQGQJ8BBE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBJRZR1BWP638A1AZQ",
+      "to": "01KS6WDSYBRG5D9N7WQGQJ8BBE",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBXPKMCKGRCGANP7WG",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBRG5D9N7WQGQJ8BBE",
+      "to": "01KS6WDSYBXPKMCKGRCGANP7WG",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBFZMBJMKHMTJ78G4A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBXPKMCKGRCGANP7WG",
+      "to": "01KS6WDSYBFZMBJMKHMTJ78G4A",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBPDK42DGVR7TJHSZ2",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBFZMBJMKHMTJ78G4A",
+      "to": "01KS6WDSYBPDK42DGVR7TJHSZ2",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBHHC3D5H0XCKQHA0R",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBPDK42DGVR7TJHSZ2",
+      "to": "01KS6WDSYBHHC3D5H0XCKQHA0R",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYB9FQQDRPGWCX3M1Y4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBHHC3D5H0XCKQHA0R",
+      "to": "01KS6WDSYB9FQQDRPGWCX3M1Y4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBFPVR446GRKGFV3DR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYB9FQQDRPGWCX3M1Y4",
+      "to": "01KS6WDSYBFPVR446GRKGFV3DR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYB5S3JN9544AHPGSTD",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBFPVR446GRKGFV3DR",
+      "to": "01KS6WDSYB5S3JN9544AHPGSTD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYB1C47H3CHYNK1A2KE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYB5S3JN9544AHPGSTD",
+      "to": "01KS6WDSYB1C47H3CHYNK1A2KE",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYBX8793SZZ34VADMH1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYB1C47H3CHYNK1A2KE",
+      "to": "01KS6WDSYBX8793SZZ34VADMH1",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYERRHDXQYYWMHDN324",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYBX8793SZZ34VADMH1",
+      "to": "01KS6WDSYERRHDXQYYWMHDN324",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE6J3DXB943B3HTWHQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYERRHDXQYYWMHDN324",
+      "to": "01KS6WDSYE6J3DXB943B3HTWHQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE3WRG4VZ08KAFTRS7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE6J3DXB943B3HTWHQ",
+      "to": "01KS6WDSYE3WRG4VZ08KAFTRS7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEB7N5YDYH54FYYVMP",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE3WRG4VZ08KAFTRS7",
+      "to": "01KS6WDSYEB7N5YDYH54FYYVMP",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYES4HTPH6XRXTHSEET",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEB7N5YDYH54FYYVMP",
+      "to": "01KS6WDSYES4HTPH6XRXTHSEET",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE5TK6594GZ2WP6NYA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYES4HTPH6XRXTHSEET",
+      "to": "01KS6WDSYE5TK6594GZ2WP6NYA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE1XR1ASAR85529X52",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE5TK6594GZ2WP6NYA",
+      "to": "01KS6WDSYE1XR1ASAR85529X52",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE35WJY94P7QKVMMK5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE1XR1ASAR85529X52",
+      "to": "01KS6WDSYE35WJY94P7QKVMMK5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEFH12KKGH3PFW2NYR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE35WJY94P7QKVMMK5",
+      "to": "01KS6WDSYEFH12KKGH3PFW2NYR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE6F0MR60PXPD3WE53",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEFH12KKGH3PFW2NYR",
+      "to": "01KS6WDSYE6F0MR60PXPD3WE53",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEP75APTTG81HPXQXB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE6F0MR60PXPD3WE53",
+      "to": "01KS6WDSYEP75APTTG81HPXQXB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEV3K834RNWZBTPHS4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEP75APTTG81HPXQXB",
+      "to": "01KS6WDSYEV3K834RNWZBTPHS4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEFW4E2K9AE6JNYH92",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEV3K834RNWZBTPHS4",
+      "to": "01KS6WDSYEFW4E2K9AE6JNYH92",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEDH5FQ8XVM57JPX18",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEFW4E2K9AE6JNYH92",
+      "to": "01KS6WDSYEDH5FQ8XVM57JPX18",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYESEMQFTKJNR0JK3CN",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEDH5FQ8XVM57JPX18",
+      "to": "01KS6WDSYESEMQFTKJNR0JK3CN",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYE1H11QKM4DWJJJA8Q",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYESEMQFTKJNR0JK3CN",
+      "to": "01KS6WDSYE1H11QKM4DWJJJA8Q",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEV3ZR7FB3VFQVERZX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYE1H11QKM4DWJJJA8Q",
+      "to": "01KS6WDSYEV3ZR7FB3VFQVERZX",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYENG14FRBPD03Z16F4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEV3ZR7FB3VFQVERZX",
+      "to": "01KS6WDSYENG14FRBPD03Z16F4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEE3TCCANTPTJ7BCX9",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYENG14FRBPD03Z16F4",
+      "to": "01KS6WDSYEE3TCCANTPTJ7BCX9",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEYCRXMFHZCA1Q8R56",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEE3TCCANTPTJ7BCX9",
+      "to": "01KS6WDSYEYCRXMFHZCA1Q8R56",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYEZW0B9CKQZMD2YMM0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEYCRXMFHZCA1Q8R56",
+      "to": "01KS6WDSYEZW0B9CKQZMD2YMM0",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHJX7HA8TDW9P0HPDM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYEZW0B9CKQZMD2YMM0",
+      "to": "01KS6WDSYHJX7HA8TDW9P0HPDM",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHQ2HBWSAPPWYYA1WK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHJX7HA8TDW9P0HPDM",
+      "to": "01KS6WDSYHQ2HBWSAPPWYYA1WK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHN10YARXN6CGGS7FA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHQ2HBWSAPPWYYA1WK",
+      "to": "01KS6WDSYHN10YARXN6CGGS7FA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHK9CRFVT6P96ZX97S",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHN10YARXN6CGGS7FA",
+      "to": "01KS6WDSYHK9CRFVT6P96ZX97S",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHQZX38E95KZ2997Z1",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHK9CRFVT6P96ZX97S",
+      "to": "01KS6WDSYHQZX38E95KZ2997Z1",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYH41PKJS0ANFVBVVDJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHQZX38E95KZ2997Z1",
+      "to": "01KS6WDSYH41PKJS0ANFVBVVDJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYH6RAZRZ09XN8WPPFR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYH41PKJS0ANFVBVVDJ",
+      "to": "01KS6WDSYH6RAZRZ09XN8WPPFR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHV9NX4NYQSYJ7RYP5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYH6RAZRZ09XN8WPPFR",
+      "to": "01KS6WDSYHV9NX4NYQSYJ7RYP5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHMKVVP1NZRAGG40GJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHV9NX4NYQSYJ7RYP5",
+      "to": "01KS6WDSYHMKVVP1NZRAGG40GJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHTP4S6WN5J2EFN93H",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHMKVVP1NZRAGG40GJ",
+      "to": "01KS6WDSYHTP4S6WN5J2EFN93H",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYH8RGY0VA93MTBAAR2",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHTP4S6WN5J2EFN93H",
+      "to": "01KS6WDSYH8RGY0VA93MTBAAR2",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHQDEHJFM0E4HFVA5Y",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYH8RGY0VA93MTBAAR2",
+      "to": "01KS6WDSYHQDEHJFM0E4HFVA5Y",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHK5F1VPZG7V1MM3G6",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHQDEHJFM0E4HFVA5Y",
+      "to": "01KS6WDSYHK5F1VPZG7V1MM3G6",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYH2B5TVQZF809VWSTK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHK5F1VPZG7V1MM3G6",
+      "to": "01KS6WDSYH2B5TVQZF809VWSTK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHTV4E6HA71YTR0K45",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYH2B5TVQZF809VWSTK",
+      "to": "01KS6WDSYHTV4E6HA71YTR0K45",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYHYQ93PMZT363XCA8J",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHTV4E6HA71YTR0K45",
+      "to": "01KS6WDSYHYQ93PMZT363XCA8J",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYH5PDP8HEV0JA7P52G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYHYQ93PMZT363XCA8J",
+      "to": "01KS6WDSYH5PDP8HEV0JA7P52G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYX16SEAHVAPKCQGWK4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYH5PDP8HEV0JA7P52G",
+      "to": "01KS6WDSYX16SEAHVAPKCQGWK4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSTBXK58ZVKG0F1CTC0R",
+      "to": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXXE2604YBM7KG001P",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXXY5JHA1JKVVPGM82",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXXE2604YBM7KG001P",
+      "to": "01KS6WDSYXXY5JHA1JKVVPGM82",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYX3BE2K0F56NN3GAD4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXXY5JHA1JKVVPGM82",
+      "to": "01KS6WDSYX3BE2K0F56NN3GAD4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXQWVEP4BCYMZXJ8TJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYX3BE2K0F56NN3GAD4",
+      "to": "01KS6WDSYXQWVEP4BCYMZXJ8TJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXMWX5ZS2AAXQP8QC6",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXQWVEP4BCYMZXJ8TJ",
+      "to": "01KS6WDSYXMWX5ZS2AAXQP8QC6",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYX4ZWNDC29ZDAJTW62",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYX4ZWNDC29ZDAJTW62",
+      "to": "01KS6WDSYXSBNCSF2Y31G2NG53",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXMWX5ZS2AAXQP8QC6",
+      "to": "01KS6WDSYX4ZWNDC29ZDAJTW62",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXDBHZFSRYFA6R6SHM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYX4ZWNDC29ZDAJTW62",
+      "to": "01KS6WDSYXDBHZFSRYFA6R6SHM",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXCFGK3J137QC440B3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXCFGK3J137QC440B3",
+      "to": "01KS6WDSYXNP39S5Q2DBYFV5XH",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXDBHZFSRYFA6R6SHM",
+      "to": "01KS6WDSYXCFGK3J137QC440B3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSYXYVARFRPD2G3Y13AS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSYX8NMPA3R57J1CPY3C",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYXYVARFRPD2G3Y13AS",
+      "to": "01KS6WDSYX8NMPA3R57J1CPY3C",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSZK1SXYM58DSRKJHEPZ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSYX8NMPA3R57J1CPY3C",
+      "to": "01KS6WDSZK1SXYM58DSRKJHEPZ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSZKBS2C3VFE57PPTVCW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZK1SXYM58DSRKJHEPZ",
+      "to": "01KS6WDSZKBS2C3VFE57PPTVCW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSZKKC6SY982XBH0Y49N",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKBS2C3VFE57PPTVCW",
+      "to": "01KS6WDSZKKC6SY982XBH0Y49N",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSZKSWEHZ0YSJCNX1RZN",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKKC6SY982XBH0Y49N",
+      "to": "01KS6WDSZKSWEHZ0YSJCNX1RZN",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "to": "01KS6WDSZKH2F58722J1H8TYN9",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKSWEHZ0YSJCNX1RZN",
+      "to": "01KS6WDSZKH2F58722J1H8TYN9",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYXCFGK3J137QC440B3",
+      "to": "01KS6WDSYXC0FRYKQSSVN6F6RR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSXW5EXZ3ZT5B8926N72",
+      "to": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSYX76XW58H6EB5AX6S8",
+      "to": "01KS6WDSZKE3G5BW7S2DJ27YTD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZK1K8EZREN4XAA4YHJ",
+      "to": "01KS6WDSZK4Y5785WK4ENBANTM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZK1K8EZREN4XAA4YHJ",
+      "to": "01KS6WDSZKEVDDJQFZJ6KD3X8Y",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZK4Y5785WK4ENBANTM",
+      "to": "01KS6WDSZKEVDDJQFZJ6KD3X8Y",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKE3G5BW7S2DJ27YTD",
+      "to": "01KS6WDSZK1K8EZREN4XAA4YHJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZK0FV9GB8920S511ZY",
+      "to": "01KS6WDSZKJ50RNCCZDT3YRD5A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZK1K8EZREN4XAA4YHJ",
+      "to": "01KS6WDSZK0FV9GB8920S511ZY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDSZKE2KTR9VW9MP3SEH7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDSZKB5QG8R047C7R3H51",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKE2KTR9VW9MP3SEH7",
+      "to": "01KS6WDSZKB5QG8R047C7R3H51",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT086WQ4573EDXFTW7QX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKB5QG8R047C7R3H51",
+      "to": "01KS6WDT086WQ4573EDXFTW7QX",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT08X6T5Y2MGAY5BVPB0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT086WQ4573EDXFTW7QX",
+      "to": "01KS6WDT08X6T5Y2MGAY5BVPB0",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT08RREQGHJEKV4Z5TY3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT08X6T5Y2MGAY5BVPB0",
+      "to": "01KS6WDT08RREQGHJEKV4Z5TY3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT08R4X8AGP5KFC9AHQD",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT08RREQGHJEKV4Z5TY3",
+      "to": "01KS6WDT08R4X8AGP5KFC9AHQD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT08Z2QNJ5HYKZCQRQRH",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT08R4X8AGP5KFC9AHQD",
+      "to": "01KS6WDT08Z2QNJ5HYKZCQRQRH",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDSZK0FV9GB8920S511ZY",
+      "to": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDT08G7FP6BBGKNW2QT7P",
+      "to": "01KS6WDT08WNXMG02HQ7M10NEG",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDSZKJBWQ7YGFKJ7X696D",
+      "to": "01KS6WDT08G7FP6BBGKNW2QT7P",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDT0893TX57628SF35P17",
+      "to": "01KS6WDT085X1KRNBXMQ3WJ9Q3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT08G7FP6BBGKNW2QT7P",
+      "to": "01KS6WDT0893TX57628SF35P17",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDT0893TX57628SF35P17",
+      "to": "01KS6WDT08601MRXHA9PN86JDJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDT08C9RFNMF1NTCHM643",
+      "to": "01KS6WDT08W8YEERF1MM10JNQM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDT08601MRXHA9PN86JDJ",
+      "to": "01KS6WDT08C9RFNMF1NTCHM643",
+      "relation": "follows"
+    }
+  ]
+}

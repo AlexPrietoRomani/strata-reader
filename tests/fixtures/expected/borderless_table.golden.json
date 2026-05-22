@@ -1,0 +1,443 @@
+{
+  "meta": {
+    "sourceSha256": "2f7ee24b1e4d1ba3142e4566603845e4543b5bc2581a48b1e2b4cd3c5dce8f33",
+    "sourceFilename": "borderless_table.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQ9AWW0K2ACCVCJYB7KS",
+      "nodeType": "heading-1",
+      "content": "Borderless Table Fixture",
+      "bbox": {
+        "x0": 221.35721,
+        "y0": 665.1615,
+        "x1": 390.6018,
+        "y1": 677.2295
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9A92DGH48BQ3RWP6KC",
+      "nodeType": "heading-3",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.69258,
+        "y0": 633.9631,
+        "x1": 362.09537,
+        "y1": 644.8064
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9AP6A4YY1YE2HWFJWT",
+      "nodeType": "paragraph",
+      "content": "May 20 , 2026",
+      "bbox": {
+        "x0": 271.84702,
+        "y0": 610.65106,
+        "x1": 339.86014,
+        "y1": 621.24335
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9AQX2H9BHNP3NC8P07",
+      "nodeType": "heading-2",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 135.00177,
+        "y0": 570.0972,
+        "x1": 246.74431,
+        "y1": 580.1395
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9A7FYGJ3EYHC1Y1JK2",
+      "nodeType": "paragraph",
+      "content": "This document contains a borderless table using the bo okt ab s package and another table based purely on spacing/alignment , which are typical in scientific publications .",
+      "bbox": {
+        "x0": 134.04694,
+        "y0": 522.51514,
+        "x1": 477.2286,
+        "y1": 555.262
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "nodeType": "heading-2",
+      "content": "2 Booktabs Borderless Table",
+      "bbox": {
+        "x0": 134.57138,
+        "y0": 491.42023,
+        "x1": 346.76602,
+        "y1": 501.4482
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9AH4D48C9K8JEK6Z0Z",
+      "nodeType": "paragraph",
+      "content": "Here is a table showing model evaluation metrics :",
+      "bbox": {
+        "x0": 134.09676,
+        "y0": 467.62863,
+        "x1": 350.2055,
+        "y1": 476.585
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9AE041NXVHB2K8GZSG",
+      "nodeType": "paragraph",
+      "content": "Model Precision Recall F 1- Score Accuracy",
+      "bbox": {
+        "x0": 175.67563,
+        "y0": 441.79263,
+        "x1": 435.77917,
+        "y1": 450.95822
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9ABJFFR2ZFZC6W1ES0",
+      "nodeType": "paragraph",
+      "content": "Strata-Native 0.9452 0.9312 0.9381 0.9540 Opendata-PDF 0.8120 0.7945 0.8032 0.8211 Baseline-OCR 0.8891 0.8540 0.8712 0.8902",
+      "bbox": {
+        "x0": 175.66566,
+        "y0": 402.7488,
+        "x1": 429.48273,
+        "y1": 433.89163
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9A904SVW3YY1ZVT2DN",
+      "nodeType": "paragraph",
+      "content": "Table 1 : Model performance comparison on scientific benchmarks .",
+      "bbox": {
+        "x0": 161.52365,
+        "y0": 377.0582,
+        "x1": 449.8313,
+        "y1": 386.0046
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9A7J80C18BERJ869NP",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 304.01965,
+        "y0": 139.25499,
+        "x1": 307.3073,
+        "y1": 145.89008
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9BFFX3N9CN4EHZ7QHT",
+      "nodeType": "heading-1",
+      "content": "3 Aligned Spacing Table",
+      "bbox": {
+        "x0": 134.44228,
+        "y0": 704.25574,
+        "x1": 316.16556,
+        "y1": 717.16736
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9BCCW59GFYG12SZPTB",
+      "nodeType": "heading-2",
+      "content": "This table does not use any horizontal or vertical line commands , relying only",
+      "bbox": {
+        "x0": 134.12666,
+        "y0": 683.26166,
+        "x1": 477.14893,
+        "y1": 692.2181
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQ9BB9XDSC7BF3T6H4Z5",
+      "nodeType": "paragraph",
+      "content": "on alignment:",
+      "bbox": {
+        "x0": 134.04695,
+        "y0": 671.30664,
+        "x1": 193.21484,
+        "y1": 680.26306
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9BZ1SEM3TTWXTDPWX5",
+      "nodeType": "paragraph",
+      "content": "Item Name Quantity Unit Price Standard Widget 150 $2.50 Super Widget 45 $12.00 Mega Widget 10 $99.99",
+      "bbox": {
+        "x0": 214.28795,
+        "y0": 614.1766,
+        "x1": 397.11163,
+        "y1": 659.1076
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQ9BHMQBD5N561PW3D8G",
+      "nodeType": "paragraph",
+      "content": "2",
+      "bbox": {
+        "x0": 303.63113,
+        "y0": 139.25494,
+        "x1": 307.6062,
+        "y1": 145.89003
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQ9AWW0K2ACCVCJYB7KS",
+      "to": "01KS6WDQ9A92DGH48BQ3RWP6KC",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9A92DGH48BQ3RWP6KC",
+      "to": "01KS6WDQ9AP6A4YY1YE2HWFJWT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AWW0K2ACCVCJYB7KS",
+      "to": "01KS6WDQ9AQX2H9BHNP3NC8P07",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AQX2H9BHNP3NC8P07",
+      "to": "01KS6WDQ9A7FYGJ3EYHC1Y1JK2",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9A92DGH48BQ3RWP6KC",
+      "to": "01KS6WDQ9AQX2H9BHNP3NC8P07",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AWW0K2ACCVCJYB7KS",
+      "to": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "to": "01KS6WDQ9AH4D48C9K8JEK6Z0Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "to": "01KS6WDQ9AE041NXVHB2K8GZSG",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AH4D48C9K8JEK6Z0Z",
+      "to": "01KS6WDQ9AE041NXVHB2K8GZSG",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "to": "01KS6WDQ9ABJFFR2ZFZC6W1ES0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9AE041NXVHB2K8GZSG",
+      "to": "01KS6WDQ9ABJFFR2ZFZC6W1ES0",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "to": "01KS6WDQ9A904SVW3YY1ZVT2DN",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9ABJFFR2ZFZC6W1ES0",
+      "to": "01KS6WDQ9A904SVW3YY1ZVT2DN",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "to": "01KS6WDQ9A7J80C18BERJ869NP",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9A904SVW3YY1ZVT2DN",
+      "to": "01KS6WDQ9A7J80C18BERJ869NP",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AQX2H9BHNP3NC8P07",
+      "to": "01KS6WDQ9AEV7S4HAJSVN03NKD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9BFFX3N9CN4EHZ7QHT",
+      "to": "01KS6WDQ9BCCW59GFYG12SZPTB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9BCCW59GFYG12SZPTB",
+      "to": "01KS6WDQ9BB9XDSC7BF3T6H4Z5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9BCCW59GFYG12SZPTB",
+      "to": "01KS6WDQ9BZ1SEM3TTWXTDPWX5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9BB9XDSC7BF3T6H4Z5",
+      "to": "01KS6WDQ9BZ1SEM3TTWXTDPWX5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9BCCW59GFYG12SZPTB",
+      "to": "01KS6WDQ9BHMQBD5N561PW3D8G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQ9BZ1SEM3TTWXTDPWX5",
+      "to": "01KS6WDQ9BHMQBD5N561PW3D8G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQ9AWW0K2ACCVCJYB7KS",
+      "to": "01KS6WDQ9BFFX3N9CN4EHZ7QHT",
+      "relation": "follows"
+    }
+  ]
+}

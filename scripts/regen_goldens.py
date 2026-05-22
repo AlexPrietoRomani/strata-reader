@@ -31,16 +31,33 @@ logger = logging.getLogger("regen_goldens")
 
 
 def resolve_strata_bin() -> str | None:
-    bin_path = shutil.which("strata")
-    if bin_path:
-        return bin_path
     import os
 
+    # Fallback 1: Check default target/release in REPO_ROOT (real compiled binary)
+    candidate = REPO_ROOT / "target" / "release" / ("strata.exe" if os.name == "nt" else "strata")
+    if candidate.exists():
+        return str(candidate)
+
+    # Fallback 2: Check target/debug in REPO_ROOT
+    candidate = REPO_ROOT / "target" / "debug" / ("strata.exe" if os.name == "nt" else "strata")
+    if candidate.exists():
+        return str(candidate)
+
+    # Fallback 3: check CARGO_TARGET_DIR
     target = os.environ.get("CARGO_TARGET_DIR")
     if target:
         candidate = Path(target) / "release" / ("strata.exe" if os.name == "nt" else "strata")
         if candidate.exists():
             return str(candidate)
+        candidate = Path(target) / "debug" / ("strata.exe" if os.name == "nt" else "strata")
+        if candidate.exists():
+            return str(candidate)
+
+    # Fallback 4: use shutil.which (might resolve to python venv CLI mock)
+    bin_path = shutil.which("strata")
+    if bin_path:
+        return bin_path
+
     return None
 
 

@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "sourceSha256": "9df5e27087670938e2e799bcc6024526d7fbcfad8a0be10267422f6834e3f34e",
+    "sourceFilename": "cid_corrupted.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQA84N4A2P17S403NDCW",
+      "nodeType": "heading-1",
+      "content": "CID Corrupted PD F Fixture",
+      "bbox": {
+        "x0": 203.92955,
+        "y0": 661.93,
+        "x1": 408.1731,
+        "y1": 677.28613
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQA8AR88MJQT6GVCC37W",
+      "nodeType": "heading-2",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.65776,
+        "y0": 633.996,
+        "x1": 362.1801,
+        "y1": 644.80347
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQA8GEDXM36ND0JT3J43",
+      "nodeType": "paragraph",
+      "content": "May 20, 2026",
+      "bbox": {
+        "x0": 271.92676,
+        "y0": 610.621,
+        "x1": 339.8921,
+        "y1": 621.1894
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQA89V11EZ4C4Q6JAES5",
+      "nodeType": "paragraph",
+      "content": "This is a test of a PD F with disabled or corrupted ToUnicode mappings . If ToUnicode is not present , standard PDF readers will have di\u001eculty extracting text or copying it , resulting in raw character codes or garbled output (often U+FFFD or wrong characters) .",
+      "bbox": {
+        "x0": 133.88756,
+        "y0": 537.89996,
+        "x1": 477.98578,
+        "y1": 583.23944
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQA895TMFBNG3GDSBHYR",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 303.97086,
+        "y0": 139.25497,
+        "x1": 307.4478,
+        "y1": 145.85022
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQA84N4A2P17S403NDCW",
+      "to": "01KS6WDQA8AR88MJQT6GVCC37W",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQA8AR88MJQT6GVCC37W",
+      "to": "01KS6WDQA8GEDXM36ND0JT3J43",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQA8AR88MJQT6GVCC37W",
+      "to": "01KS6WDQA89V11EZ4C4Q6JAES5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQA8GEDXM36ND0JT3J43",
+      "to": "01KS6WDQA89V11EZ4C4Q6JAES5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQA8AR88MJQT6GVCC37W",
+      "to": "01KS6WDQA895TMFBNG3GDSBHYR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQA89V11EZ4C4Q6JAES5",
+      "to": "01KS6WDQA895TMFBNG3GDSBHYR",
+      "relation": "follows"
+    }
+  ]
+}

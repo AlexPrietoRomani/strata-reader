@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "sourceSha256": "f976e8bad0b4559fc41a876603daadd80b96eac2b3194811c2209683885ee471",
+    "sourceFilename": "mixed_lang_arabic.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQD13JKRWZPBTDMWMKGY",
+      "nodeType": "heading-1",
+      "content": "Mixed Language Arabic and English Fixture",
+      "bbox": {
+        "x0": 152.1484,
+        "y0": 661.78723,
+        "x1": 460.0114,
+        "y1": 677.64264
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQD157MBSQSMYAG7FYSQ",
+      "nodeType": "heading-3",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.84657,
+        "y0": 633.9641,
+        "x1": 362.04614,
+        "y1": 644.93896
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQD1NPSVY6JGQJCB2YWX",
+      "nodeType": "paragraph",
+      "content": "May 20, 2026",
+      "bbox": {
+        "x0": 271.83304,
+        "y0": 610.65515,
+        "x1": 339.92987,
+        "y1": 621.367
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQD1ZH8A8MBFRKRM6856",
+      "nodeType": "heading-2",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 135.00177,
+        "y0": 570.0863,
+        "x1": 245.05147,
+        "y1": 580.25775
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQD1PZ0AWS58PFKBF90G",
+      "nodeType": "paragraph",
+      "content": "This document contains both English (left-to-right ) and Arabic (right-to-left ) text to evaluate multi-language and multi-directional text extraction capability.",
+      "bbox": {
+        "x0": 133.95728,
+        "y0": 534.32965,
+        "x1": 477.4876,
+        "y1": 555.90857
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQD163WNG0Q1YQ5Z09RJ",
+      "nodeType": "heading-2",
+      "content": "2 Bilingual Content",
+      "bbox": {
+        "x0": 134.57138,
+        "y0": 500.54077,
+        "x1": 281.59125,
+        "y1": 513.56714
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQD1CX2S0XWJ2RAQXYAM",
+      "nodeType": "paragraph",
+      "content": "Here is a paragraph in Arabic : ت اغللاو هاجتلا ا ة يئانث صوصنلا عم لماعتلا ىلع ج ارختسلا ا كرحم ة ردق رابتخلا ة يبرعلا ة غللاب صن اذه .ة طلتخملا And here is a translation in English : ” This is an Arabic text to test the extraction engine ’ s ability to handle bidirectional texts and mixed languages .”",
+      "bbox": {
+        "x0": 134.04694,
+        "y0": 431.71573,
+        "x1": 477.47787,
+        "y1": 488.8218
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQD1WWFWQWGP3PDGAKX7",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 304.01965,
+        "y0": 139.255,
+        "x1": 307.3073,
+        "y1": 145.98972
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQD13JKRWZPBTDMWMKGY",
+      "to": "01KS6WDQD157MBSQSMYAG7FYSQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD157MBSQSMYAG7FYSQ",
+      "to": "01KS6WDQD1NPSVY6JGQJCB2YWX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD13JKRWZPBTDMWMKGY",
+      "to": "01KS6WDQD1ZH8A8MBFRKRM6856",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD1ZH8A8MBFRKRM6856",
+      "to": "01KS6WDQD1PZ0AWS58PFKBF90G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD157MBSQSMYAG7FYSQ",
+      "to": "01KS6WDQD1ZH8A8MBFRKRM6856",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQD13JKRWZPBTDMWMKGY",
+      "to": "01KS6WDQD163WNG0Q1YQ5Z09RJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD163WNG0Q1YQ5Z09RJ",
+      "to": "01KS6WDQD1CX2S0XWJ2RAQXYAM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD163WNG0Q1YQ5Z09RJ",
+      "to": "01KS6WDQD1WWFWQWGP3PDGAKX7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQD1CX2S0XWJ2RAQXYAM",
+      "to": "01KS6WDQD1WWFWQWGP3PDGAKX7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQD1ZH8A8MBFRKRM6856",
+      "to": "01KS6WDQD163WNG0Q1YQ5Z09RJ",
+      "relation": "follows"
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "meta": {
+    "sourceSha256": "abec5d1544d584bdcf9351d23048ffda2ad74a94f189d66654bdbe5cad898415",
+    "sourceFilename": "figure_with_caption.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQC6TGR42APHKM5QRG2A",
+      "nodeType": "heading-1",
+      "content": "Figure with Caption Fixture",
+      "bbox": {
+        "x0": 208.01299,
+        "y0": 611.8973,
+        "x1": 403.90704,
+        "y1": 627.4256
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQC6K7DKNB37KX3F58VV",
+      "nodeType": "heading-3",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.69258,
+        "y0": 584.07416,
+        "x1": 362.09537,
+        "y1": 594.9175
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQC6D765J4MVYGW7A636",
+      "nodeType": "paragraph",
+      "content": "May 20 , 2026",
+      "bbox": {
+        "x0": 271.84702,
+        "y0": 560.76117,
+        "x1": 339.86014,
+        "y1": 571.35345
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQC6K7A6HER9VYBJ412K",
+      "nodeType": "heading-2",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 135.00177,
+        "y0": 520.20734,
+        "x1": 246.74431,
+        "y1": 530.24963
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQC61R3S197FMNVKXKJ7",
+      "nodeType": "paragraph",
+      "content": "This document contains a vector figure created using TikZ with an accompany\u0002 ing caption , designed to test the layout analysis and figure/caption association of Strat a-Reader .",
+      "bbox": {
+        "x0": 134.04694,
+        "y0": 474.33884,
+        "x1": 477.15875,
+        "y1": 505.48267
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "nodeType": "heading-2",
+      "content": "2 Visual Representation",
+      "bbox": {
+        "x0": 134.57138,
+        "y0": 438.83322,
+        "x1": 314.05667,
+        "y1": 451.57266
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQC6ZY89J9BZT3WBDRV0",
+      "nodeType": "paragraph",
+      "content": "Below is a diagram representing neural network layers .",
+      "bbox": {
+        "x0": 134.12665,
+        "y0": 417.73874,
+        "x1": 372.2925,
+        "y1": 426.6951
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQC6RWJ30R1NPGPQ7MXR",
+      "nodeType": "paragraph",
+      "content": "Input Layer Hidden Layer Output Layer",
+      "bbox": {
+        "x0": 173.35095,
+        "y0": 379.70764,
+        "x1": 441.26425,
+        "y1": 388.81863
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQC693CDNZ72730S2R5D",
+      "nodeType": "paragraph",
+      "content": "Figure 1: A simple feedforward neural network structure with input, hidden, and output layers.",
+      "bbox": {
+        "x0": 134.09677,
+        "y0": 330.25363,
+        "x1": 477.11896,
+        "y1": 351.3742
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQC6BPKH11568541ZCRR",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 304.01965,
+        "y0": 89.365005,
+        "x1": 307.3073,
+        "y1": 96.0001
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQC6TGR42APHKM5QRG2A",
+      "to": "01KS6WDQC6K7DKNB37KX3F58VV",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6K7DKNB37KX3F58VV",
+      "to": "01KS6WDQC6D765J4MVYGW7A636",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6TGR42APHKM5QRG2A",
+      "to": "01KS6WDQC6K7A6HER9VYBJ412K",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6K7A6HER9VYBJ412K",
+      "to": "01KS6WDQC61R3S197FMNVKXKJ7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6K7DKNB37KX3F58VV",
+      "to": "01KS6WDQC6K7A6HER9VYBJ412K",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQC6TGR42APHKM5QRG2A",
+      "to": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "to": "01KS6WDQC6ZY89J9BZT3WBDRV0",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "to": "01KS6WDQC6RWJ30R1NPGPQ7MXR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6ZY89J9BZT3WBDRV0",
+      "to": "01KS6WDQC6RWJ30R1NPGPQ7MXR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "to": "01KS6WDQC693CDNZ72730S2R5D",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC6RWJ30R1NPGPQ7MXR",
+      "to": "01KS6WDQC693CDNZ72730S2R5D",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "to": "01KS6WDQC6BPKH11568541ZCRR",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQC693CDNZ72730S2R5D",
+      "to": "01KS6WDQC6BPKH11568541ZCRR",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQC6K7A6HER9VYBJ412K",
+      "to": "01KS6WDQC6E1Z7YCVCDB7ZFHZ3",
+      "relation": "follows"
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "sourceSha256": "012b7848f71d62ed23ef375dcbeddba2249efc39e71c3d1cef25b0b8425a9e81",
+    "sourceFilename": "native_simple.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQDSMHX7AKF90K81N3TY",
+      "nodeType": "heading-1",
+      "content": "Native Simple P DF Fixture",
+      "bbox": {
+        "x0": 210.74399,
+        "y0": 661.9422,
+        "x1": 401.2152,
+        "y1": 677.31555
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQDSB10M7E7C08YS84Z2",
+      "nodeType": "heading-3",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.69258,
+        "y0": 633.9631,
+        "x1": 362.09537,
+        "y1": 644.8064
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQDS87TKDB2GZ229PC6N",
+      "nodeType": "paragraph",
+      "content": "May 2026",
+      "bbox": {
+        "x0": 281.27704,
+        "y0": 610.65106,
+        "x1": 330.4488,
+        "y1": 621.24335
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQDS6ED7TW1RB9FQ48FE",
+      "nodeType": "heading-2",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 135.00179,
+        "y0": 570.0972,
+        "x1": 246.74432,
+        "y1": 580.1395
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQDS7PR3GF5HB5E26WBN",
+      "nodeType": "paragraph",
+      "content": "This is a native simple PDF file used to verify the baseline text extraction of the Strata-Reader engine . It contains standard characters , a single column layout , and basic section headings .",
+      "bbox": {
+        "x0": 134.12666,
+        "y0": 522.39557,
+        "x1": 477.15878,
+        "y1": 555.3716
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQDS8SYVCG0VVCET56XM",
+      "nodeType": "heading-3",
+      "content": "1.1 Basic Features",
+      "bbox": {
+        "x0": 134.79616,
+        "y0": 496.48914,
+        "x1": 249.55412,
+        "y1": 504.8578
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQDSTZC086Q2CJ024FS3",
+      "nodeType": "paragraph",
+      "content": "The extraction should retrieve this text with high fidelity, preserving word groupings and basic reading order from top to bottom .",
+      "bbox": {
+        "x0": 134.04695,
+        "y0": 464.1626,
+        "x1": 477.1091,
+        "y1": 485.18353
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQDSHRM00DZKR1R2WT7E",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 304.01965,
+        "y0": 139.25491,
+        "x1": 307.3073,
+        "y1": 145.89
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQDSMHX7AKF90K81N3TY",
+      "to": "01KS6WDQDSB10M7E7C08YS84Z2",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDSB10M7E7C08YS84Z2",
+      "to": "01KS6WDQDS87TKDB2GZ229PC6N",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDSMHX7AKF90K81N3TY",
+      "to": "01KS6WDQDS6ED7TW1RB9FQ48FE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDS6ED7TW1RB9FQ48FE",
+      "to": "01KS6WDQDS7PR3GF5HB5E26WBN",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDS6ED7TW1RB9FQ48FE",
+      "to": "01KS6WDQDS8SYVCG0VVCET56XM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDS8SYVCG0VVCET56XM",
+      "to": "01KS6WDQDSTZC086Q2CJ024FS3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDS8SYVCG0VVCET56XM",
+      "to": "01KS6WDQDSHRM00DZKR1R2WT7E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQDSTZC086Q2CJ024FS3",
+      "to": "01KS6WDQDSHRM00DZKR1R2WT7E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQDS7PR3GF5HB5E26WBN",
+      "to": "01KS6WDQDS8SYVCG0VVCET56XM",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQDSB10M7E7C08YS84Z2",
+      "to": "01KS6WDQDS6ED7TW1RB9FQ48FE",
+      "relation": "follows"
+    }
+  ]
+}

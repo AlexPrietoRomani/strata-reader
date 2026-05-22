@@ -2748,9 +2748,13 @@ version = "0.1.0"
 dependencies = [
  "pyo3",
  "serde_json",
+ "sha2",
  "strata-core",
  "strata-fusion",
+ "strata-geometry",
+ "strata-pdf",
  "strata-serialize",
+ "tracing",
 ]
 
 [[package]]

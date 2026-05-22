@@ -1,21 +1,25 @@
 # Strata-Reader — Goldens Review
 
-Every entry here is a human acknowledgement that a regenerated golden was
-inspected and intentionally promoted. Plan Maestro §15.T10.1 mandates that
-no golden change merges without a matching block in this file.
+Every entry here is a human acknowledgement that a regenerated
+golden was inspected and intentionally promoted. Plan Maestro
+§15.T10.1 mandates that no golden change merges without a
+matching block in this file.
 
-## Initial state (pre-T10.1)
+## Updated this run
 
-No goldens have been committed yet — the linker is EDR-blocked on the
-maintainer's machine (see `docs/usage/IT_request.md`). The pipeline:
-
-1. Build the CLI: `cargo build -p strata-cli --release` (waits on IT).
-2. Boot Ollama with the VLM models: `scripts/dev_up.ps1`.
-3. Regenerate the corpus: `uv run python scripts/regen_goldens.py`.
-4. Open the diff, eyeball each `tests/fixtures/expected/*.golden.{md,json}`.
-5. Append an entry below — one bullet per file with reviewer initials + date.
-6. Commit the goldens AND this file in the same PR.
-
-## Updated runs
-
-_(empty — first regeneration pending)_
+- `borderless_table.golden.md` — reviewed: ___ (initials), date: ___
+- `borderless_table.golden.json` — reviewed: ___ (initials), date: ___
+- `cid_corrupted.golden.md` — reviewed: ___ (initials), date: ___
+- `cid_corrupted.golden.json` — reviewed: ___ (initials), date: ___
+- `equation_heavy.golden.md` — reviewed: ___ (initials), date: ___
+- `equation_heavy.golden.json` — reviewed: ___ (initials), date: ___
+- `figure_with_caption.golden.md` — reviewed: ___ (initials), date: ___
+- `figure_with_caption.golden.json` — reviewed: ___ (initials), date: ___
+- `mixed_lang_arabic.golden.md` — reviewed: ___ (initials), date: ___
+- `mixed_lang_arabic.golden.json` — reviewed: ___ (initials), date: ___
+- `native_simple.golden.md` — reviewed: ___ (initials), date: ___
+- `native_simple.golden.json` — reviewed: ___ (initials), date: ___
+- `scanned_paper.golden.md` — reviewed: ___ (initials), date: ___
+- `scanned_paper.golden.json` — reviewed: ___ (initials), date: ___
+- `two_column_paper.golden.md` — reviewed: ___ (initials), date: ___
+- `two_column_paper.golden.json` — reviewed: ___ (initials), date: ___

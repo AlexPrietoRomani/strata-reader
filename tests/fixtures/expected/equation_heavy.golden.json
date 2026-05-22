@@ -1,0 +1,2107 @@
+{
+  "meta": {
+    "sourceSha256": "5f486ea42551225f86e0ff0521edd5b58338ffe33535529995f589de725577eb",
+    "sourceFilename": "equation_heavy.pdf",
+    "schemaVersion": "0.1.0",
+    "profile": "scientific"
+  },
+  "nodes": [
+    {
+      "id": "01KS6WDQB5QXBB0RW9B8G7H32Z",
+      "nodeType": "heading-1",
+      "content": "Equation Heavy Fixture",
+      "bbox": {
+        "x0": 222.80798,
+        "y0": 661.80444,
+        "x1": 389.1432,
+        "y1": 677.0401
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQB5B7EQ40W9W4KXY57T",
+      "nodeType": "heading-3",
+      "content": "Strata Reader Proj ect",
+      "bbox": {
+        "x0": 249.69258,
+        "y0": 633.9631,
+        "x1": 362.09537,
+        "y1": 644.8064
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQB505BSYRKW7HFCM9XS",
+      "nodeType": "paragraph",
+      "content": "May 20 , 2026",
+      "bbox": {
+        "x0": 271.84702,
+        "y0": 610.65106,
+        "x1": 339.86014,
+        "y1": 621.24335
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5YR0V4C6SKR6WXZ0T",
+      "nodeType": "heading-2",
+      "content": "1 Introduction",
+      "bbox": {
+        "x0": 135.00177,
+        "y0": 570.0972,
+        "x1": 246.74431,
+        "y1": 580.1395
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQB5RN263VRMV4DX45DF",
+      "nodeType": "paragraph",
+      "content": "This document contains over 30 mathematical equations in display mode to verify formula detection .",
+      "bbox": {
+        "x0": 133.95728,
+        "y0": 534.3606,
+        "x1": 477.1887,
+        "y1": 555.262
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "nodeType": "heading-2",
+      "content": "2 Mathematical Equations",
+      "bbox": {
+        "x0": 134.57138,
+        "y0": 500.67813,
+        "x1": 330.6122,
+        "y1": 513.41754
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": [
+        "section"
+      ]
+    },
+    {
+      "id": "01KS6WDQB5SX1B328NC72ZD194",
+      "nodeType": "paragraph",
+      "content": "Equation 1: Euler’s Identity e iπ + 1 = 0 (1)",
+      "bbox": {
+        "x0": 134.09676,
+        "y0": 467.1903,
+        "x1": 477.4499,
+        "y1": 488.54
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB56GGMGF54SC4ZNN3E",
+      "nodeType": "paragraph",
+      "content": "Equation 2: Einstein’s Field Equations",
+      "bbox": {
+        "x0": 149.04076,
+        "y0": 449.8152,
+        "x1": 318.32523,
+        "y1": 458.652
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5VYKX8Z2E4SY5HDYE",
+      "nodeType": "paragraph",
+      "content": "8πG Gµν + Λgµν = 4 Tµν (2) c",
+      "bbox": {
+        "x0": 255.40611,
+        "y0": 418.36136,
+        "x1": 477.46127,
+        "y1": 439.05762
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB58QZDG9CH03GWNJ16",
+      "nodeType": "paragraph",
+      "content": "Equation 3: Schrodinger Equation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 398.54065,
+        "x1": 298.06134,
+        "y1": 407.6066
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5KW3KDKCE541M1ZZD",
+      "nodeType": "paragraph",
+      "content": "∂ ˆiℏ Ψ(r, t) = HΨ(r, t) (3) ∂t",
+      "bbox": {
+        "x0": 256.16092,
+        "y0": 366.98578,
+        "x1": 477.41467,
+        "y1": 387.9022
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5PCRWJKRETEYTKYST",
+      "nodeType": "paragraph",
+      "content": "Equation 4 : Maxwell ’s Equations - Gauss ’s Law",
+      "bbox": {
+        "x0": 149.04074,
+        "y0": 347.39523,
+        "x1": 357.94647,
+        "y1": 356.34164
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5YBJH020WW2J5RB6X",
+      "nodeType": "paragraph",
+      "content": "ρ ∇ · E = (4) ε0",
+      "bbox": {
+        "x0": 282.1852,
+        "y0": 316.9315,
+        "x1": 477.46127,
+        "y1": 336.5355
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5SECP9KM2DTKZZNFT",
+      "nodeType": "paragraph",
+      "content": "Equation 5 : Maxwell ’s Equations - Gauss ’s Law for Magnetism",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 297.14468,
+        "x1": 424.39703,
+        "y1": 306.21063
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB58XP0NGKM8P1DQ66Z",
+      "nodeType": "paragraph",
+      "content": "∇ · B = 0 (5)",
+      "bbox": {
+        "x0": 285.13623,
+        "y0": 274.78833,
+        "x1": 477.44427,
+        "y1": 284.74097
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5G91W99MBZZ38YY4E",
+      "nodeType": "paragraph",
+      "content": "Equation 6: Maxwell’s Equations - Faraday’s Law",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 253.31865,
+        "x1": 366.78333,
+        "y1": 262.26505
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB574KJVBN1C4M7GMD7",
+      "nodeType": "paragraph",
+      "content": "∂B ∇ × E = − (6) ∂t",
+      "bbox": {
+        "x0": 273.38123,
+        "y0": 221.75378,
+        "x1": 477.4613,
+        "y1": 242.67024
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5DSB5WW8T1CGCC3BA",
+      "nodeType": "paragraph",
+      "content": "Equation 7: Maxwell ’s Equations - Ampere ’s Law",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 202.16322,
+        "x1": 366.09595,
+        "y1": 211.21922
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB55NTKP8PN4DN168V5",
+      "nodeType": "paragraph",
+      "content": "∂E ∇ × B = µ0 J + ε0 (7) \u0012∂t \u0013",
+      "bbox": {
+        "x0": 250.24828,
+        "y0": 167.2992,
+        "x1": 477.46127,
+        "y1": 191.18951
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB5G9XWBXNX0F4JFRW4",
+      "nodeType": "paragraph",
+      "content": "1",
+      "bbox": {
+        "x0": 304.01965,
+        "y0": 139.255,
+        "x1": 307.3073,
+        "y1": 145.89009
+      },
+      "page": 1,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB778W8MH7HNK3XJ82X",
+      "nodeType": "paragraph",
+      "content": "Equation 8: Fourier Transform",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 705.2022,
+        "x1": 283.24698,
+        "y1": 714.1486
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB79EQHTQYEX67J3Q50",
+      "nodeType": "paragraph",
+      "content": "ˆ ∞ f(ξ) = f(x)e −2πixξ dx (8) Z−∞",
+      "bbox": {
+        "x0": 247.63301,
+        "y0": 671.9702,
+        "x1": 477.4468,
+        "y1": 695.2834
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB77EGDB7F276A2RS5E",
+      "nodeType": "paragraph",
+      "content": "Equation 9: Inverse Fourier Transform",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 652.3842,
+        "x1": 317.06,
+        "y1": 661.3306
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7B5QZTAPAV2Y168ZE",
+      "nodeType": "paragraph",
+      "content": "∞ ˆf(x) = f(ξ)e 2πixξ dξ (9) Z−∞",
+      "bbox": {
+        "x0": 251.18503,
+        "y0": 619.1522,
+        "x1": 477.45178,
+        "y1": 642.4644
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB737FW9N1T2KJXDZ1C",
+      "nodeType": "paragraph",
+      "content": "Equation 10: Gaussian Distribution",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 599.5651,
+        "x1": 304.61676,
+        "y1": 608.51154
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB77J70FX50WR3F16YY",
+      "nodeType": "paragraph",
+      "content": "1 − 1 x−µ 2 f(x) = e 2 (σ )(10) σ √2π",
+      "bbox": {
+        "x0": 253.56006,
+        "y0": 567.1589,
+        "x1": 477.46155,
+        "y1": 589.78796
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB70SXDA20832JPEP2P",
+      "nodeType": "paragraph",
+      "content": "Equation 11: Navier-Stokes Equation",
+      "bbox": {
+        "x0": 149.04074,
+        "y0": 548.32916,
+        "x1": 311.36136,
+        "y1": 557.2756
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7S9Y1EK5KH8HZRV94",
+      "nodeType": "paragraph",
+      "content": "∂u ·=−2ρ + u ∇u ∇p + µ∇u + f (11) \u0012∂t \u0013",
+      "bbox": {
+        "x0": 223.46886,
+        "y0": 514.44714,
+        "x1": 477.43674,
+        "y1": 538.33746
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7Y0THHPAWDNEAB4CA",
+      "nodeType": "paragraph",
+      "content": "Equation 12: Heat Equation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 495.71918,
+        "x1": 272.58698,
+        "y1": 504.4464
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB72B7D53HJCHEJMXKA",
+      "nodeType": "paragraph",
+      "content": "∂u −2 α∇u = 0 (12) ∂t",
+      "bbox": {
+        "x0": 272.5865,
+        "y0": 465.02576,
+        "x1": 477.45193,
+        "y1": 485.9412
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7YWCMWPSTBEDXVSCY",
+      "nodeType": "paragraph",
+      "content": "Equation 13: Wave Equation",
+      "bbox": {
+        "x0": 149.04076,
+        "y0": 446.5262,
+        "x1": 275.3466,
+        "y1": 455.25345
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7BWQR6H59CG9Q2JSW",
+      "nodeType": "paragraph",
+      "content": "∂ 2u 222 − c ∇u = 0 (13) ∂t",
+      "bbox": {
+        "x0": 269.1665,
+        "y0": 414.64178,
+        "x1": 477.4458,
+        "y1": 436.67062
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7NMP4BTR0KJMRNCR5",
+      "nodeType": "paragraph",
+      "content": "Equation 14: Black-Scholes Equation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 396.0322,
+        "x1": 310.6441,
+        "y1": 404.9786
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7VGBM6QH2C3G00X5B",
+      "nodeType": "paragraph",
+      "content": "∂V 1 22 ∂ 2V ∂V + σ S 2 + rS − rV = 0 (14) ∂t 2 ∂S∂S",
+      "bbox": {
+        "x0": 226.5495,
+        "y0": 364.14777,
+        "x1": 477.44177,
+        "y1": 386.17664
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7ZYC3GDM8FKDZJ7GP",
+      "nodeType": "paragraph",
+      "content": "Equation 15: Logistic Map",
+      "bbox": {
+        "x0": 149.04074,
+        "y0": 345.5287,
+        "x1": 265.73267,
+        "y1": 354.37546
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7TSG5TRPGQVCPECJ9",
+      "nodeType": "paragraph",
+      "content": "xn+1 = rxn(1 − xn) (15)",
+      "bbox": {
+        "x0": 262.7129,
+        "y0": 324.15433,
+        "x1": 477.45154,
+        "y1": 334.10696
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7ZRBQQ8Z9AQETPNB3",
+      "nodeType": "paragraph",
+      "content": "Equation 16: Shannon Entropy",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 303.66562,
+        "x1": 285.05017,
+        "y1": 312.72162
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB73MD60MCMGH8QAN1A",
+      "nodeType": "paragraph",
+      "content": "n H(X) = − XP(xi) log2 P(xi) (16) i=1",
+      "bbox": {
+        "x0": 238.83455,
+        "y0": 265.51422,
+        "x1": 477.44962,
+        "y1": 292.86044
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7K4YTG3ESJMRW4XVS",
+      "nodeType": "paragraph",
+      "content": "Equation 1 7: Partition Function",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 245.87222,
+        "x1": 289.59314,
+        "y1": 254.59946
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB72F0VEQ0YYED7KP4E",
+      "nodeType": "paragraph",
+      "content": "Z = e βEs (17) Xs",
+      "bbox": {
+        "x0": 274.81586,
+        "y0": 213.89925,
+        "x1": 477.4616,
+        "y1": 234.884
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB766441NCMH7DGQYM5",
+      "nodeType": "paragraph",
+      "content": "Equation 18: Boltzmann Distribution",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 194.14723,
+        "x1": 312.5968,
+        "y1": 202.98405
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7PWA8CKWS7PWQS6JK",
+      "nodeType": "paragraph",
+      "content": "=1 −βEs P(s) e (18) Z",
+      "bbox": {
+        "x0": 271.36652,
+        "y0": 164.161,
+        "x1": 477.46155,
+        "y1": 184.3701
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB7N19NTEC4YFBY8XBB",
+      "nodeType": "paragraph",
+      "content": "2",
+      "bbox": {
+        "x0": 303.63113,
+        "y0": 139.25499,
+        "x1": 307.6062,
+        "y1": 145.89008
+      },
+      "page": 2,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB81SHZ4F6YDP50EBWP",
+      "nodeType": "paragraph",
+      "content": "Equation 19: Ideal Gas Law (Statistical Mechanics)",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 704.6443,
+        "x1": 374.56415,
+        "y1": 714.5969
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB86FTA54T9A2KQX1PJ",
+      "nodeType": "paragraph",
+      "content": "PV = NkBT (19)",
+      "bbox": {
+        "x0": 277.3075,
+        "y0": 682.7303,
+        "x1": 477.45865,
+        "y1": 692.6829
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8PTKE7PYS82N8THXQ",
+      "nodeType": "paragraph",
+      "content": "Equation 20: Planck’s Law",
+      "bbox": {
+        "x0": 149.04076,
+        "y0": 661.3732,
+        "x1": 266.4201,
+        "y1": 670.2101
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8MT35GGA2A4BV5B5Y",
+      "nodeType": "paragraph",
+      "content": "2hν3 1 Bν(T) = 2 hν (20) c e kBT − 1",
+      "bbox": {
+        "x0": 253.2174,
+        "y0": 625.2534,
+        "x1": 477.46158,
+        "y1": 650.54065
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB89Y1WE1QG4YEGX11A",
+      "nodeType": "paragraph",
+      "content": "Equation 21: De Broglie Relation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 604.60657,
+        "x1": 295.0028,
+        "y1": 613.563
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8DRYV5NEATQCJX6CX",
+      "nodeType": "paragraph",
+      "content": "h λ = (21) p",
+      "bbox": {
+        "x0": 292.539,
+        "y0": 571.3412,
+        "x1": 477.46158,
+        "y1": 593.75195
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8J3GS7QC97H4N3ND3",
+      "nodeType": "paragraph",
+      "content": "Equation 22 : Dirac Equation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 551.6402,
+        "x1": 275.506,
+        "y1": 560.36743
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8H6D998C18RP057PA",
+      "nodeType": "paragraph",
+      "content": "Equation 23: Bragg’s Law",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 507.69266,
+        "x1": 262.87347,
+        "y1": 516.64905
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB848ZBZEBKYYRTNFDB",
+      "nodeType": "paragraph",
+      "content": "(iγµ ∂µ − m) ψ = 0 (22)",
+      "bbox": {
+        "x0": 266.3293,
+        "y0": 528.66956,
+        "x1": 477.43,
+        "y1": 539.1209
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8AXYPSAQZHPRQPX30",
+      "nodeType": "paragraph",
+      "content": "2d sin θ = nλ (23)",
+      "bbox": {
+        "x0": 278.24817,
+        "y0": 485.3393,
+        "x1": 477.4204,
+        "y1": 495.29193
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8KBQW28FA20H69BGM",
+      "nodeType": "paragraph",
+      "content": "Equation 24 : Friedmann Equation",
+      "bbox": {
+        "x0": 149.0408,
+        "y0": 463.9832,
+        "x1": 298.4499,
+        "y1": 472.82
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8CDV98AQEA3JAJEV9",
+      "nodeType": "paragraph",
+      "content": "˙2 2 2 a kc8πGρ + Λc + 2 = (24) \u0012a \u0013a 3",
+      "bbox": {
+        "x0": 246.09926,
+        "y0": 427.09216,
+        "x1": 477.46158,
+        "y1": 453.1496
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8Q5DR23PRQFYN51D5",
+      "nodeType": "paragraph",
+      "content": "Equation 25 : Euler-Lagrange Equation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 407.15567,
+        "x1": 318.54443,
+        "y1": 416.11203
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8FN5PVEM2MKSSW243",
+      "nodeType": "paragraph",
+      "content": "∂L d ∂L − ˙= 0 (25) ∂qi dt \u0012∂qi \u0013",
+      "bbox": {
+        "x0": 262.2485,
+        "y0": 372.41418,
+        "x1": 477.4516,
+        "y1": 396.3045
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8PVAKTZKKQYFTRXN4",
+      "nodeType": "paragraph",
+      "content": "Equation 26 : Hamilton’s Equations",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 352.59723,
+        "x1": 303.1024,
+        "y1": 361.43405
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8JHX63HN92T7S82MW",
+      "nodeType": "paragraph",
+      "content": "˙∂H ˙∂H qi = , pi = − (26) ∂pi ∂qi",
+      "bbox": {
+        "x0": 256.2945,
+        "y0": 319.2132,
+        "x1": 477.46158,
+        "y1": 341.84222
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB87MBG9D7NBEBFT97F",
+      "nodeType": "paragraph",
+      "content": "Equation 2 7: Central Limit Theorem ( Characteristic Function)",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 298.2903,
+        "x1": 424.09818,
+        "y1": 308.24295
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8YS4AQ4Z2B6C1TAMF",
+      "nodeType": "paragraph",
+      "content": "n t − t 2 φΣn (t) = φX → e 2 (27) \u0014\u0012√n \u0013\u0015",
+      "bbox": {
+        "x0": 235.52313,
+        "y0": 262.89517,
+        "x1": 477.46158,
+        "y1": 287.39743
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8HDJ4CZF6CG5FEZKK",
+      "nodeType": "paragraph",
+      "content": "Equation 28 : Laplace Transform",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 243.07822,
+        "x1": 290.41006,
+        "y1": 252.02463
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8KEFYH31FW2RGHFK7",
+      "nodeType": "paragraph",
+      "content": "F(s) = e −stf(t) dt (28) Z0",
+      "bbox": {
+        "x0": 256.28757,
+        "y0": 208.7985,
+        "x1": 477.42648,
+        "y1": 231.568
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8XXSDEVH6YKKCT9CS",
+      "nodeType": "paragraph",
+      "content": "Equation 29: Stirling’s Approximation",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 189.01466,
+        "x1": 316.49213,
+        "y1": 198.19022
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB83EV2CAKBSB9REYXF",
+      "nodeType": "paragraph",
+      "content": "ln n! ≈ n ln n − n (29)",
+      "bbox": {
+        "x0": 269.08676,
+        "y0": 166.66231,
+        "x1": 477.40472,
+        "y1": 176.61494
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8XF8EKKCAN1Z12TNE",
+      "nodeType": "paragraph",
+      "content": "3",
+      "bbox": {
+        "x0": 303.55142,
+        "y0": 139.04578,
+        "x1": 307.6859,
+        "y1": 145.89008
+      },
+      "page": 3,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8NZ1SFRNGBWQ89RE6",
+      "nodeType": "paragraph",
+      "content": "Equation 30 : Riemann Zeta Function",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 705.2022,
+        "x1": 311.98904,
+        "y1": 713.92944
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8NWTY6SA6M706AX0G",
+      "nodeType": "paragraph",
+      "content": "1 ζ(s) = Xs (30) n=1 n",
+      "bbox": {
+        "x0": 276.0333,
+        "y0": 666.0802,
+        "x1": 477.46158,
+        "y1": 691.15204
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB80D0WHJ05QADSTZJJ",
+      "nodeType": "paragraph",
+      "content": "Equation 31: Cauchy-Schwarz Inequality",
+      "bbox": {
+        "x0": 149.04077,
+        "y0": 645.23663,
+        "x1": 326.654,
+        "y1": 654.2926
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8SM9QFRNG3QJ1Q923",
+      "nodeType": "paragraph",
+      "content": "2 |⟨u, v⟩|≤ ⟨u, u⟩⟨v, v⟩ (31)",
+      "bbox": {
+        "x0": 258.04456,
+        "y0": 622.87024,
+        "x1": 477.36105,
+        "y1": 634.0956
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8576B8K70VNTTRZXQ",
+      "nodeType": "paragraph",
+      "content": "Equation 32 : Taylor Series",
+      "bbox": {
+        "x0": 149.04079,
+        "y0": 601.40063,
+        "x1": 265.08514,
+        "y1": 610.4566
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8R683K82C43NZJD39",
+      "nodeType": "paragraph",
+      "content": "∞ (n) a f(x) = f()(x − a) n (32) Xn! n=0",
+      "bbox": {
+        "x0": 246.82104,
+        "y0": 562.3185,
+        "x1": 477.46158,
+        "y1": 589.67035
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    },
+    {
+      "id": "01KS6WDQB8MTF27TPD6XPSD7T9",
+      "nodeType": "paragraph",
+      "content": "4",
+      "bbox": {
+        "x0": 303.41196,
+        "y0": 139.25497,
+        "x1": 307.82538,
+        "y1": 145.99965
+      },
+      "page": 4,
+      "provenance": {
+        "source": "rust",
+        "confidence": 1.0,
+        "latencyMs": 0,
+        "retries": 0
+      },
+      "tags": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "01KS6WDQB5QXBB0RW9B8G7H32Z",
+      "to": "01KS6WDQB5B7EQ40W9W4KXY57T",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5B7EQ40W9W4KXY57T",
+      "to": "01KS6WDQB505BSYRKW7HFCM9XS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5QXBB0RW9B8G7H32Z",
+      "to": "01KS6WDQB5YR0V4C6SKR6WXZ0T",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5YR0V4C6SKR6WXZ0T",
+      "to": "01KS6WDQB5RN263VRMV4DX45DF",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5B7EQ40W9W4KXY57T",
+      "to": "01KS6WDQB5YR0V4C6SKR6WXZ0T",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5QXBB0RW9B8G7H32Z",
+      "to": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5SX1B328NC72ZD194",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB56GGMGF54SC4ZNN3E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5SX1B328NC72ZD194",
+      "to": "01KS6WDQB56GGMGF54SC4ZNN3E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5VYKX8Z2E4SY5HDYE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB56GGMGF54SC4ZNN3E",
+      "to": "01KS6WDQB5VYKX8Z2E4SY5HDYE",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB58QZDG9CH03GWNJ16",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5VYKX8Z2E4SY5HDYE",
+      "to": "01KS6WDQB58QZDG9CH03GWNJ16",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5KW3KDKCE541M1ZZD",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB58QZDG9CH03GWNJ16",
+      "to": "01KS6WDQB5KW3KDKCE541M1ZZD",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5PCRWJKRETEYTKYST",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5KW3KDKCE541M1ZZD",
+      "to": "01KS6WDQB5PCRWJKRETEYTKYST",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5YBJH020WW2J5RB6X",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5PCRWJKRETEYTKYST",
+      "to": "01KS6WDQB5YBJH020WW2J5RB6X",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5SECP9KM2DTKZZNFT",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5YBJH020WW2J5RB6X",
+      "to": "01KS6WDQB5SECP9KM2DTKZZNFT",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB58XP0NGKM8P1DQ66Z",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5SECP9KM2DTKZZNFT",
+      "to": "01KS6WDQB58XP0NGKM8P1DQ66Z",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5G91W99MBZZ38YY4E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB58XP0NGKM8P1DQ66Z",
+      "to": "01KS6WDQB5G91W99MBZZ38YY4E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB574KJVBN1C4M7GMD7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5G91W99MBZZ38YY4E",
+      "to": "01KS6WDQB574KJVBN1C4M7GMD7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5DSB5WW8T1CGCC3BA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB574KJVBN1C4M7GMD7",
+      "to": "01KS6WDQB5DSB5WW8T1CGCC3BA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB55NTKP8PN4DN168V5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5DSB5WW8T1CGCC3BA",
+      "to": "01KS6WDQB55NTKP8PN4DN168V5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB5G9XWBXNX0F4JFRW4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB55NTKP8PN4DN168V5",
+      "to": "01KS6WDQB5G9XWBXNX0F4JFRW4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB778W8MH7HNK3XJ82X",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB5G9XWBXNX0F4JFRW4",
+      "to": "01KS6WDQB778W8MH7HNK3XJ82X",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB79EQHTQYEX67J3Q50",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB778W8MH7HNK3XJ82X",
+      "to": "01KS6WDQB79EQHTQYEX67J3Q50",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB77EGDB7F276A2RS5E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB79EQHTQYEX67J3Q50",
+      "to": "01KS6WDQB77EGDB7F276A2RS5E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7B5QZTAPAV2Y168ZE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB77EGDB7F276A2RS5E",
+      "to": "01KS6WDQB7B5QZTAPAV2Y168ZE",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB737FW9N1T2KJXDZ1C",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7B5QZTAPAV2Y168ZE",
+      "to": "01KS6WDQB737FW9N1T2KJXDZ1C",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB77J70FX50WR3F16YY",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB737FW9N1T2KJXDZ1C",
+      "to": "01KS6WDQB77J70FX50WR3F16YY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB70SXDA20832JPEP2P",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB77J70FX50WR3F16YY",
+      "to": "01KS6WDQB70SXDA20832JPEP2P",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7S9Y1EK5KH8HZRV94",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB70SXDA20832JPEP2P",
+      "to": "01KS6WDQB7S9Y1EK5KH8HZRV94",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7Y0THHPAWDNEAB4CA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7S9Y1EK5KH8HZRV94",
+      "to": "01KS6WDQB7Y0THHPAWDNEAB4CA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB72B7D53HJCHEJMXKA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7Y0THHPAWDNEAB4CA",
+      "to": "01KS6WDQB72B7D53HJCHEJMXKA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7YWCMWPSTBEDXVSCY",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB72B7D53HJCHEJMXKA",
+      "to": "01KS6WDQB7YWCMWPSTBEDXVSCY",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7BWQR6H59CG9Q2JSW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7YWCMWPSTBEDXVSCY",
+      "to": "01KS6WDQB7BWQR6H59CG9Q2JSW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7NMP4BTR0KJMRNCR5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7BWQR6H59CG9Q2JSW",
+      "to": "01KS6WDQB7NMP4BTR0KJMRNCR5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7VGBM6QH2C3G00X5B",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7NMP4BTR0KJMRNCR5",
+      "to": "01KS6WDQB7VGBM6QH2C3G00X5B",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7ZYC3GDM8FKDZJ7GP",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7VGBM6QH2C3G00X5B",
+      "to": "01KS6WDQB7ZYC3GDM8FKDZJ7GP",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7TSG5TRPGQVCPECJ9",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7ZYC3GDM8FKDZJ7GP",
+      "to": "01KS6WDQB7TSG5TRPGQVCPECJ9",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7ZRBQQ8Z9AQETPNB3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7TSG5TRPGQVCPECJ9",
+      "to": "01KS6WDQB7ZRBQQ8Z9AQETPNB3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB73MD60MCMGH8QAN1A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7ZRBQQ8Z9AQETPNB3",
+      "to": "01KS6WDQB73MD60MCMGH8QAN1A",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7K4YTG3ESJMRW4XVS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB73MD60MCMGH8QAN1A",
+      "to": "01KS6WDQB7K4YTG3ESJMRW4XVS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB72F0VEQ0YYED7KP4E",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7K4YTG3ESJMRW4XVS",
+      "to": "01KS6WDQB72F0VEQ0YYED7KP4E",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB766441NCMH7DGQYM5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB72F0VEQ0YYED7KP4E",
+      "to": "01KS6WDQB766441NCMH7DGQYM5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7PWA8CKWS7PWQS6JK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB766441NCMH7DGQYM5",
+      "to": "01KS6WDQB7PWA8CKWS7PWQS6JK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB7N19NTEC4YFBY8XBB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7PWA8CKWS7PWQS6JK",
+      "to": "01KS6WDQB7N19NTEC4YFBY8XBB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB81SHZ4F6YDP50EBWP",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB7N19NTEC4YFBY8XBB",
+      "to": "01KS6WDQB81SHZ4F6YDP50EBWP",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB86FTA54T9A2KQX1PJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB81SHZ4F6YDP50EBWP",
+      "to": "01KS6WDQB86FTA54T9A2KQX1PJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8PTKE7PYS82N8THXQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB86FTA54T9A2KQX1PJ",
+      "to": "01KS6WDQB8PTKE7PYS82N8THXQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8MT35GGA2A4BV5B5Y",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8PTKE7PYS82N8THXQ",
+      "to": "01KS6WDQB8MT35GGA2A4BV5B5Y",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB89Y1WE1QG4YEGX11A",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8MT35GGA2A4BV5B5Y",
+      "to": "01KS6WDQB89Y1WE1QG4YEGX11A",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8DRYV5NEATQCJX6CX",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB89Y1WE1QG4YEGX11A",
+      "to": "01KS6WDQB8DRYV5NEATQCJX6CX",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8J3GS7QC97H4N3ND3",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8DRYV5NEATQCJX6CX",
+      "to": "01KS6WDQB8J3GS7QC97H4N3ND3",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8H6D998C18RP057PA",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8J3GS7QC97H4N3ND3",
+      "to": "01KS6WDQB8H6D998C18RP057PA",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB848ZBZEBKYYRTNFDB",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8H6D998C18RP057PA",
+      "to": "01KS6WDQB848ZBZEBKYYRTNFDB",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8AXYPSAQZHPRQPX30",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB848ZBZEBKYYRTNFDB",
+      "to": "01KS6WDQB8AXYPSAQZHPRQPX30",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8KBQW28FA20H69BGM",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8AXYPSAQZHPRQPX30",
+      "to": "01KS6WDQB8KBQW28FA20H69BGM",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8CDV98AQEA3JAJEV9",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8KBQW28FA20H69BGM",
+      "to": "01KS6WDQB8CDV98AQEA3JAJEV9",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8Q5DR23PRQFYN51D5",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8CDV98AQEA3JAJEV9",
+      "to": "01KS6WDQB8Q5DR23PRQFYN51D5",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8FN5PVEM2MKSSW243",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8Q5DR23PRQFYN51D5",
+      "to": "01KS6WDQB8FN5PVEM2MKSSW243",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8PVAKTZKKQYFTRXN4",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8FN5PVEM2MKSSW243",
+      "to": "01KS6WDQB8PVAKTZKKQYFTRXN4",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8JHX63HN92T7S82MW",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8PVAKTZKKQYFTRXN4",
+      "to": "01KS6WDQB8JHX63HN92T7S82MW",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB87MBG9D7NBEBFT97F",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8JHX63HN92T7S82MW",
+      "to": "01KS6WDQB87MBG9D7NBEBFT97F",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8YS4AQ4Z2B6C1TAMF",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB87MBG9D7NBEBFT97F",
+      "to": "01KS6WDQB8YS4AQ4Z2B6C1TAMF",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8HDJ4CZF6CG5FEZKK",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8YS4AQ4Z2B6C1TAMF",
+      "to": "01KS6WDQB8HDJ4CZF6CG5FEZKK",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8KEFYH31FW2RGHFK7",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8HDJ4CZF6CG5FEZKK",
+      "to": "01KS6WDQB8KEFYH31FW2RGHFK7",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8XXSDEVH6YKKCT9CS",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8KEFYH31FW2RGHFK7",
+      "to": "01KS6WDQB8XXSDEVH6YKKCT9CS",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB83EV2CAKBSB9REYXF",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8XXSDEVH6YKKCT9CS",
+      "to": "01KS6WDQB83EV2CAKBSB9REYXF",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8XF8EKKCAN1Z12TNE",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB83EV2CAKBSB9REYXF",
+      "to": "01KS6WDQB8XF8EKKCAN1Z12TNE",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8NZ1SFRNGBWQ89RE6",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8XF8EKKCAN1Z12TNE",
+      "to": "01KS6WDQB8NZ1SFRNGBWQ89RE6",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8NWTY6SA6M706AX0G",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8NZ1SFRNGBWQ89RE6",
+      "to": "01KS6WDQB8NWTY6SA6M706AX0G",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB80D0WHJ05QADSTZJJ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8NWTY6SA6M706AX0G",
+      "to": "01KS6WDQB80D0WHJ05QADSTZJJ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8SM9QFRNG3QJ1Q923",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB80D0WHJ05QADSTZJJ",
+      "to": "01KS6WDQB8SM9QFRNG3QJ1Q923",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8576B8K70VNTTRZXQ",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8SM9QFRNG3QJ1Q923",
+      "to": "01KS6WDQB8576B8K70VNTTRZXQ",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8R683K82C43NZJD39",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8576B8K70VNTTRZXQ",
+      "to": "01KS6WDQB8R683K82C43NZJD39",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "to": "01KS6WDQB8MTF27TPD6XPSD7T9",
+      "relation": "contains"
+    },
+    {
+      "from": "01KS6WDQB8R683K82C43NZJD39",
+      "to": "01KS6WDQB8MTF27TPD6XPSD7T9",
+      "relation": "follows"
+    },
+    {
+      "from": "01KS6WDQB5YR0V4C6SKR6WXZ0T",
+      "to": "01KS6WDQB5ZB01BWARH30XVXFS",
+      "relation": "follows"
+    }
+  ]
+}
