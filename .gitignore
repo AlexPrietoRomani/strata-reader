@@ -32,6 +32,11 @@ htmlcov/
 /target/
 **/*.rs.bk
 !Cargo.lock
+*.pdb
+*.pyd
+*.so
+*.dll
+*.dylib
 
 # --- OS & IDE ---
 .vscode/*
@@ -60,6 +65,7 @@ opencode.json
 
 # --- Strata Runtime/Output ---
 /out/
+/out_debug/
 ~/.strata/
 tests/fixtures/pdfs/_build/
 
