@@ -19,15 +19,21 @@
 
 pub mod cluster_table;
 pub mod headings;
+pub mod noise;
+pub mod paragraph;
 pub mod rtree_index;
 pub mod table_border;
+pub mod text;
 pub mod word_line;
 pub mod xycut;
 
 pub use cluster_table::{detect_table_candidates, BorderlessCandidate};
 pub use headings::{classify_headings, HeadingClass};
+pub use noise::{filter_noise_lines, is_arxiv_watermark, is_page_number, is_stray_char};
+pub use paragraph::{merge_lines_into_paragraphs, ParagraphGroup, ParagraphKind};
 pub use rtree_index::{Hit, SpatialIndex};
 pub use table_border::{detect_table_borders, LineSegment, TableCandidate};
+pub use text::{fix_letter_spacing, normalize_text, normalize_whitespace};
 pub use word_line::{cluster_lines, words_from_line, GlyphInput, Line, Word};
 pub use xycut::{xy_cut_plus_plus, Axis, ScriptDirection, XyCutConfig};
 

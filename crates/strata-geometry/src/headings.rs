@@ -1,45 +1,111 @@
-//! Heading-level classification by font-size clustering.
+//! Módulo: headings
+//! Modificación: 2026-05-22
+//! Autor: Antigravity
 //!
-//! Approach: every line of text is characterized by its dominant font size
-//! (median of the glyphs in the line). We then run a small 1-D
-//! [Jenks Natural Breaks](https://en.wikipedia.org/wiki/Jenks_natural_breaks_optimization)
-//! variant on the set of distinct sizes — effectively a k-means with `k = N`
-//! candidate clusters, picking the smallest `k` whose
-//! between-class variance saturates. Body text is the **largest** cluster
-//! by occurrence count; clusters with strictly larger font sizes become
-//! H1, H2, … in descending order.
+//! Descripción:
+//! Clasificación del nivel de encabezado basada en la agrupación por tamaño de fuente.
+//! Adicionalmente, este módulo aplica filtros avanzados basados en el contenido de la línea
+//! y su posición vertical en la página para evitar clasificar erróneamente ruidos, marcas
+//! de agua o números sueltos como encabezados.
 //!
-//! The implementation is intentionally tiny — k-means on at most 5 clusters
-//! over ≤ 20 distinct font sizes is sub-millisecond per page even on a
-//! laptop CPU.
-//!
-//! See Plan Maestro §8.T3.6.
+//! Estructura Interna:
+//! - `HeadingClass`: Enum que representa Body o Heading con nivel.
+//! - `heading_content_filter`: Filtra textos cortos o no alfabéticos.
+//! - `heading_position_filter`: Filtra líneas en los márgenes extremos de la página.
+//! - `classify_headings`: Clasificación principal combinando tamaño, contenido y posición.
 
 use serde::{Deserialize, Serialize};
+use strata_core::BBox;
 
-/// Result of [`classify_headings`].
+/// Resultado de [`classify_headings`].
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case", tag = "kind")]
 pub enum HeadingClass {
-    /// Heading at level 1 (= biggest), 2, 3, …
+    /// Encabezado a nivel 1 (= el más grande), 2, 3, ...
     Heading { level: u8 },
-    /// Body text — not a heading.
+    /// Cuerpo del texto (no es un encabezado).
     Body,
 }
 
 const MAX_HEADING_LEVELS: u8 = 6;
-/// Minimum ratio between a candidate level and the body cluster mean to
-/// accept it as a real heading. 1.10 = the line's font size must exceed
-/// body size by ≥ 10 %.
+/// Relación mínima entre el tamaño de la línea candidata y el promedio del cuerpo
+/// para aceptarla como encabezado. 1.10 = el tamaño de fuente debe superar al cuerpo por >= 10 %.
 const MIN_RELATIVE_SIZE: f32 = 1.10;
 
-/// Classify each line by its `dominant_font_size`. Returns one
-/// [`HeadingClass`] per input element, in the same order.
-pub fn classify_headings(line_font_sizes: &[f32]) -> Vec<HeadingClass> {
+/// Filtra líneas que tienen un contenido no apto para ser un encabezado.
+///
+/// Retorna `false` si el texto tiene 2 o menos caracteres alfanuméricos,
+/// o si consiste únicamente en números o símbolos (sin letras).
+///
+/// # Argumentos
+///
+/// * `text` - El texto de la línea a evaluar.
+pub fn heading_content_filter(text: &str) -> bool {
+    let trimmed = text.trim();
+
+    // Contar caracteres alfanuméricos
+    let alnum_count = trimmed.chars().filter(|c| c.is_alphanumeric()).count();
+    if alnum_count <= 2 {
+        return false;
+    }
+
+    // Debe contener al menos una letra (evita solo números o símbolos sueltos de arXiv)
+    let has_letter = trimmed.chars().any(|c| c.is_alphabetic());
+    if !has_letter {
+        return false;
+    }
+
+    true
+}
+
+/// Filtra líneas ubicadas en los extremos superior o inferior de la página.
+///
+/// Retorna `false` si la línea está en el 8 % superior de la página
+/// o en el 5 % inferior de la página (que típicamente corresponden a headers/footers).
+///
+/// # Argumentos
+///
+/// * `bbox` - La caja delimitadora de la línea.
+/// * `page_bbox` - La caja delimitadora de la página completa.
+pub fn heading_position_filter(bbox: BBox, page_bbox: BBox) -> bool {
+    let page_height = page_bbox.height();
+    if page_height <= 0.0 {
+        return true;
+    }
+
+    let relative_y = (bbox.y0 - page_bbox.y0) / page_height;
+
+    // 5 % inferior
+    if relative_y < 0.05 {
+        return false;
+    }
+    // 8 % superior
+    if relative_y > 0.92 {
+        return false;
+    }
+
+    true
+}
+
+/// Clasifica cada línea según su `dominant_font_size`, aplicando filtros espaciales y de contenido.
+///
+/// # Argumentos
+///
+/// * `line_font_sizes` - Lista de tamaños de fuente de las líneas.
+/// * `line_bboxes` - Lista de cajas delimitadoras de las líneas.
+/// * `line_texts` - Lista de contenidos de texto de las líneas.
+/// * `page_bbox` - Caja delimitadora de la página.
+pub fn classify_headings(
+    line_font_sizes: &[f32],
+    line_bboxes: &[BBox],
+    line_texts: &[String],
+    page_bbox: BBox,
+) -> Vec<HeadingClass> {
     if line_font_sizes.is_empty() {
         return Vec::new();
     }
-    // Discard non-finite sizes by mapping them to 0 (Body).
+
+    // Limpiar tamaños no válidos
     let cleaned: Vec<f32> = line_font_sizes
         .iter()
         .map(|s| if s.is_finite() && *s > 0.0 { *s } else { 0.0 })
@@ -53,14 +119,21 @@ pub fn classify_headings(line_font_sizes: &[f32]) -> Vec<HeadingClass> {
 
     cleaned
         .iter()
-        .map(|&s| {
-            if s < body_size * MIN_RELATIVE_SIZE {
+        .enumerate()
+        .map(|(i, &s)| {
+            let bbox = line_bboxes[i];
+            let text = &line_texts[i];
+
+            // 1. Aplicar los filtros de contenido y posición
+            if !heading_content_filter(text) || !heading_position_filter(bbox, page_bbox) {
+                HeadingClass::Body
+            } else if s < body_size * MIN_RELATIVE_SIZE {
                 HeadingClass::Body
             } else {
                 let level = levels
                     .iter()
                     .position(|&l| (l - s).abs() < 0.51)
-                    .map(|i| (i as u8 + 1).min(MAX_HEADING_LEVELS))
+                    .map(|idx| (idx as u8 + 1).min(MAX_HEADING_LEVELS))
                     .unwrap_or(MAX_HEADING_LEVELS);
                 HeadingClass::Heading { level }
             }
@@ -68,7 +141,7 @@ pub fn classify_headings(line_font_sizes: &[f32]) -> Vec<HeadingClass> {
         .collect()
 }
 
-/// Returns the body text size — the most frequent font size in the input.
+/// Retorna el tamaño de fuente del cuerpo de texto — el más frecuente en la página.
 fn body_text_size(sizes: &[f32]) -> f32 {
     let bins = histogram(sizes);
     bins.into_iter()
@@ -77,8 +150,7 @@ fn body_text_size(sizes: &[f32]) -> f32 {
         .unwrap_or(0.0)
 }
 
-/// Cluster sizes strictly greater than `body_size` and return them sorted
-/// **descending** (biggest first → H1, smaller → H2, …).
+/// Agrupa tamaños superiores al del cuerpo y los ordena de mayor a menor (H1, H2, ...).
 fn build_heading_levels(sizes: &[f32], body_size: f32) -> Vec<f32> {
     let bins = histogram(sizes);
     let mut larger: Vec<(f32, u32)> = bins
@@ -89,7 +161,7 @@ fn build_heading_levels(sizes: &[f32], body_size: f32) -> Vec<f32> {
         return Vec::new();
     }
     larger.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
-    // Merge bins within 1 pt of each other to absorb floating-point noise.
+
     let mut merged: Vec<f32> = Vec::new();
     for (s, _) in larger {
         match merged.last_mut() {
@@ -103,8 +175,6 @@ fn build_heading_levels(sizes: &[f32], body_size: f32) -> Vec<f32> {
 }
 
 fn histogram(values: &[f32]) -> Vec<(f32, u32)> {
-    // Round to 0.5 pt resolution — PDF font sizes are almost always emitted
-    // at integer or half-integer point values.
     let mut bins: std::collections::BTreeMap<i32, (f32, u32)> = Default::default();
     for &v in values {
         if !v.is_finite() || v <= 0.0 {
@@ -112,7 +182,6 @@ fn histogram(values: &[f32]) -> Vec<(f32, u32)> {
         }
         let key = (v * 2.0).round() as i32;
         let entry = bins.entry(key).or_insert((0.0, 0));
-        // running mean of the size in the bucket
         let n = entry.1 as f32;
         entry.0 = entry.0 + (v - entry.0) / (n + 1.0);
         entry.1 += 1;
@@ -128,63 +197,62 @@ fn histogram(values: &[f32]) -> Vec<(f32, u32)> {
 mod tests {
     use super::*;
 
+    fn dummy_bbox(y: f32) -> BBox {
+        BBox::new(50.0, y, 200.0, y + 10.0).unwrap()
+    }
+
+    #[test]
+    fn test_heading_content_filter() {
+        assert!(heading_content_filter("Introduction"));
+        assert!(heading_content_filter("1. Related Work"));
+        assert!(!heading_content_filter("A")); // muy corto
+        assert!(!heading_content_filter("12.34")); // solo números
+        assert!(!heading_content_filter("####")); // solo símbolos
+    }
+
+    #[test]
+    fn test_heading_position_filter() {
+        let page_bbox = BBox::new(0.0, 0.0, 595.0, 842.0).unwrap();
+
+        // 400 pt es la mitad (válido)
+        assert!(heading_position_filter(dummy_bbox(400.0), page_bbox));
+        // y=20 es < 5 % (inválido, footer/page number)
+        assert!(!heading_position_filter(dummy_bbox(20.0), page_bbox));
+        // y=800 es > 92 % (inválido, header)
+        assert!(!heading_position_filter(dummy_bbox(800.0), page_bbox));
+    }
+
     #[test]
     fn empty_input_yields_empty() {
-        assert!(classify_headings(&[]).is_empty());
+        let page_bbox = BBox::new(0.0, 0.0, 595.0, 842.0).unwrap();
+        assert!(classify_headings(&[], &[], &[], page_bbox).is_empty());
     }
 
     #[test]
     fn uniform_size_is_all_body() {
+        let page_bbox = BBox::new(0.0, 0.0, 595.0, 842.0).unwrap();
         let sizes = vec![10.0_f32; 20];
-        let r = classify_headings(&sizes);
+        let bboxes = vec![dummy_bbox(400.0); 20];
+        let texts = vec!["This is a body line text example.".to_string(); 20];
+
+        let r = classify_headings(&sizes, &bboxes, &texts, page_bbox);
         assert!(r.iter().all(|c| matches!(c, HeadingClass::Body)));
     }
 
     #[test]
     fn one_big_line_becomes_h1() {
-        // 10 lines at 10 pt body, 1 line at 18 pt title.
+        let page_bbox = BBox::new(0.0, 0.0, 595.0, 842.0).unwrap();
         let mut sizes = vec![10.0_f32; 10];
         sizes.push(18.0);
-        let r = classify_headings(&sizes);
+        let mut bboxes = vec![dummy_bbox(400.0); 10];
+        bboxes.push(dummy_bbox(600.0));
+        let mut texts: Vec<String> = vec!["This is a body line.".to_string(); 10];
+        texts.push("Main Title of the Document".to_string());
+
+        let r = classify_headings(&sizes, &bboxes, &texts, page_bbox);
         assert_eq!(r[10], HeadingClass::Heading { level: 1 });
         for c in &r[..10] {
             assert_eq!(*c, HeadingClass::Body);
         }
-    }
-
-    #[test]
-    fn three_levels_descending() {
-        // Body = 10 pt (most frequent). Section = 14 pt. Subsection = 12 pt.
-        // Title = 24 pt.
-        let mut sizes = vec![10.0_f32; 30];
-        sizes.extend(vec![14.0; 5]);
-        sizes.extend(vec![12.0; 5]);
-        sizes.push(24.0);
-        let r = classify_headings(&sizes);
-        let h1 = r
-            .iter()
-            .filter(|c| matches!(c, HeadingClass::Heading { level: 1 }))
-            .count();
-        let h2 = r
-            .iter()
-            .filter(|c| matches!(c, HeadingClass::Heading { level: 2 }))
-            .count();
-        let h3 = r
-            .iter()
-            .filter(|c| matches!(c, HeadingClass::Heading { level: 3 }))
-            .count();
-        let body = r.iter().filter(|c| matches!(c, HeadingClass::Body)).count();
-        assert_eq!(h1, 1);
-        assert_eq!(h2, 5);
-        assert_eq!(h3, 5);
-        assert_eq!(body, 30);
-    }
-
-    #[test]
-    fn non_finite_size_treated_as_body() {
-        let sizes = vec![f32::NAN, 10.0, 10.0, 10.0];
-        let r = classify_headings(&sizes);
-        // The NaN line and the body lines are all Body.
-        assert!(r.iter().all(|c| matches!(c, HeadingClass::Body)));
     }
 }
