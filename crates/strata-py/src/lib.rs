@@ -15,14 +15,10 @@
 //! - `PyDocument` wraps a strata-core::Document and exposes the two
 //!   serializer paths (Markdown, Graph-RAG JSON).
 
-use std::collections::HashMap;
-use std::sync::Arc;
-
 use pyo3::exceptions::{PyFileNotFoundError, PyValueError};
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
-use strata_core::{BBox, BlockId, BlockType, DocMeta, Document, Page, PageOrientation, Provenance, ProvenanceSource, Size};
-use strata_fusion as fusion;
+use strata_core::Document;
 use strata_serialize as serialize;
 
 /// Caller-tunable knobs for [`parse`] / [`parse_batch`].
@@ -114,7 +110,15 @@ impl PyDocument {
     }
 }
 
-/// Parse a single PDF (placeholder — see notes below).
+fn sha256_file(path: &std::path::Path) -> PyResult<String> {
+    use sha2::Digest;
+    let bytes = std::fs::read(path)
+        .map_err(|e| PyValueError::new_err(format!("failed to read PDF: {e}")))?;
+    let hash = sha2::Sha256::digest(&bytes);
+    Ok(format!("{hash:x}"))
+}
+
+/// Parse a single PDF using the native Rust geometry and PDFium extraction pipeline.
 #[pyfunction]
 #[pyo3(signature = (path, options = None))]
 fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> {
@@ -130,14 +134,185 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
         return Err(PyFileNotFoundError::new_err(format!("PDF not found: {path}")));
     }
 
-    // Phase 9 ships the API surface. The real wiring waits on strata-pdf
-    // (libpdfium linker, blocked by corp EDR — see docs/usage/IT_request.md).
-    // The placeholder returns a minimal Document so consumers can write
-    // integration tests against the Python surface today.
-    let bytes = std::fs::read(pdf_path)
-        .map_err(|e| PyValueError::new_err(format!("read failed: {e}")))?;
-    let sha = sha256_hex(&bytes);
-    let doc = empty_document(pdf_path, &sha, &options.profile);
+    // 1. Open PDF
+    let decoder = strata_pdf::Decoder::open(pdf_path)
+        .map_err(|e| PyValueError::new_err(format!("failed to open PDF: {e}")))?;
+    let page_count = decoder.page_count();
+
+    // 2. Per-page extraction
+    let mut doc_pages: Vec<std::sync::Arc<strata_core::Page>> = Vec::with_capacity(page_count);
+    let sha = sha256_file(pdf_path)?;
+
+    for page_idx in 0..page_count {
+        let page = decoder
+            .pages()
+            .get(page_idx as i32)
+            .map_err(|e| PyValueError::new_err(format!("page {page_idx}: {e}")))?;
+        let page_w = page.width().value;
+        let page_h = page.height().value;
+
+        // Raw extraction
+        let glyphs = strata_pdf::extract_glyphs(&page).unwrap_or_default();
+        let images = strata_pdf::extract_images(&page).unwrap_or_default();
+
+        // 3. Geometry and noise filtering
+        let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs
+            .iter()
+            .map(|g| strata_geometry::GlyphInput {
+                bbox: g.bbox,
+                font_size: g.font_size,
+                unicode: g.unicode.clone(),
+            })
+            .collect();
+        let lines = strata_geometry::cluster_lines(&glyph_inputs);
+
+        let page_bbox = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
+            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
+
+        let filtered_lines = strata_geometry::filter_noise_lines(&lines, &glyph_inputs, page_bbox);
+
+        // 4. Semantics & Headings classification
+        let mut blocks: Vec<strata_core::Block> = Vec::new();
+        let mut line_font_sizes = Vec::with_capacity(filtered_lines.len());
+        let mut line_bboxes = Vec::with_capacity(filtered_lines.len());
+        let mut line_texts = Vec::with_capacity(filtered_lines.len());
+
+        for line in &filtered_lines {
+            let font_size = line
+                .glyph_indices
+                .iter()
+                .map(|&i| glyph_inputs[i].font_size)
+                .sum::<f32>()
+                / line.glyph_indices.len().max(1) as f32;
+            line_font_sizes.push(font_size);
+            line_bboxes.push(line.bbox);
+
+            let words = strata_geometry::words_from_line(line, &glyph_inputs);
+            let content: String = words
+                .iter()
+                .map(|w| w.text.as_str())
+                .collect::<Vec<_>>()
+                .join(" ");
+            line_texts.push(content);
+        }
+
+        let headings = strata_geometry::classify_headings(&line_font_sizes, &line_bboxes, &line_texts, page_bbox);
+        let paragraph_groups = strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
+
+        for group in paragraph_groups {
+            let mut group_text_parts = Vec::with_capacity(group.lines.len());
+            for line in &group.lines {
+                let words = strata_geometry::words_from_line(line, &glyph_inputs);
+                let content: String = words
+                    .iter()
+                    .map(|w| w.text.as_str())
+                    .collect::<Vec<_>>()
+                    .join(" ");
+                if !content.trim().is_empty() {
+                    group_text_parts.push(content);
+                }
+            }
+            let raw_content = group_text_parts.join(" ");
+            let content = strata_geometry::normalize_text(&raw_content);
+            if content.is_empty() {
+                continue;
+            }
+
+            let kind = match group.kind {
+                strata_geometry::ParagraphKind::Heading { level } => {
+                    strata_core::BlockType::Heading { level }
+                }
+                strata_geometry::ParagraphKind::Body => strata_core::BlockType::Paragraph,
+            };
+
+            blocks.push(strata_core::Block {
+                id: strata_core::BlockId::new(),
+                kind,
+                bbox: group.bbox,
+                content,
+                children: vec![],
+                provenance: strata_core::Provenance::try_new(
+                    strata_core::ProvenanceSource::Rust,
+                    None,
+                    1.0,
+                    0,
+                    0,
+                )
+                .unwrap(),
+            });
+        }
+
+        // 5. Image block integration
+        for img in images {
+            let figure_block = strata_core::Block {
+                id: strata_core::BlockId::new(),
+                kind: strata_core::BlockType::Figure,
+                bbox: img.bbox,
+                content: "figure".to_string(),
+                children: vec![],
+                provenance: strata_core::Provenance::try_new(
+                    strata_core::ProvenanceSource::Rust,
+                    None,
+                    1.0,
+                    0,
+                    0,
+                )
+                .unwrap(),
+            };
+
+            if let Some(media_dir_str) = &options.media_dir {
+                let target_dir = std::path::Path::new(media_dir_str);
+                if let Err(e) = std::fs::create_dir_all(target_dir) {
+                    tracing::warn!("Failed to create media dir: {e}");
+                } else {
+                    let file_path = target_dir.join(format!("{}.png", figure_block.id));
+                    if let Err(e) = std::fs::write(&file_path, &img.raw_bytes) {
+                        tracing::warn!("Failed to write figure image: {e}");
+                    }
+                }
+            }
+
+            blocks.push(figure_block);
+        }
+
+        // 6. XY-Cut++ ordering
+        let bboxes: Vec<strata_core::BBox> = blocks.iter().map(|b| b.bbox).collect();
+        let order = strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
+        let reading_order: Vec<strata_core::BlockId> = order.iter().map(|&i| blocks[i].id).collect();
+
+        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> = blocks.into_iter().map(std::sync::Arc::new).collect();
+
+        let media_box = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
+            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
+
+        doc_pages.push(std::sync::Arc::new(strata_core::Page {
+            number: (page_idx + 1) as u32,
+            size: strata_core::Size::new(page_w, page_h)
+                .unwrap_or(strata_core::Size::new(595.0, 842.0).unwrap()),
+            orientation: if page_w > page_h {
+                strata_core::PageOrientation::Landscape
+            } else {
+                strata_core::PageOrientation::Portrait
+            },
+            blocks: block_arcs,
+            reading_order,
+            media_box,
+        }));
+    }
+
+    // 7. Assemble final Document
+    let mut doc = strata_core::Document::new(strata_core::DocMeta {
+        source_sha256: sha,
+        source_filename: pdf_path
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_default(),
+        schema_version: strata_core::version().to_string(),
+        profile: options.profile.clone(),
+        extra: std::collections::BTreeMap::new(),
+    });
+    doc.pages = doc_pages;
+
     Ok(PyDocument { inner: doc })
 }
 
@@ -177,57 +352,4 @@ fn _native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyParseOptions>()?;
     m.add_class::<PyDocument>()?;
     Ok(())
-}
-
-// ---------------------------------------------------------------------------
-// Internals — placeholder document construction. To be replaced by the
-// strata-pdf → fusion pipeline once the linker is unblocked.
-// ---------------------------------------------------------------------------
-
-fn empty_document(pdf_path: &std::path::Path, sha256: &str, profile: &str) -> Document {
-    let meta = DocMeta {
-        source_sha256: sha256.to_string(),
-        source_filename: pdf_path.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default(),
-        schema_version: strata_core::version().to_string(),
-        profile: profile.to_string(),
-        extra: std::collections::BTreeMap::new(),
-    };
-    let mut doc = Document::new(meta);
-    // One empty page so downstream serializers don't crash on zero-page docs.
-    let page = Page {
-        number: 1,
-        size: Size::new(595.0, 842.0).unwrap(),
-        orientation: PageOrientation::Portrait,
-        blocks: vec![Arc::new(strata_core::Block {
-            id: BlockId::new(),
-            kind: BlockType::Paragraph,
-            bbox: BBox::new(0.0, 0.0, 595.0, 842.0).unwrap(),
-            content: "_(strata-pdf decoder blocked by EDR — see docs/usage/IT_request.md)_".into(),
-            children: vec![],
-            provenance: Provenance::try_new(ProvenanceSource::Rust, None, 0.0, 0, 0).unwrap(),
-        })],
-        reading_order: Vec::new(),
-        media_box: BBox::new(0.0, 0.0, 595.0, 842.0).unwrap(),
-    };
-    let _ = &fusion::validate; // silence unused-import on placeholder build.
-    doc.pages = vec![Arc::new(page)];
-    doc
-}
-
-fn sha256_hex(bytes: &[u8]) -> String {
-    use std::fmt::Write;
-    let mut hasher = std::collections::hash_map::DefaultHasher::new();
-    std::hash::Hasher::write(&mut hasher, bytes);
-    // NOTE: the placeholder uses a 64-bit hash so PyDocument has a stable
-    // shape during F9. Real SHA-256 lives in strata-server::routes and
-    // will be plumbed once strata-pdf compiles end-to-end.
-    let mut out = String::with_capacity(64);
-    let v = std::hash::Hasher::finish(&hasher);
-    for byte in v.to_be_bytes() {
-        let _ = write!(out, "{byte:02x}");
-    }
-    while out.len() < 64 {
-        out.push('0');
-    }
-    out
 }
