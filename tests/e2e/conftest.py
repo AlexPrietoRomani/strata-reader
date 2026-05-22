@@ -74,16 +74,38 @@ def strata_bin() -> str:
         pytest.skip.Exception: Si el binario no se encuentra en ninguna
             ubicación conocida o si el EDR no lo aprueba en tiempo.
     """
-    bin_path = shutil.which("strata")
+    # Preferir siempre los binarios reales compilados localmente en target/ antes del PATH
+    bin_path = None
+    
+    # Intento 1: target/release en raíz del repositorio
+    candidate = REPO_ROOT / "target" / "release" / ("strata.exe" if os.name == "nt" else "strata")
+    if candidate.exists():
+        bin_path = str(candidate)
+        
+    # Intento 2: target/debug en raíz del repositorio
     if bin_path is None:
-        # Fallback al directorio target/ de Cargo cuando strata no está en PATH.
+        candidate = REPO_ROOT / "target" / "debug" / ("strata.exe" if os.name == "nt" else "strata")
+        if candidate.exists():
+            bin_path = str(candidate)
+
+    # Intento 3: CARGO_TARGET_DIR
+    if bin_path is None:
         target = os.environ.get("CARGO_TARGET_DIR")
         if target:
             candidate = Path(target) / "release" / ("strata.exe" if os.name == "nt" else "strata")
             if candidate.exists():
                 bin_path = str(candidate)
+            else:
+                candidate = Path(target) / "debug" / ("strata.exe" if os.name == "nt" else "strata")
+                if candidate.exists():
+                    bin_path = str(candidate)
+
+    # Intento 4: buscar en el PATH (puede chocar con dummy wrappers)
     if bin_path is None:
-        pytest.skip("`strata` binary not on PATH; build with `cargo build -p strata-cli --release`")
+        bin_path = shutil.which("strata")
+
+    if bin_path is None:
+        pytest.skip("`strata` binary not found; build with `cargo build --release` first.")
 
     # Warmup EDR: ejecutar strata --version con timeout largo para que el
     # antivirus corporativo escanee el binario ANTES de los tests con timeouts

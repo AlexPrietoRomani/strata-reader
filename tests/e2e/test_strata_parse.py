@@ -28,11 +28,59 @@ pytestmark = pytest.mark.ollama
 
 
 def _strip_volatile(payload: dict) -> dict:
-    """Remove fields that legitimately differ between runs so JSON
-    comparisons stay deterministic."""
+    """Elimina campos volátiles y normaliza ULIDs aleatorios para que la comparación
+    del JSON de Graph-RAG sea 100% determinista.
+
+    Args:
+        payload (dict): El diccionario JSON leído de la salida o del golden.
+
+    Returns:
+        dict: El diccionario normalizado y libre de ruido volátil.
+    """
     if "meta" in payload and isinstance(payload["meta"], dict):
         for key in ("generated_at", "elapsed_ms", "host"):
             payload["meta"].pop(key, None)
+
+    # Normalización de ULIDs en nodos y edges
+    id_map = {}
+    id_counter = 0
+
+    if "nodes" in payload and isinstance(payload["nodes"], list):
+        for node in payload["nodes"]:
+            if isinstance(node, dict):
+                # Normalizar latencia en proveniencia para evitar variaciones de CPU
+                if "provenance" in node and isinstance(node["provenance"], dict):
+                    node["provenance"]["latencyMs"] = 0
+                
+                # Mapear y normalizar el ID del nodo
+                node_id = node.get("id")
+                if node_id:
+                    if node_id not in id_map:
+                        id_map[node_id] = f"node_{id_counter}"
+                        id_counter += 1
+                    node["id"] = id_map[node_id]
+
+    if "edges" in payload and isinstance(payload["edges"], list):
+        for edge in payload["edges"]:
+            if isinstance(edge, dict):
+                from_id = edge.get("from")
+                to_id = edge.get("to")
+                
+                if from_id:
+                    if from_id not in id_map:
+                        id_map[from_id] = f"node_{id_counter}"
+                        id_counter += 1
+                    edge["from"] = id_map[from_id]
+                
+                if to_id:
+                    if to_id not in id_map:
+                        id_map[to_id] = f"node_{id_counter}"
+                        id_counter += 1
+                    edge["to"] = id_map[to_id]
+                    
+        # Ordenar edges por from, to y relation para evitar discrepancias de orden
+        payload["edges"].sort(key=lambda e: (e.get("from", ""), e.get("to", ""), e.get("relation", "")))
+
     return payload
 
 

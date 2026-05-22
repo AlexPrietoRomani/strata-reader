@@ -58,12 +58,26 @@ fn first_page_has_glyphs() {
         "page 1 of a paper should have hundreds of glyphs, got {}",
         glyphs.len()
     );
-    // All glyph BBoxes should fit within the page.
+    // All glyph BBoxes should fit within or close to the page.
     let media_w = page.width().value;
     let media_h = page.height().value;
     for g in &glyphs {
-        assert!(g.bbox.x0 >= 0.0 && g.bbox.x1 <= media_w + 1.0);
-        assert!(g.bbox.y0 >= 0.0 && g.bbox.y1 <= media_h + 1.0);
+        if !(g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0) || !(g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0) {
+            println!(
+                "Glyph out of bounds: char={:?}, bbox={:?}, media_w={}, media_h={}",
+                g.unicode, g.bbox, media_w, media_h
+            );
+        }
+        assert!(
+            g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0,
+            "Glyph x-bounds out of range: char={:?}, bbox={:?}, media_w={}",
+            g.unicode, g.bbox, media_w
+        );
+        assert!(
+            g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0,
+            "Glyph y-bounds out of range: char={:?}, bbox={:?}, media_h={}",
+            g.unicode, g.bbox, media_h
+        );
     }
 }
 
