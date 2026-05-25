@@ -225,21 +225,9 @@ cargo build -p strata-cli --release
 
 ### 3. Ejecutar Análisis Local (Sin Dependencia de IA)
 ```bash
-# Procesa un PDF de dos columnas y genera el Markdown y JSON estructurado
-./target/release/strata.exe parse --input tests/fixtures/pdfs/two_column_paper.pdf --output out/ --format md+json --no-ia
+# Procesa un PDF y genera el Markdown y JSON estructurado
+./target/release/strata parse --input paper.pdf --output out/ --format md+json --no-ia
 ```
-
----
-
-## ⚠️ Restricción Crítica de Entorno Corporativo (EDR / AppLocker)
-
-Si estás trabajando en una máquina con directivas de seguridad corporativas estrictas (por ejemplo, `EMPRESA\usuario`), el compilador Rust o el linker (`ld.lld.exe`) pueden fallar inmediatamente arrojando **`Acceso denegado (os error 5)`** al intentar ejecutar binarios recién compilados en directorios de usuario (`target/`).
-
-Esto no es un error de código ni de permisos NTFS. Es un bloqueo del software de seguridad corporativo (AppLocker/EDR).
-
-**Mitigación:**
-- Consulta la solicitud formal enviada a IT en [IT_request.md](docs/usage/IT_request.md) para habilitar excepciones.
-- Alternativamente, compila y ejecuta en una máquina sin estas restricciones (laptop personal, VM Hyper-V libre o un runner de CI en la nube) siguiendo los pasos del **Apéndice A** de [tareas.md](docs/task/tareas.md).
 
 ---
 
@@ -255,10 +243,5 @@ Strata-Reader se adapta a cualquier entorno de despliegue:
 
 ## 📖 Documentación Relacionada
 
-- 📦 **[Guía de Instalación Local y EDR](docs/usage/local_setup.md)** — Configuración fina, compiladores de Windows y diagnóstico de seguridad.
-- 💾 **[SDK de Python](docs/usage/sdk_python.md)** — Documentación de la API de Python, `parse_batch` y configuración de hilos.
-- 🚀 **[Ingesta Vector RAG](docs/usage/rag_simple.md)** — Cómo trocear de forma lógica el Markdown generado para bases vectoriales.
-- 🕸️ **[Ingesta Graph-RAG](docs/usage/graph_rag.md)** — Estructura del JSON con nodos y relaciones listo para Neo4j.
-- 🗃️ **[Despliegue del Microservicio](docs/usage/microservice.md)** — Rutas, orquestación, telemetría de GPU y Prometheus.
-- 📑 **[Plan Maestro de Arquitectura](docs/plan/plan_maestro.md)** — Especificación técnica contractual completa del monorepo.
-- 📌 **[Backlog de Tareas (Tablero Kanban)](docs/task/tareas.md)** — Estado del desarrollo, pruebas unitarias y checklist de bring-up.
+- 📄 **[Descripción del Proyecto](docs/reference/description_proyect.md)** — Análisis de arquitectura, migración y decisiones de diseño.
+- 📋 **[CHANGELOG](CHANGELOG.md)** — Historial de versiones y cambios.
