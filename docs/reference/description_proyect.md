@@ -1,9 +1,10 @@
-# Documento Puente de Análisis: Migración a Strata-Reader
+# Documento de Referencia: Arquitectura y Diseño de Strata-Reader
+
+> **Estado:** Histórico — este documento refleja el análisis inicial de migración. La arquitectura implementada está documentada en el `README.md` y los crates Rust del monorepo.
 
 **Proyecto:** `strata-reader`
-**Objetivo:** Migrar la arquitectura monolítica de extracción de OpenDataLoader-PDF (Java) hacia una arquitectura concurrente, determinista y multimodal basada en Rust (Core) y Python (IA).
-**Casos de Uso Principales:** Alimentación de sistemas RAG (Vectorial) y Graph RAG (Grafos de Conocimiento) bajo rigor metodológico (ej. PRISMA 2020).
-**Link de repositorio de referencia:** `https://github.com/opendataloader-project/opendataloader-pdf` 
+**Objetivo:** Documentar la arquitectura concurrente, determinista y multimodal basada en Rust (Core) y Python (IA) para extracción documental de PDFs científicos.
+**Casos de Uso Principales:** Alimentación de sistemas RAG (Vectorial) y Graph RAG (Grafos de Conocimiento) bajo rigor metodológico (ej. PRISMA 2020). 
 
 ---
 
@@ -17,7 +18,7 @@ graph TD
     classDef output fill:#74c476,stroke:#333,stroke-width:2px,color:#000;
     classDef decision fill:#ffdfba,stroke:#333,stroke-width:2px,color:#000;
 
-    Doc([Documento PDF / Lotes Agrícolas]) --> Ingesta
+    Doc([Documento PDF / Lotes]) --> Ingesta
 
     subgraph RUST CORE [Rust: Motor Geométrico y Heurístico]
         Ingesta[1. Decodificador PDF \n bindings C++ ej. pdfium]:::rust
@@ -161,9 +162,7 @@ Para asegurar el rendimiento y la escalabilidad de `strata-reader`, las siguient
 
 ---
 
-## 4. Próximos Pasos para el Plan Detallado
+## 4. Estado del Proyecto
 
-1. **Auditoría de Algoritmos Base:** Extraer los archivos fuente en Java de `XYCutPlusPlusSorter.java` y `TriageProcessor.java` para documentar paso a paso su matemática.
-2. **Definición de Contratos API (OpenAPI/Protobuf):** Diseñar el contrato de comunicación exacto entre Rust (Triage) y Python (IA) (ej. Rust envía: `{"crop_base64": "...", "type": "table_no_borders"}`).
-3. **Definición del AST en Rust:** Crear el esquema `JSON` estándar que será la única fuente de verdad para la salida del RAG.
+Todas las fases de implementación descritas en el Plan Maestro (Fases 0-10) están completadas a nivel de código. El pipeline Rust produce Markdown y JSON desde PDFs reales. La capa IA (Python/Ollama) está implementada con contrato gRPC. Las tareas pendientes se centran en mejora de calidad de salida y simplificación del SDK Python. Ver `CHANGELOG.md` para el historial de cambios.
 

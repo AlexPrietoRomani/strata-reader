@@ -180,7 +180,6 @@ def test_no_ia_mode_runs_without_ollama(strata_bin: str, tmp_path: Path) -> None
         text=True,
         # Timeout extendido a 180s para tolerar el escaneo EDR corporativo
         # que demora ~50s en la primera ejecución de un binario nuevo.
-        # Ver docs/usage/IT_request.md y AGENTS.md §2.
         timeout=180,
     )
     assert result.returncode == 0, f"no-ia parse failed: {result.stderr}"

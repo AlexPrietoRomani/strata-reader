@@ -61,7 +61,7 @@ def strata_bin() -> str:
     """
     Resuelve el binario CLI `strata` y lo precalienta para el EDR corporativo.
 
-    En entornos con AppLocker/antivirus (e.g. EMPRESA), el EDR escanea cada
+    En entornos con AppLocker/antivirus corporativos, el EDR escanea cada
     binario nuevo durante ~50s en su primera ejecución. Al ejecutar
     `strata --version` aquí (scope=session), el escaneo ocurre UNA SOLA VEZ
     al inicio de la sesión pytest, antes de que los tests individuales
@@ -110,7 +110,6 @@ def strata_bin() -> str:
     # Warmup EDR: ejecutar strata --version con timeout largo para que el
     # antivirus corporativo escanee el binario ANTES de los tests con timeouts
     # cortos. La segunda ejecución es instantánea (cache del EDR).
-    # Ver AGENTS.md §2 y docs/usage/IT_request.md.
     try:
         subprocess.run(
             [bin_path, "--version"],

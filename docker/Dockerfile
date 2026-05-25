@@ -4,7 +4,7 @@
 #--------------------------------------------------
 # Stage 1 — Build Rust workspace
 #--------------------------------------------------
-FROM rust:1.83-slim-bookworm AS rust-builder
+FROM rust:1.88-slim-bookworm AS rust-builder
 WORKDIR /build
 
 # System deps for pdfium-render + tonic build

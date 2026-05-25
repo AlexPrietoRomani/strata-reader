@@ -1,17 +1,19 @@
 # Strata-Reader — Golden Fixture Corpus
 
 This directory holds the canonical PDFs used by unit, integration and E2E tests.
-See `docs/plan/plan_maestro.md` §4 and `docs/task/tareas.md` T0.7 for the
-provenance contract.
+The fixture corpus is defined by the project's test requirements and is versioned
+separately from the source code.
 
 ## Layout
 
 ```
 fixtures/
-├── pdfs/                  # The 8 canonical PDFs (one per Triage branch)
-│   └── CHECKSUMS.sha256   # SHA-256 of every PDF in this directory
+├── pdfs/                  # Canonical PDFs (one per Triage branch)
+│   ├── articles/          # arXiv papers for E2E testing
+│   └── crecks/            # Checksums
 ├── sources/               # Reproducible LaTeX / scripts that regenerate fixtures
-└── expected/              # Golden outputs (*.golden.json, *.golden.md, ground-truth text)
+├── expected/              # Golden outputs (*.golden.json, *.golden.md, ground-truth text)
+└── salidas/               # Output comparison directory (strata vs opendataloader)
 ```
 
 ## Reproducibility
@@ -45,4 +47,4 @@ uv run python scripts/seed_fixtures.py --build      # regenerate LaTeX-based fix
 ## Manual review trail
 
 When fixtures change in a way that affects `expected/*.golden.*`, document the
-diff in `expected/REVIEW.md` (see T10.1.A10.1.2 in `docs/task/tareas.md`).
+diff in `expected/REVIEW.md`.
