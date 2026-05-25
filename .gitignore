@@ -54,12 +54,10 @@ Desktop.ini
 .claude/
 .agents/
 .opencode/
-graphify-out/
 CLAUDE.md
 AGENTS.md
-.antigravityignore
 .claudeignore
-.graphifyignore
+.codegraph/
 opencode.json
 .ignore
 
