@@ -27,6 +27,7 @@ dist/
 htmlcov/
 .coverage
 .coverage.*
+python/strata_reader/_pdfium/
 
 # --- Rust Build Artifacts ---
 /target/

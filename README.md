@@ -203,14 +203,18 @@ strata-reader/
 
 ## 🔧 Compilación y Configuración desde Código Fuente
 
-> **Nota:** Si instalas mediante `pip install strata-reader`, puedes omitir este apartado. Esto es exclusivamente para desarrolladores que desean compilar el núcleo nativo de Rust directamente.
+> **Nota:** Si instalas mediante `pip install strata-reader`, **no necesitas realizar ninguna configuración manual**. La rueda de Python es 100 % autocontenida y bundlea automáticamente la biblioteca `libpdfium` precompilada correspondiente a tu sistema operativo. Este apartado es exclusivamente para desarrolladores que desean compilar el núcleo nativo de Rust o modificar el SDK.
 
-### Prerrequisitos
+### Prerrequisitos de Desarrollo
 - Rust 1.88+
 - Python 3.12+ con `uv`
 - Ollama (con los modelos correspondientes descargados)
 
-### 1. Configurar libpdfium (Windows)
+### 1. Configuración de Desarrollo y libpdfium
+
+El SDK de Python busca automáticamente la biblioteca `libpdfium` en subdirectorios internos si instalas la rueda construida por CI. Para el desarrollo local directo (`cargo build` o `maturin develop`), puedes configurar tu propia ruta de la biblioteca PDFium configurando la variable de entorno `STRATA_PDFIUM_LIB_PATH` apuntando a la carpeta que contiene `pdfium.dll` (Windows), `libpdfium.so` (Linux) o `libpdfium.dylib` (macOS).
+
+**Configuración manual rápida para Windows (desarrollo):**
 ```powershell
 New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\pdfium" -Force
 curl.exe -L -o $env:TEMP\pdfium-win-x64.tgz "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/7843/pdfium-win-x64.tgz"

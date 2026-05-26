@@ -81,6 +81,9 @@ manifest-path = "crates/strata-py/Cargo.toml"
 python-source = "python"
 module-name = "strata_reader._native"
 features = ["pyo3/extension-module"]
+include = [
+    { path = "python/strata_reader/_pdfium/**/*", format = "wheel" }
+]
 
 [tool.ruff]
 target-version = "py312"

@@ -39,6 +39,22 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
+# --- Auto-descubrimiento de PDFium Embebido (Fase 13) ---
+import os
+import sys
+
+_PDFIUM_DIR = Path(__file__).parent / "_pdfium"
+if _PDFIUM_DIR.exists():
+    # En Linux/macOS la librería está en lib/, en Windows en bin/
+    for subdir in ("lib", "bin"):
+        candidate = _PDFIUM_DIR / subdir
+        if candidate.exists():
+            os.environ.setdefault("STRATA_PDFIUM_LIB_PATH", str(candidate))
+            # En Windows, agregar la ruta al DLL search path para Python 3.8+
+            if sys.platform == "win32":
+                os.add_dll_directory(str(candidate))
+            break
+
 try:
     from ._native import (
         Document,

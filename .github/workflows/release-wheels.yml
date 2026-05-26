@@ -44,18 +44,97 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
 
+      - name: Resolve PDFium Platform Name
+        id: pdfium_platform
+        shell: bash
+        run: |
+          TARGET="${{ matrix.target }}"
+          if [ "$TARGET" = "x86_64-unknown-linux-gnu" ]; then
+            echo "name=linux-x64" >> $GITHUB_OUTPUT
+          elif [ "$TARGET" = "aarch64-unknown-linux-gnu" ]; then
+            echo "name=linux-arm64" >> $GITHUB_OUTPUT
+          elif [ "$TARGET" = "x86_64-pc-windows-msvc" ]; then
+            echo "name=win-x64" >> $GITHUB_OUTPUT
+          elif [ "$TARGET" = "aarch64-apple-darwin" ]; then
+            echo "name=mac-arm64" >> $GITHUB_OUTPUT
+          else
+            echo "Unsupported target: $TARGET"
+            exit 1
+          fi
+
+      - name: Download and Verify PDFium
+        shell: bash
+        run: |
+          set -e
+          PLATFORM="${{ steps.pdfium_platform.outputs.name }}"
+          VERSION="7843"
+          URL="https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/${VERSION}/pdfium-${PLATFORM}.tgz"
+          
+          echo "Downloading PDFium for ${PLATFORM} from ${URL}..."
+          curl -L -o "pdfium-${PLATFORM}.tgz" "$URL"
+          
+          # Checksum verification
+          echo "Verifying SHA-256 checksum..."
+          grep "pdfium-${PLATFORM}.tgz" scripts/pdfium-checksums.sha256 | sha256sum -c -
+          
+          # Extract into strata_reader package structure
+          TARGET_DIR="python/strata_reader/_pdfium"
+          mkdir -p "$TARGET_DIR"
+          tar -xzf "pdfium-${PLATFORM}.tgz" -C "$TARGET_DIR"
+          
+          echo "PDFium extracted successfully to ${TARGET_DIR}:"
+          ls -la "$TARGET_DIR"
+
+      - name: Install Delvewheel (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: pip install delvewheel
+
+      - name: Install Delocate (macOS)
+        if: matrix.os == 'macos-14'
+        shell: bash
+        run: pip install delocate
+
       - name: Build wheel via maturin
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.python-target }}
           manylinux: ${{ matrix.manylinux }}
-          # `--release` for optimization, `--out dist` so the artifact
+          # --release for optimization, --out dist so the artifact
           # uploader can find every .whl in one folder.
-          args: --release --out dist --strip
+          # For Linux, --auditwheel repair is standard for bundling .so dependencies.
+          args: --release --out dist --strip ${{ (matrix.os == 'ubuntu-latest') && '--auditwheel repair' || '' }}
           # Force-include the `strata_ia` Python package alongside
           # `strata_reader` so the gRPC microservice can be spawned by
           # EmbeddedWorker without an extra pip install.
           working-directory: ${{ github.workspace }}
+
+      - name: Repair Wheel (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          set -e
+          echo "Repairing Windows Wheel with delvewheel..."
+          # delvewheel bundles DLLs not found in system directories
+          # We need to make sure pdfium.dll is properly bundled if it's in the bin/ folder of our package.
+          # delvewheel requires an explicit --add-path pointing to the folder containing the DLL.
+          delvewheel repair dist/*.whl --add-path python/strata_reader/_pdfium/bin/ -w dist-repaired/
+          mv dist-repaired/*.whl dist/
+
+      - name: Repair Wheel (macOS)
+        if: matrix.os == 'macos-14'
+        shell: bash
+        run: |
+          set -e
+          echo "Repairing macOS Wheel with delocate..."
+          delocate-wheel -v dist/*.whl
+
+      - name: Verify Wheel Contents
+        shell: bash
+        run: |
+          set -e
+          echo "Checking wheel contents to ensure PDFium is present..."
+          python -m zipfile -l dist/*.whl | grep -i pdfium
 
       - name: Smoke-test the wheel
         if: matrix.os != 'ubuntu-latest' || matrix.target == 'x86_64-unknown-linux-gnu'

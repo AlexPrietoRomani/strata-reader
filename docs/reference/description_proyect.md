@@ -164,5 +164,12 @@ Para asegurar el rendimiento y la escalabilidad de `strata-reader`, las siguient
 
 ## 4. Estado del Proyecto
 
-Todas las fases de implementación descritas en el Plan Maestro (Fases 0-10) están completadas a nivel de código. El pipeline Rust produce Markdown y JSON desde PDFs reales. La capa IA (Python/Ollama) está implementada con contrato gRPC. Las tareas pendientes se centran en mejora de calidad de salida y simplificación del SDK Python. Ver `CHANGELOG.md` para el historial de cambios.
+Todas las fases de implementación descritas en el Plan Maestro (Fases 0-10) están completadas a nivel de código. El pipeline Rust produce Markdown y JSON desde PDFs reales. La capa IA (Python/Ollama) está implementada con contrato gRPC.
 
+### 4.1. Distribución Zero-Friction (Fase 13)
+En la Fase 13 se ha logrado la independencia operativa de dependencias externas complejas para el usuario de Python SDK. Mediante un sistema de ruedas de Python (Wheels) autocontenidas creadas en CI (`release-wheels.yml`):
+1. **Empaquetado de libpdfium:** Se descargan las versiones precompiladas de `libpdfium` (Chromium Milestone 7843) para Linux (x64/aarch64), macOS (Apple Silicon/Universal) y Windows (x64).
+2. **Reparación del Wheel:** Se utilizan herramientas de reparación nativas (`auditwheel` en Linux, `delocate` en macOS y `delvewheel` en Windows) para inyectar y corregir enlaces dinámicos de las bibliotecas compartidas (`.so`, `.dylib`, `.dll`) directamente dentro de la rueda compilada.
+3. **Auto-descubrimiento en Runtime:** Al importar `strata_reader`, el cargador detecta automáticamente el directorio `_pdfium` empaquetado, configurando `STRATA_PDFIUM_LIB_PATH` y agregando el directorio al DLL search path en Windows (`os.add_dll_directory`).
+
+Esto permite un flujo de instalación inmediato mediante `pip install strata-reader` libre de dependencias manuales del sistema.
