@@ -24,7 +24,11 @@ use strata_serialize as serialize;
 /// Caller-tunable knobs for [`parse`] / [`parse_batch`].
 ///
 /// All fields default to the same values as the CLI subcommand (Plan §14.T9.3).
-#[pyclass(name = "ParseOptions", module = "strata_reader._native")]
+#[pyclass(
+    name = "ParseOptions",
+    module = "strata_reader._native",
+    from_py_object
+)]
 #[derive(Clone, Debug)]
 struct PyParseOptions {
     #[pyo3(get, set)]
@@ -174,7 +178,7 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
             .map(|g| strata_geometry::GlyphInput {
                 bbox: g.bbox,
                 font_size: g.font_size,
-                unicode: g.unicode.clone(),
+                unicode: g.unicode,
             })
             .collect();
         let lines = strata_geometry::cluster_lines(&glyph_inputs);
