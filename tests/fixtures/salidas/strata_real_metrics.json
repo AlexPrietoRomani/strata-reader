@@ -1,11 +1,15 @@
 {
-  "strata_speed": 0.0065589961159992684,
-  "opendataloader_speed": 0.05760581857465171,
+  "strata_speed": 0.006753249708654845,
+  "opendataloader_speed": 0.05869353463497068,
+  "markitdown_speed": 0.10329229843440314,
   "strata_accuracy": 1.0,
   "opendataloader_accuracy": 0.9796,
+  "markitdown_accuracy": 0.3271,
   "total_pdfs_processed": 9,
   "total_pages_strata": 203,
   "total_pages_opendataloader": 203,
-  "elapsed_time_strata_seconds": 1.3314762115478516,
-  "elapsed_time_opendataloader_seconds": 11.693981170654297
+  "total_pages_markitdown": 203,
+  "elapsed_time_strata_seconds": 1.3709096908569336,
+  "elapsed_time_opendataloader_seconds": 11.914787530899048,
+  "elapsed_time_markitdown_seconds": 20.968336582183838
 }

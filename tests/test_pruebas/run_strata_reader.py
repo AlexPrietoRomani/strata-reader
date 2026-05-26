@@ -1,7 +1,7 @@
 """
 Archivo: run_strata_reader.py
 Fecha de modificación: 26/05/2026
-Autor: Strata-Reader Contributors
+Autor: Alex Prieto
 
 Descripción:
 Ejecuta de forma aislada el benchmark de conversión de PDFs científicos

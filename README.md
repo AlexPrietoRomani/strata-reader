@@ -92,18 +92,31 @@ strata parse --input papers/ --output out/ --format md+json --profile scientific
 
 ---
 
-## 📊 Benchmarking Empírico y Calidad
+## 📊 Benchmarking Empírico y Calidad (3 Motores)
 
-Para validar de forma rigurosa la velocidad y la calidad de la extracción, evaluamos de forma empírica **Strata-Reader** frente al baseline tradicional de **OpenDataLoader** sobre un corpus de prueba compuesto por 9 artículos científicos complejos (un total de **203 páginas**).
+Para validar de forma rigurosa la velocidad y la calidad de la extracción, evaluamos de forma empírica **Strata-Reader** frente al baseline tradicional de **OpenDataLoader** y la librería **MarkItDown de Microsoft** sobre un corpus de prueba compuesto por 9 artículos científicos complejos (un total de **203 páginas**).
 
 ![Scientific PDF Parsing Benchmark](tests/fixtures/salidas/benchmark_comparison.png)
 
 ### ⚡ Resultados de Rendimiento Reales
 
-De acuerdo con el pipeline de ejecución y evaluación automatizado, los resultados obtenidos en un entorno de pruebas estándar son:
+De acuerdo con el pipeline de ejecución y evaluación automatizado, los resultados empíricos obtenidos en un entorno de pruebas estándar con los 3 motores son:
 
-*   **Strata-Reader (Rust Native):** Extrae glifos y reconstruye el AST a nivel de metal con un tiempo promedio de **0.0066 segundos por página** (procesa las 203 páginas del corpus en tan solo **1.331 segundos**), alcanzando una precisión estructural **SCE-Accuracy de 100.00%**.
-*   **OpenDataLoader (Baseline):** Requiere en promedio **0.0576 segundos por página** (tardando **11.694 segundos** en total), registrando un **SCE-Accuracy de 97.96%**. Nuestro motor es **8.7 veces más rápido** debido al núcleo optimizado en Rust y el procesamiento nativo.
+*   **Strata-Reader (Rust Native):** Extrae glifos y reconstruye el AST a nivel de metal con un tiempo promedio de **0.0068 segundos por página** (procesa las 203 páginas del corpus en tan solo **1.371 segundos**), alcanzando una precisión estructural perfecta de **100.00% (SCE-Accuracy)**.
+*   **OpenDataLoader (Baseline):** Requiere en promedio **0.0587 segundos por página** (tardando **11.915 segundos** en total), registrando un **SCE-Accuracy de 97.96%**. Nuestro motor es **8.6 veces más rápido** y limpio.
+*   **Microsoft MarkItDown:** Requiere en promedio **0.1033 segundos por página** (tardando **20.968 segundos** en total), registrando una precisión de **32.71% (SCE-Accuracy)**. Es **15 veces más lento** que Strata-Reader y presenta severas limitaciones de diseño para RAG.
+
+---
+
+### 🔍 ¿Por qué Microsoft MarkItDown obtuvo un 32.71% de Accuracy?
+
+La baja calificación de **MarkItDown** en el indicador de precisión estructural no se debe a la ausencia de texto, sino al **ruido de diseño y formateo**. 
+
+Dado que está construido sobre `pdfminer.six` y `pdfplumber`, MarkItDown intenta emular visualmente la disposición espacial de las columnas introduciendo **secuencias masivas de espacios en blanco** (dobles espacios artificiales) para alinear el texto en la terminal.
+*   En el documento `10.48550_arXiv.2107.03374.pdf`, MarkItDown generó **más de 9,600 dobles espacios**.
+*   En `10.48550_arXiv.1512.03385.pdf`, generó **más de 4,400 dobles espacios**.
+
+Este exceso de espaciado artificial fragmenta las palabras y oraciones, contaminando la tokenización de modelos de lenguaje e imposibilitando la búsqueda exacta y la recuperación semántica en pipelines de RAG y Graph-RAG. Al carecer de un motor de clustering de flujo de lectura como nuestro **XY-Cut++**, MarkItDown prioriza la estética de espaciado plano sobre la cohesión textual semántica. Nuestra métrica SCE-Accuracy penaliza severamente estas anomalías de espaciado.
 
 ---
 
@@ -120,14 +133,14 @@ $$\text{SCE-Accuracy} = \max\left(0.0, 1.0 - \frac{D + 2 \cdot S + 5 \cdot H}{L}
 Donde:
 *   **$D$ (Anomalías de Espaciado — Dobles Espacios):** Penalización leve ($1\times$) por espacios múltiples consecutivos residuales de decodificación de glifos.
 *   **$S$ (Artefactos Alfanuméricos — Stray Characters):** Penalización moderada ($2\times$) por caracteres o símbolos no alfanuméricos aislados en una línea que interrumpen el flujo semántico normal de los párrafos.
-*   **$H$ (Ruido de Jerarquía — Falsos Encabezados):** Penalización crítica ($5\times$) por líneas que contienen números de página, marcas de agua de arXiv o metadatos de autor clasificados incorrectamente con la directiva `#`, corrompiendo la indexación jerárquica para sistemas RAG y Graph-RAG.
+*   **$H$ (Ruido de Jerarquía — Falsos Encabezados):** Penalización crítica ($5\times$) por líneas que contienen números de página, marcas de agua de arXiv o metadatos de autor clasificados incorrectamente con la directiva `#`, corrompiendo la indexación jerárquica para RAG semántico.
 *   **$L$ (Líneas Totales del Documento):** Cantidad de líneas totales del archivo Markdown de salida para normalizar el error por extensión.
 
 ---
 
 ### 🛠️ Arquitectura de Benchmarking Desacoplada
 
-Para garantizar la extensibilidad futura del proyecto, la suite de benchmarking está totalmente desacoplada. Cada motor se ejecuta como un componente aislado, coordinados por un script director maestro. Esto permite agregar nuevos parsers (por ejemplo, *Docling* o *Marker*) en el futuro simplemente escribiendo un script `run_<nombre>.py` y registrándolo en la orquestación.
+Para garantizar la extensibilidad futura del proyecto, la suite de benchmarking está totalmente desacoplada. Cada motor se ejecuta como un componente aislado, coordinados por un script director maestro. Esto permite agregar nuevos parsers en el futuro simplemente escribiendo un script `run_<nombre>.py` y registrándolo en la orquestación.
 
 ```mermaid
 graph TD
@@ -137,9 +150,10 @@ graph TD
 
     A[orchestrate_benchmarks.py]:::orquest -->|1. Invoca| B[run_strata_reader.py]:::runner
     A -->|2. Invoca| C[run_opendataloader.py]:::runner
-    A -->|3. Calcula Metricas| D[quality_benchmark.py]:::runner
-    A -->|4. Escribe JSON| E[strata_real_metrics.json]:::result
-    A -->|5. Genera Grafico| F[plot_benchmark.py]:::runner
+    A -->|3. Invoca| H[run_markitdown.py]:::runner
+    A -->|4. Calcula Métricas| D[quality_benchmark.py]:::runner
+    A -->|5. Escribe JSON| E[strata_real_metrics.json]:::result
+    A -->|6. Genera Gráfico| F[plot_benchmark.py]:::runner
     F -->|Lee JSON y dibuja| G[benchmark_comparison.png]:::result
 ```
 
@@ -151,7 +165,8 @@ Asegúrate de tener el entorno virtual de Python sincronizado y ejecuta el orque
 uv run python tests/test_pruebas/orchestrate_benchmarks.py
 ```
 
-El script se encargará de realizar las conversiones, realizar los análisis de anomalías, consolidar las métricas reales en `tests/fixtures/salidas/strata_real_metrics.json` y regenerar el gráfico `benchmark_comparison.png`.
+El script se encargará de realizar las conversiones de los 3 motores, realizar los análisis de anomalías, consolidar las métricas reales en `tests/fixtures/salidas/strata_real_metrics.json` y regenerar el gráfico `benchmark_comparison.png` con las 3 barras comparativas.
+
 
 
 ---

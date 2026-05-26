@@ -1,23 +1,26 @@
 """
 Archivo: plot_benchmark.py
 Fecha de modificación: 26/05/2026
-Autor: Strata-Reader Contributors
+Autor: Alex Prieto
 
 Descripción:
-Genera un gráfico comparativo de rendimiento (Benchmarking) entre Strata-Reader
-y OpenDataLoader-PDF. Crea dos subgráficos de barra horizontal para comparar
-la precisión SCE-Accuracy calculada y el tiempo empírico de extracción por página.
-Este script es estricto y fallará si no existen las métricas calculadas previamente.
+Genera un gráfico comparativo de rendimiento (Benchmarking) entre todos los
+motores de extracción de PDFs (Strata-Reader, OpenDataLoader, MarkItDown, etc.)
+registrados en el archivo de métricas. Crea dos subgráficos de barra horizontal
+para comparar la precisión SCE-Accuracy y el tiempo empírico por página de
+forma 100 % dinámica.
 
 Sustentación Científica:
 La visualización unificada de tiempo de procesamiento por página (eficiencia
 temporal) y de SCE-Accuracy (fidelidad del formateo y la jerarquía de diseño)
 permite contrastar la ganancia neta del motor nativo en Rust de Strata-Reader
-frente al baseline en Python. Es una herramienta de decisión para pipelines RAG.
+frente a los baselines en Python. Es una herramienta de decisión para pipelines RAG.
 
 Acciones Principales:
-    - Carga obligatoriamente las métricas del archivo JSON unificado.
-    - Valida la integridad de las métricas de precisión y velocidad.
+    - Carga las métricas consolidadas del archivo JSON.
+    - Auto-descubre de forma dinámica todos los motores evaluados en la suite.
+    - Asigna nombres de presentación y paletas de colores premium (azul para Strata,
+      gris para ODL, fucsia/magenta para MarkItDown).
     - Genera una visualización premium en formato PNG utilizando Matplotlib y Seaborn.
 
 Estructura Interna:
@@ -37,21 +40,41 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Dict, List, Any
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+# Mapeos estáticos de presentación y paleta cromática para motores conocidos
+DISPLAY_NAMES = {
+    "strata": "Strata-Reader (Rust Native)",
+    "opendataloader": "OpenDataLoader (Baseline)",
+    "markitdown": "MarkItDown (Microsoft)"
+}
+
+ACC_COLORS = {
+    "strata": "#3b82f6",          # Azul premium
+    "opendataloader": "#94a3b8",  # Gris suave
+    "markitdown": "#ec4899"       # Fucsia/Rosa premium de Microsoft
+}
+
+SPEED_COLORS = {
+    "strata": "#2563eb",
+    "opendataloader": "#64748b",
+    "markitdown": "#db2777"
+}
+
 
 def generate_benchmark_plot() -> None:
     """
     Genera dos gráficos de barras horizontales lado a lado para comparar
-    la precisión global y el tiempo de extracción por página entre
-    Strata-Reader y OpenDataLoader.
+    la precisión general y el tiempo de extracción de todos los motores
+    detectados dinámicamente en el JSON de métricas.
 
     Raises:
         FileNotFoundError: Si el archivo de métricas consolidadas no existe.
-        ValueError: Si faltan claves obligatorias en el archivo de métricas.
+        ValueError: Si faltan las métricas obligatorias para Strata y ODL.
     """
     metrics_path = Path("tests/fixtures/salidas/strata_real_metrics.json")
     
@@ -66,39 +89,42 @@ def generate_benchmark_plot() -> None:
     except Exception as e:
         raise ValueError(f"Error al decodificar el archivo JSON de metricas: {e}")
 
-    # Validar presencia obligatoria de todas las metricas de rendimiento
+    # Validar presencia mínima de las metricas base
     required_keys = ["strata_speed", "opendataloader_speed", "strata_accuracy", "opendataloader_accuracy"]
     missing_keys = [k for k in required_keys if k not in metrics]
     if missing_keys:
         raise ValueError(
-            f"El archivo de metricas no contiene las siguientes claves requeridas: {missing_keys}"
+            f"El archivo de metricas no contiene las siguientes claves base requeridas: {missing_keys}"
         )
 
-    strata_speed = metrics["strata_speed"]
-    odl_speed = metrics["opendataloader_speed"]
-    strata_acc = metrics["strata_accuracy"]
-    odl_acc = metrics["opendataloader_accuracy"]
+    # Descubrir dinámicamente los motores evaluados inspeccionando las claves que terminan en '_speed'
+    engines: List[str] = []
+    for key in metrics.keys():
+        if key.endswith("_speed"):
+            engine_name = key[:-6]
+            acc_key = f"{engine_name}_accuracy"
+            if acc_key in metrics:
+                engines.append(engine_name)
 
-    # Estructurar datos comparativos premium para graficación
-    data = [
-        {
-            "Engine": "Strata-Reader (Rust Native)", 
-            "Accuracy": strata_acc, 
-            "Speed": strata_speed,
-            "Color_Acc": "#3b82f6",  # Azul premium de la marca Strata
-            "Color_Speed": "#2563eb"
-        },
-        {
-            "Engine": "OpenDataLoader (Baseline)", 
-            "Accuracy": odl_acc, 
-            "Speed": odl_speed,
-            "Color_Acc": "#94a3b8",  # Gris suave de baseline
-            "Color_Speed": "#64748b"
-        }
-    ]
-    
+    # Estructurar datos para Pandas
+    data = []
+    for engine in engines:
+        display_name = DISPLAY_NAMES.get(engine, engine.capitalize())
+        acc_color = ACC_COLORS.get(engine, "#10b981")    # Fallback verde
+        speed_color = SPEED_COLORS.get(engine, "#059669")
+        
+        data.append({
+            "Engine": display_name,
+            "Accuracy": metrics[f"{engine}_accuracy"],
+            "Speed": metrics[f"{engine}_speed"],
+            "Color_Acc": acc_color,
+            "Color_Speed": speed_color
+        })
+
+    # Crear DataFrame y ordenar de menor a mayor velocidad (Strata primero)
     df = pd.DataFrame(data)
-    
+    df = df.sort_values(by="Speed", ascending=True)
+
     # Configurar estilo visual premium y moderno
     sns.set_theme(style="whitegrid")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
@@ -112,7 +138,7 @@ def generate_benchmark_plot() -> None:
     plt.figtext(
         0.5, 
         0.90, 
-        "Strata-Reader vs OpenDataLoader · Evaluacion Empirica de Rendimiento", 
+        "Multi-Engine PDF to Markdown Extraction · Evaluacion Empirica de Rendimiento", 
         ha="center", 
         fontsize=11, 
         color="#64748b"
@@ -120,7 +146,7 @@ def generate_benchmark_plot() -> None:
 
     # --- Subgrafico 1: Extraction Accuracy ---
     ax1 = axes[0]
-    bars1 = ax1.barh(df['Engine'], df['Accuracy'], color=df['Color_Acc'], height=0.4)
+    bars1 = ax1.barh(df['Engine'], df['Accuracy'], color=df['Color_Acc'], height=0.45)
     ax1.set_title("Extraction Accuracy (SCE-Accuracy)", fontsize=13, pad=12, fontweight='semibold', color="#1e293b")
     ax1.set_xlabel("Accuracy Score", fontsize=11, labelpad=8)
     ax1.set_xlim(0, 1.05)
@@ -143,7 +169,7 @@ def generate_benchmark_plot() -> None:
 
     # --- Subgrafico 2: Extraction Time Per Page ---
     ax2 = axes[1]
-    bars2 = ax2.barh(df['Engine'], df['Speed'], color=df['Color_Speed'], height=0.4)
+    bars2 = ax2.barh(df['Engine'], df['Speed'], color=df['Color_Speed'], height=0.45)
     ax2.set_title("Extraction Speed (Seconds Per Page)", fontsize=13, pad=12, fontweight='semibold', color="#1e293b")
     ax2.set_xlabel("Seconds (lower is better)", fontsize=11, labelpad=8)
     

@@ -1,14 +1,13 @@
 """
 Archivo: quality_benchmark.py
 Fecha de modificación: 26/05/2026
-Autor: Strata-Reader Contributors
+Autor: Alex Prieto
 
 Descripción:
 Compara la calidad estructural y de diseño del Markdown extraído por
-Strata-Reader frente a OpenDataLoader-PDF. Utiliza métricas cuantitativas
-reales (dobles espacios, stray characters y falsos encabezados) para
-calcular la métrica de precisión científica SCE-Accuracy, omitiendo cualquier
-salida HTML.
+diferentes conversores (Strata-Reader, OpenDataLoader, MarkItDown, etc.)
+en base a la métrica de precisión científica SCE-Accuracy, omitiendo cualquier
+salida HTML. Soporta un número arbitrario y dinámico de motores evaluados.
 
 Sustentación Científica:
 Para evaluar de forma cuantitativa la calidad de extracción de PDFs científicos
@@ -26,17 +25,17 @@ Donde:
     - L: Cantidad de líneas totales del documento Markdown.
 
 Acciones Principales:
-    - Analiza las anomalías estructurales de las salidas de ambos motores.
+    - Analiza las anomalías estructurales de las salidas de todos los motores configurados.
     - Calcula la métrica SCE-Accuracy para cada artículo científico del corpus.
     - Presenta un informe detallado por consola justificando la lógica aplicada.
 
 Estructura Interna:
     - `DocumentQuality`: Dataclass para encapsular las métricas crudas de un Markdown.
     - `compute_file_quality()`: Lee un archivo Markdown y calcula sus anomalías.
-    - `compute_extraction_accuracy()`: Orquesta la comparación de directorios y calcula el Accuracy global.
+    - `compute_extraction_accuracy()`: Orquesta la comparación de directorios y calcula el Accuracy global de forma dinámica.
 
 Entradas / Dependencias:
-    - Carpetas con los archivos Markdown generados por ambos motores.
+    - Carpetas con los archivos Markdown generados por los motores evaluados.
 
 Salidas / Efectos:
     - Retorna el diccionario de precisiones reales y escribe reporte a la consola.
@@ -135,26 +134,33 @@ def compute_file_quality(file_path: Path) -> DocumentQuality:
     )
 
 
-def compute_extraction_accuracy(strata_dir: Path, odl_dir: Path) -> Dict[str, float]:
+def compute_extraction_accuracy(engine_dirs: Dict[str, Path]) -> Dict[str, float]:
     """
-    Orquesta el cálculo de precisión comparativo entre los markdowns de ambos motores.
+    Orquesta el cálculo de precisión comparativo entre múltiples motores de forma dinámica.
 
     Args:
-        strata_dir (Path): Directorio con los Markdowns generados por Strata-Reader.
-        odl_dir (Path): Directorio con los Markdowns generados por OpenDataLoader.
+        engine_dirs (Dict[str, Path]): Un diccionario con el formato {"nombre_motor": Ruta_Directorio_Salida}.
 
     Returns:
-        Dict[str, float]: Diccionario con las claves 'strata_accuracy' y 'opendataloader_accuracy'.
+        Dict[str, float]: Un diccionario con las precisiones promedio de cada motor,
+        usando la clave "{nombre_motor}_accuracy".
     """
-    strata_files = sorted(list(strata_dir.glob("*.md")))
-    md_names = [f.name for f in strata_files if f.name != "README.md"]
+    # Usar las salidas de Strata-Reader como referencia para el listado de archivos científicos comunes
+    reference_engine = "strata"
+    if reference_engine not in engine_dirs:
+        # Fallback al primer motor si no se encuentra strata
+        reference_engine = list(engine_dirs.keys())[0]
+
+    reference_dir = engine_dirs[reference_engine]
+    reference_files = sorted(list(reference_dir.glob("*.md")))
+    md_names = [f.name for f in reference_files if f.name != "README.md"]
 
     if not md_names:
-        print("[AVISO] No se encontraron archivos Markdown en la ruta de Strata-Reader.")
-        return {"strata_accuracy": 0.0, "opendataloader_accuracy": 0.0}
+        print("[AVISO] No se encontraron archivos Markdown en la ruta de referencia.")
+        return {f"{engine}_accuracy": 0.0 for engine in engine_dirs}
 
-    strata_accs: List[float] = []
-    odl_accs: List[float] = []
+    # Inicializar contenedores de precisiones por motor
+    accuracy_scores: Dict[str, List[float]] = {engine: [] for engine in engine_dirs}
 
     print("\n" + "="*80)
     print(" SUSTENTACIÓN CIENTÍFICA DEL CÁLCULO DE ACCURACY (SCE-ACCURACY)")
@@ -166,47 +172,49 @@ def compute_extraction_accuracy(strata_dir: Path, odl_dir: Path) -> Dict[str, fl
     print("-"*80)
 
     for name in md_names:
-        strata_file = strata_dir / name
-        odl_file = odl_dir / name
-
-        strata_quality = compute_file_quality(strata_file)
-        odl_quality = compute_file_quality(odl_file)
-
-        strata_accs.append(strata_quality.accuracy)
-        odl_accs.append(odl_quality.accuracy)
-
         print(f"Archivo: {name}")
-        print(f"  [Strata-Reader] Lineas: {strata_quality.total_lines} | DoblesEsp: {strata_quality.double_spaces} | Stray: {strata_quality.stray_chars} | FalsoHead: {strata_quality.false_headings} -> Acc: {strata_quality.accuracy:.4f}")
-        print(f"  [OpenDataLoader] Lineas: {odl_quality.total_lines} | DoblesEsp: {odl_quality.double_spaces} | Stray: {odl_quality.stray_chars} | FalsoHead: {odl_quality.false_headings} -> Acc: {odl_quality.accuracy:.4f}")
+        for engine, out_dir in engine_dirs.items():
+            file_path = out_dir / name
+            quality = compute_file_quality(file_path)
+            accuracy_scores[engine].append(quality.accuracy)
+            
+            print(f"  [{engine.upper()}] Lineas: {quality.total_lines} | "
+                  f"DoblesEsp: {quality.double_spaces} | Stray: {quality.stray_chars} | "
+                  f"FalsoHead: {quality.false_headings} -> Acc: {quality.accuracy:.4f}")
         print("-" * 50)
 
-    avg_strata_acc = sum(strata_accs) / len(strata_accs) if strata_accs else 0.0
-    avg_odl_acc = sum(odl_accs) / len(odl_accs) if odl_accs else 0.0
-
+    global_accuracies: Dict[str, float] = {}
     print("="*80)
-    print(f"SCE-Accuracy Promedio Global:")
-    print(f"  - Strata-Reader (Rust Native):  {avg_strata_acc:.4f} ({avg_strata_acc*100:.2f}%)")
-    print(f"  - OpenDataLoader (Baseline):    {avg_odl_acc:.4f} ({avg_odl_acc*100:.2f}%)")
+    print("SCE-Accuracy Promedio Global:")
+    
+    for engine, scores in accuracy_scores.items():
+        avg_acc = sum(scores) / len(scores) if scores else 0.0
+        global_accuracies[f"{engine}_accuracy"] = round(avg_acc, 4)
+        print(f"  - {engine.capitalize():<18}: {avg_acc:.4f} ({avg_acc*100:.2f}%)")
+        
     print("="*80 + "\n")
 
-    return {
-        "strata_accuracy": round(avg_strata_acc, 4),
-        "opendataloader_accuracy": round(avg_odl_acc, 4)
-    }
+    return global_accuracies
 
 
 def main() -> None:
     """
     Función de entrada CLI para la ejecución e inspección aislada del análisis.
     """
-    strata_output = Path("tests/fixtures/salidas/strata-reader-output")
-    odl_output = Path("tests/fixtures/salidas/opendataloader-pdf")
+    engine_dirs = {
+        "strata": Path("tests/fixtures/salidas/strata-reader-output"),
+        "opendataloader": Path("tests/fixtures/salidas/opendataloader-pdf"),
+        "markitdown": Path("tests/fixtures/salidas/markitdown-pdf")
+    }
 
-    if not strata_output.exists() or not odl_output.exists():
-        print("[ERROR] Los directorios de salida no existen. Asegúrate de ejecutar los benchmarks primero.")
+    # Verificar existencia mínima de directorios
+    missing = [name for name, path in engine_dirs.items() if not path.exists()]
+    if missing:
+        print(f"[ERROR] Los siguientes directorios de salida no existen: {missing}.\n"
+              "Asegúrate de ejecutar los benchmarks primero.")
         return
 
-    compute_extraction_accuracy(strata_output, odl_output)
+    compute_extraction_accuracy(engine_dirs)
 
 
 if __name__ == "__main__":
