@@ -21,7 +21,13 @@ def test_package_version_is_v1() -> None:
 def test_iaservice_exposes_expected_rpcs() -> None:
     service = pb.DESCRIPTOR.services_by_name["IaService"]
     method_names = {m.name for m in service.methods}
-    assert method_names == {"OcrPage", "ExtractTable", "DescribeImage", "OcrFormula", "ProcessStream"}
+    assert method_names == {
+        "OcrPage",
+        "ExtractTable",
+        "DescribeImage",
+        "OcrFormula",
+        "ProcessStream",
+    }
 
 
 def test_processstream_is_bidirectional() -> None:
@@ -41,12 +47,33 @@ def test_grpc_stubs_present() -> None:
     "msg_factory",
     [
         lambda: pb.BBox(x0=0.0, y0=0.0, x1=10.0, y1=10.0),
-        lambda: pb.Crop(png_bytes=b"\x89PNG", dpi=200, page_no=1, bbox=pb.BBox(x0=0, y0=0, x1=10, y1=10), hint="table-borderless"),
-        lambda: pb.OcrResult(text="hello", words=[pb.WordBox(text="hi", bbox=pb.BBox(x0=0,y0=0,x1=1,y1=1), confidence=0.9)], confidence=0.85, language="en"),
-        lambda: pb.TableResult(rows=[pb.TableRow(cells=[pb.TableCell(text="a", row=0, col=0, row_span=1, col_span=1)])], confidence=0.95, cell_count=1),
-        lambda: pb.ImageDescription(caption="cat", description="A cat sitting.", alt_text="cat photo", confidence=0.8),
+        lambda: pb.Crop(
+            png_bytes=b"\x89PNG",
+            dpi=200,
+            page_no=1,
+            bbox=pb.BBox(x0=0, y0=0, x1=10, y1=10),
+            hint="table-borderless",
+        ),
+        lambda: pb.OcrResult(
+            text="hello",
+            words=[pb.WordBox(text="hi", bbox=pb.BBox(x0=0, y0=0, x1=1, y1=1), confidence=0.9)],
+            confidence=0.85,
+            language="en",
+        ),
+        lambda: pb.TableResult(
+            rows=[
+                pb.TableRow(cells=[pb.TableCell(text="a", row=0, col=0, row_span=1, col_span=1)])
+            ],
+            confidence=0.95,
+            cell_count=1,
+        ),
+        lambda: pb.ImageDescription(
+            caption="cat", description="A cat sitting.", alt_text="cat photo", confidence=0.8
+        ),
         lambda: pb.FormulaResult(latex=r"\frac{1}{2}", mathml="", confidence=0.92),
-        lambda: pb.Provenance(model_id="qwen2.5vl:7b", backend="ollama", latency_ms=230, retries=1, cache_hit=False),
+        lambda: pb.Provenance(
+            model_id="qwen2.5vl:7b", backend="ollama", latency_ms=230, retries=1, cache_hit=False
+        ),
     ],
 )
 def test_message_round_trip(msg_factory) -> None:  # type: ignore[no-untyped-def]
@@ -59,7 +86,10 @@ def test_message_round_trip(msg_factory) -> None:  # type: ignore[no-untyped-def
 def test_stream_result_oneof_discriminates() -> None:
     sr = pb.StreamResult(
         correlation_id="abc",
-        ocr=pb.OcrResponse(result=pb.OcrResult(text="hi", confidence=0.5), provenance=pb.Provenance(model_id="m", backend="b", latency_ms=1)),
+        ocr=pb.OcrResponse(
+            result=pb.OcrResult(text="hi", confidence=0.5),
+            provenance=pb.Provenance(model_id="m", backend="b", latency_ms=1),
+        ),
     )
     assert sr.WhichOneof("payload") == "ocr"
     raw = sr.SerializeToString()

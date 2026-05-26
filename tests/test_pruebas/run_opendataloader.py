@@ -29,18 +29,15 @@ Ejecución:
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
 import time
-from typing import Dict, List, Any
+from pathlib import Path
+from typing import Any
 
 import opendataloader_pdf
 import strata_reader
 
 
-def run_opendataloader_benchmark(
-    pdf_files: List[Path], output_dir: Path
-) -> Dict[str, Any]:
+def run_opendataloader_benchmark(pdf_files: list[Path], output_dir: Path) -> dict[str, Any]:
     """
     Ejecuta el procesamiento de PDFs usando OpenDataLoader y mide su velocidad.
 
@@ -57,13 +54,11 @@ def run_opendataloader_benchmark(
 
     print(f"[OpenDataLoader] Iniciando conversion de {len(pdf_files)} PDFs...")
     start_time = time.time()
-    
+
     opendataloader_pdf.convert(
-        input_path=pdf_strs,
-        output_dir=str(output_dir.absolute()),
-        format="markdown,json"
+        input_path=pdf_strs, output_dir=str(output_dir.absolute()), format="markdown,json"
     )
-    
+
     elapsed_time = time.time() - start_time
 
     # Calcular el número total de páginas utilizando la lectura nativa de Strata-Reader
@@ -75,9 +70,11 @@ def run_opendataloader_benchmark(
             total_pages += len(parsed_doc)
         except Exception:
             total_pages += 1  # Fallback mínimo de 1 página por archivo si ocurre algún error
-            
+
     speed = elapsed_time / total_pages if total_pages > 0 else 0.0
-    print(f"[OpenDataLoader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina).")
+    print(
+        f"[OpenDataLoader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina)."
+    )
 
     return {
         "elapsed_time": elapsed_time,
@@ -92,7 +89,7 @@ def main() -> None:
     """
     pdf_dir = Path("tests/fixtures/pdfs/articles")
     pdf_files = sorted(list(pdf_dir.glob("*.pdf")))
-    
+
     if not pdf_files:
         print(f"[ERROR] No se encontraron PDFs de prueba en {pdf_dir.absolute()}")
         return

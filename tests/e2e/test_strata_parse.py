@@ -51,7 +51,7 @@ def _strip_volatile(payload: dict) -> dict:
                 # Normalizar latencia en proveniencia para evitar variaciones de CPU
                 if "provenance" in node and isinstance(node["provenance"], dict):
                     node["provenance"]["latencyMs"] = 0
-                
+
                 # Mapear y normalizar el ID del nodo
                 node_id = node.get("id")
                 if node_id:
@@ -65,21 +65,23 @@ def _strip_volatile(payload: dict) -> dict:
             if isinstance(edge, dict):
                 from_id = edge.get("from")
                 to_id = edge.get("to")
-                
+
                 if from_id:
                     if from_id not in id_map:
                         id_map[from_id] = f"node_{id_counter}"
                         id_counter += 1
                     edge["from"] = id_map[from_id]
-                
+
                 if to_id:
                     if to_id not in id_map:
                         id_map[to_id] = f"node_{id_counter}"
                         id_counter += 1
                     edge["to"] = id_map[to_id]
-                    
+
         # Ordenar edges por from, to y relation para evitar discrepancias de orden
-        payload["edges"].sort(key=lambda e: (e.get("from", ""), e.get("to", ""), e.get("relation", "")))
+        payload["edges"].sort(
+            key=lambda e: (e.get("from", ""), e.get("to", ""), e.get("relation", ""))
+        )
 
     return payload
 

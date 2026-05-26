@@ -14,6 +14,7 @@ provenance contract.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import logging
 import shutil
@@ -152,10 +153,10 @@ def _run_latex(name: str) -> Path:
     if not tex.exists():
         logger.warning("%s.tex not present yet — skipping", name)
         return PDF_DIR / f"{name}.pdf"
-    
+
     build_dir = PDF_DIR / "_build"
     build_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Decidir si compilar con xelatex o pdflatex
     # xeLaTeX es requerido para fuentes unicode complejas y multi-lenguaje (como árabe)
     engine = "pdflatex"
@@ -187,7 +188,11 @@ def _run_latex(name: str) -> Path:
             shutil.copyfile(out_pdf, final)
             return final
         except Exception as e:
-            logger.warning("latexmk falló o no tiene Perl instalado. Usando motor directo %s. Error: %s", engine, e)
+            logger.warning(
+                "latexmk falló o no tiene Perl instalado. Usando motor directo %s. Error: %s",
+                engine,
+                e,
+            )
 
     # Compilación directa con pdflatex o xelatex
     if shutil.which(engine) is None:
@@ -197,7 +202,9 @@ def _run_latex(name: str) -> Path:
             logger.warning("Motor %s no encontrado, usando fallback %s", engine, alternative)
             engine = alternative
         else:
-            raise RuntimeError(f"No se encontró ningún compilador LaTeX compatible ({engine}/{alternative})")
+            raise RuntimeError(
+                f"No se encontró ningún compilador LaTeX compatible ({engine}/{alternative})"
+            )
 
     # Ejecutar compilación directa. A veces se necesitan 2 pasadas para referencias cruzadas,
     # pero para estos fixtures simples con 1 pasada suele ser suficiente. Hacemos 2 por robustez.
@@ -210,10 +217,10 @@ def _run_latex(name: str) -> Path:
     ]
     logger.info("Compilando directamente con %s (pasada 1): %s", engine, tex.name)
     subprocess.run(cmd, check=True)
-    
+
     logger.info("Compilando directamente con %s (pasada 2): %s", engine, tex.name)
     subprocess.run(cmd, check=True)
-    
+
     out_pdf = build_dir / f"{name}.pdf"
     final = PDF_DIR / f"{name}.pdf"
     shutil.copyfile(out_pdf, final)
@@ -238,10 +245,10 @@ def _build_scanned_paper() -> Path:
     src = PDF_DIR / "two_column_paper.pdf"
     if not src.exists():
         raise FileNotFoundError(f"Se requiere {src} para generar scanned_paper.pdf")
-    
+
     build_dir = PDF_DIR / "_build"
     build_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Rasterizar las primeras 6 páginas a 300 dpi
     # pdftoppm -png -r 300 -f 1 -l 6 <src> <build_dir>/page
     logger.info("Rasterizando %s con pdftoppm...", src.name)
@@ -259,27 +266,26 @@ def _build_scanned_paper() -> Path:
         str(prefix),
     ]
     subprocess.run(cmd, check=True)
-    
+
     # Buscar las imágenes generadas
     images = sorted(build_dir.glob("page-*.png"))
     if not images:
         raise RuntimeError("No se generaron imágenes con pdftoppm")
-        
+
     # Recombinar con img2pdf
     final = PDF_DIR / "scanned_paper.pdf"
     logger.info("Recombinando imágenes rasterizadas con img2pdf -> %s", final.name)
-    
+
     import img2pdf
+
     pdf_bytes = img2pdf.convert([str(img) for img in images])
     final.write_bytes(pdf_bytes)
-    
+
     # Limpiar imágenes temporales
     for img in images:
-        try:
+        with contextlib.suppress(Exception):
             img.unlink()
-        except Exception:
-            pass
-            
+
     return final
 
 
@@ -288,13 +294,13 @@ def cmd_build() -> int:
     has_latexmk = shutil.which("latexmk") is not None
     has_pdflatex = shutil.which("pdflatex") is not None
     has_xelatex = shutil.which("xelatex") is not None
-    
+
     if not (has_latexmk or has_pdflatex or has_xelatex):
         logger.error("No LaTeX compiler found (install TeX Live or MiKTeX with pdflatex/xelatex).")
         return 4
-        
+
     table = _read_checksums()
-    
+
     # 1. Compilar los fixtures de LaTeX
     for name in LATEX_FIXTURES:
         try:
@@ -304,7 +310,7 @@ def cmd_build() -> int:
         except Exception as e:
             logger.error("Failed to build fixture %s: %s", name, e)
             return 8
-            
+
     # 2. Generar scanned_paper.pdf rasterizando el paper real
     try:
         pdf = _build_scanned_paper()
@@ -313,7 +319,7 @@ def cmd_build() -> int:
     except Exception as e:
         logger.error("Failed to build scanned_paper: %s", e)
         return 9
-        
+
     _write_checksums(table)
     return 0
 
@@ -356,7 +362,9 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--verify", action="store_true", help="verify SHA-256 of every fixture")
-    group.add_argument("--download", action="store_true", help="(re)download remote fixtures (arXiv)")
+    group.add_argument(
+        "--download", action="store_true", help="(re)download remote fixtures (arXiv)"
+    )
     group.add_argument("--build", action="store_true", help="compile LaTeX-based fixtures")
     group.add_argument(
         "--regen-expected",

@@ -60,7 +60,18 @@ def run_once(strata_bin: str, pdf: Path, profile: str, tmp: Path) -> Sample:
     out.mkdir(parents=True, exist_ok=True)
     start = time.perf_counter()
     result = subprocess.run(
-        [strata_bin, "parse", "--input", str(pdf), "--output", str(out), "--format", "md+json", "--profile", profile],
+        [
+            strata_bin,
+            "parse",
+            "--input",
+            str(pdf),
+            "--output",
+            str(out),
+            "--format",
+            "md+json",
+            "--profile",
+            profile,
+        ],
         capture_output=True,
         text=True,
         timeout=900,
@@ -118,7 +129,9 @@ def render_report(by_profile: dict[str, list[Sample]]) -> str:
     lines.append("| --- | --- | --- | --- | --- |")
     for samples in by_profile.values():
         for s in samples:
-            lines.append(f"| `{s.pdf}` | {s.profile} | {s.pages} | {s.seconds:.2f} | {s.pages_per_second:.2f} |")
+            lines.append(
+                f"| `{s.pdf}` | {s.profile} | {s.pages} | {s.seconds:.2f} | {s.pages_per_second:.2f} |"
+            )
     return "\n".join(lines) + "\n"
 
 

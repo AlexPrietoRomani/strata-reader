@@ -58,9 +58,13 @@ async def extract_table(
         parsed = TableResult.model_validate_json(result.text)
     except ValidationError as exc:
         logger.warning("vlm_table_invalid_json", error=exc.errors())
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON") from exc
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON"
+        ) from exc
     except json.JSONDecodeError as exc:
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON") from exc
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON"
+        ) from exc
 
     latency_ms = int((time.perf_counter() - start) * 1000)
     return TableResponse(

@@ -48,23 +48,23 @@ def test_pdfium_discovery_embedded(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     # 1. Crear estructura simulada del paquete
     pkg_dir = tmp_path / "strata_reader"
     pkg_dir.mkdir()
-    
+
     # Simular directorio _pdfium y subdirectorio lib o bin según plataforma
     pdfium_dir = pkg_dir / "_pdfium"
     pdfium_dir.mkdir()
-    
+
     subdir_name = "bin" if sys.platform == "win32" else "lib"
     lib_subdir = pdfium_dir / subdir_name
     lib_subdir.mkdir()
-    
+
     # 2. Agregar el tmp_path al sys.path para poder importar el pseudo-paquete
     monkeypatch.syspath_prepend(str(tmp_path))
-    
+
     # Limpiar variables previas del entorno
     monkeypatch.delenv("STRATA_PDFIUM_LIB_PATH", raising=False)
-    
+
     # 3. Escribir un archivo __init__.py minimalista que ejecute la lógica de auto-descubrimiento
-    init_content = f"""
+    init_content = """
 import os
 import sys
 from pathlib import Path
@@ -81,10 +81,10 @@ if _PDFIUM_DIR.exists():
             break
 """
     (pkg_dir / "__init__.py").write_text(init_content, encoding="utf-8")
-    
+
     # 4. Importar y comprobar
     importlib.import_module("strata_reader")
-    
+
     assert os.environ.get("STRATA_PDFIUM_LIB_PATH") == str(lib_subdir)
 
 
@@ -100,21 +100,21 @@ def test_pdfium_discovery_env_fallback(tmp_path: Path, monkeypatch: pytest.Monke
     # 1. Establecer ruta manual preexistente
     manual_path = "/path/to/manual/pdfium"
     monkeypatch.setenv("STRATA_PDFIUM_LIB_PATH", manual_path)
-    
+
     # 2. Crear estructura simulada del paquete
     pkg_dir = tmp_path / "strata_reader"
     pkg_dir.mkdir()
     pdfium_dir = pkg_dir / "_pdfium"
     pdfium_dir.mkdir()
-    
+
     subdir_name = "bin" if sys.platform == "win32" else "lib"
     lib_subdir = pdfium_dir / subdir_name
     lib_subdir.mkdir()
-    
+
     monkeypatch.syspath_prepend(str(tmp_path))
-    
+
     # 3. Escribir __init__.py minimalista
-    init_content = f"""
+    init_content = """
 import os
 import sys
 from pathlib import Path
@@ -128,11 +128,11 @@ if _PDFIUM_DIR.exists():
             break
 """
     (pkg_dir / "__init__.py").write_text(init_content, encoding="utf-8")
-    
+
     # 4. Importar y validar que se respete el valor original
     if "strata_reader" in sys.modules:
         del sys.modules["strata_reader"]
-        
+
     importlib.import_module("strata_reader")
-    
+
     assert os.environ.get("STRATA_PDFIUM_LIB_PATH") == manual_path

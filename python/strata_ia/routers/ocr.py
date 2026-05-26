@@ -70,7 +70,9 @@ async def ocr_page(
                 words=[],
                 confidence=tess_res.confidence,
                 language="eng",
-                provenance=Provenance(model_id="tesseract", backend="tesseract", latency_ms=latency_ms),
+                provenance=Provenance(
+                    model_id="tesseract", backend="tesseract", latency_ms=latency_ms
+                ),
             )
         except Exception as exc:
             logger.warning("tesseract_failed_falling_back", error=str(exc))
@@ -91,7 +93,9 @@ async def ocr_page(
     try:
         parsed = OcrResult.model_validate_json(result.text)
     except Exception as exc:
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail="OCR fallback returned malformed JSON") from exc
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, detail="OCR fallback returned malformed JSON"
+        ) from exc
 
     latency_ms = int((time.perf_counter() - start) * 1000)
     return OcrResponse(

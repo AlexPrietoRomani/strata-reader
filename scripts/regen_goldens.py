@@ -112,7 +112,9 @@ def write_review_template(updated: list[str]) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="dry-run; exit 1 on drift")
-    parser.add_argument("--profile", default="scientific", choices=["fast", "balanced", "scientific"])
+    parser.add_argument(
+        "--profile", default="scientific", choices=["fast", "balanced", "scientific"]
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
@@ -123,7 +125,9 @@ def main(argv: list[str] | None = None) -> int:
 
     strata_bin = resolve_strata_bin()
     if strata_bin is None:
-        logger.error("`strata` binary not found on PATH; build with `cargo build -p strata-cli --release`")
+        logger.error(
+            "`strata` binary not found on PATH; build with `cargo build -p strata-cli --release`"
+        )
         return 2
 
     pdfs = sorted(FIXTURES_PDFS.glob("*.pdf"))
@@ -169,7 +173,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if updated:
         write_review_template(updated)
-        logger.info("regenerated %d goldens; please review %s", len(updated), REVIEW_FILE.relative_to(REPO_ROOT))
+        logger.info(
+            "regenerated %d goldens; please review %s",
+            len(updated),
+            REVIEW_FILE.relative_to(REPO_ROOT),
+        )
     else:
         logger.info("no changes")
     return 0

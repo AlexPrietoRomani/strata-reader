@@ -31,9 +31,9 @@ Ejecución:
 from __future__ import annotations
 
 import os
-from pathlib import Path
 import time
-from typing import Dict, List, Any
+from pathlib import Path
+from typing import Any
 
 # Configurar ruta a la biblioteca pdfium en Windows de forma dinamica si no existe en el entorno
 if "STRATA_PDFIUM_LIB_PATH" not in os.environ:
@@ -44,9 +44,7 @@ if "STRATA_PDFIUM_LIB_PATH" not in os.environ:
 import strata_reader
 
 
-def run_strata_benchmark(
-    pdf_files: List[Path], output_dir: Path
-) -> Dict[str, Any]:
+def run_strata_benchmark(pdf_files: list[Path], output_dir: Path) -> dict[str, Any]:
     """
     Ejecuta el procesamiento de PDFs usando Strata-Reader y mide su velocidad.
 
@@ -62,7 +60,7 @@ def run_strata_benchmark(
 
     print(f"[Strata-Reader] Iniciando conversion de {len(pdf_files)} PDFs...")
     start_time = time.time()
-    
+
     results = strata_reader.convert(
         input_path=pdf_files,
         output_dir=output_dir,
@@ -70,7 +68,7 @@ def run_strata_benchmark(
         use_ia=False,
         show_progress=False,
     )
-    
+
     elapsed_time = time.time() - start_time
 
     # Calcular el número total de páginas procesadas exitosamente
@@ -82,9 +80,11 @@ def run_strata_benchmark(
             total_pages += len(parsed_doc)
         except Exception:
             total_pages += 1  # Fallback si falla la lectura de páginas
-            
+
     speed = elapsed_time / total_pages if total_pages > 0 else 0.0
-    print(f"[Strata-Reader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina).")
+    print(
+        f"[Strata-Reader] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina)."
+    )
 
     return {
         "elapsed_time": elapsed_time,
@@ -99,7 +99,7 @@ def main() -> None:
     """
     pdf_dir = Path("tests/fixtures/pdfs/articles")
     pdf_files = sorted(list(pdf_dir.glob("*.pdf")))
-    
+
     if not pdf_files:
         print(f"[ERROR] No se encontraron PDFs de prueba en {pdf_dir.absolute()}")
         return

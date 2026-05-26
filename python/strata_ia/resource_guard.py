@@ -44,9 +44,7 @@ class ResourceExhausted(Exception):
     """Raised by [`guarded`] when free VRAM is below the requested budget."""
 
     def __init__(self, free_mb: int, needed_mb: int):
-        super().__init__(
-            f"resource exhausted: {free_mb} MiB free, {needed_mb} MiB needed"
-        )
+        super().__init__(f"resource exhausted: {free_mb} MiB free, {needed_mb} MiB needed")
         self.free_mb = free_mb
         self.needed_mb = needed_mb
 

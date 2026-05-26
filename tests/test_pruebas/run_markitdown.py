@@ -30,18 +30,15 @@ Ejecución:
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
 import time
-from typing import Dict, List, Any
+from pathlib import Path
+from typing import Any
 
-from markitdown import MarkItDown
 import strata_reader
+from markitdown import MarkItDown
 
 
-def run_markitdown_benchmark(
-    pdf_files: List[Path], output_dir: Path
-) -> Dict[str, Any]:
+def run_markitdown_benchmark(pdf_files: list[Path], output_dir: Path) -> dict[str, Any]:
     """
     Ejecuta el procesamiento de PDFs usando Microsoft MarkItDown y mide su velocidad.
 
@@ -64,7 +61,7 @@ def run_markitdown_benchmark(
             # Ejecutar conversión usando la API de MarkItDown
             result = markitdown.convert(str(pdf_path.absolute()))
             md_content = result.text_content
-            
+
             # Guardar el Markdown extraído
             out_file = output_dir / f"{pdf_path.stem}.md"
             out_file.write_text(md_content, encoding="utf-8")
@@ -82,9 +79,11 @@ def run_markitdown_benchmark(
             total_pages += len(parsed_doc)
         except Exception:
             total_pages += 1  # Fallback mínimo de 1 página por archivo si ocurre algún error
-            
+
     speed = elapsed_time / total_pages if total_pages > 0 else 0.0
-    print(f"[MarkItDown] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina).")
+    print(
+        f"[MarkItDown] Procesadas {total_pages} paginas en {elapsed_time:.3f} s ({speed:.4f} s/pagina)."
+    )
 
     return {
         "elapsed_time": elapsed_time,
@@ -99,7 +98,7 @@ def main() -> None:
     """
     pdf_dir = Path("tests/fixtures/pdfs/articles")
     pdf_files = sorted(list(pdf_dir.glob("*.pdf")))
-    
+
     if not pdf_files:
         print(f"[ERROR] No se encontraron PDFs de prueba en {pdf_dir.absolute()}")
         return

@@ -36,12 +36,11 @@ from __future__ import annotations
 
 import glob
 import json
-from pathlib import Path
-from typing import Dict, List, Optional, Union
 
 # --- Auto-descubrimiento de PDFium Embebido (Fase 13) ---
 import os
 import sys
+from pathlib import Path
 
 _PDFIUM_DIR = Path(__file__).parent / "_pdfium"
 if _PDFIUM_DIR.exists():
@@ -73,17 +72,17 @@ except ImportError as exc:  # pragma: no cover — native module missing
 
 
 def convert(
-    input_path: Union[str, Path, List[Union[str, Path]]],
-    output_dir: Union[str, Path],
+    input_path: str | Path | list[str | Path],
+    output_dir: str | Path,
     format: str = "md+json",
     profile: str = "balanced",
     use_ia: bool = True,
-    max_concurrent_pages: Optional[int] = None,
-    media_dir: Optional[Union[str, Path]] = None,
+    max_concurrent_pages: int | None = None,
+    media_dir: str | Path | None = None,
     save_images: bool = False,
     ollama_endpoint: str = "http://localhost:11434",
     show_progress: bool = True,
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     Convierte uno o más archivos PDF a Markdown semántico y/o JSON estructurado para Graph-RAG.
 
@@ -118,11 +117,11 @@ def convert(
     out_path.mkdir(parents=True, exist_ok=True)
 
     # 3. Resolver lista de PDFs a procesar
-    pdf_files: List[Path] = []
-    
+    pdf_files: list[Path] = []
+
     # Asegurar que input_path sea una lista
     paths_to_process = input_path if isinstance(input_path, list) else [input_path]
-    
+
     for item in paths_to_process:
         item_str = str(item)
         # Comprobar si es un patrón de glob (contiene * o ?)
@@ -154,17 +153,18 @@ def convert(
     if show_progress:
         try:
             from tqdm import tqdm
+
             iterator = tqdm(pdf_files, desc="Procesando PDFs", unit="doc")
         except ImportError:
             # tqdm no instalado, ignorar silenciosamente
             pass
 
-    results: Dict[str, str] = {}
+    results: dict[str, str] = {}
 
     for pdf in iterator:
         pdf_str = str(pdf)
         stem = pdf.stem
-        
+
         # Determinar el directorio de medios dinámico por archivo si no se especifica y save_images es True
         current_media_dir = media_dir_str
         if save_images and not current_media_dir:
@@ -179,28 +179,28 @@ def convert(
                 media_dir=current_media_dir,
                 ollama_endpoint=ollama_endpoint,
             )
-            
+
             # Ejecutar el análisis nativo (Rust core)
             doc = parse(pdf_str, opts)
-            
+
             # Guardar Markdown
             if "md" in format_clean:
                 md_content = doc.to_markdown()
                 md_file = out_path / f"{stem}.md"
                 md_file.write_text(md_content, encoding="utf-8")
-                
+
             # Guardar JSON estructurado
             if "json" in format_clean:
                 graph_dict = doc.to_graph_json()
                 json_content = json.dumps(graph_dict, indent=2, ensure_ascii=False)
                 json_file = out_path / f"{stem}.json"
                 json_file.write_text(json_content, encoding="utf-8")
-                
+
             results[pdf_str] = "success"
         except Exception as e:
-            results[pdf_str] = f"error: {str(e)}"
+            results[pdf_str] = f"error: {e!s}"
 
     return results
 
 
-__all__ = ["Document", "ParseOptions", "parse", "parse_batch", "version", "convert"]
+__all__ = ["Document", "ParseOptions", "convert", "parse", "parse_batch", "version"]

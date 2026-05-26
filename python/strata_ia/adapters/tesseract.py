@@ -61,7 +61,9 @@ def run_tesseract(png_bytes: bytes, lang: str = "eng") -> TesseractResult:
     text = pytesseract.image_to_string(img, lang=lang).strip()  # type: ignore[attr-defined]
 
     data = pytesseract.image_to_data(  # type: ignore[attr-defined]
-        img, lang=lang, output_type=pytesseract.Output.DICT  # type: ignore[attr-defined]
+        img,
+        lang=lang,
+        output_type=pytesseract.Output.DICT,  # type: ignore[attr-defined]
     )
     words: list[tuple[str, tuple[int, int, int, int], float]] = []
     confidences: list[float] = []
@@ -78,7 +80,12 @@ def run_tesseract(png_bytes: bytes, lang: str = "eng") -> TesseractResult:
             continue
         # Tesseract returns confidence in [0, 100].
         conf01 = conf / 100.0
-        box = (int(data["left"][i]), int(data["top"][i]), int(data["width"][i]), int(data["height"][i]))
+        box = (
+            int(data["left"][i]),
+            int(data["top"][i]),
+            int(data["width"][i]),
+            int(data["height"][i]),
+        )
         words.append((t, box, conf01))
         confidences.append(conf01)
 

@@ -46,11 +46,9 @@ Ejecución:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-import os
-from pathlib import Path
 import re
-from typing import Dict, List, Any
+from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
@@ -58,6 +56,7 @@ class DocumentQuality:
     """
     Representa las anomalías y métricas estructurales de un archivo Markdown.
     """
+
     double_spaces: int
     stray_chars: int
     false_headings: int
@@ -77,11 +76,7 @@ def compute_file_quality(file_path: Path) -> DocumentQuality:
     """
     if not file_path.exists():
         return DocumentQuality(
-            double_spaces=0,
-            stray_chars=0,
-            false_headings=0,
-            total_lines=0,
-            accuracy=0.0
+            double_spaces=0, stray_chars=0, false_headings=0, total_lines=0, accuracy=0.0
         )
 
     content = file_path.read_text(encoding="utf-8")
@@ -90,11 +85,7 @@ def compute_file_quality(file_path: Path) -> DocumentQuality:
 
     if total_lines == 0:
         return DocumentQuality(
-            double_spaces=0,
-            stray_chars=0,
-            false_headings=0,
-            total_lines=0,
-            accuracy=1.0
+            double_spaces=0, stray_chars=0, false_headings=0, total_lines=0, accuracy=1.0
         )
 
     # 1. Contar dobles espacios (anomalías de espaciado)
@@ -114,11 +105,11 @@ def compute_file_quality(file_path: Path) -> DocumentQuality:
         if stripped.startswith("#"):
             heading_text = stripped.lstrip("#").strip()
             # Patrón típico de arXiv: arXiv:2104.12345v1
-            if re.match(r"^arXiv:\d{4}\.\d{4,5}(v\d+)?.*$", heading_text, re.IGNORECASE):
-                false_headings += 1
-            elif len(heading_text) <= 2 and not heading_text.isalnum():
-                false_headings += 1
-            elif heading_text.isdigit():
+            if (
+                re.match(r"^arXiv:\d{4}\.\d{4,5}(v\d+)?.*$", heading_text, re.IGNORECASE)
+                or (len(heading_text) <= 2 and not heading_text.isalnum())
+                or heading_text.isdigit()
+            ):
                 false_headings += 1
 
     # Calcular SCE-Accuracy usando la fórmula científica ponderada
@@ -130,11 +121,11 @@ def compute_file_quality(file_path: Path) -> DocumentQuality:
         stray_chars=stray_chars,
         false_headings=false_headings,
         total_lines=total_lines,
-        accuracy=round(accuracy, 4)
+        accuracy=round(accuracy, 4),
     )
 
 
-def compute_extraction_accuracy(engine_dirs: Dict[str, Path]) -> Dict[str, float]:
+def compute_extraction_accuracy(engine_dirs: dict[str, Path]) -> dict[str, float]:
     """
     Orquesta el cálculo de precisión comparativo entre múltiples motores de forma dinámica.
 
@@ -149,7 +140,7 @@ def compute_extraction_accuracy(engine_dirs: Dict[str, Path]) -> Dict[str, float
     reference_engine = "strata"
     if reference_engine not in engine_dirs:
         # Fallback al primer motor si no se encuentra strata
-        reference_engine = list(engine_dirs.keys())[0]
+        reference_engine = next(iter(engine_dirs.keys()))
 
     reference_dir = engine_dirs[reference_engine]
     reference_files = sorted(list(reference_dir.glob("*.md")))
@@ -160,16 +151,18 @@ def compute_extraction_accuracy(engine_dirs: Dict[str, Path]) -> Dict[str, float
         return {f"{engine}_accuracy": 0.0 for engine in engine_dirs}
 
     # Inicializar contenedores de precisiones por motor
-    accuracy_scores: Dict[str, List[float]] = {engine: [] for engine in engine_dirs}
+    accuracy_scores: dict[str, list[float]] = {engine: [] for engine in engine_dirs}
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print(" SUSTENTACIÓN CIENTÍFICA DEL CÁLCULO DE ACCURACY (SCE-ACCURACY)")
-    print("="*80)
+    print("=" * 80)
     print("La métrica SCE-Accuracy mide la cohesión estructural y de diseño del Markdown.")
     print("Se basa en la penalización ponderada de anomalías de espaciado e jerarquía:")
-    print("    SCE-Accuracy = max(0.0, 1.0 - (DoblesEspacios*1 + StrayChars*2 + FalsosHeadings*5) / LineasTotales)")
+    print(
+        "    SCE-Accuracy = max(0.0, 1.0 - (DoblesEspacios*1 + StrayChars*2 + FalsosHeadings*5) / LineasTotales)"
+    )
     print("Metodología adaptada de los estándares de evaluación de ICDAR/ISRI.")
-    print("-"*80)
+    print("-" * 80)
 
     for name in md_names:
         print(f"Archivo: {name}")
@@ -177,22 +170,24 @@ def compute_extraction_accuracy(engine_dirs: Dict[str, Path]) -> Dict[str, float
             file_path = out_dir / name
             quality = compute_file_quality(file_path)
             accuracy_scores[engine].append(quality.accuracy)
-            
-            print(f"  [{engine.upper()}] Lineas: {quality.total_lines} | "
-                  f"DoblesEsp: {quality.double_spaces} | Stray: {quality.stray_chars} | "
-                  f"FalsoHead: {quality.false_headings} -> Acc: {quality.accuracy:.4f}")
+
+            print(
+                f"  [{engine.upper()}] Lineas: {quality.total_lines} | "
+                f"DoblesEsp: {quality.double_spaces} | Stray: {quality.stray_chars} | "
+                f"FalsoHead: {quality.false_headings} -> Acc: {quality.accuracy:.4f}"
+            )
         print("-" * 50)
 
-    global_accuracies: Dict[str, float] = {}
-    print("="*80)
+    global_accuracies: dict[str, float] = {}
+    print("=" * 80)
     print("SCE-Accuracy Promedio Global:")
-    
+
     for engine, scores in accuracy_scores.items():
         avg_acc = sum(scores) / len(scores) if scores else 0.0
         global_accuracies[f"{engine}_accuracy"] = round(avg_acc, 4)
-        print(f"  - {engine.capitalize():<18}: {avg_acc:.4f} ({avg_acc*100:.2f}%)")
-        
-    print("="*80 + "\n")
+        print(f"  - {engine.capitalize():<18}: {avg_acc:.4f} ({avg_acc * 100:.2f}%)")
+
+    print("=" * 80 + "\n")
 
     return global_accuracies
 
@@ -204,14 +199,16 @@ def main() -> None:
     engine_dirs = {
         "strata": Path("tests/fixtures/salidas/strata-reader-output"),
         "opendataloader": Path("tests/fixtures/salidas/opendataloader-pdf"),
-        "markitdown": Path("tests/fixtures/salidas/markitdown-pdf")
+        "markitdown": Path("tests/fixtures/salidas/markitdown-pdf"),
     }
 
     # Verificar existencia mínima de directorios
     missing = [name for name, path in engine_dirs.items() if not path.exists()]
     if missing:
-        print(f"[ERROR] Los siguientes directorios de salida no existen: {missing}.\n"
-              "Asegúrate de ejecutar los benchmarks primero.")
+        print(
+            f"[ERROR] Los siguientes directorios de salida no existen: {missing}.\n"
+            "Asegúrate de ejecutar los benchmarks primero."
+        )
         return
 
     compute_extraction_accuracy(engine_dirs)

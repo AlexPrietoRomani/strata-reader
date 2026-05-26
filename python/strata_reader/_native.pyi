@@ -39,8 +39,6 @@ class Document:
 def parse(path: str, options: ParseOptions | None = None) -> Document:
     """Parse a single PDF and return a :class:`Document`."""
 
-def parse_batch(
-    paths: list[str], options: ParseOptions | None = None
-) -> dict[str, Document | str]:
+def parse_batch(paths: list[str], options: ParseOptions | None = None) -> dict[str, Document | str]:
     """Parse multiple PDFs. Values are :class:`Document` on success and an
     error string on failure (one dict entry per input path)."""

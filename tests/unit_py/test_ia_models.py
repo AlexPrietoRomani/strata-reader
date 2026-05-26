@@ -75,7 +75,9 @@ def test_table_result_round_trip() -> None:
 
 
 def test_image_description_alt_text_aliased() -> None:
-    img = ImageDescription(caption="cat", description="A cute cat", alt_text="cat photo", confidence=0.85)
+    img = ImageDescription(
+        caption="cat", description="A cute cat", alt_text="cat photo", confidence=0.85
+    )
     j = img.model_dump_json(by_alias=True)
     assert '"altText":"cat photo"' in j
 
@@ -86,7 +88,9 @@ def test_formula_result_accepts_mathml_null() -> None:
 
 
 def test_provenance_round_trip() -> None:
-    p = Provenance(model_id="qwen2.5vl:7b", backend="ollama", latency_ms=230, retries=1, cache_hit=False)
+    p = Provenance(
+        model_id="qwen2.5vl:7b", backend="ollama", latency_ms=230, retries=1, cache_hit=False
+    )
     payload = p.model_dump(by_alias=True)
     assert payload["modelId"] == "qwen2.5vl:7b"
     assert payload["cacheHit"] is False

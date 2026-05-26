@@ -102,7 +102,9 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
             wrap=_wrap_ocr,
         )
 
-    async def ExtractTable(self, request: pb.Crop, context: grpc.aio.ServicerContext) -> pb.TableResponse:
+    async def ExtractTable(
+        self, request: pb.Crop, context: grpc.aio.ServicerContext
+    ) -> pb.TableResponse:
         return await self._run_unary(
             request=request,
             context=context,
@@ -112,7 +114,9 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
             wrap=_wrap_table,
         )
 
-    async def DescribeImage(self, request: pb.Crop, context: grpc.aio.ServicerContext) -> pb.ImageResponse:
+    async def DescribeImage(
+        self, request: pb.Crop, context: grpc.aio.ServicerContext
+    ) -> pb.ImageResponse:
         return await self._run_unary(
             request=request,
             context=context,
@@ -122,7 +126,9 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
             wrap=_wrap_image,
         )
 
-    async def OcrFormula(self, request: pb.Crop, context: grpc.aio.ServicerContext) -> pb.FormulaResponse:
+    async def OcrFormula(
+        self, request: pb.Crop, context: grpc.aio.ServicerContext
+    ) -> pb.FormulaResponse:
         return await self._run_unary(
             request=request,
             context=context,
@@ -195,7 +201,9 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         try:
             parsed = pyd_model.model_validate_json(result.text)  # type: ignore[attr-defined]
         except ValidationError as exc:
-            await context.abort(grpc.StatusCode.INTERNAL, f"VLM returned malformed JSON: {exc.errors()}")
+            await context.abort(
+                grpc.StatusCode.INTERNAL, f"VLM returned malformed JSON: {exc.errors()}"
+            )
             raise
 
         latency_ms = int((time.perf_counter() - start) * 1000)
@@ -320,7 +328,9 @@ def _attach_minimal_health(server: grpc.aio.Server) -> None:
             response_serializer=bytes,
         ),
     }
-    handler = grpc.method_handlers_generic_handler(HEALTH_SERVICE_DESCRIPTOR_NAME, rpc_method_handlers)
+    handler = grpc.method_handlers_generic_handler(
+        HEALTH_SERVICE_DESCRIPTOR_NAME, rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((handler,))
 
 

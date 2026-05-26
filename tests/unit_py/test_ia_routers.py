@@ -50,7 +50,9 @@ async def test_extract_table_happy_path() -> None:
         return httpx.Response(200, json={"response": json.dumps(vlm_payload)})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/extract/table", json=_crop_payload())
     assert resp.status_code == 200, resp.text
     body = resp.json()
@@ -73,7 +75,9 @@ async def test_describe_image_happy_path() -> None:
         return httpx.Response(200, json={"response": json.dumps(vlm_payload)})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/describe/image", json=_crop_payload())
     assert resp.status_code == 200
     body = resp.json()
@@ -89,7 +93,9 @@ async def test_ocr_formula_happy_path() -> None:
         return httpx.Response(200, json={"response": json.dumps(vlm_payload)})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/ocr/formula", json=_crop_payload())
     assert resp.status_code == 200
     body = resp.json()
@@ -103,7 +109,9 @@ async def test_table_500_translated_to_502() -> None:
         return httpx.Response(500, json={"error": "boom"})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/extract/table", json=_crop_payload())
     assert resp.status_code == 502
 
@@ -114,7 +122,9 @@ async def test_table_connect_error_translated_to_503() -> None:
         raise httpx.ConnectError("nope")
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/extract/table", json=_crop_payload())
     assert resp.status_code == 503
 
@@ -125,14 +135,18 @@ async def test_invalid_json_from_vlm_returns_502() -> None:
         return httpx.Response(200, json={"response": "<this is not json>"})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/extract/table", json=_crop_payload())
     assert resp.status_code == 502
     assert "malformed" in resp.json()["detail"].lower()
 
 
 @pytest.mark.asyncio
-async def test_ocr_page_falls_back_to_ollama_when_no_local_ocr(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_ocr_page_falls_back_to_ollama_when_no_local_ocr(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     # Force both Surya and Tesseract to report unavailable.
     from strata_ia.adapters import surya as surya_mod
     from strata_ia.adapters import tesseract as tess_mod
@@ -146,7 +160,9 @@ async def test_ocr_page_falls_back_to_ollama_when_no_local_ocr(monkeypatch: pyte
         return httpx.Response(200, json={"response": json.dumps(vlm_payload)})
 
     app = _make_app(handler)
-    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as ac:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://test"
+    ) as ac:
         resp = await ac.post("/v1/ocr/page", json=_crop_payload())
     assert resp.status_code == 200
     body = resp.json()

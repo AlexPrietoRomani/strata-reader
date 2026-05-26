@@ -64,9 +64,7 @@ class OllamaClient:
         self._seed = seed
         self._temperature = temperature
         self._owns_client = http_client is None
-        self._http = http_client or httpx.AsyncClient(
-            timeout=timeout_s, base_url=self._endpoint
-        )
+        self._http = http_client or httpx.AsyncClient(timeout=timeout_s, base_url=self._endpoint)
 
     async def __aenter__(self) -> OllamaClient:
         return self
@@ -118,7 +116,9 @@ class OllamaClient:
         retry = AsyncRetrying(
             stop=stop_after_attempt(self._retry_attempts),
             wait=wait_exponential(multiplier=0.5, min=0.5, max=5.0),
-            retry=retry_if_exception_type((httpx.HTTPStatusError, httpx.ConnectError, httpx.ReadTimeout)),
+            retry=retry_if_exception_type(
+                (httpx.HTTPStatusError, httpx.ConnectError, httpx.ReadTimeout)
+            ),
             reraise=False,
         )
 
@@ -128,7 +128,9 @@ class OllamaClient:
                     resp = await self._http.post("/api/generate", json=payload)
                     resp.raise_for_status()
                     body: dict[str, Any] = resp.json()
-                    return GenerateResult(text=str(body.get("response", "")), raw_response=body, model=model)
+                    return GenerateResult(
+                        text=str(body.get("response", "")), raw_response=body, model=model
+                    )
         except RetryError as exc:
             cause = exc.last_attempt.exception()
             logger.warning("ollama_retry_exhausted", model=model, error=str(cause))

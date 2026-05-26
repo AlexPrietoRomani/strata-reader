@@ -31,7 +31,9 @@ async def get_config(request: Request) -> IaConfig:
     return config
 
 
-@router.post("/image", response_model=ImageDescriptionResponse, summary="Describe an embedded image")
+@router.post(
+    "/image", response_model=ImageDescriptionResponse, summary="Describe an embedded image"
+)
 async def describe_image(
     crop: Crop,
     ollama: OllamaClient = Depends(get_ollama),
@@ -54,7 +56,9 @@ async def describe_image(
         parsed = ImageDescription.model_validate_json(result.text)
     except ValidationError as exc:
         logger.warning("vlm_image_invalid_json", error=exc.errors())
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON") from exc
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, detail="VLM returned malformed JSON"
+        ) from exc
 
     latency_ms = int((time.perf_counter() - start) * 1000)
     return ImageDescriptionResponse(

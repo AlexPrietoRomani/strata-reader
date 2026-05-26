@@ -76,12 +76,12 @@ def strata_bin() -> str:
     """
     # Preferir siempre los binarios reales compilados localmente en target/ antes del PATH
     bin_path = None
-    
+
     # Intento 1: target/release en raíz del repositorio
     candidate = REPO_ROOT / "target" / "release" / ("strata.exe" if os.name == "nt" else "strata")
     if candidate.exists():
         bin_path = str(candidate)
-        
+
     # Intento 2: target/debug en raíz del repositorio
     if bin_path is None:
         candidate = REPO_ROOT / "target" / "debug" / ("strata.exe" if os.name == "nt" else "strata")

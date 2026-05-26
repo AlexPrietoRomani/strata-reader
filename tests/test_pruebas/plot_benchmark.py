@@ -40,7 +40,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Dict, List, Any
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -50,20 +49,16 @@ import seaborn as sns
 DISPLAY_NAMES = {
     "strata": "Strata-Reader (Rust Native)",
     "opendataloader": "OpenDataLoader (Baseline)",
-    "markitdown": "MarkItDown (Microsoft)"
+    "markitdown": "MarkItDown (Microsoft)",
 }
 
 ACC_COLORS = {
-    "strata": "#3b82f6",          # Azul premium
+    "strata": "#3b82f6",  # Azul premium
     "opendataloader": "#94a3b8",  # Gris suave
-    "markitdown": "#ec4899"       # Fucsia/Rosa premium de Microsoft
+    "markitdown": "#ec4899",  # Fucsia/Rosa premium de Microsoft
 }
 
-SPEED_COLORS = {
-    "strata": "#2563eb",
-    "opendataloader": "#64748b",
-    "markitdown": "#db2777"
-}
+SPEED_COLORS = {"strata": "#2563eb", "opendataloader": "#64748b", "markitdown": "#db2777"}
 
 
 def generate_benchmark_plot() -> None:
@@ -77,7 +72,7 @@ def generate_benchmark_plot() -> None:
         ValueError: Si faltan las métricas obligatorias para Strata y ODL.
     """
     metrics_path = Path("tests/fixtures/salidas/strata_real_metrics.json")
-    
+
     if not metrics_path.is_file():
         raise FileNotFoundError(
             f"El archivo de metricas consolidadas no existe en: {metrics_path.absolute()}\n"
@@ -87,10 +82,15 @@ def generate_benchmark_plot() -> None:
     try:
         metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
     except Exception as e:
-        raise ValueError(f"Error al decodificar el archivo JSON de metricas: {e}")
+        raise ValueError(f"Error al decodificar el archivo JSON de metricas: {e}") from e
 
     # Validar presencia mínima de las metricas base
-    required_keys = ["strata_speed", "opendataloader_speed", "strata_accuracy", "opendataloader_accuracy"]
+    required_keys = [
+        "strata_speed",
+        "opendataloader_speed",
+        "strata_accuracy",
+        "opendataloader_accuracy",
+    ]
     missing_keys = [k for k in required_keys if k not in metrics]
     if missing_keys:
         raise ValueError(
@@ -98,8 +98,8 @@ def generate_benchmark_plot() -> None:
         )
 
     # Descubrir dinámicamente los motores evaluados inspeccionando las claves que terminan en '_speed'
-    engines: List[str] = []
-    for key in metrics.keys():
+    engines: list[str] = []
+    for key in metrics:
         if key.endswith("_speed"):
             engine_name = key[:-6]
             acc_key = f"{engine_name}_accuracy"
@@ -110,16 +110,18 @@ def generate_benchmark_plot() -> None:
     data = []
     for engine in engines:
         display_name = DISPLAY_NAMES.get(engine, engine.capitalize())
-        acc_color = ACC_COLORS.get(engine, "#10b981")    # Fallback verde
+        acc_color = ACC_COLORS.get(engine, "#10b981")  # Fallback verde
         speed_color = SPEED_COLORS.get(engine, "#059669")
-        
-        data.append({
-            "Engine": display_name,
-            "Accuracy": metrics[f"{engine}_accuracy"],
-            "Speed": metrics[f"{engine}_speed"],
-            "Color_Acc": acc_color,
-            "Color_Speed": speed_color
-        })
+
+        data.append(
+            {
+                "Engine": display_name,
+                "Accuracy": metrics[f"{engine}_accuracy"],
+                "Speed": metrics[f"{engine}_speed"],
+                "Color_Acc": acc_color,
+                "Color_Speed": speed_color,
+            }
+        )
 
     # Crear DataFrame y ordenar de menor a mayor velocidad (Strata primero)
     df = pd.DataFrame(data)
@@ -129,78 +131,86 @@ def generate_benchmark_plot() -> None:
     sns.set_theme(style="whitegrid")
     fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
     fig.suptitle(
-        "Scientific PDF Parsing Benchmark", 
-        fontsize=18, 
-        y=0.98, 
-        fontweight='bold', 
-        color="#0f172a"
+        "Scientific PDF Parsing Benchmark", fontsize=18, y=0.98, fontweight="bold", color="#0f172a"
     )
     plt.figtext(
-        0.5, 
-        0.90, 
-        "Multi-Engine PDF to Markdown Extraction · Evaluacion Empirica de Rendimiento", 
-        ha="center", 
-        fontsize=11, 
-        color="#64748b"
+        0.5,
+        0.90,
+        "Multi-Engine PDF to Markdown Extraction · Evaluacion Empirica de Rendimiento",
+        ha="center",
+        fontsize=11,
+        color="#64748b",
     )
 
     # --- Subgrafico 1: Extraction Accuracy ---
     ax1 = axes[0]
-    bars1 = ax1.barh(df['Engine'], df['Accuracy'], color=df['Color_Acc'], height=0.45)
-    ax1.set_title("Extraction Accuracy (SCE-Accuracy)", fontsize=13, pad=12, fontweight='semibold', color="#1e293b")
+    bars1 = ax1.barh(df["Engine"], df["Accuracy"], color=df["Color_Acc"], height=0.45)
+    ax1.set_title(
+        "Extraction Accuracy (SCE-Accuracy)",
+        fontsize=13,
+        pad=12,
+        fontweight="semibold",
+        color="#1e293b",
+    )
     ax1.set_xlabel("Accuracy Score", fontsize=11, labelpad=8)
     ax1.set_xlim(0, 1.05)
-    ax1.tick_params(axis='both', labelsize=10)
-    ax1.grid(axis='y', linestyle='')  # Ocultar lineas horizontales de la grilla
-    
+    ax1.tick_params(axis="both", labelsize=10)
+    ax1.grid(axis="y", linestyle="")  # Ocultar lineas horizontales de la grilla
+
     # Agregar etiquetas con los valores en cada barra
     for bar in bars1:
         width = bar.get_width()
         ax1.text(
-            width + 0.01, 
-            bar.get_y() + bar.get_height()/2, 
-            f'{width:.4f}', 
-            ha='left', 
-            va='center', 
-            fontsize=10, 
-            fontweight='bold', 
-            color="#1e293b"
+            width + 0.01,
+            bar.get_y() + bar.get_height() / 2,
+            f"{width:.4f}",
+            ha="left",
+            va="center",
+            fontsize=10,
+            fontweight="bold",
+            color="#1e293b",
         )
 
     # --- Subgrafico 2: Extraction Time Per Page ---
     ax2 = axes[1]
-    bars2 = ax2.barh(df['Engine'], df['Speed'], color=df['Color_Speed'], height=0.45)
-    ax2.set_title("Extraction Speed (Seconds Per Page)", fontsize=13, pad=12, fontweight='semibold', color="#1e293b")
+    bars2 = ax2.barh(df["Engine"], df["Speed"], color=df["Color_Speed"], height=0.45)
+    ax2.set_title(
+        "Extraction Speed (Seconds Per Page)",
+        fontsize=13,
+        pad=12,
+        fontweight="semibold",
+        color="#1e293b",
+    )
     ax2.set_xlabel("Seconds (lower is better)", fontsize=11, labelpad=8)
-    
+
     # Usar escala lineal con margen visual dinámico
-    max_speed = df['Speed'].max()
+    max_speed = df["Speed"].max()
     ax2.set_xlim(0, max_speed * 1.15)
-    ax2.tick_params(axis='both', labelsize=10)
-    ax2.grid(axis='y', linestyle='')
-    
+    ax2.tick_params(axis="both", labelsize=10)
+    ax2.grid(axis="y", linestyle="")
+
     # Agregar etiquetas con los valores en cada barra
     for bar in bars2:
         width = bar.get_width()
         ax2.text(
-            width + (max_speed * 0.01), 
-            bar.get_y() + bar.get_height()/2, 
-            f'{width:.4f} s', 
-            ha='left', 
-            va='center', 
-            fontsize=10, 
-            fontweight='bold', 
-            color="#1e293b"
+            width + (max_speed * 0.01),
+            bar.get_y() + bar.get_height() / 2,
+            f"{width:.4f} s",
+            ha="left",
+            va="center",
+            fontsize=10,
+            fontweight="bold",
+            color="#1e293b",
         )
 
     # Ajustes finales de diseño
     plt.tight_layout(rect=[0, 0, 1, 0.88])
-    
+
     # Guardar en alta resolución
     out_dir = Path("tests/fixtures/salidas")
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "benchmark_comparison.png"
-    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.savefig(out_path, dpi=300, bbox_inches="tight")
     print(f"Grafico comparativo generado de forma exitosa en: {out_path.absolute()}")
 
 

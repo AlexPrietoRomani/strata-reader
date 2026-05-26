@@ -41,14 +41,13 @@ Argumentos:
 from __future__ import annotations
 
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import sys
-from typing import Optional
+from pathlib import Path
 
 
-def find_strata_binary() -> Optional[str]:
+def find_strata_binary() -> str | None:
     """
     Busca el binario nativo compilado de Rust 'strata' en cascada de fallbacks.
 
@@ -61,12 +60,12 @@ def find_strata_binary() -> Optional[str]:
     """
     package_dir = Path(__file__).parent
     ext = ".exe" if os.name == "nt" else ""
-    
+
     # 1. Buscar en el directorio del paquete Python (empaquetado del wheel)
     package_bin = package_dir / f"strata{ext}"
     if package_bin.is_file():
         return str(package_bin)
-        
+
     # 2. Buscar en los directorios de compilación de Rust locales (Workspace)
     current = package_dir.resolve()
     for _ in range(5):

@@ -147,7 +147,9 @@ def _fmt(value: float | None, fmt: str = "{:.3f}") -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pdf", help="run on a single fixture (filename under tests/fixtures/pdfs/)")
+    parser.add_argument(
+        "--pdf", help="run on a single fixture (filename under tests/fixtures/pdfs/)"
+    )
     parser.add_argument("--opendataloader-jar", type=Path, help="path to opendataloader-pdf JAR")
     parser.add_argument(
         "--report",
@@ -188,7 +190,9 @@ def main(argv: list[str] | None = None) -> int:
         if not pdf.exists():
             logger.warning("missing fixture: %s", pdf)
             continue
-        strata_score = run_strata(pdf, tmp, strata_bin) if strata_bin else Score(None, None, None, None, None)
+        strata_score = (
+            run_strata(pdf, tmp, strata_bin) if strata_bin else Score(None, None, None, None, None)
+        )
         rows.append((pdf.name, "strata-reader", strata_score))
 
         if args.opendataloader_jar and args.opendataloader_jar.exists():

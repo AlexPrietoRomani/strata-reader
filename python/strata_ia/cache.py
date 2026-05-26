@@ -83,9 +83,7 @@ class ResultCache:
     async def prune_older_than(self, days: int) -> int:
         """Delete entries older than ``days`` days. Returns rows removed."""
         threshold = time.time() - (days * 86_400)
-        cursor = await self._conn.execute(
-            "DELETE FROM cache WHERE created_at < ?", (threshold,)
-        )
+        cursor = await self._conn.execute("DELETE FROM cache WHERE created_at < ?", (threshold,))
         await self._conn.commit()
         return cursor.rowcount
 
