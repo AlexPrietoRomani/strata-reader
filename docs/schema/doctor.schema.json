@@ -12,7 +12,8 @@
     "vram_mb",
     "ollama_models",
     "ollama_reachable",
-    "fixtures_present"
+    "fixtures_present",
+    "pdf_backend"
   ],
   "properties": {
     "rust_version": {
@@ -44,6 +45,10 @@
       "items": { "type": "string" }
     },
     "ollama_reachable": { "type": "boolean" },
-    "fixtures_present": { "type": "boolean" }
+    "fixtures_present": { "type": "boolean" },
+    "pdf_backend": {
+      "type": "string",
+      "enum": ["pdfium", "pure-rust"]
+    }
   }
 }

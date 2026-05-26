@@ -118,7 +118,7 @@ fn sha256_file(path: &std::path::Path) -> PyResult<String> {
     Ok(format!("{hash:x}"))
 }
 
-/// Parse a single PDF using the native Rust geometry and PDFium extraction pipeline.
+/// Parse a single PDF using the native Rust geometry and abstract backend extraction pipeline.
 #[pyfunction]
 #[pyo3(signature = (path, options = None))]
 fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> {
@@ -145,15 +145,13 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
 
     for page_idx in 0..page_count {
         let page = decoder
-            .pages()
-            .get(page_idx as i32)
+            .page(page_idx)
             .map_err(|e| PyValueError::new_err(format!("page {page_idx}: {e}")))?;
-        let page_w = page.width().value;
-        let page_h = page.height().value;
+        let (page_w, page_h) = page.size();
 
-        // Raw extraction
-        let glyphs = strata_pdf::extract_glyphs(&page).unwrap_or_default();
-        let images = strata_pdf::extract_images(&page).unwrap_or_default();
+        // Raw extraction using the abstract traits
+        let glyphs = page.glyphs().unwrap_or_default();
+        let images = page.images().unwrap_or_default();
 
         // 3. Geometry and noise filtering
         let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs

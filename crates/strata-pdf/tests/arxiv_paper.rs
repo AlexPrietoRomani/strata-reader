@@ -1,21 +1,15 @@
 //! End-to-end test against the real arXiv 1706.03762 fixture.
 //!
-//! Skips gracefully when:
-//!   - The libpdfium binary is not available on the host (CI without IT
-//!     allowlist, dev machine without `STRATA_PDFIUM_LIB_PATH`).
-//!   - The fixture file is missing.
-//!
-//! See `docs/task/tareas.md` T2.1.A2.1.2.AC and T2.2.A2.2.{1,2,3,4}.
+//! Skips gracefully when libpdfium is not available.
+
+#![cfg(feature = "pdfium-backend")]
 
 use std::path::PathBuf;
 
-use strata_pdf::{
-    extract_glyphs, extract_images, extract_paths, is_likely_scan, pdfium_available, Decoder,
-};
+use strata_pdf::{pdfium_available, Decoder};
 
 fn fixture_path() -> Option<PathBuf> {
     let mut p = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    // crates/strata-pdf/ → repo root → tests/fixtures/pdfs/two_column_paper.pdf
     p.pop();
     p.pop();
     p.push("tests/fixtures/pdfs/two_column_paper.pdf");
@@ -51,16 +45,14 @@ fn first_page_has_glyphs() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 should exist");
-    let glyphs = extract_glyphs(&page).expect("glyph extraction must not error");
+    let page = dec.page(0).expect("page 0 should exist");
+    let glyphs = page.glyphs().expect("glyph extraction must not error");
     assert!(
         glyphs.len() > 100,
         "page 1 of a paper should have hundreds of glyphs, got {}",
         glyphs.len()
     );
-    // All glyph BBoxes should fit within or close to the page.
-    let media_w = page.width().value;
-    let media_h = page.height().value;
+    let (media_w, media_h) = page.size();
     for g in &glyphs {
         if !(g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0) || !(g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0) {
             println!(
@@ -86,10 +78,8 @@ fn extracts_vector_paths_without_panic() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 should exist");
-    let paths = extract_paths(&page).expect("path extraction must not error");
-    // We don't assert a count — the paper may or may not have vector primitives
-    // on page 1. The contract is: no panic, all paths have ≥ 1 segment.
+    let page = dec.page(0).expect("page 0 should exist");
+    let paths = page.paths().expect("path extraction must not error");
     for p in &paths {
         assert!(!p.segments.is_empty());
     }
@@ -100,8 +90,8 @@ fn extracts_images_without_panic() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 should exist");
-    let _ = extract_images(&page).expect("image extraction must not error");
+    let page = dec.page(0).expect("page 0 should exist");
+    let _ = page.images().expect("image extraction must not error");
 }
 
 #[test]
@@ -109,8 +99,8 @@ fn arxiv_paper_is_not_a_scan() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 should exist");
-    let is_scan = is_likely_scan(&page).expect("scan detector must not error");
+    let page = dec.page(0).expect("page 0 should exist");
+    let is_scan = strata_pdf::is_likely_scan(page.as_ref()).expect("scan detector must not error");
     assert!(
         !is_scan,
         "the arXiv PDF has native text; is_likely_scan must return false"

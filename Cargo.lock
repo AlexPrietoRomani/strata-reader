@@ -2837,7 +2837,6 @@ version = "0.1.0"
 dependencies = [
  "image",
  "insta",
- "pdfium-render",
  "proptest",
  "serde",
  "serde_json",

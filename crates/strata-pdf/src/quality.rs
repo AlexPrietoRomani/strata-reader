@@ -5,10 +5,8 @@
 //! glyphs. The result drives the Triage Engine (Plan Maestro §9.T4.2): scan
 //! pages skip native extraction entirely and go directly to OCR.
 
-use pdfium_render::prelude::*;
-
-use crate::glyph::extract_glyphs;
-use crate::image::extract_images;
+use crate::backend::PdfPage;
+use crate::decoder::DecoderError;
 
 /// Coverage threshold above which a page is considered "image-dominated".
 const IMAGE_AREA_RATIO_THRESHOLD: f32 = 0.7;
@@ -16,26 +14,26 @@ const IMAGE_AREA_RATIO_THRESHOLD: f32 = 0.7;
 const MIN_GLYPHS_FOR_TEXT_PAGE: usize = 10;
 
 /// Returns `true` when the page is *probably* a scan rather than native PDF
-/// text. The heuristic is intentionally conservative — false positives waste
-/// OCR time, false negatives hurt fidelity more.
+/// text. The heuristic is intentionally conservative.
 ///
 /// Rule (from Plan Maestro §7.T2.5):
 ///
 /// ```text
 ///   image_area / page_area > 0.7   AND   glyph_count < 10
 /// ```
-pub fn is_likely_scan(page: &PdfPage<'_>) -> Result<bool, PdfiumError> {
-    let page_area = page.width().value * page.height().value;
+pub fn is_likely_scan(page: &dyn PdfPage) -> Result<bool, DecoderError> {
+    let (w, h) = page.size();
+    let page_area = w * h;
     if page_area <= 0.0 {
         return Ok(false);
     }
 
-    let glyph_count = extract_glyphs(page)?.len();
+    let glyph_count = page.glyphs()?.len();
     if glyph_count >= MIN_GLYPHS_FOR_TEXT_PAGE {
         return Ok(false);
     }
 
-    let images = extract_images(page)?;
+    let images = page.images()?;
     let image_area: f32 = images.iter().map(|i| i.bbox.area()).sum();
     let ratio = image_area / page_area;
     Ok(ratio > IMAGE_AREA_RATIO_THRESHOLD)

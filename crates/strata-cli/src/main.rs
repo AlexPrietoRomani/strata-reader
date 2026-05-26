@@ -3,10 +3,10 @@
 //! Subcommands:
 //!
 //! - `parse <input> [--output DIR] [--format md|json|md+json]
-//!     [--profile fast|balanced|scientific] [--no-ia]`.
+//!     [--profile fast|balanced|scientific] [--no-ia] [--pdf-backend pdfium|pure|auto]`.
 //! - `serve [--bind ADDR] [--store memory|sqlite:PATH]`.
 //! - `bench [--suite NAME]`.
-//! - `doctor` — environment diagnostic (host, GPU, Ollama tags, fixtures).
+//! - `doctor` — environment diagnostic (host, GPU, Ollama tags, fixtures, backend).
 //! - `cache prune --older-than-days N`.
 //! - `models list [--endpoint URL]`.
 
@@ -47,8 +47,7 @@ enum Cmd {
         #[arg(long, default_value = "balanced", value_parser = ["fast", "balanced", "scientific"])]
         profile: String,
         /// Disable the IA bridge entirely — pure native extraction (no
-        /// VLM tables, no OCR). Useful in air-gapped environments and
-        /// for the `[no-ia]` pip extra.
+        /// VLM tables, no OCR).
         #[arg(long)]
         no_ia: bool,
         /// Override the Ollama endpoint (ignored when `--no-ia`).
@@ -70,6 +69,9 @@ enum Cmd {
         /// Save extracted figures/images to disk.
         #[arg(long)]
         save_images: bool,
+        /// Selection of PDF decoder backend.
+        #[arg(long, default_value = "auto", value_parser = ["pdfium", "pure", "auto"])]
+        pdf_backend: String,
     },
 
     /// Run the microservice (axum HTTP server).
@@ -87,7 +89,7 @@ enum Cmd {
         suite: Option<String>,
     },
 
-    /// Environment diagnostics (Rust, GPU/VRAM, Ollama, fixtures).
+    /// Environment diagnostics (Rust, GPU/VRAM, Ollama, fixtures, backend).
     Doctor {
         /// Watch mode: refresh metrics each 500ms.
         #[arg(long)]
@@ -147,7 +149,7 @@ struct DoctorReport {
     ollama_models: Vec<String>,
     ollama_reachable: bool,
     fixtures_present: bool,
-    capabilities: strata_runtime::Capabilities,
+    pdf_backend: &'static str,
 }
 
 #[derive(Serialize)]
@@ -215,6 +217,12 @@ fn fixtures_present() -> bool {
 async fn cmd_doctor(ollama_endpoint: &str) -> anyhow::Result<()> {
     let (gpu_info, vram_mb) = detect_gpu_info();
     let (ollama_models, ollama_reachable) = list_ollama_models(ollama_endpoint).await;
+    
+    #[cfg(feature = "pdfium-backend")]
+    let active_backend = "pdfium";
+    #[cfg(not(feature = "pdfium-backend"))]
+    let active_backend = "pure-rust";
+
     let report = DoctorReport {
         rust_version: env!("CARGO_PKG_RUST_VERSION"),
         strata_version: env!("CARGO_PKG_VERSION"),
@@ -223,7 +231,7 @@ async fn cmd_doctor(ollama_endpoint: &str) -> anyhow::Result<()> {
         ollama_models,
         ollama_reachable,
         fixtures_present: fixtures_present(),
-        capabilities: strata_runtime::Capabilities::detect(),
+        pdf_backend: active_backend,
     };
     println!("{}", serde_json::to_string_pretty(&report)?);
     Ok(())
@@ -280,17 +288,15 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
 
     for page_idx in 0..page_count {
         let page = decoder
-            .pages()
-            .get(page_idx as i32)
+            .page(page_idx)
             .map_err(|e| anyhow::anyhow!("page {page_idx}: {e}"))?;
-        let page_w = page.width().value;
-        let page_h = page.height().value;
+        let (page_w, page_h) = page.size();
 
-        // Raw extraction
-        let glyphs = strata_pdf::extract_glyphs(&page).unwrap_or_default();
-        let _paths = strata_pdf::extract_paths(&page).unwrap_or_default();
-        let images = strata_pdf::extract_images(&page).unwrap_or_default();
-        let is_scan = strata_pdf::is_likely_scan(&page).unwrap_or(false);
+        // Raw extraction using abstract PdfPage trait
+        let glyphs = page.glyphs().unwrap_or_default();
+        let _paths = page.paths().unwrap_or_default();
+        let images = page.images().unwrap_or_default();
+        let is_scan = strata_pdf::is_likely_scan(page.as_ref()).unwrap_or(false);
 
         tracing::debug!(
             page = page_idx,
@@ -301,7 +307,6 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
         );
 
         // ── 3. Geometría y Filtrado de Ruido ───────────────────────────
-        // Agrupamos los glifos en líneas físicas iniciales.
         let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs
             .iter()
             .map(|g| strata_geometry::GlyphInput {
@@ -312,11 +317,9 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
             .collect();
         let lines = strata_geometry::cluster_lines(&glyph_inputs);
 
-        // Determinamos la caja delimitadora de la página.
         let page_bbox = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
             .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
 
-        // Aplicamos el filtro de ruido para eliminar cabeceras/pies, marcas de agua de arXiv, etc.
         let filtered_lines = strata_geometry::filter_noise_lines(&lines, &glyph_inputs, page_bbox);
 
         // ── 4. Clasificación y Agrupación de Bloques Semánticos ────────
@@ -344,10 +347,7 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
             line_texts.push(content);
         }
 
-        // Clasificamos las cabeceras basándonos en tamaño de fuente, posición y filtros de contenido.
         let headings = strata_geometry::classify_headings(&line_font_sizes, &line_bboxes, &line_texts, page_bbox);
-
-        // Agrupamos las líneas filtradas en párrafos semánticos o títulos independientes.
         let paragraph_groups = strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
 
         for group in paragraph_groups {
@@ -504,18 +504,22 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
 }
 
 #[derive(Debug)]
-#[allow(dead_code)]
 struct ParseArgs {
     input: std::path::PathBuf,
     output: std::path::PathBuf,
     format: String,
     profile: String,
     no_ia: bool,
+    #[allow(dead_code)]
     ollama_endpoint: String,
+    #[allow(dead_code)]
     gpu_budget_vram_mb: Option<u64>,
+    #[allow(dead_code)]
     max_concurrent_pages: Option<usize>,
     media_dir: Option<std::path::PathBuf>,
     save_images: bool,
+    #[allow(dead_code)]
+    pdf_backend: String,
 }
 
 async fn cmd_bench(suite: Option<&str>) -> anyhow::Result<()> {
@@ -577,6 +581,7 @@ async fn main() -> ExitCode {
             max_concurrent_pages,
             media_dir,
             save_images,
+            pdf_backend,
         } => {
             cmd_parse(&ParseArgs {
                 input,
@@ -589,6 +594,7 @@ async fn main() -> ExitCode {
                 max_concurrent_pages,
                 media_dir,
                 save_images,
+                pdf_backend,
             })
             .await
         }

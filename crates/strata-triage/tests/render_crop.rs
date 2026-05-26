@@ -2,6 +2,8 @@
 //!
 //! Skips when libpdfium is unavailable. See Plan Maestro §9.T4.4.
 
+#![cfg(feature = "pdfium-backend")]
+
 use std::path::PathBuf;
 
 use strata_core::BBox;
@@ -34,14 +36,13 @@ fn renders_first_page_top_region_under_500kb() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 exists");
+    let page = dec.page(0).expect("page 0 exists");
 
-    let page_w = page.width().value;
-    let page_h = page.height().value;
+    let (page_w, page_h) = page.size();
     // Top 25 % of the page — should cover the title and authors block.
     let bbox = BBox::new(0.0, page_h * 0.75, page_w, page_h).unwrap();
 
-    let png = render_crop(&page, bbox, DEFAULT_CROP_DPI).expect("render must succeed");
+    let png = render_crop(page.as_ref(), bbox, DEFAULT_CROP_DPI).expect("render must succeed");
     assert!(png.len() > 0, "empty PNG output");
     assert!(
         png.len() < 500_000,
@@ -50,7 +51,7 @@ fn renders_first_page_top_region_under_500kb() {
     );
 
     // Determinism: render twice and verify byte equality (Plan Maestro §1).
-    let png2 = render_crop(&page, bbox, DEFAULT_CROP_DPI).expect("render must succeed");
+    let png2 = render_crop(page.as_ref(), bbox, DEFAULT_CROP_DPI).expect("render must succeed");
     assert_eq!(png, png2, "render_crop is not deterministic");
 }
 
@@ -59,10 +60,9 @@ fn rejects_bbox_outside_page() {
     let Some(dec) = skip_if_unavailable() else {
         return;
     };
-    let page = dec.pages().get(0).expect("page 0 exists");
+    let page = dec.page(0).expect("page 0 exists");
 
-    let page_w = page.width().value;
-    let page_h = page.height().value;
+    let (page_w, page_h) = page.size();
     let bbox = BBox::new(
         page_w + 100.0,
         page_h + 100.0,
@@ -70,6 +70,6 @@ fn rejects_bbox_outside_page() {
         page_h + 200.0,
     )
     .unwrap();
-    let res = render_crop(&page, bbox, DEFAULT_CROP_DPI);
+    let res = render_crop(page.as_ref(), bbox, DEFAULT_CROP_DPI);
     assert!(res.is_err(), "out-of-page bbox must error");
 }

@@ -8,7 +8,7 @@ description = "PDF decoder layer (pdfium-render bindings, glyph/path/image extra
 
 [dependencies]
 strata-core = { path = "../strata-core" }
-pdfium-render = { workspace = true }
+pdfium-render = { workspace = true, optional = true }
 image = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
@@ -16,6 +16,11 @@ serde_bytes = "0.11"
 thiserror = { workspace = true }
 tracing = { workspace = true }
 once_cell = { workspace = true }
+
+[features]
+default = ["pure-backend"]
+pdfium-backend = ["dep:pdfium-render"]
+pure-backend = []
 
 [dev-dependencies]
 insta = { workspace = true }

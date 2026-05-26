@@ -32,3 +32,7 @@ reqwest = { workspace = true }
 nvml-wrapper = { workspace = true }
 rusqlite = { workspace = true }
 sha2 = { workspace = true }
+
+[features]
+default = []
+pdfium-backend = ["strata-pdf/pdfium-backend"]
