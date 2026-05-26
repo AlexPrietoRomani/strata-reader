@@ -127,6 +127,11 @@ module = ["strata_ia.proto.*", "google.protobuf.*", "grpc.*"]
 ignore_missing_imports = true
 ignore_errors = true
 
+[[tool.mypy.overrides]]
+# Untyped third-party libraries without stubs
+module = ["tqdm.*", "pynvml.*", "pytesseract.*", "surya.*"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests/unit_py", "tests/integration", "tests/e2e"]
 pythonpath = ["python"]

@@ -140,7 +140,12 @@ def convert(
 
     # Eliminar duplicados manteniendo orden
     seen = set()
-    pdf_files = [x for x in pdf_files if not (x in seen or seen.add(x))]
+    unique_pdf_files = []
+    for x in pdf_files:
+        if x not in seen:
+            seen.add(x)
+            unique_pdf_files.append(x)
+    pdf_files = unique_pdf_files
 
     if not pdf_files:
         return {}
