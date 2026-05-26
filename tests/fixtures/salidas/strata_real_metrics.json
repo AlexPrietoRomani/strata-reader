@@ -1,0 +1,11 @@
+{
+  "strata_speed": 0.0065589961159992684,
+  "opendataloader_speed": 0.05760581857465171,
+  "strata_accuracy": 1.0,
+  "opendataloader_accuracy": 0.9796,
+  "total_pdfs_processed": 9,
+  "total_pages_strata": 203,
+  "total_pages_opendataloader": 203,
+  "elapsed_time_strata_seconds": 1.3314762115478516,
+  "elapsed_time_opendataloader_seconds": 11.693981170654297
+}

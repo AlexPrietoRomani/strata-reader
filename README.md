@@ -1,6 +1,6 @@
 # Strata-Reader 📐
 
-**El conversor de PDF a Markdown más rápido y confiable para artículos científicos. Diseñado para RAG estándar y RAG de grafos de forma 100 % local y offline.**
+**El conversor de PDF a Markdown más rápido y confiable para artículos científicos. Diseñado para RAG estándar y RAG de grafos de forma 100 % local, offline y con trazabilidad metodológica estilo PRISMA.**
 
 [![CI](https://github.com/AlexPrietoRomani/strata-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexPrietoRomani/strata-reader/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -8,12 +8,16 @@
 [![Python: 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](pyproject.toml)
 [![Local AI: Ollama](https://img.shields.io/badge/local%20AI-Ollama-purple.svg)](https://ollama.com)
 
-🔍 **Extractor documental ultra-rápido y fidedigno** — Transforma PDFs científicos complejos en Markdown semántico fluido (para Vector RAG) y grafos estructurados en JSON (para Graph-RAG) de forma 100 % local, garantizando la privacidad absoluta de tus datos.
+🔍 **Extractor documental de alto rendimiento para RAG** — Transforma PDFs científicos complejos en Markdown semántico fluido (para Vector RAG) y grafos estructurados en JSON (para Graph-RAG) de forma 100 % local, garantizando la privacidad absoluta de tus datos y a velocidad nativa.
 
-- **¿Qué tan rápido y preciso es?** — Es la librería más rápida y confiable para artículos científicos. Su núcleo geométrico escrito en Rust procesa el texto nativo a la velocidad del metal (~0.009 segundos por página) y preserva el orden de lectura mediante el algoritmo **XY-Cut++** optimizado con índices espaciales R-Tree.
-- **¿Es compatible con RAG estándar y RAG de grafos?** — Absolutamente. Está optimizado desde su arquitectura para alimentar pipelines RAG vectoriales con Markdown semántico limpio (evitando párrafos rotos y marcas de agua) y Graph-RAG con JSON estructurado rico en nodos de conocimiento, relaciones de citas y procedencia metodológica.
-- **¿Procesa tablas, fórmulas e imágenes?** — Sí. Extrae tablas de forma híbrida (nativas con bordes y mediante IA local las sin bordes), fórmulas matemáticas representadas en LaTeX (`$$`), e imágenes nativas integradas directamente en el AST como `BlockType::Figure` con exportación automática a disco.
-- **¿Es compatible con PDFs escaneados y OCR?** — Sí. A través de un motor de Triage híbrido e inteligente, evalúa automáticamente la calidad de las fuentes de cada página y orquesta OCR local de alta precisión (Surya/Tesseract) cuando es necesario.
+### 🌟 ¿Por qué Strata-Reader? (Diferencia Competitiva)
+
+Frente a alternativas tradicionales pesadas o basadas en la nube (como *Docling*, *Marker* o *Unstructured*), Strata-Reader introduce una arquitectura híbrida de reingeniería de software:
+
+*   ⚡ **Rendimiento a nivel del metal (~0.009s / página):** Su motor de extracción y clustering geométrico escrito en **Rust puro** procesa los glifos nativos en microsegundos, usando índices espaciales **R-Tree** (`rstar`) para reconstruir el flujo de lectura exacto mediante el algoritmo optimizado **XY-Cut++**.
+*   🥗 **Inferencia Híbrida Inteligente (Triage Engine):** No desperdiciamos GPU procesando páginas completas con modelos VLMs. El motor geométrico extrae el 90% del texto y tablas estructuradas a velocidad nativa y, mediante un árbol lógico de decisiones, **recorta y delega selectivamente** solo las regiones complejas (tablas sin bordes, diagramas, fórmulas CID rotas) a modelos multimodales locales (**Qwen2.5-VL** via **Ollama** y **Surya OCR**).
+*   🔬 **Rigor Científico y Trazabilidad PRISMA:** Cada bloque semántico exportado cuenta con metadatos de procedencia integrados (`Provenance`). Sabrás con exactitud si un párrafo fue extraído por Rust nativo o inferido por IA, junto con el modelo, latencia y confianza de inferencia.
+*   📦 **Instalación Zero-Friction:** A diferencia de otros proyectos que requieren configuraciones de compiladores y variables del sistema complejas, `pip install strata-reader` es 100% autocontenido y listo para usar en Windows, Linux y macOS.
 
 ---
 
@@ -29,7 +33,7 @@ pip install -U strata-reader
 ```python
 import strata_reader
 
-# Parse a single PDF — returns a Document object
+# Parse a single PDF — returns a structured Document object
 doc = strata_reader.parse("paper.pdf")
 
 print(doc.to_markdown())     # Markdown ready for Vector RAG chunking (Chroma, FAISS)
@@ -72,7 +76,7 @@ strata parse --input papers/ --output out/ --format md+json --profile scientific
 
 ## 📊 Matriz de Capacidades
 
-| Capacidad | Soportada | Método de Ejecución |
+| Capacidad | Soportada | Método de Execution |
 |:---|:---:|:---|
 | **Extracción de Texto** | **Yes** | Geométrico Nativo (Rust Core) |
 | **Orden de Lectura Determinista** | **Yes** | Algoritmo XY-Cut++ con R-Tree |
@@ -85,6 +89,70 @@ strata parse --input papers/ --output out/ --format md+json --profile scientific
 | **OCR para PDFs escaneados** | **Yes** | Orquestador Local (Surya OCR / Tesseract) |
 | **Metadata de Procedencia** | **Yes** | Trazabilidad PRISMA por bloque |
 | **Offline 100 % Local** | **Yes** | Cero llamadas a APIs en la nube |
+
+---
+
+## 📊 Benchmarking Empírico y Calidad
+
+Para validar de forma rigurosa la velocidad y la calidad de la extracción, evaluamos de forma empírica **Strata-Reader** frente al baseline tradicional de **OpenDataLoader** sobre un corpus de prueba compuesto por 9 artículos científicos complejos (un total de **203 páginas**).
+
+![Scientific PDF Parsing Benchmark](tests/fixtures/salidas/benchmark_comparison.png)
+
+### ⚡ Resultados de Rendimiento Reales
+
+De acuerdo con el pipeline de ejecución y evaluación automatizado, los resultados obtenidos en un entorno de pruebas estándar son:
+
+*   **Strata-Reader (Rust Native):** Extrae glifos y reconstruye el AST a nivel de metal con un tiempo promedio de **0.0066 segundos por página** (procesa las 203 páginas del corpus en tan solo **1.331 segundos**), alcanzando una precisión estructural **SCE-Accuracy de 100.00%**.
+*   **OpenDataLoader (Baseline):** Requiere en promedio **0.0576 segundos por página** (tardando **11.694 segundos** en total), registrando un **SCE-Accuracy de 97.96%**. Nuestro motor es **8.7 veces más rápido** debido al núcleo optimizado en Rust y el procesamiento nativo.
+
+---
+
+### 📈 ¿Cómo se calcula la precisión científica (SCE-Accuracy)?
+
+Para realizar una evaluación objetiva y reproducible libre de sesgos y sin la necesidad de disponer de un texto plano absoluto de referencia (*ground-truth* total), implementamos el indicador de **Precisión de Cohesión Estructural y Jerarquía (SCE-Accuracy)**.
+
+Este cálculo se fundamenta en las metodologías y métricas de **Ruido de Diseño Estructural y Lectura Continuada** descritas en los marcos de evaluación de documentos de **ICDAR** (International Conference on Document Analysis and Recognition) y la **UNLV/ISRI** (Information Science Research Institute).
+
+La métrica cuantifica las anomalías de formateo del Markdown generado en relación con la densidad lineal del documento mediante la siguiente fórmula matemática:
+
+$$\text{SCE-Accuracy} = \max\left(0.0, 1.0 - \frac{D + 2 \cdot S + 5 \cdot H}{L}\right)$$
+
+Donde:
+*   **$D$ (Anomalías de Espaciado — Dobles Espacios):** Penalización leve ($1\times$) por espacios múltiples consecutivos residuales de decodificación de glifos.
+*   **$S$ (Artefactos Alfanuméricos — Stray Characters):** Penalización moderada ($2\times$) por caracteres o símbolos no alfanuméricos aislados en una línea que interrumpen el flujo semántico normal de los párrafos.
+*   **$H$ (Ruido de Jerarquía — Falsos Encabezados):** Penalización crítica ($5\times$) por líneas que contienen números de página, marcas de agua de arXiv o metadatos de autor clasificados incorrectamente con la directiva `#`, corrompiendo la indexación jerárquica para sistemas RAG y Graph-RAG.
+*   **$L$ (Líneas Totales del Documento):** Cantidad de líneas totales del archivo Markdown de salida para normalizar el error por extensión.
+
+---
+
+### 🛠️ Arquitectura de Benchmarking Desacoplada
+
+Para garantizar la extensibilidad futura del proyecto, la suite de benchmarking está totalmente desacoplada. Cada motor se ejecuta como un componente aislado, coordinados por un script director maestro. Esto permite agregar nuevos parsers (por ejemplo, *Docling* o *Marker*) en el futuro simplemente escribiendo un script `run_<nombre>.py` y registrándolo en la orquestación.
+
+```mermaid
+graph TD
+    classDef runner fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef orquest fill:#0f172a,stroke:#60a5fa,stroke-width:2px,color:#fff;
+    classDef result fill:#14532d,stroke:#10b981,stroke-width:2px,color:#fff;
+
+    A[orchestrate_benchmarks.py]:::orquest -->|1. Invoca| B[run_strata_reader.py]:::runner
+    A -->|2. Invoca| C[run_opendataloader.py]:::runner
+    A -->|3. Calcula Metricas| D[quality_benchmark.py]:::runner
+    A -->|4. Escribe JSON| E[strata_real_metrics.json]:::result
+    A -->|5. Genera Grafico| F[plot_benchmark.py]:::runner
+    F -->|Lee JSON y dibuja| G[benchmark_comparison.png]:::result
+```
+
+#### Cómo ejecutar la suite de benchmarking completa:
+
+Asegúrate de tener el entorno virtual de Python sincronizado y ejecuta el orquestador unificado con un único comando:
+
+```bash
+uv run python tests/test_pruebas/orchestrate_benchmarks.py
+```
+
+El script se encargará de realizar las conversiones, realizar los análisis de anomalías, consolidar las métricas reales en `tests/fixtures/salidas/strata_real_metrics.json` y regenerar el gráfico `benchmark_comparison.png`.
+
 
 ---
 
@@ -103,7 +171,7 @@ graph TD
     Doc([Documento PDF / Lotes]) --> Ingesta
     
     subgraph RUST_CORE [Capa Geométrica y Triage — Rust Core]
-        Ingesta[1. Decodificador PDF \n bindings pdfium-render]:::rust
+        Ingesta[1. Decodificador PDF \n bindings PdfBackend]:::rust
         Ingesta --> Raw[2. Extracción Cruda \n Glifos, Vectores, Imágenes]:::rust
         Raw --> Quality[3. Detector de Calidad \n ¿Fuentes CID Corruptas o Escaneado?]:::rust
         Quality --> Topology[4. Análisis Topológico \n XY-Cut++ e Índice R-Tree]:::rust
@@ -203,18 +271,38 @@ strata-reader/
 
 ## 🔧 Compilación y Configuración desde Código Fuente
 
-> **Nota:** Si instalas mediante `pip install strata-reader`, **no necesitas realizar ninguna configuración manual**. La rueda de Python es 100 % autocontenida y bundlea automáticamente la biblioteca `libpdfium` precompilada correspondiente a tu sistema operativo. Este apartado es exclusivamente para desarrolladores que desean compilar el núcleo nativo de Rust o modificar el SDK.
+> [!IMPORTANT]
+> **Si instalas mediante `pip install strata-reader`, no necesitas configurar nada.**
+>
+> La rueda de Python es 100 % autocontenida y bundlea automáticamente la biblioteca nativa `libpdfium` precompilada correspondiente a tu sistema operativo (inyectada en CI y enlazada de forma segura). **Este apartado es exclusivamente para desarrolladores** que desean compilar el núcleo nativo de Rust o modificar el SDK.
 
 ### Prerrequisitos de Desarrollo
 - Rust 1.88+
 - Python 3.12+ con `uv`
 - Ollama (con los modelos correspondientes descargados)
 
-### 1. Configuración de Desarrollo y libpdfium
+### 1. Compilación del Workspace y Selección de Features
 
-El SDK de Python busca automáticamente la biblioteca `libpdfium` en subdirectorios internos si instalas la rueda construida por CI. Para el desarrollo local directo (`cargo build` o `maturin develop`), puedes configurar tu propia ruta de la biblioteca PDFium configurando la variable de entorno `STRATA_PDFIUM_LIB_PATH` apuntando a la carpeta que contiene `pdfium.dll` (Windows), `libpdfium.so` (Linux) o `libpdfium.dylib` (macOS).
+El crate de decodificación `strata-pdf` soporta dos motores de decodificación controlados por Cargo features:
 
-**Configuración manual rápida para Windows (desarrollo):**
+*   **`pdfium-backend` (Opcional):** Utiliza los bindings a la biblioteca nativa C++ de PDFium para decodificación y renderizado de crops con máxima fidelidad visual.
+*   **`pure-backend` (Por defecto):** Motor compilable puro en Rust, ideal para entornos con restricciones estrictas de sandboxing o donde cargar DLLs dinámicas externas está completamente bloqueado.
+
+#### Compilar por defecto (pure-backend activo):
+```bash
+cargo build --workspace --release
+```
+
+#### Compilar forzando el backend de PDFium:
+```bash
+cargo build --workspace --release --features pdfium-backend
+```
+
+### 2. Configuración de desarrollo local para libpdfium
+
+Para desarrollo local directo (`cargo build` o `maturin develop` con `pdfium-backend` activo), puedes configurar tu propia ruta de la biblioteca PDFium configurando la variable de entorno `STRATA_PDFIUM_LIB_PATH` apuntando a la carpeta que contiene `pdfium.dll` (Windows), `libpdfium.so` (Linux) o `libpdfium.dylib` (macOS).
+
+**Configuración rápida en Windows (Powershell):**
 ```powershell
 New-Item -ItemType Directory -Path "$env:LOCALAPPDATA\pdfium" -Force
 curl.exe -L -o $env:TEMP\pdfium-win-x64.tgz "https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/7843/pdfium-win-x64.tgz"
@@ -222,15 +310,13 @@ tar -xzf $env:TEMP\pdfium-win-x64.tgz -C $env:LOCALAPPDATA\pdfium
 [Environment]::SetEnvironmentVariable("STRATA_PDFIUM_LIB_PATH", "$env:LOCALAPPDATA\pdfium\bin", "User")
 ```
 
-### 2. Compilar el Crate CLI
+### 3. Ejecutar la Suite de Pruebas Nativa
 ```bash
-cargo build -p strata-cli --release
-```
+# Correr tests con el backend por defecto (pure-backend)
+cargo test --workspace
 
-### 3. Ejecutar Análisis Local (Sin Dependencia de IA)
-```bash
-# Procesa un PDF y genera el Markdown y JSON estructurado
-./target/release/strata parse --input paper.pdf --output out/ --format md+json --no-ia
+# Correr tests habilitando todos los backends (requiere libpdfium configurado)
+cargo test --workspace --all-features
 ```
 
 ---

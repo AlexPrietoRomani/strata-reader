@@ -84,6 +84,7 @@ tests/fixtures/pdfs/_build/
 !package.json
 !tsconfig.json
 
+
 # --- Documentation and Benchmarks ---
 .benchmarks/
 docs/adr/
@@ -96,4 +97,8 @@ tests/fixtures/pdfs/
 tests/fixtures/sources/
 
 # --- Benchmark Outputs ---
-tests/fixtures/salidas/
+tests/fixtures/salidas/*
+!tests/fixtures/salidas/benchmark_comparison.png
+!tests/fixtures/salidas/strata_real_metrics.json
+
+
