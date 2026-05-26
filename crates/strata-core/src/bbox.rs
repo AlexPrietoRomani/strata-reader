@@ -16,7 +16,12 @@ pub enum GeometryError {
     #[error("coordinate is not finite (NaN or infinite)")]
     NonFinite,
     #[error("bbox has inverted axis: x0 ({x0}) > x1 ({x1}) or y0 ({y0}) > y1 ({y1})")]
-    Inverted { x0: String, x1: String, y0: String, y1: String },
+    Inverted {
+        x0: String,
+        x1: String,
+        y0: String,
+        y1: String,
+    },
 }
 
 /// A 2D point in PDF user space.
@@ -200,7 +205,11 @@ impl BBox {
 
 impl fmt::Display for BBox {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "[{:.4}, {:.4}, {:.4}, {:.4}]", self.x0, self.y0, self.x1, self.y1)
+        write!(
+            f,
+            "[{:.4}, {:.4}, {:.4}, {:.4}]",
+            self.x0, self.y0, self.x1, self.y1
+        )
     }
 }
 
@@ -234,7 +243,10 @@ mod tests {
 
     #[test]
     fn new_rejects_inverted_axis() {
-        assert!(matches!(BBox::new(10.0, 0.0, 0.0, 5.0), Err(GeometryError::Inverted { .. })));
+        assert!(matches!(
+            BBox::new(10.0, 0.0, 0.0, 5.0),
+            Err(GeometryError::Inverted { .. })
+        ));
     }
 
     #[test]

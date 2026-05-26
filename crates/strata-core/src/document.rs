@@ -22,7 +22,10 @@ pub struct DocMeta {
     /// Pipeline / profile that produced this run ("fast" / "balanced" / "scientific").
     pub profile: String,
     /// Free-form extension map for non-canonical metadata.
-    #[serde(default, skip_serializing_if = "::std::collections::BTreeMap::is_empty")]
+    #[serde(
+        default,
+        skip_serializing_if = "::std::collections::BTreeMap::is_empty"
+    )]
     pub extra: std::collections::BTreeMap<String, String>,
 }
 
@@ -35,7 +38,10 @@ pub struct Document {
 
 impl Document {
     pub fn new(meta: DocMeta) -> Self {
-        Self { meta, pages: Vec::new() }
+        Self {
+            meta,
+            pages: Vec::new(),
+        }
     }
 
     /// Convenience: total number of pages in the document.

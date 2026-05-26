@@ -6,14 +6,14 @@
 //!
 //! See Phase 13 Etapa B in `docs/task/tareas.md`.
 
+use crate::backend::{PdfBackend, PdfDoc, PdfPage};
+use crate::bindings::get_pdfium;
+use crate::decoder::DecoderError;
+use crate::glyph::{extract_glyphs, Glyph};
+use crate::image::{extract_images, Image};
+use crate::vector::{extract_paths, VectorPath};
 use pdfium_render::prelude::*;
 use strata_core::BBox;
-use crate::backend::{PdfBackend, PdfDoc, PdfPage};
-use crate::decoder::DecoderError;
-use crate::bindings::get_pdfium;
-use crate::glyph::{extract_glyphs, Glyph};
-use crate::vector::{extract_paths, VectorPath};
-use crate::image::{extract_images, Image};
 
 /// The PDFium decoding engine backend.
 pub struct PdfiumBackend;
@@ -54,16 +54,20 @@ impl PdfDoc for PdfiumDoc {
     }
 
     fn page(&self, index: usize) -> Result<Box<dyn PdfPage>, DecoderError> {
-        let page = self.doc.pages().get(index as i32)
-            .map_err(|_| DecoderError::PageOutOfRange {
-                requested: index,
-                total: self.page_count(),
-            })?;
+        let page =
+            self.doc
+                .pages()
+                .get(index as i32)
+                .map_err(|_| DecoderError::PageOutOfRange {
+                    requested: index,
+                    total: self.page_count(),
+                })?;
         // SAFETY: We extend the page lifetime to static. The page is bound to
         // the doc lifetime, which is owned by PdfiumDoc. Since PdfPage wrapper
         // holds a strong reference (conceptually or via lifetime constraints in dynamic dispatch),
         // we transmute the lifetime for object-safe traits.
-        let page_static: PdfPage_pdfium<'static> = unsafe { std::mem::transmute::<PdfPage_pdfium<'_>, PdfPage_pdfium<'static>>(page) };
+        let page_static: PdfPage_pdfium<'static> =
+            unsafe { std::mem::transmute::<PdfPage_pdfium<'_>, PdfPage_pdfium<'static>>(page) };
         Ok(Box::new(PdfiumPage { page: page_static }))
     }
 }
@@ -107,9 +111,12 @@ impl PdfPage for PdfiumPage {
         let target_h = ((page_h * scale).round() as u32).clamp(1, 6000);
 
         let config = PdfRenderConfig::new().set_target_size(target_w as i32, target_h as i32);
-        let bitmap = self.page.render_with_config(&config)
+        let bitmap = self
+            .page
+            .render_with_config(&config)
             .map_err(|e| DecoderError::Internal(e.to_string()))?;
-        let img = bitmap.as_image()
+        let img = bitmap
+            .as_image()
             .map_err(|e| DecoderError::Internal(e.to_string()))?;
         let rgba = img.to_rgba8();
 
@@ -125,7 +132,8 @@ impl PdfPage for PdfiumPage {
         let crop_w = crop_w.min(img_w - crop_x).max(1);
         let crop_h = crop_h.min(img_h - crop_y).max(1);
 
-        let cropped = image::DynamicImage::ImageRgba8(rgba).crop_imm(crop_x, crop_y, crop_w, crop_h);
+        let cropped =
+            image::DynamicImage::ImageRgba8(rgba).crop_imm(crop_x, crop_y, crop_w, crop_h);
 
         let mut png = Vec::with_capacity((crop_w * crop_h) as usize);
         cropped

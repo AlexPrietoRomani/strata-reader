@@ -118,10 +118,16 @@ mod tests {
         assert_eq!(fix_letter_spacing("j o u r n a l"), "journal");
 
         // "t h i s  i s  a  t e s t" con doble espacio entre palabras reales
-        assert_eq!(fix_letter_spacing("t h i s  i s  a  t e s t"), "this is a test");
+        assert_eq!(
+            fix_letter_spacing("t h i s  i s  a  t e s t"),
+            "this is a test"
+        );
 
         // Mezcla de espaciado artificial
-        assert_eq!(fix_letter_spacing("u n i v e r s i t y  p r e s s"), "university press");
+        assert_eq!(
+            fix_letter_spacing("u n i v e r s i t y  p r e s s"),
+            "university press"
+        );
     }
 
     #[test]
@@ -135,7 +141,13 @@ mod tests {
 
     #[test]
     fn test_normalize_text() {
-        assert_eq!(normalize_text("  t h i s  i s   a  t e s t   "), "this is a test");
-        assert_eq!(normalize_text("normal text   with double spaces"), "normal text with double spaces");
+        assert_eq!(
+            normalize_text("  t h i s  i s   a  t e s t   "),
+            "this is a test"
+        );
+        assert_eq!(
+            normalize_text("normal text   with double spaces"),
+            "normal text with double spaces"
+        );
     }
 }

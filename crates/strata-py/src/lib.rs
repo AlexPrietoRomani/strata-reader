@@ -64,7 +64,13 @@ impl PyParseOptions {
                 )))
             }
         }
-        Ok(Self { profile, use_ia, max_concurrent_pages, media_dir, ollama_endpoint })
+        Ok(Self {
+            profile,
+            use_ia,
+            max_concurrent_pages,
+            media_dir,
+            ollama_endpoint,
+        })
     }
 
     fn __repr__(&self) -> String {
@@ -86,7 +92,10 @@ struct PyDocument {
 impl PyDocument {
     /// Render this document to GFM Markdown for Vector-RAG ingestion.
     fn to_markdown(&self) -> PyResult<String> {
-        Ok(serialize::render_markdown(&self.inner, &serialize::MarkdownOptions::default()))
+        Ok(serialize::render_markdown(
+            &self.inner,
+            &serialize::MarkdownOptions::default(),
+        ))
     }
 
     /// Render this document to the Graph-RAG JSON shape. Returns a Python
@@ -106,7 +115,11 @@ impl PyDocument {
     }
 
     fn __repr__(&self) -> String {
-        format!("Document(pages={}, sha256={})", self.inner.page_count(), self.inner.meta.source_sha256)
+        format!(
+            "Document(pages={}, sha256={})",
+            self.inner.page_count(),
+            self.inner.meta.source_sha256
+        )
     }
 }
 
@@ -131,7 +144,9 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
     });
     let pdf_path = std::path::Path::new(&path);
     if !pdf_path.exists() {
-        return Err(PyFileNotFoundError::new_err(format!("PDF not found: {path}")));
+        return Err(PyFileNotFoundError::new_err(format!(
+            "PDF not found: {path}"
+        )));
     }
 
     // 1. Open PDF
@@ -194,8 +209,14 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
             line_texts.push(content);
         }
 
-        let headings = strata_geometry::classify_headings(&line_font_sizes, &line_bboxes, &line_texts, page_bbox);
-        let paragraph_groups = strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
+        let headings = strata_geometry::classify_headings(
+            &line_font_sizes,
+            &line_bboxes,
+            &line_texts,
+            page_bbox,
+        );
+        let paragraph_groups =
+            strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
 
         for group in paragraph_groups {
             let mut group_text_parts = Vec::with_capacity(group.lines.len());
@@ -275,10 +296,13 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
 
         // 6. XY-Cut++ ordering
         let bboxes: Vec<strata_core::BBox> = blocks.iter().map(|b| b.bbox).collect();
-        let order = strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
-        let reading_order: Vec<strata_core::BlockId> = order.iter().map(|&i| blocks[i].id).collect();
+        let order =
+            strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
+        let reading_order: Vec<strata_core::BlockId> =
+            order.iter().map(|&i| blocks[i].id).collect();
 
-        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> = blocks.into_iter().map(std::sync::Arc::new).collect();
+        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> =
+            blocks.into_iter().map(std::sync::Arc::new).collect();
 
         let media_box = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
             .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());

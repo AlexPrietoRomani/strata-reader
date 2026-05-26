@@ -13,8 +13,8 @@
 //! - `is_page_number`: Detecta números de página en el margen inferior.
 //! - `filter_noise_lines`: Filtra una colección de líneas aplicando los criterios anteriores.
 
-use strata_core::BBox;
 use crate::word_line::{GlyphInput, Line};
+use strata_core::BBox;
 
 /// Determina si una línea es una marca de agua de arXiv.
 ///
@@ -138,11 +138,7 @@ pub fn is_page_number(line: &Line, glyphs: &[GlyphInput], page_bbox: BBox) -> bo
 /// * `lines` - Las líneas extraídas originales.
 /// * `glyphs` - El slice de glifos original de la página.
 /// * `page_bbox` - La caja delimitadora de la página.
-pub fn filter_noise_lines(
-    lines: &[Line],
-    glyphs: &[GlyphInput],
-    page_bbox: BBox,
-) -> Vec<Line> {
+pub fn filter_noise_lines(lines: &[Line], glyphs: &[GlyphInput], page_bbox: BBox) -> Vec<Line> {
     lines
         .iter()
         .filter(|line| {
@@ -366,9 +362,7 @@ mod tests {
         // 3. Un stray char (ruido)
         let glyphs3 = vec![create_glyph('*', 10.0, 300.0, 10.0)];
         // 4. Un número de página (ruido)
-        let glyphs4 = vec![
-            create_glyph('3', 290.0, 20.0, 10.0),
-        ];
+        let glyphs4 = vec![create_glyph('3', 290.0, 20.0, 10.0)];
 
         let mut all_glyphs = Vec::new();
         all_glyphs.extend(glyphs1);

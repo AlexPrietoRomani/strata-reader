@@ -6,9 +6,9 @@
 //!
 //! See Phase 13 Etapa B in `docs/task/tareas.md`.
 
-use strata_core::BBox;
 use crate::decoder::DecoderError;
-use crate::{Glyph, VectorPath, Image};
+use crate::{Glyph, Image, VectorPath};
+use strata_core::BBox;
 
 /// Core interface for a PDF decoding engine.
 pub trait PdfBackend: Send + Sync {

@@ -30,18 +30,39 @@ pub struct Matrix {
 
 impl Matrix {
     /// Identity matrix.
-    pub const IDENTITY: Self = Self { a: 1.0, b: 0.0, c: 0.0, d: 1.0, e: 0.0, f: 0.0 };
+    pub const IDENTITY: Self = Self {
+        a: 1.0,
+        b: 0.0,
+        c: 0.0,
+        d: 1.0,
+        e: 0.0,
+        f: 0.0,
+    };
 
     pub const fn new(a: f32, b: f32, c: f32, d: f32, e: f32, f: f32) -> Self {
         Self { a, b, c, d, e, f }
     }
 
     pub const fn translation(tx: f32, ty: f32) -> Self {
-        Self { a: 1.0, b: 0.0, c: 0.0, d: 1.0, e: tx, f: ty }
+        Self {
+            a: 1.0,
+            b: 0.0,
+            c: 0.0,
+            d: 1.0,
+            e: tx,
+            f: ty,
+        }
     }
 
     pub const fn scale(sx: f32, sy: f32) -> Self {
-        Self { a: sx, b: 0.0, c: 0.0, d: sy, e: 0.0, f: 0.0 }
+        Self {
+            a: sx,
+            b: 0.0,
+            c: 0.0,
+            d: sy,
+            e: 0.0,
+            f: 0.0,
+        }
     }
 
     /// Apply this matrix to a [`Point`].
@@ -113,7 +134,14 @@ mod tests {
     }
 
     fn matrix_strategy() -> impl Strategy<Value = Matrix> {
-        (finite_f32(), finite_f32(), finite_f32(), finite_f32(), finite_f32(), finite_f32())
+        (
+            finite_f32(),
+            finite_f32(),
+            finite_f32(),
+            finite_f32(),
+            finite_f32(),
+            finite_f32(),
+        )
             .prop_map(|(a, b, c, d, e, f)| Matrix { a, b, c, d, e, f })
     }
 

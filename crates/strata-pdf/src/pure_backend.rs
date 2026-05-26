@@ -6,10 +6,10 @@
 //!
 //! See Phase 13 Etapa B & C in `docs/task/tareas.md`.
 
-use strata_core::BBox;
 use crate::backend::{PdfBackend, PdfDoc, PdfPage};
 use crate::decoder::DecoderError;
-use crate::{Glyph, VectorPath, Image};
+use crate::{Glyph, Image, VectorPath};
+use strata_core::BBox;
 
 /// Pure-Rust decoding engine backend.
 pub struct PureRustBackend;

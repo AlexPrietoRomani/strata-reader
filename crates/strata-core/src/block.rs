@@ -141,7 +141,12 @@ pub struct Block {
 }
 
 impl Block {
-    pub fn new(kind: BlockType, bbox: BBox, content: impl Into<String>, provenance: Provenance) -> Self {
+    pub fn new(
+        kind: BlockType,
+        bbox: BBox,
+        content: impl Into<String>,
+        provenance: Provenance,
+    ) -> Self {
         Self {
             id: BlockId::new(),
             kind,

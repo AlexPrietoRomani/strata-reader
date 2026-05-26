@@ -34,8 +34,8 @@ enum Cmd {
 
 fn cmd_gen_schema(output: PathBuf, check: bool) -> Result<()> {
     let schema = schema_for!(Document);
-    let mut text = serde_json::to_string_pretty(&schema)
-        .context("schema serialization to JSON failed")?;
+    let mut text =
+        serde_json::to_string_pretty(&schema).context("schema serialization to JSON failed")?;
     text.push('\n'); // POSIX-friendly trailing newline.
 
     if check {

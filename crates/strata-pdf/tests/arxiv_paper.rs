@@ -54,7 +54,9 @@ fn first_page_has_glyphs() {
     );
     let (media_w, media_h) = page.size();
     for g in &glyphs {
-        if !(g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0) || !(g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0) {
+        if !(g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0)
+            || !(g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0)
+        {
             println!(
                 "Glyph out of bounds: char={:?}, bbox={:?}, media_w={}, media_h={}",
                 g.unicode, g.bbox, media_w, media_h
@@ -63,12 +65,16 @@ fn first_page_has_glyphs() {
         assert!(
             g.bbox.x0 >= -10.0 && g.bbox.x1 <= media_w + 10.0,
             "Glyph x-bounds out of range: char={:?}, bbox={:?}, media_w={}",
-            g.unicode, g.bbox, media_w
+            g.unicode,
+            g.bbox,
+            media_w
         );
         assert!(
             g.bbox.y0 >= -10.0 && g.bbox.y1 <= media_h + 10.0,
             "Glyph y-bounds out of range: char={:?}, bbox={:?}, media_h={}",
-            g.unicode, g.bbox, media_h
+            g.unicode,
+            g.bbox,
+            media_h
         );
     }
 }

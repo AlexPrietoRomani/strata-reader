@@ -5,9 +5,9 @@
 //!
 //! See Plan Maestro §7.T2.1.
 
+use crate::backend::{PdfBackend, PdfDoc, PdfPage};
 use std::path::Path;
 use thiserror::Error;
-use crate::backend::{PdfBackend, PdfDoc, PdfPage};
 
 #[derive(Debug, Error)]
 pub enum DecoderError {
@@ -93,9 +93,6 @@ mod tests {
     #[test]
     fn missing_file_yields_io_error() {
         let err = Decoder::open("does-not-exist.pdf").unwrap_err();
-        assert!(matches!(
-            err,
-            DecoderError::Io { .. }
-        ));
+        assert!(matches!(err, DecoderError::Io { .. }));
     }
 }

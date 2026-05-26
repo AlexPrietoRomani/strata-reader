@@ -53,9 +53,17 @@ impl Provenance {
         retries: u8,
     ) -> Result<Self, ProvenanceError> {
         if !confidence.is_finite() || !(0.0..=1.0).contains(&confidence) {
-            return Err(ProvenanceError::ConfidenceOutOfRange(confidence.to_string()));
+            return Err(ProvenanceError::ConfidenceOutOfRange(
+                confidence.to_string(),
+            ));
         }
-        Ok(Self { source, model, confidence, latency_ms, retries })
+        Ok(Self {
+            source,
+            model,
+            confidence,
+            latency_ms,
+            retries,
+        })
     }
 
     /// Shortcut for "produced by deterministic Rust code with full confidence".
@@ -101,9 +109,18 @@ mod tests {
 
     #[test]
     fn source_serializes_as_kebab_case() {
-        assert_eq!(serde_json::to_string(&ProvenanceSource::Vlm).unwrap(), r#""vlm""#);
-        assert_eq!(serde_json::to_string(&ProvenanceSource::Ocr).unwrap(), r#""ocr""#);
-        assert_eq!(serde_json::to_string(&ProvenanceSource::Rust).unwrap(), r#""rust""#);
+        assert_eq!(
+            serde_json::to_string(&ProvenanceSource::Vlm).unwrap(),
+            r#""vlm""#
+        );
+        assert_eq!(
+            serde_json::to_string(&ProvenanceSource::Ocr).unwrap(),
+            r#""ocr""#
+        );
+        assert_eq!(
+            serde_json::to_string(&ProvenanceSource::Rust).unwrap(),
+            r#""rust""#
+        );
     }
 
     #[test]

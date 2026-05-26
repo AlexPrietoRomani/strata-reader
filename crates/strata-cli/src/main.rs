@@ -217,7 +217,7 @@ fn fixtures_present() -> bool {
 async fn cmd_doctor(ollama_endpoint: &str) -> anyhow::Result<()> {
     let (gpu_info, vram_mb) = detect_gpu_info();
     let (ollama_models, ollama_reachable) = list_ollama_models(ollama_endpoint).await;
-    
+
     #[cfg(feature = "pdfium-backend")]
     let active_backend = "pdfium";
     #[cfg(not(feature = "pdfium-backend"))]
@@ -347,8 +347,14 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
             line_texts.push(content);
         }
 
-        let headings = strata_geometry::classify_headings(&line_font_sizes, &line_bboxes, &line_texts, page_bbox);
-        let paragraph_groups = strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
+        let headings = strata_geometry::classify_headings(
+            &line_font_sizes,
+            &line_bboxes,
+            &line_texts,
+            page_bbox,
+        );
+        let paragraph_groups =
+            strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
 
         for group in paragraph_groups {
             let mut group_text_parts = Vec::with_capacity(group.lines.len());

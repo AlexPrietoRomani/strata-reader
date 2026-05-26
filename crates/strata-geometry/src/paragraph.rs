@@ -12,9 +12,9 @@
 //! - `ParagraphGroup`: Contenedor para un conjunto de líneas agrupadas semánticamente.
 //! - `merge_lines_into_paragraphs`: Agrupa líneas basándose en el gap vertical.
 
-use strata_core::BBox;
-use crate::word_line::{GlyphInput, Line};
 use crate::headings::HeadingClass;
+use crate::word_line::{GlyphInput, Line};
+use strata_core::BBox;
 
 /// Representa el tipo de un grupo de párrafos.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
