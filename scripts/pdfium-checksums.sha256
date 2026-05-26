@@ -3,13 +3,13 @@
 # Format: SHA256  filename
 
 # linux-x64
-84cfcf38f90c37951010375a25f1ff81f62e840d216d2524ec17ebfceca55a9b  pdfium-linux-x64.tgz
+22a5c578250fb4f54e69b395ebb96e4da108b8a0ec4c7e6cf94e649867f5c63d  pdfium-linux-x64.tgz
 
 # linux-arm64
-bf6dc018ff90d1f4ad08431e149020bd9244ee196b02a9df54c7980ea203b51b  pdfium-linux-arm64.tgz
+c26eae94885216ba7ae25cdbf1263df37dc13181ebfb148becbdca3f1d9a5040  pdfium-linux-arm64.tgz
 
 # win-x64
-a78e792e3c09f3e5f2cf29e71ec26d01ebca5a9479b1dfbe39a89d00ce55c829  pdfium-win-x64.tgz
+242d19fa80aae8483aa60e75cac9d11fa50cce8a7771ba7a69cd7e00b99a8f24  pdfium-win-x64.tgz
 
 # mac-arm64 (apple silicon)
-55cd5a4ea8473950d1825fa2ee19d146db7a2a912bbbc18a471ee78d49a716c5  pdfium-mac-arm64.tgz
+34015b412ded9faeb4d7118b25307b1a43bbdad7a3d296161357b9fd090f47aa  pdfium-mac-arm64.tgz

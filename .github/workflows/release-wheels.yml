@@ -80,7 +80,11 @@ jobs:
           
           # Checksum verification
           echo "Verifying SHA-256 checksum..."
-          grep "pdfium-${PLATFORM}.tgz" scripts/pdfium-checksums.sha256 | sha256sum -c -
+          if command -v sha256sum &> /dev/null; then
+            grep "pdfium-${PLATFORM}.tgz" scripts/pdfium-checksums.sha256 | sha256sum -c -
+          else
+            grep "pdfium-${PLATFORM}.tgz" scripts/pdfium-checksums.sha256 | shasum -a 256 -c -
+          fi
           
           # Extract into strata_reader package structure
           TARGET_DIR="python/strata_reader/_pdfium"
