@@ -22,7 +22,7 @@ pub const DEFAULT_CROP_DPI: u32 = 200;
 
 /// Rasterize the region of `page` enclosed by `bbox` and encode it as PNG.
 pub fn render_crop(page: &dyn PdfPage, bbox: BBox, dpi: u32) -> Result<Vec<u8>, RenderError> {
-    page.render_crop(bbox, dpi.max(72).min(6000) as u16)
+    page.render_crop(bbox, dpi.clamp(72, 6000) as u16)
         .map_err(|e| RenderError::Render(e.to_string()))
 }
 

@@ -20,5 +20,8 @@ tracing = { workspace = true }
 insta = { workspace = true }
 proptest = { workspace = true }
 
+[features]
+pdfium-backend = ["strata-pdf/pdfium-backend"]
+
 [lib]
 doctest = false
