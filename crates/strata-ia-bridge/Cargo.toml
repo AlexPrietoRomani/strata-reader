@@ -25,7 +25,7 @@ tonic-prost-build = { workspace = true }
 
 [dev-dependencies]
 insta = { workspace = true }
-criterion = { workspace = true }
+criterion = { workspace = true, features = ["async_tokio"] }
 async-stream = "0.3"
 
 [[bench]]

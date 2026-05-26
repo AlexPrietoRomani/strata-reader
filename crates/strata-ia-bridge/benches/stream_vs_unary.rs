@@ -95,7 +95,7 @@ fn canned_provenance() -> Provenance {
 
 fn canned_crop() -> Crop {
     Crop {
-        png_bytes: vec![0; 64].into(),
+        png_bytes: vec![0; 64],
         dpi: 72,
         page_no: 1,
         bbox: Some(BBox {

@@ -189,6 +189,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::disallowed_methods)]
     fn spawn_options_defaults_to_python_on_path_when_no_env() {
         // We don't want to mutate the test process env, just verify the
         // fallback contract.
