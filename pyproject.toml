@@ -61,6 +61,7 @@ strata = "strata_reader.cli:main"
 
 [dependency-groups]
 dev = [
+    "maturin>=1.9.4,<2",
     "pytest>=8,<9",
     "pytest-asyncio>=0.24,<2",
     "pytest-cov>=5,<7",

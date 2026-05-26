@@ -131,8 +131,20 @@ jobs:
             else
               PROTOC_ARCH="linux-x86_64"
             fi
-            python -c "import urllib.request, ssl; ctx = ssl._create_unverified_context(); r = urllib.request.urlopen('https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip', context=ctx); f = open('protoc.zip', 'wb'); f.write(r.read()); f.close(); r.close()"
-            python -c "import zipfile; zipfile.ZipFile('protoc.zip').extract('bin/protoc', '/usr/local')"
+            
+            # Find python3 or python dynamically
+            if command -v python3 &>/dev/null; then
+              PYTHON_BIN="python3"
+            elif command -v python &>/dev/null; then
+              PYTHON_BIN="python"
+            else
+              echo "Error: Python not found!"
+              exit 1
+            fi
+            
+            echo "Using Python binary: $PYTHON_BIN"
+            $PYTHON_BIN -c "import urllib.request, ssl; ctx = ssl._create_unverified_context(); r = urllib.request.urlopen('https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip', context=ctx); f = open('protoc.zip', 'wb'); f.write(r.read()); f.close(); r.close()"
+            $PYTHON_BIN -c "import zipfile; zipfile.ZipFile('protoc.zip').extract('bin/protoc', '/usr/local')"
             chmod +x /usr/local/bin/protoc
             rm -f protoc.zip
             protoc --version
