@@ -124,7 +124,7 @@ jobs:
             else
               PROTOC_ARCH="linux-x86_64"
             fi
-            curl -L -o protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip"
+            python -c "import urllib.request, ssl; ctx = ssl._create_unverified_context(); r = urllib.request.urlopen('https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip', context=ctx); f = open('protoc.zip', 'wb'); f.write(r.read()); f.close(); r.close()"
             python -c "import zipfile; zipfile.ZipFile('protoc.zip').extract('bin/protoc', '/usr/local')"
             chmod +x /usr/local/bin/protoc
             rm -f protoc.zip
