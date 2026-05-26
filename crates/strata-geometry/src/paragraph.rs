@@ -17,19 +17,14 @@ use crate::word_line::{GlyphInput, Line};
 use strata_core::BBox;
 
 /// Representa el tipo de un grupo de párrafos.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case", tag = "kind")]
 pub enum ParagraphKind {
     /// Cuerpo de texto general.
+    #[default]
     Body,
     /// Encabezado con su nivel de jerarquía.
     Heading { level: u8 },
-}
-
-impl Default for ParagraphKind {
-    fn default() -> Self {
-        Self::Body
-    }
 }
 
 /// Un grupo semántico de líneas que forman un párrafo continuo o un encabezado.

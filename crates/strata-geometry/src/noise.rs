@@ -201,7 +201,7 @@ mod tests {
         // baseline_y = 800 (en el tercio superior)
         // font_size = 14.0 pt (grande)
         // text = "1706.03762v5"
-        let text_chars = vec!['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
+        let text_chars = ['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
         let glyphs: Vec<GlyphInput> = text_chars
             .iter()
             .enumerate()
@@ -218,7 +218,7 @@ mod tests {
     #[test]
     fn test_is_arxiv_watermark_negative_low_y() {
         // Lo mismo pero en el centro de la página (no es marca de agua)
-        let text_chars = vec!['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
+        let text_chars = ['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
         let glyphs: Vec<GlyphInput> = text_chars
             .iter()
             .enumerate()
@@ -235,7 +235,7 @@ mod tests {
     #[test]
     fn test_is_arxiv_watermark_negative_small_font() {
         // En el tercio superior pero tamaño pequeño (podría ser texto normal, ej. nota al margen)
-        let text_chars = vec!['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
+        let text_chars = ['1', '7', '0', '6', '.', '0', '3', '7', '6', '2', 'v', '5'];
         let glyphs: Vec<GlyphInput> = text_chars
             .iter()
             .enumerate()
@@ -252,7 +252,7 @@ mod tests {
     #[test]
     fn test_is_arxiv_watermark_negative_letters() {
         // En el tercio superior y tamaño grande pero contiene letras comunes (ej. un título de sección)
-        let text_chars = vec!['I', 'n', 't', 'r', 'o', 'd', 'u', 'c', 't', 'i', 'o', 'n'];
+        let text_chars = ['I', 'n', 't', 'r', 'o', 'd', 'u', 'c', 't', 'i', 'o', 'n'];
         let glyphs: Vec<GlyphInput> = text_chars
             .iter()
             .enumerate()
@@ -328,7 +328,7 @@ mod tests {
     #[test]
     fn test_is_page_number_negative_with_letters() {
         // En la parte inferior pero contiene letras (ej. "Page 15" o "15 pt")
-        let text_chars = vec!['P', 'a', 'g', 'e', ' ', '1', '5'];
+        let text_chars = ['P', 'a', 'g', 'e', ' ', '1', '5'];
         let glyphs: Vec<GlyphInput> = text_chars
             .iter()
             .enumerate()

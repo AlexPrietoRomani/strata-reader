@@ -125,9 +125,10 @@ pub fn classify_headings(
             let text = &line_texts[i];
 
             // 1. Aplicar los filtros de contenido y posición
-            if !heading_content_filter(text) || !heading_position_filter(bbox, page_bbox) {
-                HeadingClass::Body
-            } else if s < body_size * MIN_RELATIVE_SIZE {
+            if !heading_content_filter(text)
+                || !heading_position_filter(bbox, page_bbox)
+                || s < body_size * MIN_RELATIVE_SIZE
+            {
                 HeadingClass::Body
             } else {
                 let level = levels

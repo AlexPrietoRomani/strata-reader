@@ -66,11 +66,9 @@ pub fn fix_letter_spacing(text: &str) -> String {
             if c == ' ' {
                 consecutive_spaces += 1;
             } else {
-                if consecutive_spaces >= 2 {
-                    if !current_segment.is_empty() {
-                        words.push(current_segment.replace(' ', ""));
-                        current_segment.clear();
-                    }
+                if consecutive_spaces >= 2 && !current_segment.is_empty() {
+                    words.push(current_segment.replace(' ', ""));
+                    current_segment.clear();
                 }
                 consecutive_spaces = 0;
                 current_segment.push(c);
