@@ -1,0 +1,55 @@
+name: publish-pypi (manual)
+
+# Manual fallback for re-publishing to PyPI without rebuilding.
+# The primary publish path is the `publish` job in release-wheels.yml
+# which runs automatically on v* tag pushes.
+#
+# PREREQUISITE: Configure a Trusted Publisher on PyPI at
+#   https://pypi.org/manage/project/strata-reader/settings/publishing/
+#   - Owner: AlexPrietoRomani
+#   - Repository: strata-reader
+#   - Workflow name: publish-pypi.yml
+#   - Environment: pypi
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-id:
+        description: "Run ID of the release-wheels workflow to download artifacts from"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  actions: read
+
+jobs:
+  publish:
+    name: Publish to PyPI (manual)
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - name: Download wheels
+        uses: actions/download-artifact@v6
+        with:
+          pattern: "wheels-*"
+          path: dist
+          merge-multiple: true
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download sdist
+        uses: actions/download-artifact@v6
+        with:
+          name: sdist
+          path: dist
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List packages
+        run: ls -la dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/

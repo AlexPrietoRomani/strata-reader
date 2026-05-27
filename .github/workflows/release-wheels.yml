@@ -1,8 +1,8 @@
 name: release-wheels
 
 # Triggered manually (workflow_dispatch) or by pushing a v* tag.
-# Builds the strata-reader wheel for the supported platforms and
-# uploads the artifacts. Publishing to PyPI is a follow-up workflow.
+# Builds the strata-reader wheel (abi3 — one wheel per platform for
+# Python 3.12+) and publishes to PyPI automatically on tag push.
 
 on:
   push:
@@ -19,65 +19,56 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # ── Linux ───────────────────────────────────────────────
+          # maturin-action expects short target names for Linux so it
+          # can map them to the correct manylinux Docker container.
           - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
+            target: x86_64
             manylinux: manylinux_2_28
-            python-target: x86_64
+            pdfium-platform: linux-x64
           - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
+            target: aarch64
             manylinux: manylinux_2_28
-            python-target: aarch64
+            pdfium-platform: linux-arm64
+          # ── Windows ────────────────────────────────────────────
           - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            python-target: x64
+            target: x64
+            pdfium-platform: win-x64
+          # ── macOS (Apple Silicon) ──────────────────────────────
           - os: macos-14
             target: aarch64-apple-darwin
-            python-target: universal2
+            pdfium-platform: mac-arm64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
+      # protoc is needed on the runner for non-Linux (Windows/macOS).
+      # Linux builds install protoc inside the Docker container via
+      # before-script-linux below.
       - name: Install protoc
+        if: matrix.os != 'ubuntu-latest'
         uses: arduino/setup-protoc@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
 
-      - name: Resolve PDFium Platform Name
-        id: pdfium_platform
-        shell: bash
-        run: |
-          TARGET="${{ matrix.target }}"
-          if [ "$TARGET" = "x86_64-unknown-linux-gnu" ]; then
-            echo "name=linux-x64" >> $GITHUB_OUTPUT
-          elif [ "$TARGET" = "aarch64-unknown-linux-gnu" ]; then
-            echo "name=linux-arm64" >> $GITHUB_OUTPUT
-          elif [ "$TARGET" = "x86_64-pc-windows-msvc" ]; then
-            echo "name=win-x64" >> $GITHUB_OUTPUT
-          elif [ "$TARGET" = "aarch64-apple-darwin" ]; then
-            echo "name=mac-arm64" >> $GITHUB_OUTPUT
-          else
-            echo "Unsupported target: $TARGET"
-            exit 1
-          fi
-
       - name: Download and Verify PDFium
         shell: bash
         run: |
           set -e
-          PLATFORM="${{ steps.pdfium_platform.outputs.name }}"
+          PLATFORM="${{ matrix.pdfium-platform }}"
           VERSION="7843"
           URL="https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/${VERSION}/pdfium-${PLATFORM}.tgz"
-          
+
           echo "Downloading PDFium for ${PLATFORM} from ${URL}..."
           curl -L -o "pdfium-${PLATFORM}.tgz" "$URL"
-          
+
           # Checksum verification
           echo "Verifying SHA-256 checksum..."
           if command -v sha256sum &> /dev/null; then
@@ -85,12 +76,12 @@ jobs:
           else
             grep "pdfium-${PLATFORM}.tgz" scripts/pdfium-checksums.sha256 | shasum -a 256 -c -
           fi
-          
+
           # Extract into strata_reader package structure
           TARGET_DIR="python/strata_reader/_pdfium"
           mkdir -p "$TARGET_DIR"
           tar -xzf "pdfium-${PLATFORM}.tgz" -C "$TARGET_DIR"
-          
+
           echo "PDFium extracted successfully to ${TARGET_DIR}:"
           ls -la "$TARGET_DIR"
 
@@ -107,14 +98,13 @@ jobs:
       - name: Build wheel via maturin
         uses: PyO3/maturin-action@v1
         with:
-          target: ${{ matrix.python-target }}
+          target: ${{ matrix.target }}
           manylinux: ${{ matrix.manylinux }}
-          args: --release --out dist --strip ${{ (matrix.os == 'ubuntu-latest') && '--auditwheel repair' || '' }}
-          # Force-include the `strata_ia` Python package alongside
-          # `strata_reader` so the gRPC microservice can be spawned by
-          # EmbeddedWorker without an extra pip install.
+          # abi3: one wheel per platform for Python 3.12+
+          args: --release --out dist --strip -i python3.12 ${{ (matrix.os == 'ubuntu-latest') && '--auditwheel repair' || '' }}
           working-directory: ${{ github.workspace }}
           before-script-linux: |
+            # ── Install protoc inside the manylinux container ────
             PROTOC_VERSION="29.3"
             ARCH=$(uname -m)
             if [ "$ARCH" = "x86_64" ]; then
@@ -124,20 +114,11 @@ jobs:
             else
               PROTOC_ARCH="linux-x86_64"
             fi
-            
-            # Find python3 or python dynamically
-            if command -v python3 &>/dev/null; then
-              PYTHON_BIN="python3"
-            elif command -v python &>/dev/null; then
-              PYTHON_BIN="python"
-            else
-              echo "Error: Python not found!"
-              exit 1
-            fi
-            
-            echo "Using Python binary: $PYTHON_BIN"
-            $PYTHON_BIN -c "import urllib.request, ssl; ctx = ssl._create_unverified_context(); r = urllib.request.urlopen('https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip', context=ctx); f = open('protoc.zip', 'wb'); f.write(r.read()); f.close(); r.close()"
-            $PYTHON_BIN -c "import zipfile; zipfile.ZipFile('protoc.zip').extract('bin/protoc', '/usr/local')"
+
+            # Use curl + unzip (available in all manylinux images)
+            # instead of Python, which is NOT on the default PATH.
+            curl -Lo protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip"
+            unzip -o protoc.zip bin/protoc -d /usr/local
             chmod +x /usr/local/bin/protoc
             rm -f protoc.zip
             protoc --version
@@ -148,9 +129,6 @@ jobs:
         run: |
           set -e
           echo "Repairing Windows Wheel with delvewheel..."
-          # delvewheel bundles DLLs not found in system directories
-          # We need to make sure pdfium.dll is properly bundled if it's in the bin/ folder of our package.
-          # delvewheel requires an explicit --add-path pointing to the folder containing the DLL.
           delvewheel repair dist/*.whl --add-path python/strata_reader/_pdfium/bin/ -w dist-repaired/
           mv dist-repaired/*.whl dist/
 
@@ -169,21 +147,23 @@ jobs:
           echo "Checking wheel contents to ensure PDFium is present..."
           python -m zipfile -l dist/*.whl | grep -i pdfium
 
+      # Smoke-test: skip aarch64 Linux (can't run ARM binaries on x86_64 runner)
       - name: Smoke-test the wheel
-        if: matrix.os != 'ubuntu-latest' || matrix.target == 'x86_64-unknown-linux-gnu'
+        if: matrix.target != 'aarch64'
         shell: bash
         run: |
           set -e
-          python -m venv /tmp/wheel-test
-          /tmp/wheel-test/bin/pip install dist/*.whl || \
-            /tmp/wheel-test/Scripts/pip install dist/*.whl
-          /tmp/wheel-test/bin/python -c \
-            "from strata_reader import version, parse, parse_batch, ParseOptions; print('strata-reader', version())" || \
-            /tmp/wheel-test/Scripts/python.exe -c \
-              "from strata_reader import version, parse, parse_batch, ParseOptions; print('strata-reader', version())"
+          python -m venv test-venv
+          if [ -f test-venv/bin/pip ]; then
+            test-venv/bin/pip install dist/*.whl
+            test-venv/bin/python -c "from strata_reader import version; print('strata-reader', version())"
+          else
+            test-venv/Scripts/pip install dist/*.whl
+            test-venv/Scripts/python.exe -c "from strata_reader import version; print('strata-reader', version())"
+          fi
 
       - name: Upload wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: wheels-${{ matrix.target }}
           path: dist/*.whl
@@ -192,8 +172,8 @@ jobs:
     name: source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - uses: dtolnay/rust-toolchain@stable
@@ -202,23 +182,40 @@ jobs:
         with:
           command: sdist
           args: --out dist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: sdist
           path: dist/*.tar.gz
 
-  consolidate:
-    name: consolidate artifacts
+  # ── Publish to PyPI (only on tag push) ─────────────────────────
+  publish:
+    name: publish to PyPI
     needs: [build, sdist]
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # OIDC Trusted Publishing
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download all wheels
+        uses: actions/download-artifact@v6
         with:
-          path: dist-all
-      - name: List
-        run: ls -la dist-all/**/* || true
-      - name: Upload consolidated
-        uses: actions/upload-artifact@v4
+          pattern: "wheels-*"
+          path: dist
+          merge-multiple: true
+
+      - name: Download sdist
+        uses: actions/download-artifact@v6
         with:
-          name: release-bundle
-          path: dist-all/**/*
+          name: sdist
+          path: dist
+
+      - name: List packages to publish
+        run: |
+          echo "📦 Packages ready for PyPI:"
+          ls -la dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/

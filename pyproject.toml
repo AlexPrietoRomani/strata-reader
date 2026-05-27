@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
+
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Text Processing :: Markup",
 ]
@@ -81,7 +81,7 @@ dev = [
 manifest-path = "crates/strata-py/Cargo.toml"
 python-source = "python"
 module-name = "strata_reader._native"
-features = ["pyo3/extension-module"]
+features = ["pyo3/extension-module", "pyo3/abi3-py312"]
 include = [
     { path = "python/strata_reader/_pdfium/**/*", format = "wheel" }
 ]
