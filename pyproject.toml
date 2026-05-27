@@ -83,7 +83,8 @@ python-source = "python"
 module-name = "strata_reader._native"
 features = ["pyo3/extension-module", "pyo3/abi3-py312"]
 include = [
-    { path = "python/strata_reader/_pdfium/**/*", format = "wheel" }
+    { path = "python/strata_reader/_pdfium/**/*", format = "wheel" },
+    "LICENSE"
 ]
 
 [tool.ruff]
