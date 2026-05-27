@@ -26,7 +26,7 @@ jobs:
             target: x86_64
             manylinux: manylinux_2_28
             pdfium-platform: linux-x64
-          - os: ubuntu-22.04
+          - os: ubuntu-latest
             target: aarch64
             manylinux: manylinux_2_28
             pdfium-platform: linux-arm64
@@ -107,7 +107,7 @@ jobs:
           target: ${{ matrix.target }}
           manylinux: ${{ matrix.manylinux }}
           # abi3: one wheel per platform for Python 3.12+
-          args: --release --out dist --strip -i python3.12 ${{ (matrix.os == 'ubuntu-latest') && '--auditwheel repair' || '' }}
+          args: --release --out dist --strip -i python3.12 ${{ matrix.manylinux && '--auditwheel repair' || '' }}
           working-directory: ${{ github.workspace }}
           before-script-linux: |
             # ── Install protoc inside the manylinux container ────
@@ -121,8 +121,8 @@ jobs:
               PROTOC_ARCH="linux-x86_64"
             fi
 
-            # Use curl + unzip (available in all manylinux images)
-            # instead of Python, which is NOT on the default PATH.
+            # manylinux_2_28 (AlmaLinux 8) does NOT include unzip.
+            yum install -y unzip
             curl -Lo protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-${PROTOC_ARCH}.zip"
             unzip -o protoc.zip bin/protoc -d /usr/local
             chmod +x /usr/local/bin/protoc
