@@ -26,10 +26,12 @@ jobs:
             target: x86_64
             manylinux: manylinux_2_28
             pdfium-platform: linux-x64
-          - os: ubuntu-latest
-            target: aarch64
-            manylinux: manylinux_2_28
-            pdfium-platform: linux-arm64
+          # TODO: re-enable aarch64 Linux once Docker/QEMU cross-compile
+          # issue is resolved (maturin-action + manylinux_2_28 + QEMU).
+          # - os: ubuntu-latest
+          #   target: aarch64
+          #   manylinux: manylinux_2_28
+          #   pdfium-platform: linux-arm64
           # ── Windows ────────────────────────────────────────────
           - os: windows-latest
             target: x64
