@@ -42,6 +42,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # QEMU is required for cross-compiling aarch64 Linux wheels
+      # inside Docker on x86_64 GitHub-hosted runners.
+      - name: Setup QEMU
+        if: matrix.target == 'aarch64'
+        uses: docker/setup-qemu-action@v3
+
       # protoc is needed on the runner for non-Linux (Windows/macOS).
       # Linux builds install protoc inside the Docker container via
       # before-script-linux below.
