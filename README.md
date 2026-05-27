@@ -14,7 +14,7 @@
 
 Frente a alternativas tradicionales pesadas o basadas en la nube (como *Docling*, *Marker* o *Unstructured*), Strata-Reader introduce una arquitectura híbrida de reingeniería de software:
 
-*   ⚡ **Rendimiento a nivel del metal (~0.009s / página):** Su motor de extracción y clustering geométrico escrito en **Rust puro** procesa los glifos nativos en microsegundos, usando índices espaciales **R-Tree** (`rstar`) para reconstruir el flujo de lectura exacto mediante el algoritmo optimizado **XY-Cut++**.
+*   ⚡ **Rendimiento a nivel del metal (~0.02s / página):** Su motor de extracción y clustering geométrico escrito en **Rust puro** procesa los glifos nativos en microsegundos, usando índices espaciales **R-Tree** (`rstar`) para reconstruir el flujo de lectura exacto mediante el algoritmo optimizado **XY-Cut++**.
 *   🥗 **Inferencia Híbrida Inteligente (Triage Engine):** No desperdiciamos GPU procesando páginas completas con modelos VLMs. El motor geométrico extrae el 90% del texto y tablas estructuradas a velocidad nativa y, mediante un árbol lógico de decisiones, **recorta y delega selectivamente** solo las regiones complejas (tablas sin bordes, diagramas, fórmulas CID rotas) a modelos multimodales locales (**Qwen2.5-VL** via **Ollama** y **Surya OCR**).
 *   🔬 **Rigor Científico y Trazabilidad PRISMA:** Cada bloque semántico exportado cuenta con metadatos de procedencia integrados (`Provenance`). Sabrás con exactitud si un párrafo fue extraído por Rust nativo o inferido por IA, junto con el modelo, latencia y confianza de inferencia.
 *   📦 **Instalación Zero-Friction:** A diferencia de otros proyectos que requieren configuraciones de compiladores y variables del sistema complejas, `pip install strata-reader` es 100% autocontenido y listo para usar en Windows, Linux y macOS.
@@ -94,47 +94,22 @@ strata parse --input papers/ --output out/ --format md+json --profile scientific
 
 ## 📊 Benchmarking Empírico y Calidad (3 Motores)
 
-Para validar de forma rigurosa la velocidad y la calidad de la extracción, evaluamos de forma empírica **Strata-Reader** frente al baseline tradicional de **OpenDataLoader** y la librería **MarkItDown de Microsoft** sobre un corpus de prueba compuesto por 9 artículos científicos complejos (un total de **203 páginas**).
+Para validar de forma rigurosa la velocidad y la calidad de la extracción, evaluamos **Strata-Reader** frente a **OpenDataLoader** y la librería **MarkItDown de Microsoft** sobre un corpus de prueba masivo de **201 artículos científicos complejos** (más de 1,500 páginas).
 
 ![Scientific PDF Parsing Benchmark](tests/fixtures/salidas/benchmark_comparison.png)
 
-### ⚡ Resultados de Rendimiento Reales
+### ⚡ Resumen de Resultados Reales (Corpus de 201 PDFs)
 
-De acuerdo con el pipeline de ejecución y evaluación automatizado, los resultados empíricos obtenidos en un entorno de pruebas estándar con los 3 motores son:
-
-*   **Strata-Reader (Rust Native):** Extrae glifos y reconstruye el AST a nivel de metal con un tiempo promedio de **0.0068 segundos por página** (procesa las 203 páginas del corpus en tan solo **1.371 segundos**), alcanzando una precisión estructural perfecta de **100.00% (SCE-Accuracy)**.
-*   **OpenDataLoader (Baseline):** Requiere en promedio **0.0587 segundos por página** (tardando **11.915 segundos** en total), registrando un **SCE-Accuracy de 97.96%**. Nuestro motor es **8.6 veces más rápido** y limpio.
-*   **Microsoft MarkItDown:** Requiere en promedio **0.1033 segundos por página** (tardando **20.968 segundos** en total), registrando una precisión de **32.71% (SCE-Accuracy)**. Es **15 veces más lento** que Strata-Reader y presenta severas limitaciones de diseño para RAG.
+*   **Strata-Reader (Rust Native):** Tiempo promedio de **0.0242 segundos por página**. Precisión de cohesión estructural **100.00% (SCE-Accuracy)**, score topológico de tablas **TEDS de 100.00%** y superposición geométrica de figuras **IoU de 100.00%**.
+*   **OpenDataLoader (Baseline):** Tiempo promedio de **0.2312 segundos por página**, SCE-Accuracy de **98.32%**, TEDS de **100.00%** e IoU de **100.00%**. Strata-Reader es **9.5 veces más rápido**.
+*   **Microsoft MarkItDown:** Tiempo promedio de **0.4501 segundos por página**, SCE-Accuracy de **33.49%** debido al ruido de espaciado artificial redundante inapropiado para RAG. Strata-Reader es **18.6 veces más rápido**.
 
 ---
 
-### 🔍 ¿Por qué Microsoft MarkItDown obtuvo un 32.71% de Accuracy?
+### 📖 Fundamentos Teóricos y Métricas Detalladas
+Si deseas comprender a fondo el rigor científico de estas evaluaciones, la matemática detrás de cada indicador (incluyendo las penalizaciones por dobles espacios de MarkItDown, Zhang-Shasha para TEDS tabular, coherencia ANLS/JSD discreta, o apareamiento bipartito de costo mínimo del Algoritmo Húngaro), consulta la guía técnica completa:
 
-La baja calificación de **MarkItDown** en el indicador de precisión estructural no se debe a la ausencia de texto, sino al **ruido de diseño y formateo**. 
-
-Dado que está construido sobre `pdfminer.six` y `pdfplumber`, MarkItDown intenta emular visualmente la disposición espacial de las columnas introduciendo **secuencias masivas de espacios en blanco** (dobles espacios artificiales) para alinear el texto en la terminal.
-*   En el documento `10.48550_arXiv.2107.03374.pdf`, MarkItDown generó **más de 9,600 dobles espacios**.
-*   En `10.48550_arXiv.1512.03385.pdf`, generó **más de 4,400 dobles espacios**.
-
-Este exceso de espaciado artificial fragmenta las palabras y oraciones, contaminando la tokenización de modelos de lenguaje e imposibilitando la búsqueda exacta y la recuperación semántica en pipelines de RAG y Graph-RAG. Al carecer de un motor de clustering de flujo de lectura como nuestro **XY-Cut++**, MarkItDown prioriza la estética de espaciado plano sobre la cohesión textual semántica. Nuestra métrica SCE-Accuracy penaliza severamente estas anomalías de espaciado.
-
----
-
-### 📈 ¿Cómo se calcula la precisión científica (SCE-Accuracy)?
-
-Para realizar una evaluación objetiva y reproducible libre de sesgos y sin la necesidad de disponer de un texto plano absoluto de referencia (*ground-truth* total), implementamos el indicador de **Precisión de Cohesión Estructural y Jerarquía (SCE-Accuracy)**.
-
-Este cálculo se fundamenta en las metodologías y métricas de **Ruido de Diseño Estructural y Lectura Continuada** descritas en los marcos de evaluación de documentos de **ICDAR** (International Conference on Document Analysis and Recognition) y la **UNLV/ISRI** (Information Science Research Institute).
-
-La métrica cuantifica las anomalías de formateo del Markdown generado en relación con la densidad lineal del documento mediante la siguiente fórmula matemática:
-
-$$\text{SCE-Accuracy} = \max\left(0.0, 1.0 - \frac{D + 2 \cdot S + 5 \cdot H}{L}\right)$$
-
-Donde:
-*   **$D$ (Anomalías de Espaciado — Dobles Espacios):** Penalización leve ($1\times$) por espacios múltiples consecutivos residuales de decodificación de glifos.
-*   **$S$ (Artefactos Alfanuméricos — Stray Characters):** Penalización moderada ($2\times$) por caracteres o símbolos no alfanuméricos aislados en una línea que interrumpen el flujo semántico normal de los párrafos.
-*   **$H$ (Ruido de Jerarquía — Falsos Encabezados):** Penalización crítica ($5\times$) por líneas que contienen números de página, marcas de agua de arXiv o metadatos de autor clasificados incorrectamente con la directiva `#`, corrompiendo la indexación jerárquica para RAG semántico.
-*   **$L$ (Líneas Totales del Documento):** Cantidad de líneas totales del archivo Markdown de salida para normalizar el error por extensión.
+👉 **[Guía y Explicación Detallada del Benchmark](tests/test_pruebas/EXPLICACION_BENCHMARK.md)**
 
 ---
 
