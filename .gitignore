@@ -83,7 +83,7 @@ tests/fixtures/pdfs/_build/
 !uv.lock
 !package.json
 !tsconfig.json
-
+/graphify-out/
 
 # --- Documentation and Benchmarks ---
 .benchmarks/
@@ -92,6 +92,7 @@ docs/doc_guia/
 docs/plan/
 docs/task/
 docs/usage/
+
 # --- Fixtures and Sources ---
 tests/fixtures/pdfs/
 tests/fixtures/sources/
