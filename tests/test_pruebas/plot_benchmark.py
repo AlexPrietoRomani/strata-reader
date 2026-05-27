@@ -42,8 +42,8 @@ import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
+import pandas as pd  # type: ignore
+import seaborn as sns  # type: ignore
 
 # Mapeos estáticos de presentación y paleta cromática para motores conocidos
 DISPLAY_NAMES = {
@@ -88,8 +88,8 @@ def generate_benchmark_plot() -> None:
     required_keys = [
         "strata_speed",
         "opendataloader_speed",
-        "strata_accuracy",
-        "opendataloader_accuracy",
+        "strata_sce_accuracy",
+        "opendataloader_sce_accuracy",
     ]
     missing_keys = [k for k in required_keys if k not in metrics]
     if missing_keys:
@@ -102,7 +102,7 @@ def generate_benchmark_plot() -> None:
     for key in metrics:
         if key.endswith("_speed"):
             engine_name = key[:-6]
-            acc_key = f"{engine_name}_accuracy"
+            acc_key = f"{engine_name}_sce_accuracy"
             if acc_key in metrics:
                 engines.append(engine_name)
 
@@ -116,7 +116,7 @@ def generate_benchmark_plot() -> None:
         data.append(
             {
                 "Engine": display_name,
-                "Accuracy": metrics[f"{engine}_accuracy"],
+                "Accuracy": metrics[f"{engine}_sce_accuracy"],
                 "Speed": metrics[f"{engine}_speed"],
                 "Color_Acc": acc_color,
                 "Color_Speed": speed_color,
@@ -204,7 +204,7 @@ def generate_benchmark_plot() -> None:
         )
 
     # Ajustes finales de diseño
-    plt.tight_layout(rect=[0, 0, 1, 0.88])
+    plt.tight_layout(rect=(0.0, 0.0, 1.0, 0.88))
 
     # Guardar en alta resolución
     out_dir = Path("tests/fixtures/salidas")

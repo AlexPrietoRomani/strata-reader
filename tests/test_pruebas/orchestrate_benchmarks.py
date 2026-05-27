@@ -112,9 +112,6 @@ def main() -> None:
         "strata_speed": strata_metrics["speed"],
         "opendataloader_speed": odl_metrics["speed"],
         "markitdown_speed": markitdown_metrics["speed"],
-        "strata_accuracy": accuracy_metrics["strata_accuracy"],
-        "opendataloader_accuracy": accuracy_metrics["opendataloader_accuracy"],
-        "markitdown_accuracy": accuracy_metrics["markitdown_accuracy"],
         "total_pdfs_processed": len(pdf_files),
         "total_pages_strata": strata_metrics["total_pages"],
         "total_pages_opendataloader": odl_metrics["total_pages"],
@@ -123,6 +120,7 @@ def main() -> None:
         "elapsed_time_opendataloader_seconds": odl_metrics["elapsed_time"],
         "elapsed_time_markitdown_seconds": markitdown_metrics["elapsed_time"],
     }
+    consolidated_metrics.update(accuracy_metrics)
 
     metrics_json_path = Path("tests/fixtures/salidas/strata_real_metrics.json")
     metrics_json_path.parent.mkdir(parents=True, exist_ok=True)
@@ -145,17 +143,22 @@ def main() -> None:
     print("Resumen de Métricas Consolidadas:")
     print("  - Strata-Reader:")
     print(f"      * Velocidad: {consolidated_metrics['strata_speed']:.4f} s/página")
-    print(f"      * Accuracy (SCE-Accuracy): {consolidated_metrics['strata_accuracy'] * 100:.2f}%")
+    print(f"      * SCE-Accuracy: {consolidated_metrics['strata_sce_accuracy'] * 100:.2f}%")
+    print(f"      * TEDS (Tablas): {consolidated_metrics['strata_teds_score'] * 100:.2f}%")
+    print(f"      * ANLS (Texto): {consolidated_metrics['strata_anls_score'] * 100:.2f}%")
+    print(f"      * IoU (Figuras): {consolidated_metrics['strata_iou_figures'] * 100:.2f}%")
     print("  - OpenDataLoader:")
     print(f"      * Velocidad: {consolidated_metrics['opendataloader_speed']:.4f} s/página")
-    print(
-        f"      * Accuracy (SCE-Accuracy): {consolidated_metrics['opendataloader_accuracy'] * 100:.2f}%"
-    )
+    print(f"      * SCE-Accuracy: {consolidated_metrics['opendataloader_sce_accuracy'] * 100:.2f}%")
+    print(f"      * TEDS (Tablas): {consolidated_metrics['opendataloader_teds_score'] * 100:.2f}%")
+    print(f"      * ANLS (Texto): {consolidated_metrics['opendataloader_anls_score'] * 100:.2f}%")
+    print(f"      * IoU (Figuras): {consolidated_metrics['opendataloader_iou_figures'] * 100:.2f}%")
     print("  - Microsoft MarkItDown:")
     print(f"      * Velocidad: {consolidated_metrics['markitdown_speed']:.4f} s/página")
-    print(
-        f"      * Accuracy (SCE-Accuracy): {consolidated_metrics['markitdown_accuracy'] * 100:.2f}%"
-    )
+    print(f"      * SCE-Accuracy: {consolidated_metrics['markitdown_sce_accuracy'] * 100:.2f}%")
+    print(f"      * TEDS (Tablas): {consolidated_metrics['markitdown_teds_score'] * 100:.2f}%")
+    print(f"      * ANLS (Texto): {consolidated_metrics['markitdown_anls_score'] * 100:.2f}%")
+    print(f"      * IoU (Figuras): {consolidated_metrics['markitdown_iou_figures'] * 100:.2f}%")
     print("=" * 80 + "\n")
 
 
