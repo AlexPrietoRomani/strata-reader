@@ -36,7 +36,6 @@ Ejecución:
 
 from __future__ import annotations
 
-import os
 import re
 import time
 import urllib.request
@@ -71,7 +70,7 @@ def parse_arxiv_feed(xml_data: str) -> list[dict]:
         id_element = entry.find("atom:id", namespaces)
         if id_element is None or not id_element.text:
             continue
-        
+
         # Extraer el ID numérico del URL
         id_text = id_element.text.split("/abs/")[-1]
         id_match = ARXIV_ID_PATTERN.search(id_text)
@@ -141,7 +140,7 @@ def fetch_arxiv_metadata(categories: list[str], max_results: int = 150) -> list[
             f"sortBy=relevance"
         )
         print(f"Consultando ArXiv API para la categoría {category}...")
-        
+
         try:
             req = urllib.request.Request(
                 url,
@@ -149,15 +148,15 @@ def fetch_arxiv_metadata(categories: list[str], max_results: int = 150) -> list[
             )
             with urllib.request.urlopen(req) as response:
                 xml_data = response.read().decode("utf-8")
-            
+
             category_papers = parse_arxiv_feed(xml_data)
             print(f"  Encontrados {len(category_papers)} artículos en {category}.")
-            
+
             for paper in category_papers:
                 if paper["id"] not in seen_ids:
                     seen_ids.add(paper["id"])
                     papers.append(paper)
-            
+
             # Pausa educada para evitar rate limiting en el API
             time.sleep(2)
         except Exception as exc:
@@ -204,7 +203,7 @@ def main() -> None:
     # 2. Escanear artículos existentes y extraer sus IDs de arXiv
     existing_files = list(TARGET_DIR.glob("*.pdf"))
     existing_ids = set()
-    
+
     for file in existing_files:
         # Extraer ID del nombre: 10.48550_arXiv.<id>.pdf
         match = ARXIV_ID_PATTERN.search(file.name)
@@ -212,7 +211,7 @@ def main() -> None:
             existing_ids.add(match.group(1))
 
     current_count = len(existing_files)
-    print(f"Estado del corpus actual:")
+    print("Estado del corpus actual:")
     print(f"  - PDFs existentes en disco: {current_count}")
     print(f"  - Artículos reconocidos: {len(existing_ids)}")
     print(f"  - Objetivo total: {TARGET_TOTAL}")
@@ -230,7 +229,7 @@ def main() -> None:
 
     # 4. Descargar artículos hasta llegar a 200 PDFs
     downloaded_papers_metadata = []
-    
+
     # Agregar metadatos de los papers que ya existían (re-escribiremos en el README)
     # Nota: para los ya existentes no tenemos el abstract en memoria, pero podemos
     # pre-llenar con marcadores de posición o una descripción genérica para el README.
@@ -260,10 +259,10 @@ def main() -> None:
 
         filename = f"10.48550_arXiv.{paper_id}.pdf"
         filepath = TARGET_DIR / filename
-        
+
         print(f"[{current_count + download_count + 1}/{TARGET_TOTAL}] Descargando paper {paper_id}...")
         print(f"  Título: {paper['title'][:70]}...")
-        
+
         success = download_pdf_file(paper["pdf_url"], filepath)
         if success:
             download_count += 1
@@ -281,10 +280,10 @@ def main() -> None:
             print(f"  [AVISO] Se omitió el paper {paper_id} por fallo en descarga.")
 
     print(f"\nDescargas finalizadas. Se descargaron exitosamente {download_count} nuevos artículos.")
-    
+
     # 5. Generar el README.md de metadatos comparativos
     print("\nGenerando archivo README.md de metadatos en disco...")
-    
+
     readme_lines = [
         "# Corpus de Benchmarking Científico — Metadatos de Artículos",
         "",

@@ -41,6 +41,9 @@ dependencies = [
     "tenacity>=9,<10",
     "aiosqlite>=0.20,<0.22",
     "Pillow>=10,<12",
+    "scipy>=1.17.1",
+    "numpy>=2.4.6",
+    "lxml>=6.1.1",
 ]
 
 [project.optional-dependencies]
@@ -131,7 +134,7 @@ ignore_errors = true
 
 [[tool.mypy.overrides]]
 # Untyped third-party libraries without stubs
-module = ["tqdm.*", "pynvml.*", "pytesseract.*", "surya.*"]
+module = ["tqdm.*", "pynvml.*", "pytesseract.*", "surya.*", "lxml.*", "scipy.*", "numpy.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
