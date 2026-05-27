@@ -1,15 +1,15 @@
 {
-  "strata_speed": 0.006753249708654845,
-  "opendataloader_speed": 0.05869353463497068,
-  "markitdown_speed": 0.10329229843440314,
+  "strata_speed": 0.008894668817520142,
+  "opendataloader_speed": 0.4766519725322723,
+  "markitdown_speed": 1.3758258211612702,
   "strata_accuracy": 1.0,
-  "opendataloader_accuracy": 0.9796,
-  "markitdown_accuracy": 0.3271,
-  "total_pdfs_processed": 9,
-  "total_pages_strata": 203,
-  "total_pages_opendataloader": 203,
-  "total_pages_markitdown": 203,
-  "elapsed_time_strata_seconds": 1.3709096908569336,
-  "elapsed_time_opendataloader_seconds": 11.914787530899048,
-  "elapsed_time_markitdown_seconds": 20.968336582183838
+  "opendataloader_accuracy": 0.9832,
+  "markitdown_accuracy": 0.3349,
+  "total_pdfs_processed": 200,
+  "total_pages_strata": 200,
+  "total_pages_opendataloader": 200,
+  "total_pages_markitdown": 200,
+  "elapsed_time_strata_seconds": 1.7789337635040283,
+  "elapsed_time_opendataloader_seconds": 95.33039450645447,
+  "elapsed_time_markitdown_seconds": 275.165164232254
 }
