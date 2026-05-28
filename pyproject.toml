@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "strata-reader"
-version = "0.1.0"
+version = "0.1.1"
 description = "PDF → Markdown/JSON for Vector- and Graph-RAG. On-premise, parallel, fidelity-first."
 readme = "README.md"
 license = { text = "Apache-2.0" }
