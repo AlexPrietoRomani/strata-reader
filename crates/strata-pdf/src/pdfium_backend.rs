@@ -25,18 +25,20 @@ impl PdfBackend for PdfiumBackend {
 
     fn open(&self, data: &[u8]) -> Result<Box<dyn PdfDoc>, DecoderError> {
         let pdfium = get_pdfium()?;
-        // SAFETY: We extend the byte slice lifetime to static.
-        // PDFium requires the source buffer to remain valid while the document
-        // is loaded. The `PdfiumDoc` struct below will keep a boxed clone/ownership
-        // of this buffer to ensure safety.
-        let slice: &'static [u8] = unsafe { std::mem::transmute::<&[u8], &'static [u8]>(data) };
+        // SAFETY: PDFium requires the source buffer to remain valid while the document
+        // is loaded. Transmuting the input borrow `data` directly is unsound because
+        // it goes out of scope after `open` returns. Instead, we copy the bytes to a
+        // heap-allocated box, leak it to obtain a `'static` reference for PDFium, and
+        // reclaim ownership into `PdfiumDoc` so it is safely dropped when the doc is freed.
+        let bytes_leak = Box::leak(data.to_vec().into_boxed_slice());
+        let raw_ptr = bytes_leak as *mut [u8];
         let doc = pdfium
-            .load_pdf_from_byte_slice(slice, None)
+            .load_pdf_from_byte_slice(bytes_leak, None)
             .map_err(|e| DecoderError::Parse(e.to_string()))?;
 
         Ok(Box::new(PdfiumDoc {
             doc,
-            _bytes: data.to_vec().into_boxed_slice(),
+            _bytes: unsafe { Box::from_raw(raw_ptr) },
         }))
     }
 }
