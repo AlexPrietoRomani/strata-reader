@@ -16,19 +16,19 @@ use strata_core::{
     BBox, Block, BlockId, BlockType, DocMeta, Document, Page, PageOrientation, Provenance,
     ProvenanceSource, Size,
 };
+use strata_geometry::xy_cut_plus_plus;
 use strata_geometry::{
     classify_headings, cluster_lines, detect_table_borders, detect_table_candidates,
     filter_noise_lines, merge_lines_into_paragraphs, normalize_text, words_from_line, GlyphInput,
     LineSegment, ParagraphKind, XyCutConfig,
 };
-use strata_geometry::xy_cut_plus_plus;
 use strata_quality::evaluate_cid_health;
 use strata_serialize::{render_graph, render_markdown, ImageStrategy, MarkdownOptions};
+use strata_triage::render_crop;
 use strata_triage::{
     triage_block, BlockContext, PageContext, Reason, TriageDecision, TriageProfile, TriageRoute,
     DEFAULT_CROP_DPI,
 };
-use strata_triage::render_crop;
 
 use crate::artifacts::ParseArtifacts;
 use crate::error::PipelineError;
@@ -371,8 +371,7 @@ pub async fn parse_document(opts: ParsePipelineOptions) -> Result<ParseArtifacts
 
         doc_pages.push(Arc::new(Page {
             number: (page_idx + 1) as u32,
-            size: Size::new(page_w, page_h)
-                .unwrap_or_else(|_| Size::new(595.0, 842.0).unwrap()),
+            size: Size::new(page_w, page_h).unwrap_or_else(|_| Size::new(595.0, 842.0).unwrap()),
             orientation: if page_w > page_h {
                 PageOrientation::Landscape
             } else {

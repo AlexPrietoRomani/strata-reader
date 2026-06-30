@@ -321,17 +321,19 @@ fn sha256_hex(bytes: &[u8]) -> String {
 }
 
 pub fn get_upload_path(id: JobId) -> std::path::PathBuf {
-    std::env::temp_dir().join("strata_uploads").join(format!("{}.pdf", id))
+    std::env::temp_dir()
+        .join("strata_uploads")
+        .join(format!("{}.pdf", id))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sync::Arc;
     use crate::jobs::JobStore;
     use crate::store::MemoryJobStore;
     use axum::body::Body;
     use axum::http::Request;
+    use std::sync::Arc;
     use tower::ServiceExt;
 
     fn app() -> Router {
@@ -470,12 +472,15 @@ mod tests {
     async fn test_post_parse_multipart_enqueues_and_worker_processes() {
         let store = Arc::new(MemoryJobStore::new());
         let metrics = strata_runtime::Metrics::new();
-        let state = AppState { store: store.clone(), metrics };
-        
+        let state = AppState {
+            store: store.clone(),
+            metrics,
+        };
+
         let app = router(state);
-        
+
         let pdf_data = b"%PDF-1.4 ... %%EOF";
-        
+
         let boundary = "------------------------1234567890";
         let body = format!(
             "--{boundary}\r\n\
@@ -485,32 +490,35 @@ mod tests {
              --{boundary}--\r\n",
             pdf_data = String::from_utf8_lossy(pdf_data)
         );
-        
+
         let resp = app
             .oneshot(
                 Request::builder()
                     .method("POST")
                     .uri("/v1/parse")
-                    .header("content-type", format!("multipart/form-data; boundary={boundary}"))
+                    .header(
+                        "content-type",
+                        format!("multipart/form-data; boundary={boundary}"),
+                    )
                     .body(Body::from(body))
                     .unwrap(),
             )
             .await
             .unwrap();
-            
+
         assert_eq!(resp.status(), StatusCode::ACCEPTED);
         let resp_body = axum::body::to_bytes(resp.into_body(), 1_000_000)
             .await
             .unwrap();
         let enqueued: EnqueuedBody = serde_json::from_slice(&resp_body).unwrap();
         let job_id = enqueued.job_id;
-        
+
         let upload_path = get_upload_path(job_id);
         assert!(upload_path.exists());
-        
+
         let job = store.get(job_id).await.unwrap().unwrap();
         assert_eq!(job.status, JobStatus::Queued);
-        
+
         let _ = std::fs::remove_file(&upload_path);
     }
 }

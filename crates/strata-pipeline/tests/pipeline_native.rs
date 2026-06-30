@@ -28,7 +28,9 @@ async fn native_parse_produces_non_empty_document() {
     };
     let artifacts = match parse_document(opts).await {
         Ok(art) => art,
-        Err(strata_pipeline::PipelineError::PdfOpen(msg)) if msg.contains("pdfium native library") => {
+        Err(strata_pipeline::PipelineError::PdfOpen(msg))
+            if msg.contains("pdfium native library") =>
+        {
             // Saltamos el test si la librería pdfium no está instalada en el sistema
             println!("Saltando test: pdfium no disponible");
             return;
@@ -36,12 +38,23 @@ async fn native_parse_produces_non_empty_document() {
         Err(e) => panic!("pipeline falló: {:?}", e),
     };
     assert!(!artifacts.document.pages.is_empty(), "debe tener páginas");
-    
-    let total_blocks: usize = artifacts.document.pages.iter().map(|p| p.blocks.len()).sum();
+
+    let total_blocks: usize = artifacts
+        .document
+        .pages
+        .iter()
+        .map(|p| p.blocks.len())
+        .sum();
     if total_blocks > 0 {
-        assert!(!artifacts.markdown.is_empty(), "markdown no debe estar vacío");
+        assert!(
+            !artifacts.markdown.is_empty(),
+            "markdown no debe estar vacío"
+        );
     } else {
-        assert!(artifacts.markdown.is_empty(), "markdown debe estar vacío si no hay bloques");
+        assert!(
+            artifacts.markdown.is_empty(),
+            "markdown debe estar vacío si no hay bloques"
+        );
     }
 }
 
@@ -61,7 +74,9 @@ async fn native_parse_with_save_images() {
     };
     let artifacts = match parse_document(opts).await {
         Ok(art) => art,
-        Err(strata_pipeline::PipelineError::PdfOpen(msg)) if msg.contains("pdfium native library") => {
+        Err(strata_pipeline::PipelineError::PdfOpen(msg))
+            if msg.contains("pdfium native library") =>
+        {
             println!("Saltando test: pdfium no disponible");
             let _ = std::fs::remove_dir_all(&tmp);
             return;

@@ -127,8 +127,6 @@ impl PyDocument {
     }
 }
 
-
-
 /// Parse a single PDF using the native Rust geometry and abstract backend extraction pipeline.
 #[pyfunction]
 #[pyo3(signature = (path, options = None))]
@@ -169,11 +167,13 @@ fn parse(_py: Python<'_>, path: String, options: Option<PyParseOptions>) -> PyRe
         pdf_backend: "auto".into(),
     };
 
-    let artifacts = rt.block_on(async move {
-        parse_document(opts).await
-    }).map_err(|e| PyValueError::new_err(format!("pipeline failed: {e}")))?;
+    let artifacts = rt
+        .block_on(async move { parse_document(opts).await })
+        .map_err(|e| PyValueError::new_err(format!("pipeline failed: {e}")))?;
 
-    Ok(PyDocument { inner: artifacts.document })
+    Ok(PyDocument {
+        inner: artifacts.document,
+    })
 }
 
 /// Parse several PDFs. Returns a dict `{path: Document}` so callers can

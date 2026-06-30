@@ -14,7 +14,7 @@ pub mod page;
 pub mod provenance;
 
 pub use bbox::{BBox, GeometryError, Point, Size};
-pub use block::{Block, BlockId, BlockType, BlockMetadata};
+pub use block::{Block, BlockId, BlockMetadata, BlockType};
 pub use document::{DocMeta, Document};
 pub use geometry::Matrix;
 pub use page::{Page, PageOrientation};

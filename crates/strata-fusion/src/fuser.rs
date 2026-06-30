@@ -120,7 +120,11 @@ fn apply_payload(block: &Block, payload: &IaPayload) -> Block {
     let (kind, metadata) = match payload {
         IaPayload::Ocr { .. } => (block.kind.clone(), None),
         IaPayload::Table { .. } => (BlockType::Table, None),
-        IaPayload::Image { alt_text, long_description, .. } => {
+        IaPayload::Image {
+            alt_text,
+            long_description,
+            ..
+        } => {
             let meta = strata_core::BlockMetadata {
                 alt_text: Some(alt_text.clone()),
                 description: Some(long_description.clone()),

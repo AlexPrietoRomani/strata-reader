@@ -291,7 +291,8 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
         pdf_backend: args.pdf_backend.clone(),
     };
 
-    let artifacts = parse_document(opts).await
+    let artifacts = parse_document(opts)
+        .await
         .map_err(|e| anyhow::anyhow!("pipeline failed: {e}"))?;
 
     let doc = &artifacts.document;

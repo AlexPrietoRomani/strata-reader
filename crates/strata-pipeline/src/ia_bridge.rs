@@ -101,7 +101,10 @@ pub async fn run_ia_tasks(
 
         let corr_id = &stream_result.correlation_id;
         let Some((block_id, route, _block_type)) = corr_map.get(corr_id) else {
-            warn!(corr_id = corr_id.as_str(), "correlation_id desconocido en respuesta IA");
+            warn!(
+                corr_id = corr_id.as_str(),
+                "correlation_id desconocido en respuesta IA"
+            );
             continue;
         };
 

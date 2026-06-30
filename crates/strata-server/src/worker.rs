@@ -3,11 +3,11 @@
 //! Periodically polls the JobStore for queued jobs, runs the parsing pipeline,
 //! and updates status to Done/Failed, saving the final markdown and json artifacts.
 
+use crate::jobs::{JobId, JobStatus, JobStore};
 use std::sync::Arc;
 use std::time::Duration;
-use tracing::{info, error};
-use crate::jobs::{JobStore, JobStatus, JobId};
 use strata_pipeline::{parse_document, ParsePipelineOptions};
+use tracing::{error, info};
 
 pub struct BackgroundWorker {
     store: Arc<dyn JobStore>,
@@ -38,12 +38,17 @@ impl BackgroundWorker {
 
     async fn poll_and_process(&self) -> Result<(), String> {
         let jobs = self.store.list().await.map_err(|e| e.to_string())?;
-        let queued_job = jobs.into_iter().find(|j| matches!(j.status, JobStatus::Queued));
+        let queued_job = jobs
+            .into_iter()
+            .find(|j| matches!(j.status, JobStatus::Queued));
         if let Some(mut job) = queued_job {
             info!(job = %job.id, "worker picked up queued job");
             job.status = JobStatus::Running { progress: 0 };
             job.updated_at = unix_seconds();
-            self.store.put(job.clone()).await.map_err(|e| e.to_string())?;
+            self.store
+                .put(job.clone())
+                .await
+                .map_err(|e| e.to_string())?;
 
             let id = job.id;
             let upload_path = crate::routes::get_upload_path(id);
@@ -73,7 +78,12 @@ impl BackgroundWorker {
         Ok(())
     }
 
-    async fn process_job(_id: JobId, path: &std::path::Path, ollama: &str, use_ia: bool) -> Result<(String, String), String> {
+    async fn process_job(
+        _id: JobId,
+        path: &std::path::Path,
+        ollama: &str,
+        use_ia: bool,
+    ) -> Result<(String, String), String> {
         let opts = ParsePipelineOptions {
             input: path.to_path_buf(),
             profile: "balanced".into(),
@@ -88,8 +98,11 @@ impl BackgroundWorker {
         };
 
         let artifacts = parse_document(opts).await.map_err(|e| e.to_string())?;
-        
-        let md = strata_serialize::render_markdown(&artifacts.document, &strata_serialize::MarkdownOptions::default());
+
+        let md = strata_serialize::render_markdown(
+            &artifacts.document,
+            &strata_serialize::MarkdownOptions::default(),
+        );
         let graph = strata_serialize::render_graph(&artifacts.document);
         let json = serde_json::to_string_pretty(&graph).map_err(|e| e.to_string())?;
 

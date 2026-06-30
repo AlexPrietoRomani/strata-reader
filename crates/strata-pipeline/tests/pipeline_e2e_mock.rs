@@ -1,11 +1,11 @@
 //! Integration tests for IA pipeline using a mock gRPC server.
 
-use std::path::PathBuf;
 use futures::StreamExt;
+use std::path::PathBuf;
 use strata_ia_bridge::proto::{
     ia_service_server::{IaService, IaServiceServer},
-    Crop, FormulaResponse, ImageDescription, ImageResponse, OcrResponse, OcrResult,
-    Provenance, StreamCrop, StreamResult, TableResponse,
+    Crop, FormulaResponse, ImageDescription, ImageResponse, OcrResponse, OcrResult, Provenance,
+    StreamCrop, StreamResult, TableResponse,
 };
 use strata_pipeline::{parse_document, ParsePipelineOptions};
 use tokio::sync::oneshot;
@@ -190,7 +190,9 @@ async fn test_pipeline_with_mock_grpc_ia_backend() {
 
     let artifacts = match parse_document(opts).await {
         Ok(art) => art,
-        Err(strata_pipeline::PipelineError::PdfOpen(msg)) if msg.contains("pdfium native library") => {
+        Err(strata_pipeline::PipelineError::PdfOpen(msg))
+            if msg.contains("pdfium native library") =>
+        {
             let _ = shutdown_tx.send(());
             println!("Saltando test: pdfium no disponible");
             return;
