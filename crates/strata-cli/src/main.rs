@@ -446,10 +446,3 @@ async fn main() -> ExitCode {
         }
     }
 }
-
-fn sha256_file(path: &std::path::Path) -> anyhow::Result<String> {
-    use sha2::Digest;
-    let bytes = std::fs::read(path)?;
-    let hash = sha2::Sha256::digest(&bytes);
-    Ok(format!("{hash:x}"))
-}

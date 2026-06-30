@@ -38,8 +38,10 @@ async fn main() -> anyhow::Result<()> {
         metrics,
     };
 
+    #[allow(clippy::disallowed_methods)]
     let ollama_endpoint =
         std::env::var("STRATA_OLLAMA_ENDPOINT").unwrap_or_else(|_| "http://localhost:11434".into());
+    #[allow(clippy::disallowed_methods)]
     let use_ia = std::env::var("STRATA_USE_IA")
         .map(|v| v != "false" && v != "0")
         .unwrap_or(true);
