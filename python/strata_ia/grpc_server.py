@@ -22,7 +22,7 @@ from __future__ import annotations
 import asyncio
 import time
 from collections.abc import AsyncIterator
-from typing import Any
+from typing import Any, Type
 
 import grpc
 import structlog
@@ -238,7 +238,7 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         context: grpc.aio.ServicerContext,
         model: str,
         prompt: str,
-        pyd_model: type,
+        pyd_model: Type[Any],
         wrap: Any,
     ) -> Any:
         start = time.perf_counter()
@@ -282,7 +282,7 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
             raise
 
         try:
-            parsed = pyd_model.model_validate_json(result.text)  # type: ignore[attr-defined]
+            parsed = pyd_model.model_validate_json(result.text)
         except ValidationError as exc:
             await context.abort(
                 grpc.StatusCode.INTERNAL, f"VLM returned malformed JSON: {exc.errors()}"
