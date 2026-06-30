@@ -22,7 +22,7 @@ from __future__ import annotations
 import asyncio
 import time
 from collections.abc import AsyncIterator
-from typing import Any, Type
+from typing import Any
 
 import grpc
 import structlog
@@ -238,7 +238,7 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         context: grpc.aio.ServicerContext,
         model: str,
         prompt: str,
-        pyd_model: Type[Any],
+        pyd_model: type[Any],
         wrap: Any,
     ) -> Any:
         start = time.perf_counter()
