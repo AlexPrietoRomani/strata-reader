@@ -2640,7 +2640,7 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "strata-cli"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "anyhow",
  "axum 0.7.9",
@@ -2668,7 +2668,7 @@ dependencies = [
 
 [[package]]
 name = "strata-core"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "insta",
  "proptest",
@@ -2682,7 +2682,7 @@ dependencies = [
 
 [[package]]
 name = "strata-fusion"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "insta",
  "proptest",
@@ -2695,7 +2695,7 @@ dependencies = [
 
 [[package]]
 name = "strata-geometry"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "insta",
  "proptest",
@@ -2709,7 +2709,7 @@ dependencies = [
 
 [[package]]
 name = "strata-ia-bridge"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "async-stream",
  "criterion",
@@ -2730,7 +2730,7 @@ dependencies = [
 
 [[package]]
 name = "strata-pdf"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "image",
  "insta",
@@ -2747,7 +2747,7 @@ dependencies = [
 
 [[package]]
 name = "strata-pipeline"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "anyhow",
  "async-stream",
@@ -2774,7 +2774,7 @@ dependencies = [
 
 [[package]]
 name = "strata-py"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "pyo3",
  "serde_json",
@@ -2791,7 +2791,7 @@ dependencies = [
 
 [[package]]
 name = "strata-quality"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "insta",
  "proptest",
@@ -2804,7 +2804,7 @@ dependencies = [
 
 [[package]]
 name = "strata-runtime"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "futures",
  "insta",
@@ -2826,7 +2826,7 @@ dependencies = [
 
 [[package]]
 name = "strata-serialize"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "insta",
  "proptest",
@@ -2840,7 +2840,7 @@ dependencies = [
 
 [[package]]
 name = "strata-server"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -2867,7 +2867,7 @@ dependencies = [
 
 [[package]]
 name = "strata-triage"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "image",
  "insta",
@@ -3953,7 +3953,7 @@ checksum = "1ffae5123b2d3fc086436f8834ae3ab053a283cfac8fe0a0b8eaae044768a4c4"
 
 [[package]]
 name = "xtask"
-version = "0.1.1"
+version = "2.0.0"
 dependencies = [
  "anyhow",
  "clap",
