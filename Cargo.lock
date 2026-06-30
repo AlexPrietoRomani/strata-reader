@@ -2655,6 +2655,7 @@ dependencies = [
  "strata-fusion",
  "strata-geometry",
  "strata-pdf",
+ "strata-pipeline",
  "strata-quality",
  "strata-runtime",
  "strata-serialize",
@@ -2745,6 +2746,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "strata-pipeline"
+version = "0.1.1"
+dependencies = [
+ "anyhow",
+ "async-stream",
+ "futures",
+ "image",
+ "serde",
+ "serde_json",
+ "sha2",
+ "strata-core",
+ "strata-fusion",
+ "strata-geometry",
+ "strata-ia-bridge",
+ "strata-pdf",
+ "strata-quality",
+ "strata-runtime",
+ "strata-serialize",
+ "strata-triage",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-stream",
+ "tonic 0.14.6",
+ "tracing",
+]
+
+[[package]]
 name = "strata-py"
 version = "0.1.1"
 dependencies = [
@@ -2755,7 +2783,9 @@ dependencies = [
  "strata-fusion",
  "strata-geometry",
  "strata-pdf",
+ "strata-pipeline",
  "strata-serialize",
+ "tokio",
  "tracing",
 ]
 
@@ -2823,7 +2853,9 @@ dependencies = [
  "serde_json",
  "sha2",
  "strata-core",
+ "strata-pipeline",
  "strata-runtime",
+ "strata-serialize",
  "thiserror 1.0.69",
  "tokio",
  "tower 0.5.3",

@@ -1,0 +1,36 @@
+[package]
+name = "strata-pipeline"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Shared PDF→Markdown/JSON pipeline orchestrator for CLI, PyO3 and HTTP server."
+
+[dependencies]
+strata-core    = { path = "../strata-core" }
+strata-pdf     = { path = "../strata-pdf" }
+strata-geometry = { path = "../strata-geometry" }
+strata-quality = { path = "../strata-quality" }
+strata-triage  = { path = "../strata-triage" }
+strata-ia-bridge = { path = "../strata-ia-bridge" }
+strata-fusion  = { path = "../strata-fusion" }
+strata-serialize = { path = "../strata-serialize" }
+strata-runtime = { path = "../strata-runtime" }
+tokio      = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+thiserror  = { workspace = true }
+tracing    = { workspace = true }
+anyhow     = { workspace = true }
+futures    = { workspace = true }
+sha2       = { workspace = true }
+image      = { workspace = true }
+
+[features]
+default = []
+pdfium-backend = ["strata-pdf/pdfium-backend"]
+
+[dev-dependencies]
+tonic = { workspace = true }
+async-stream = "0.3"
+tokio-stream = { workspace = true }

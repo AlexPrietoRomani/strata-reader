@@ -127,18 +127,15 @@ impl PyDocument {
     }
 }
 
-fn sha256_file(path: &std::path::Path) -> PyResult<String> {
-    use sha2::Digest;
-    let bytes = std::fs::read(path)
-        .map_err(|e| PyValueError::new_err(format!("failed to read PDF: {e}")))?;
-    let hash = sha2::Sha256::digest(&bytes);
-    Ok(format!("{hash:x}"))
-}
+
 
 /// Parse a single PDF using the native Rust geometry and abstract backend extraction pipeline.
 #[pyfunction]
 #[pyo3(signature = (path, options = None))]
-fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> {
+fn parse(_py: Python<'_>, path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> {
+    use std::path::PathBuf;
+    use strata_pipeline::{parse_document, ParsePipelineOptions};
+
     let options = options.unwrap_or_else(|| PyParseOptions {
         profile: "balanced".into(),
         use_ia: true,
@@ -153,193 +150,30 @@ fn parse(path: String, options: Option<PyParseOptions>) -> PyResult<PyDocument> 
         )));
     }
 
-    // 1. Open PDF
-    let decoder = strata_pdf::Decoder::open(pdf_path)
-        .map_err(|e| PyValueError::new_err(format!("failed to open PDF: {e}")))?;
-    let page_count = decoder.page_count();
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .map_err(|e| PyValueError::new_err(format!("failed to start tokio runtime: {e}")))?;
 
-    // 2. Per-page extraction
-    let mut doc_pages: Vec<std::sync::Arc<strata_core::Page>> = Vec::with_capacity(page_count);
-    let sha = sha256_file(pdf_path)?;
+    let has_media_dir = options.media_dir.is_some();
+    let opts = ParsePipelineOptions {
+        input: pdf_path.to_path_buf(),
+        profile: options.profile,
+        use_ia: options.use_ia,
+        force_ocr: false,
+        ollama_endpoint: options.ollama_endpoint,
+        ia_grpc_endpoint: None,
+        max_concurrent_pages: options.max_concurrent_pages,
+        media_dir: options.media_dir.map(PathBuf::from),
+        save_images: has_media_dir,
+        pdf_backend: "auto".into(),
+    };
 
-    for page_idx in 0..page_count {
-        let page = decoder
-            .page(page_idx)
-            .map_err(|e| PyValueError::new_err(format!("page {page_idx}: {e}")))?;
-        let (page_w, page_h) = page.size();
+    let artifacts = rt.block_on(async move {
+        parse_document(opts).await
+    }).map_err(|e| PyValueError::new_err(format!("pipeline failed: {e}")))?;
 
-        // Raw extraction using the abstract traits
-        let glyphs = page.glyphs().unwrap_or_default();
-        let images = page.images().unwrap_or_default();
-
-        // 3. Geometry and noise filtering
-        let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs
-            .iter()
-            .map(|g| strata_geometry::GlyphInput {
-                bbox: g.bbox,
-                font_size: g.font_size,
-                unicode: g.unicode,
-            })
-            .collect();
-        let lines = strata_geometry::cluster_lines(&glyph_inputs);
-
-        let page_bbox = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
-            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
-
-        let filtered_lines = strata_geometry::filter_noise_lines(&lines, &glyph_inputs, page_bbox);
-
-        // 4. Semantics & Headings classification
-        let mut blocks: Vec<strata_core::Block> = Vec::new();
-        let mut line_font_sizes = Vec::with_capacity(filtered_lines.len());
-        let mut line_bboxes = Vec::with_capacity(filtered_lines.len());
-        let mut line_texts = Vec::with_capacity(filtered_lines.len());
-
-        for line in &filtered_lines {
-            let font_size = line
-                .glyph_indices
-                .iter()
-                .map(|&i| glyph_inputs[i].font_size)
-                .sum::<f32>()
-                / line.glyph_indices.len().max(1) as f32;
-            line_font_sizes.push(font_size);
-            line_bboxes.push(line.bbox);
-
-            let words = strata_geometry::words_from_line(line, &glyph_inputs);
-            let content: String = words
-                .iter()
-                .map(|w| w.text.as_str())
-                .collect::<Vec<_>>()
-                .join(" ");
-            line_texts.push(content);
-        }
-
-        let headings = strata_geometry::classify_headings(
-            &line_font_sizes,
-            &line_bboxes,
-            &line_texts,
-            page_bbox,
-        );
-        let paragraph_groups =
-            strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
-
-        for group in paragraph_groups {
-            let mut group_text_parts = Vec::with_capacity(group.lines.len());
-            for line in &group.lines {
-                let words = strata_geometry::words_from_line(line, &glyph_inputs);
-                let content: String = words
-                    .iter()
-                    .map(|w| w.text.as_str())
-                    .collect::<Vec<_>>()
-                    .join(" ");
-                if !content.trim().is_empty() {
-                    group_text_parts.push(content);
-                }
-            }
-            let raw_content = group_text_parts.join(" ");
-            let content = strata_geometry::normalize_text(&raw_content);
-            if content.is_empty() {
-                continue;
-            }
-
-            let kind = match group.kind {
-                strata_geometry::ParagraphKind::Heading { level } => {
-                    strata_core::BlockType::Heading { level }
-                }
-                strata_geometry::ParagraphKind::Body => strata_core::BlockType::Paragraph,
-            };
-
-            blocks.push(strata_core::Block {
-                id: strata_core::BlockId::new(),
-                kind,
-                bbox: group.bbox,
-                content,
-                children: vec![],
-                provenance: strata_core::Provenance::try_new(
-                    strata_core::ProvenanceSource::Rust,
-                    None,
-                    1.0,
-                    0,
-                    0,
-                )
-                .unwrap(),
-            });
-        }
-
-        // 5. Image block integration
-        for img in images {
-            let figure_block = strata_core::Block {
-                id: strata_core::BlockId::new(),
-                kind: strata_core::BlockType::Figure,
-                bbox: img.bbox,
-                content: "figure".to_string(),
-                children: vec![],
-                provenance: strata_core::Provenance::try_new(
-                    strata_core::ProvenanceSource::Rust,
-                    None,
-                    1.0,
-                    0,
-                    0,
-                )
-                .unwrap(),
-            };
-
-            if let Some(media_dir_str) = &options.media_dir {
-                let target_dir = std::path::Path::new(media_dir_str);
-                if let Err(e) = std::fs::create_dir_all(target_dir) {
-                    tracing::warn!("Failed to create media dir: {e}");
-                } else {
-                    let file_path = target_dir.join(format!("{}.png", figure_block.id));
-                    if let Err(e) = std::fs::write(&file_path, &img.raw_bytes) {
-                        tracing::warn!("Failed to write figure image: {e}");
-                    }
-                }
-            }
-
-            blocks.push(figure_block);
-        }
-
-        // 6. XY-Cut++ ordering
-        let bboxes: Vec<strata_core::BBox> = blocks.iter().map(|b| b.bbox).collect();
-        let order =
-            strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
-        let reading_order: Vec<strata_core::BlockId> =
-            order.iter().map(|&i| blocks[i].id).collect();
-
-        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> =
-            blocks.into_iter().map(std::sync::Arc::new).collect();
-
-        let media_box = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
-            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
-
-        doc_pages.push(std::sync::Arc::new(strata_core::Page {
-            number: (page_idx + 1) as u32,
-            size: strata_core::Size::new(page_w, page_h)
-                .unwrap_or(strata_core::Size::new(595.0, 842.0).unwrap()),
-            orientation: if page_w > page_h {
-                strata_core::PageOrientation::Landscape
-            } else {
-                strata_core::PageOrientation::Portrait
-            },
-            blocks: block_arcs,
-            reading_order,
-            media_box,
-        }));
-    }
-
-    // 7. Assemble final Document
-    let mut doc = strata_core::Document::new(strata_core::DocMeta {
-        source_sha256: sha,
-        source_filename: pdf_path
-            .file_name()
-            .map(|n| n.to_string_lossy().to_string())
-            .unwrap_or_default(),
-        schema_version: strata_core::version().to_string(),
-        profile: options.profile.clone(),
-        extra: std::collections::BTreeMap::new(),
-    });
-    doc.pages = doc_pages;
-
-    Ok(PyDocument { inner: doc })
+    Ok(PyDocument { inner: artifacts.document })
 }
 
 /// Parse several PDFs. Returns a dict `{path: Document}` so callers can
@@ -353,7 +187,7 @@ fn parse_batch<'py>(
 ) -> PyResult<Bound<'py, PyDict>> {
     let dict = PyDict::new(py);
     for path in paths {
-        match parse(path.clone(), options.clone()) {
+        match parse(py, path.clone(), options.clone()) {
             Ok(doc) => dict.set_item(path, Py::new(py, doc)?)?,
             Err(e) => dict.set_item(path, e.to_string())?,
         }

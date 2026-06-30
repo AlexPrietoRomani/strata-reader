@@ -10,6 +10,7 @@ members = [
     "crates/strata-fusion",
     "crates/strata-serialize",
     "crates/strata-runtime",
+    "crates/strata-pipeline",
     "crates/strata-cli",
     "crates/strata-server",
     "crates/strata-py",

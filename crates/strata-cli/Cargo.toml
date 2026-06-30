@@ -20,6 +20,7 @@ strata-quality = { path = "../strata-quality" }
 strata-triage = { path = "../strata-triage" }
 strata-runtime = { path = "../strata-runtime" }
 strata-server = { path = "../strata-server" }
+strata-pipeline = { path = "../strata-pipeline" }
 axum = { workspace = true }
 clap = { workspace = true }
 serde = { workspace = true }
