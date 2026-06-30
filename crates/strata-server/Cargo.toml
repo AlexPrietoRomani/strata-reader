@@ -16,6 +16,8 @@ doctest = false
 [dependencies]
 strata-core = { path = "../strata-core" }
 strata-runtime = { path = "../strata-runtime" }
+strata-pipeline = { path = "../strata-pipeline" }
+strata-serialize = { path = "../strata-serialize" }
 axum = { workspace = true }
 tower = { workspace = true }
 tower-http = { workspace = true }

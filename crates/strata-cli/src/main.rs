@@ -270,15 +270,7 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
         );
     }
 
-    // ── 1. Open PDF ────────────────────────────────────────────────────
-    let decoder = strata_pdf::Decoder::open(&args.input)
-        .map_err(|e| anyhow::anyhow!("failed to open PDF: {e}"))?;
-    let page_count = decoder.page_count();
-    tracing::info!(pages = page_count, "PDF decoded");
-
-    // ── 2. Per-page extraction ─────────────────────────────────────────
-    let mut doc_pages: Vec<std::sync::Arc<strata_core::Page>> = Vec::with_capacity(page_count);
-    let sha = sha256_file(&args.input)?;
+    use strata_pipeline::{parse_document, ParsePipelineOptions};
 
     let stem = args
         .input
@@ -286,198 +278,23 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
         .map(|s| s.to_string_lossy().to_string())
         .unwrap_or_else(|| "output".into());
 
-    for page_idx in 0..page_count {
-        let page = decoder
-            .page(page_idx)
-            .map_err(|e| anyhow::anyhow!("page {page_idx}: {e}"))?;
-        let (page_w, page_h) = page.size();
-
-        // Raw extraction using abstract PdfPage trait
-        let glyphs = page.glyphs().unwrap_or_default();
-        let _paths = page.paths().unwrap_or_default();
-        let images = page.images().unwrap_or_default();
-        let is_scan = strata_pdf::is_likely_scan(page.as_ref()).unwrap_or(false);
-
-        tracing::debug!(
-            page = page_idx,
-            glyphs = glyphs.len(),
-            images = images.len(),
-            is_scan,
-            "page extracted"
-        );
-
-        // ── 3. Geometría y Filtrado de Ruido ───────────────────────────
-        let glyph_inputs: Vec<strata_geometry::GlyphInput> = glyphs
-            .iter()
-            .map(|g| strata_geometry::GlyphInput {
-                bbox: g.bbox,
-                font_size: g.font_size,
-                unicode: g.unicode,
-            })
-            .collect();
-        let lines = strata_geometry::cluster_lines(&glyph_inputs);
-
-        let page_bbox = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
-            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
-
-        let filtered_lines = strata_geometry::filter_noise_lines(&lines, &glyph_inputs, page_bbox);
-
-        // ── 4. Clasificación y Agrupación de Bloques Semánticos ────────
-        let mut blocks: Vec<strata_core::Block> = Vec::new();
-        let mut line_font_sizes = Vec::with_capacity(filtered_lines.len());
-        let mut line_bboxes = Vec::with_capacity(filtered_lines.len());
-        let mut line_texts = Vec::with_capacity(filtered_lines.len());
-
-        for line in &filtered_lines {
-            let font_size = line
-                .glyph_indices
-                .iter()
-                .map(|&i| glyph_inputs[i].font_size)
-                .sum::<f32>()
-                / line.glyph_indices.len().max(1) as f32;
-            line_font_sizes.push(font_size);
-            line_bboxes.push(line.bbox);
-
-            let words = strata_geometry::words_from_line(line, &glyph_inputs);
-            let content: String = words
-                .iter()
-                .map(|w| w.text.as_str())
-                .collect::<Vec<_>>()
-                .join(" ");
-            line_texts.push(content);
-        }
-
-        let headings = strata_geometry::classify_headings(
-            &line_font_sizes,
-            &line_bboxes,
-            &line_texts,
-            page_bbox,
-        );
-        let paragraph_groups =
-            strata_geometry::merge_lines_into_paragraphs(&filtered_lines, &glyph_inputs, &headings);
-
-        for group in paragraph_groups {
-            let mut group_text_parts = Vec::with_capacity(group.lines.len());
-            for line in &group.lines {
-                let words = strata_geometry::words_from_line(line, &glyph_inputs);
-                let content: String = words
-                    .iter()
-                    .map(|w| w.text.as_str())
-                    .collect::<Vec<_>>()
-                    .join(" ");
-                if !content.trim().is_empty() {
-                    group_text_parts.push(content);
-                }
-            }
-            let raw_content = group_text_parts.join(" ");
-            let content = strata_geometry::normalize_text(&raw_content);
-            if content.is_empty() {
-                continue;
-            }
-
-            let kind = match group.kind {
-                strata_geometry::ParagraphKind::Heading { level } => {
-                    strata_core::BlockType::Heading { level }
-                }
-                strata_geometry::ParagraphKind::Body => strata_core::BlockType::Paragraph,
-            };
-
-            blocks.push(strata_core::Block {
-                id: strata_core::BlockId::new(),
-                kind,
-                bbox: group.bbox,
-                content,
-                children: vec![],
-                provenance: strata_core::Provenance::try_new(
-                    strata_core::ProvenanceSource::Rust,
-                    None,
-                    1.0,
-                    0,
-                    0,
-                )
-                .unwrap(),
-            });
-        }
-
-        // ── 5. Extracción y Guardado de Imágenes Nativas ───────────────
-        for img in images {
-            let figure_block = strata_core::Block {
-                id: strata_core::BlockId::new(),
-                kind: strata_core::BlockType::Figure,
-                bbox: img.bbox,
-                content: "figure".to_string(),
-                children: vec![],
-                provenance: strata_core::Provenance::try_new(
-                    strata_core::ProvenanceSource::Rust,
-                    None,
-                    1.0,
-                    0,
-                    0,
-                )
-                .unwrap(),
-            };
-
-            if args.save_images || args.media_dir.is_some() {
-                let target_dir = match &args.media_dir {
-                    Some(dir) => dir.clone(),
-                    None => args.output.join(format!("{}_images", stem)),
-                };
-                if let Err(e) = std::fs::create_dir_all(&target_dir) {
-                    tracing::warn!(error = %e, ?target_dir, "Error al crear el directorio de medios");
-                } else {
-                    let file_path = target_dir.join(format!("{}.png", figure_block.id));
-                    if let Err(e) = std::fs::write(&file_path, &img.raw_bytes) {
-                        tracing::warn!(error = %e, ?file_path, "Error al guardar el recorte de la imagen");
-                    } else {
-                        tracing::debug!(?file_path, "Recorte de imagen guardado exitosamente");
-                    }
-                }
-            }
-
-            blocks.push(figure_block);
-        }
-
-        // ── 6. Reading order via XY-Cut++ ──────────────────────────────
-        let bboxes: Vec<strata_core::BBox> = blocks.iter().map(|b| b.bbox).collect();
-        let order =
-            strata_geometry::xy_cut_plus_plus(&bboxes, strata_geometry::XyCutConfig::default());
-        let reading_order: Vec<strata_core::BlockId> =
-            order.iter().map(|&i| blocks[i].id).collect();
-
-        let block_arcs: Vec<std::sync::Arc<strata_core::Block>> =
-            blocks.into_iter().map(std::sync::Arc::new).collect();
-
-        let media_box = strata_core::BBox::new(0.0, 0.0, page_w, page_h)
-            .unwrap_or(strata_core::BBox::new(0.0, 0.0, 595.0, 842.0).unwrap());
-
-        doc_pages.push(std::sync::Arc::new(strata_core::Page {
-            number: (page_idx + 1) as u32,
-            size: strata_core::Size::new(page_w, page_h)
-                .unwrap_or(strata_core::Size::new(595.0, 842.0).unwrap()),
-            orientation: if page_w > page_h {
-                strata_core::PageOrientation::Landscape
-            } else {
-                strata_core::PageOrientation::Portrait
-            },
-            blocks: block_arcs,
-            reading_order,
-            media_box,
-        }));
-    }
-
-    // ── 7. Build Document ──────────────────────────────────────────────
-    let mut doc = strata_core::Document::new(strata_core::DocMeta {
-        source_sha256: sha,
-        source_filename: args
-            .input
-            .file_name()
-            .map(|n| n.to_string_lossy().to_string())
-            .unwrap_or_default(),
-        schema_version: strata_core::version().to_string(),
+    let opts = ParsePipelineOptions {
+        input: args.input.clone(),
         profile: args.profile.clone(),
-        extra: std::collections::BTreeMap::new(),
-    });
-    doc.pages = doc_pages;
+        use_ia: !args.no_ia,
+        force_ocr: false,
+        ollama_endpoint: args.ollama_endpoint.clone(),
+        ia_grpc_endpoint: None,
+        max_concurrent_pages: args.max_concurrent_pages,
+        media_dir: args.media_dir.clone(),
+        save_images: args.save_images,
+        pdf_backend: args.pdf_backend.clone(),
+    };
+
+    let artifacts = parse_document(opts).await
+        .map_err(|e| anyhow::anyhow!("pipeline failed: {e}"))?;
+
+    let doc = &artifacts.document;
 
     // ── 8. Serialize ───────────────────────────────────────────────────
     std::fs::create_dir_all(&args.output)?;
@@ -491,21 +308,21 @@ async fn cmd_parse(args: &ParseArgs) -> anyhow::Result<()> {
             };
             opts.image_strategy = strata_serialize::ImageStrategy::MediaDir { dir: strategy_dir };
         }
-        let md = strata_serialize::render_markdown(&doc, &opts);
+        let md = strata_serialize::render_markdown(doc, &opts);
         let md_path = args.output.join(format!("{stem}.md"));
         std::fs::write(&md_path, &md)?;
         tracing::info!(path = %md_path.display(), "markdown written");
     }
 
     if args.format.contains("json") || args.format == "md+json" {
-        let graph = strata_serialize::render_graph(&doc);
+        let graph = strata_serialize::render_graph(doc);
         let json = serde_json::to_string_pretty(&graph)?;
         let json_path = args.output.join(format!("{stem}.json"));
         std::fs::write(&json_path, &json)?;
         tracing::info!(path = %json_path.display(), "json written");
     }
 
-    tracing::info!(pages = page_count, "parse complete");
+    tracing::info!(pages = doc.pages.len(), "parse complete");
     Ok(())
 }
 

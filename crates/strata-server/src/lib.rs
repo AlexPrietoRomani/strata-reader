@@ -6,11 +6,13 @@ pub mod jobs;
 pub mod routes;
 pub mod state;
 pub mod store;
+pub mod worker;
 
 pub use jobs::{Job, JobId, JobStatus, JobStore, JobStoreError};
 pub use routes::router;
 pub use state::AppState;
 pub use store::{MemoryJobStore, SqliteJobStore};
+pub use worker::BackgroundWorker;
 
 pub fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")

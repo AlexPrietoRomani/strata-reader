@@ -151,23 +151,43 @@ fn write_block(out: &mut String, block: &Block, opts: &MarkdownOptions) {
             out.push_str("\n```\n\n");
         }
         BlockType::Figure => {
-            let alt = block.content.trim();
-            let alt = if alt.is_empty() { "figure" } else { alt };
+            let mut alt = "figure".to_string();
+            let mut long_desc = None;
+            if let Some(ref meta) = block.metadata {
+                if let Some(ref a) = meta.alt_text {
+                    alt = a.clone();
+                }
+                if let Some(ref d) = meta.description {
+                    long_desc = Some(d.clone());
+                }
+            }
+            if alt.is_empty() {
+                alt = "figure".to_string();
+            }
+
             match &opts.image_strategy {
                 ImageStrategy::CaptionOnly => {
                     out.push_str("_figure: ");
-                    out.push_str(alt);
+                    out.push_str(&alt);
                     out.push_str("_\n\n");
+                    if let Some(desc) = long_desc {
+                        out.push_str(desc.trim());
+                        out.push_str("\n\n");
+                    }
                 }
                 ImageStrategy::DataUrl => {
-                    // The data URL bytes belong to the page object stream
-                    // and are *not* attached to the Block here — the
-                    // serializer up-stack will inject them. For now we
-                    // emit a placeholder URL the caller can post-process.
                     out.push_str(&format!("![{alt}](data:image/png;base64,...)\n\n"));
+                    if let Some(desc) = long_desc {
+                        out.push_str(desc.trim());
+                        out.push_str("\n\n");
+                    }
                 }
                 ImageStrategy::MediaDir { dir } => {
                     out.push_str(&format!("![{alt}]({}/{}.png)\n\n", dir.display(), block.id));
+                    if let Some(desc) = long_desc {
+                        out.push_str(desc.trim());
+                        out.push_str("\n\n");
+                    }
                 }
             }
         }
@@ -252,6 +272,7 @@ mod tests {
             bbox: BBox::new(0.0, 0.0, 10.0, 10.0).unwrap(),
             content: content.into(),
             children: vec![],
+            metadata: None,
             provenance: Provenance::rust_native(),
         })
     }

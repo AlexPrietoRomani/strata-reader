@@ -18,6 +18,8 @@ strata-pdf = { path = "../strata-pdf" }
 strata-geometry = { path = "../strata-geometry" }
 strata-fusion = { path = "../strata-fusion" }
 strata-serialize = { path = "../strata-serialize" }
+strata-pipeline = { path = "../strata-pipeline" }
+tokio = { workspace = true }
 pyo3 = { workspace = true }
 serde_json = { workspace = true }
 sha2 = { workspace = true }

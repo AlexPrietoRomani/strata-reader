@@ -117,12 +117,36 @@ fn merge_page(page: &Page, ia_results: &HashMap<BlockId, IaPayload>) -> Page {
 }
 
 fn apply_payload(block: &Block, payload: &IaPayload) -> Block {
+    let (kind, metadata) = match payload {
+        IaPayload::Ocr { .. } => (block.kind.clone(), None),
+        IaPayload::Table { .. } => (BlockType::Table, None),
+        IaPayload::Image { alt_text, long_description, .. } => {
+            let meta = strata_core::BlockMetadata {
+                alt_text: Some(alt_text.clone()),
+                description: Some(long_description.clone()),
+                mathml: None,
+                media_path: None,
+            };
+            (BlockType::Figure, Some(meta))
+        }
+        IaPayload::Formula { mathml, .. } => {
+            let meta = strata_core::BlockMetadata {
+                alt_text: None,
+                description: None,
+                mathml: mathml.clone(),
+                media_path: None,
+            };
+            (BlockType::Equation, Some(meta))
+        }
+    };
+
     Block {
         id: block.id,
-        kind: block.kind.clone(),
+        kind,
         bbox: block.bbox,
         content: payload.content(),
         children: block.children.clone(),
+        metadata,
         provenance: payload.provenance().clone(),
     }
 }
@@ -177,6 +201,7 @@ mod tests {
             bbox: BBox::new(0.0, 0.0, 10.0, 10.0).unwrap(),
             content: content.into(),
             children: vec![],
+            metadata: None,
             provenance: Provenance::try_new(ProvenanceSource::Rust, None, 0.4, 0, 0).unwrap(),
         }
     }

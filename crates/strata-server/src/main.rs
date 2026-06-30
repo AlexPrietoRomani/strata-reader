@@ -33,7 +33,16 @@ async fn main() -> anyhow::Result<()> {
     };
 
     let metrics = Metrics::new();
-    let state = AppState { store, metrics };
+    let state = AppState { store: store.clone(), metrics };
+
+    let ollama_endpoint = std::env::var("STRATA_OLLAMA_ENDPOINT")
+        .unwrap_or_else(|_| "http://localhost:11434".into());
+    let use_ia = std::env::var("STRATA_USE_IA")
+        .map(|v| v != "false" && v != "0")
+        .unwrap_or(true);
+
+    let worker = strata_server::BackgroundWorker::new(store, ollama_endpoint, use_ia);
+    worker.start();
 
     let app = strata_server::router(state);
     let listener = tokio::net::TcpListener::bind(&bind).await?;

@@ -10,6 +10,7 @@ members = [
     "crates/strata-fusion",
     "crates/strata-serialize",
     "crates/strata-runtime",
+    "crates/strata-pipeline",
     "crates/strata-cli",
     "crates/strata-server",
     "crates/strata-py",
@@ -17,7 +18,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.1"
+version = "2.0.0"
 edition = "2021"
 license = "Apache-2.0"
 rust-version = "1.88"
