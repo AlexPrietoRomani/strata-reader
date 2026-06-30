@@ -105,13 +105,15 @@ def parse_arxiv_feed(xml_data: str) -> list[dict]:
                 pdf_url = link.attrib.get("href", pdf_url)
                 break
 
-        papers.append({
-            "id": core_id,
-            "title": title,
-            "authors": authors_str,
-            "abstract": abstract,
-            "pdf_url": pdf_url
-        })
+        papers.append(
+            {
+                "id": core_id,
+                "title": title,
+                "authors": authors_str,
+                "abstract": abstract,
+                "pdf_url": pdf_url,
+            }
+        )
 
     return papers
 
@@ -144,7 +146,9 @@ def fetch_arxiv_metadata(categories: list[str], max_results: int = 150) -> list[
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StrataReaderBenchmark/0.1"}
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StrataReaderBenchmark/0.1"
+                },
             )
             with urllib.request.urlopen(req) as response:
                 xml_data = response.read().decode("utf-8")
@@ -179,7 +183,9 @@ def download_pdf_file(url: str, output_path: Path) -> bool:
     try:
         req = urllib.request.Request(
             url,
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StrataReaderBenchmark/0.1"}
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StrataReaderBenchmark/0.1"
+            },
         )
         with urllib.request.urlopen(req) as response:
             output_path.write_bytes(response.read())
@@ -218,7 +224,9 @@ def main() -> None:
     print(f"  - Necesitamos descargar: {TARGET_TOTAL - current_count} artículos.")
 
     if current_count >= TARGET_TOTAL:
-        print("El corpus ya contiene el objetivo de 200 o más artículos. No se requieren descargas.")
+        print(
+            "El corpus ya contiene el objetivo de 200 o más artículos. No se requieren descargas."
+        )
         return
 
     # 3. Buscar artículos en ArXiv API
@@ -236,14 +244,16 @@ def main() -> None:
     for file in sorted(existing_files):
         match = ARXIV_ID_PATTERN.search(file.name)
         paper_id = match.group(1) if match else "0000.0000"
-        downloaded_papers_metadata.append({
-            "id": paper_id,
-            "filename": file.name,
-            "title": f"Paper Científico de Referencia ({paper_id})",
-            "authors": "Autores Varios / Clásicos",
-            "abstract": "Artículo clásico fundacional pre-existente en la suite de pruebas del proyecto.",
-            "url": f"https://arxiv.org/abs/{paper_id}"
-        })
+        downloaded_papers_metadata.append(
+            {
+                "id": paper_id,
+                "filename": file.name,
+                "title": f"Paper Científico de Referencia ({paper_id})",
+                "authors": "Autores Varios / Clásicos",
+                "abstract": "Artículo clásico fundacional pre-existente en la suite de pruebas del proyecto.",
+                "url": f"https://arxiv.org/abs/{paper_id}",
+            }
+        )
 
     needed = TARGET_TOTAL - current_count
     download_count = 0
@@ -260,26 +270,32 @@ def main() -> None:
         filename = f"10.48550_arXiv.{paper_id}.pdf"
         filepath = TARGET_DIR / filename
 
-        print(f"[{current_count + download_count + 1}/{TARGET_TOTAL}] Descargando paper {paper_id}...")
+        print(
+            f"[{current_count + download_count + 1}/{TARGET_TOTAL}] Descargando paper {paper_id}..."
+        )
         print(f"  Título: {paper['title'][:70]}...")
 
         success = download_pdf_file(paper["pdf_url"], filepath)
         if success:
             download_count += 1
-            downloaded_papers_metadata.append({
-                "id": paper_id,
-                "filename": filename,
-                "title": paper["title"],
-                "authors": paper["authors"],
-                "abstract": paper["abstract"],
-                "url": f"https://arxiv.org/abs/{paper_id}"
-            })
+            downloaded_papers_metadata.append(
+                {
+                    "id": paper_id,
+                    "filename": filename,
+                    "title": paper["title"],
+                    "authors": paper["authors"],
+                    "abstract": paper["abstract"],
+                    "url": f"https://arxiv.org/abs/{paper_id}",
+                }
+            )
             # Pausa educada para no saturar el servidor de ArXiv
             time.sleep(1.5)
         else:
             print(f"  [AVISO] Se omitió el paper {paper_id} por fallo en descarga.")
 
-    print(f"\nDescargas finalizadas. Se descargaron exitosamente {download_count} nuevos artículos.")
+    print(
+        f"\nDescargas finalizadas. Se descargaron exitosamente {download_count} nuevos artículos."
+    )
 
     # 5. Generar el README.md de metadatos comparativos
     print("\nGenerando archivo README.md de metadatos en disco...")
@@ -304,29 +320,33 @@ def main() -> None:
             f"| {idx} | `{paper['id']}` | `{paper['filename']}` | {clean_title} | {clean_authors} | [Ver en ArXiv]({paper['url']}) |"
         )
 
-    readme_lines.extend([
-        "",
-        "---",
-        "## Sinopsis de los Artículos Nuevos",
-        "",
-    ])
+    readme_lines.extend(
+        [
+            "",
+            "---",
+            "## Sinopsis de los Artículos Nuevos",
+            "",
+        ]
+    )
 
     for paper in downloaded_papers_metadata:
         # Solo listar descripciones de los nuevos artículos descargados en esta ejecución
         if "pre-existente" in paper["abstract"]:
             continue
-        readme_lines.extend([
-            f"### {paper['title']}",
-            f"* **Autores**: {paper['authors']}",
-            f"* **ID ArXiv**: [{paper['id']}]({paper['url']})",
-            f"* **Nombre de Archivo**: `{paper['filename']}`",
-            "",
-            "#### Resumen Ejecutivo (Abstract):",
-            f"> {paper['abstract']}",
-            "",
-            "---",
-            "",
-        ])
+        readme_lines.extend(
+            [
+                f"### {paper['title']}",
+                f"* **Autores**: {paper['authors']}",
+                f"* **ID ArXiv**: [{paper['id']}]({paper['url']})",
+                f"* **Nombre de Archivo**: `{paper['filename']}`",
+                "",
+                "#### Resumen Ejecutivo (Abstract):",
+                f"> {paper['abstract']}",
+                "",
+                "---",
+                "",
+            ]
+        )
 
     README_PATH.write_text("\n".join(readme_lines), encoding="utf-8")
     print(f"¡README.md generado con éxito en: {README_PATH.absolute()}!")

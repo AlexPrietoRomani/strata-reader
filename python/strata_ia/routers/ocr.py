@@ -7,8 +7,6 @@ Surya was disabled at startup we never even try.
 
 from __future__ import annotations
 
-import time
-
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 

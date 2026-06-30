@@ -26,10 +26,10 @@ Ejemplo de Integración:
 from __future__ import annotations
 
 import time
-import structlog
 
+import structlog
 from strata_ia.adapters import surya, tesseract
-from strata_ia.adapters.ollama import OllamaClient, OllamaError, OllamaUnreachable
+from strata_ia.adapters.ollama import OllamaClient
 from strata_ia.config import IaConfig
 from strata_ia.models import OcrResult, Provenance
 from strata_ia.routers.prompts import OCR_PAGE_PROMPT
@@ -39,6 +39,7 @@ logger = structlog.get_logger(__name__)
 
 class OcrServiceResponse(OcrResult):
     """Representa la respuesta completa de OCR con información de trazabilidad."""
+
     provenance: Provenance
 
 

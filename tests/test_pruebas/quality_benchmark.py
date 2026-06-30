@@ -40,6 +40,7 @@ class Heading:
     """
     Representa un encabezado Markdown con su texto y nivel jerárquico.
     """
+
     text: str
     level: int
 
@@ -49,6 +50,7 @@ class Figure:
     """
     Representa una figura con sus metadatos espaciales de caja delimitadora.
     """
+
     id: str
     bbox: list[float]
     page: int
@@ -428,7 +430,11 @@ def evaluate_figures(pred_figs: list[Figure], gt_figs: list[Figure]) -> dict[str
     pred_ind, gt_ind = linear_sum_assignment(cost_matrix)
 
     # Calcular IoU promedio global para los emparejamientos asignados
-    iou_sum = sum(compute_iou(pred_figs[p].bbox, gt_figs[g].bbox) for p, g in zip(pred_ind, gt_ind, strict=False) if pred_figs[p].page == gt_figs[g].page)
+    iou_sum = sum(
+        compute_iou(pred_figs[p].bbox, gt_figs[g].bbox)
+        for p, g in zip(pred_ind, gt_ind, strict=False)
+        if pred_figs[p].page == gt_figs[g].page
+    )
     max_figs = max(len(pred_figs), len(gt_figs))
     iou_avg = iou_sum / max_figs
 
@@ -521,7 +527,11 @@ def compute_file_quality(file_path: Path, gt_path: Path | None = None) -> dict[s
 
         # Agregar penalizaciones por tablas faltantes/sobrantes
         abs(len(pred_tables_raw) - len(gt_tables_raw))
-        teds_score = (sum(teds_list) / max(len(pred_tables_raw), len(gt_tables_raw))) if max(len(pred_tables_raw), len(gt_tables_raw)) > 0 else 1.0
+        teds_score = (
+            (sum(teds_list) / max(len(pred_tables_raw), len(gt_tables_raw)))
+            if max(len(pred_tables_raw), len(gt_tables_raw)) > 0
+            else 1.0
+        )
 
         # C. Coherencia Léxica (ANLS y JSD)
         # Limpiar etiquetas HTML y metadatos espaciales antes de evaluar el texto fluido
@@ -594,7 +604,9 @@ def compute_extraction_accuracy(engine_dirs: dict[str, Path]) -> dict[str, float
         has_gt = gt_path.exists()
 
         if not has_gt:
-            print(f"  [AVISO] No se encontró Ground Truth anotado para {name}. Comparando en modo heurístico base.")
+            print(
+                f"  [AVISO] No se encontró Ground Truth anotado para {name}. Comparando en modo heurístico base."
+            )
 
         for engine, out_dir in engine_dirs.items():
             file_path = out_dir / name

@@ -39,7 +39,6 @@ from __future__ import annotations
 import os
 import time
 from pathlib import Path
-from typing import Any
 
 # Configuración dinámica del path a pdfium.dll local en AppData para el backend nativo
 if "STRATA_PDFIUM_LIB_PATH" not in os.environ:
@@ -115,7 +114,9 @@ def run_five_options_demo() -> None:
     for config in configurations:
         pdf_path = articles_dir / config["pdf_name"]
         if not pdf_path.exists():
-            print(f"[ADVERTENCIA] No se encontró el PDF {config['pdf_name']} en {articles_dir}. Se omitirá.")
+            print(
+                f"[ADVERTENCIA] No se encontró el PDF {config['pdf_name']} en {articles_dir}. Se omitirá."
+            )
             continue
 
         output_subfolder = base_output_dir / config["id"]
@@ -123,7 +124,9 @@ def run_five_options_demo() -> None:
 
         print(f"\n[EJECUCIÓN] {config['id']}: {config['description']}")
         print(f"  Archivo: {pdf_path.name}")
-        print(f"  Configuración: use_ia={config['use_ia']}, profile={config['profile']}, format={config['format']}")
+        print(
+            f"  Configuración: use_ia={config['use_ia']}, profile={config['profile']}, format={config['format']}"
+        )
 
         start_time = time.time()
 
@@ -143,14 +146,14 @@ def run_five_options_demo() -> None:
         status = results.get(str(pdf_path), "unknown")
 
         print(f"  Resultado: {status} (Procesado en {elapsed:.3f} segundos)")
-        
+
         output_subfolder_res = output_subfolder.resolve()
         cwd_resolved = Path.cwd().resolve()
         try:
             relative_display = output_subfolder_res.relative_to(cwd_resolved)
         except ValueError:
             relative_display = output_subfolder_res
-            
+
         print(f"  Salidas generadas en: {relative_display}")
 
         # Mensaje educativo sobre el estado de la integración de IA

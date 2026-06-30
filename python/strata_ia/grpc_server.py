@@ -37,7 +37,6 @@ from strata_ia.routers.prompts import (
     DESCRIBE_IMAGE_PROMPT,
     EXTRACT_TABLE_PROMPT,
     OCR_FORMULA_PROMPT,
-    OCR_PAGE_PROMPT,
 )
 
 logger = structlog.get_logger(__name__)
@@ -97,13 +96,16 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
             return None
         if self._cache_conn is None:
             import aiosqlite
+
             self._config.cache_path.parent.mkdir(parents=True, exist_ok=True)
             self._cache_conn = await aiosqlite.connect(self._config.cache_path)
             await self._cache_conn.execute("PRAGMA journal_mode=WAL")
             from strata_ia.cache import CACHE_SCHEMA
+
             await self._cache_conn.executescript(CACHE_SCHEMA)
             await self._cache_conn.commit()
         from strata_ia.cache import ResultCache
+
         return ResultCache(self._cache_conn)
 
     # ---- unary -----------------------------------------------------------
@@ -115,6 +117,7 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         cache_key = None
         if cache is not None:
             from strata_ia.cache import CacheKey, sha256_hex
+
             crop_sha = sha256_hex(png_bytes)
             model_id = self._config.model_ocr_fallback
             cache_key = CacheKey(crop_sha256=crop_sha, model_id=model_id, version="ocr-v1")
@@ -131,6 +134,7 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
                 return _wrap_ocr(parsed, provenance)
 
         from strata_ia.services.ocr import run_ocr_page
+
         try:
             res = await run_ocr_page(png_bytes, self._ollama, self._config)
         except Exception as exc:
@@ -243,7 +247,11 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         cache = await self._get_cache()
         cache_key = None
         if cache is not None:
+            from strata_ia.cache import CacheKey, sha256_hex
+
+            crop_sha = sha256_hex(png_bytes)
             import hashlib
+
             prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:8]
             version_str = f"ollama-{self._config.temperature}-{prompt_hash}"
             cache_key = CacheKey(crop_sha256=crop_sha, model_id=model, version=version_str)
