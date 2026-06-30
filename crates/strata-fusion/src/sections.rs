@@ -163,6 +163,7 @@ mod tests {
             bbox: BBox::new(0.0, 0.0, 10.0, 10.0).unwrap(),
             content: content.into(),
             children: vec![],
+            metadata: None,
             provenance: Provenance::rust_native(),
         })
     }
