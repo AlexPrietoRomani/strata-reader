@@ -89,18 +89,72 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
     def __init__(self, ollama: OllamaClient, config: IaConfig) -> None:
         self._ollama = ollama
         self._config = config
+        self._cache_conn: Any = None
+
+    async def _get_cache(self) -> Any:
+        """Obtiene o inicializa la instancia de caché asíncrona."""
+        if not self._config.cache_enabled:
+            return None
+        if self._cache_conn is None:
+            import aiosqlite
+            self._config.cache_path.parent.mkdir(parents=True, exist_ok=True)
+            self._cache_conn = await aiosqlite.connect(self._config.cache_path)
+            await self._cache_conn.execute("PRAGMA journal_mode=WAL")
+            from strata_ia.cache import CACHE_SCHEMA
+            await self._cache_conn.executescript(CACHE_SCHEMA)
+            await self._cache_conn.commit()
+        from strata_ia.cache import ResultCache
+        return ResultCache(self._cache_conn)
 
     # ---- unary -----------------------------------------------------------
 
     async def OcrPage(self, request: pb.Crop, context: grpc.aio.ServicerContext) -> pb.OcrResponse:
-        return await self._run_unary(
-            request=request,
-            context=context,
-            model=self._config.model_ocr_fallback,
-            prompt=OCR_PAGE_PROMPT,
-            pyd_model=OcrResult,
-            wrap=_wrap_ocr,
+        start = time.perf_counter()
+        png_bytes = bytes(request.png_bytes)
+        cache = await self._get_cache()
+        cache_key = None
+        if cache is not None:
+            from strata_ia.cache import CacheKey, sha256_hex
+            crop_sha = sha256_hex(png_bytes)
+            model_id = self._config.model_ocr_fallback
+            cache_key = CacheKey(crop_sha256=crop_sha, model_id=model_id, version="ocr-v1")
+            cached_json = await cache.get(cache_key)
+            if cached_json is not None:
+                parsed = OcrResult.model_validate_json(cached_json)
+                latency_ms = int((time.perf_counter() - start) * 1000)
+                provenance = pb.Provenance(
+                    model_id=model_id,
+                    backend=parsed.language or "ocr",
+                    latency_ms=latency_ms,
+                    cache_hit=True,
+                )
+                return _wrap_ocr(parsed, provenance)
+
+        from strata_ia.services.ocr import run_ocr_page
+        try:
+            res = await run_ocr_page(png_bytes, self._ollama, self._config)
+        except Exception as exc:
+            await context.abort(grpc.StatusCode.INTERNAL, str(exc))
+            raise
+
+        parsed = OcrResult(
+            text=res.text,
+            words=res.words,
+            confidence=res.confidence,
+            language=res.language,
         )
+        if cache is not None and cache_key is not None:
+            await cache.put(cache_key, parsed.model_dump_json())
+
+        latency_ms = int((time.perf_counter() - start) * 1000)
+        provenance = pb.Provenance(
+            model_id=res.provenance.model_id,
+            backend=res.provenance.backend,
+            latency_ms=latency_ms,
+            retries=res.provenance.retries,
+            cache_hit=False,
+        )
+        return _wrap_ocr(parsed, provenance)
 
     async def ExtractTable(
         self, request: pb.Crop, context: grpc.aio.ServicerContext
@@ -184,11 +238,32 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
         wrap: Any,
     ) -> Any:
         start = time.perf_counter()
+        png_bytes = bytes(request.png_bytes)
+
+        cache = await self._get_cache()
+        cache_key = None
+        if cache is not None:
+            import hashlib
+            prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()[:8]
+            version_str = f"ollama-{self._config.temperature}-{prompt_hash}"
+            cache_key = CacheKey(crop_sha256=crop_sha, model_id=model, version=version_str)
+            cached_json = await cache.get(cache_key)
+            if cached_json is not None:
+                parsed = pyd_model.model_validate_json(cached_json)
+                latency_ms = int((time.perf_counter() - start) * 1000)
+                provenance = pb.Provenance(
+                    model_id=model,
+                    backend="ollama",
+                    latency_ms=latency_ms,
+                    cache_hit=True,
+                )
+                return wrap(parsed, provenance)
+
         try:
             result = await self._ollama.generate(
                 model=model,
                 prompt=prompt,
-                images=[bytes(request.png_bytes)],
+                images=[png_bytes],
                 format_json=True,
             )
         except OllamaUnreachable as exc:
@@ -205,6 +280,9 @@ class IaServiceServicer(pb_grpc.IaServiceServicer):
                 grpc.StatusCode.INTERNAL, f"VLM returned malformed JSON: {exc.errors()}"
             )
             raise
+
+        if cache is not None and cache_key is not None:
+            await cache.put(cache_key, parsed.model_dump_json())
 
         latency_ms = int((time.perf_counter() - start) * 1000)
         provenance = pb.Provenance(model_id=model, backend="ollama", latency_ms=latency_ms)

@@ -38,7 +38,7 @@ def _make_ollama_with_handler(handler) -> OllamaClient:  # type: ignore[no-untyp
 async def _running_server(handler):  # type: ignore[no-untyped-def]
     port = _free_port()
     ollama = _make_ollama_with_handler(handler)
-    cfg = IaConfig(_env_file=None)  # type: ignore[call-arg]
+    cfg = IaConfig(_env_file=None, cache_enabled=False)  # type: ignore[call-arg]
     server = await serve(ollama, cfg, port=port)
     try:
         yield port
